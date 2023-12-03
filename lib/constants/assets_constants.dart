@@ -1,0 +1,33 @@
+class AssetsConstant{
+  static const String gridItem = "assets/grid_item.png";
+  static const String firstCategory1 = "assets/first_category1.png";
+  static const String firstCategory2 = "assets/first_category2.png";
+  static const String firstCategory3 = "assets/first_category3.png";
+  static const String firstCategory4 = "assets/first_category4.png";
+  static const String firstCategory5 = "assets/first_category5.png";
+  static const String firstCategory6 = "assets/first_category6.png";
+  static const String firstCategory7 = "assets/first_category7.png";
+  static const String firstCategory8 = "assets/first_category8.png";
+  static const String drawerIcon = "assets/drawer_icon.png";
+  static const String cartIcon = "assets/cart_icon.png";
+  static const String bottomGrettings = "assets/bottom_grettings.png";
+  static const String blueCircleBackground = "assets/blue_circle_background.png";
+  static const String blueBackground = "assets/blue_background.png";
+  static const String banner = "assets/banner.png";
+  static const String superOfferForeground = "assets/super_offer_foreground.png";
+  static const String superOfferBackground = "assets/super_offer_background.png";
+  static const String slider1 = "assets/slider1.png";
+  static const String slider2 = "assets/slider2.png";
+  static const String pointsIcon = "assets/points_icon.png";
+  static const String playButton = "assets/play_button.png";
+  static const String perfectoLogo = "assets/perfecto_logo.png";
+  static const String navIcon1 = "assets/nav_icon1.png";
+  static const String navIcon2 = "assets/nav_icon2.png";
+  static const String navIcon3 = "assets/nav_icon3.png";
+  static const String navIcon4 = "assets/nav_icon4.png";
+  static const String megaDealsForeground = "assets/mega_deals_foreground.png";
+  static const String megaDealsBackground = "assets/mega_deals_background.png";
+  static const String justForUBackground = "assets/just_for_u_background.png";
+  static const String megaDeals1 = "assets/mega_deals1.png";
+  static const String verticalBannner = "assets/vertical_bannner.png";
+}

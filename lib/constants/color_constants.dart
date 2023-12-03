@@ -23,6 +23,7 @@ class AppColors {
   static const Color kBackgroundColor = Color(0xFFEFF2FB);
   static const Color kOfferButtonColor = Color(0xffFFAC0A);
   static const Color kFreeDeliveryButtonColor = Color(0xffFF800A);
+  static const Color kWhiteColor = Colors.white;
   static const Color kBlackColor = Color(0xff000000);
   static const Color kRedColor = Color(0xffd70000);
   static const Color kGreyColor = Color(0xffc5c5c5);
