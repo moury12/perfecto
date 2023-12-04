@@ -39,7 +39,7 @@ dependencies:
   mh_core:
       git:
         url: https://github.com/mh-sarkar/mh-core.git
-        ref: alpha
+#        ref: alpha
 
 
 dev_dependencies:

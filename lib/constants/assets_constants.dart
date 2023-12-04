@@ -29,5 +29,7 @@ class AssetsConstant{
   static const String megaDealsBackground = "assets/mega_deals_background.png";
   static const String justForUBackground = "assets/just_for_u_background.png";
   static const String megaDeals1 = "assets/mega_deals1.png";
+  static const String megaDeals2 = "assets/mega_deals2.png";
+  static const String megaDeals3= "assets/mega_deals3.png";
   static const String verticalBannner = "assets/vertical_bannner.png";
 }

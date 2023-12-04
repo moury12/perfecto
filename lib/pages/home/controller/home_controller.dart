@@ -4,9 +4,70 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 
-class HomeController extends GetxController{
+class HomeController extends GetxController {
   static HomeController get to => Get.find();
-
+  List<Map<String, dynamic>> megadealsITem = [
+    {
+      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
+      'rating': 245,
+      'price': '৳ 1,550',
+      'previousPrice': '৳1,850',
+      'isbuy1Get1': true,
+      'isBestSeller': false,
+      'isStacked': false,
+      'img': AssetsConstant.megaDeals1
+    },
+    {
+      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
+      'rating': 245,
+      'price': '৳ 1,550',
+      'previousPrice': '৳1,850',
+      'isbuy1Get1': false,
+      'isBestSeller': false,
+      'isStacked': true,
+      'img': AssetsConstant.megaDeals2
+    },
+    {
+      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
+      'rating': 245,
+      'price': '৳ 1,550',
+      'previousPrice': '৳1,850',
+      'isbuy1Get1': true,
+      'isBestSeller': false,
+      'isStacked': false,
+      'img': AssetsConstant.megaDeals3
+    },
+    {
+      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
+      'rating': 245,
+      'price': '৳ 1,550',
+      'previousPrice': '৳1,850',
+      'isbuy1Get1': true,
+      'isBestSeller': false,
+      'isStacked': false,
+      'img': AssetsConstant.megaDeals1
+    },
+    {
+      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
+      'rating': 245,
+      'price': '৳ 1,550',
+      'previousPrice': '৳1,850',
+      'isbuy1Get1': false,
+      'isBestSeller': true,
+      'isStacked': true,
+      'img': AssetsConstant.megaDeals2
+    },
+    {
+      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
+      'rating': 245,
+      'price': '৳550',
+      'previousPrice': '৳850',
+      'isbuy1Get1': true,
+      'isBestSeller': false,
+      'isStacked': false,
+      'img': AssetsConstant.megaDeals3
+    },
+  ];
   List<Map<String, dynamic>> productItem = [
     {
       'name': 'Skin',
@@ -42,12 +103,13 @@ class HomeController extends GetxController{
     },
   ];
 
-  TextEditingController searchController=TextEditingController();
-  Rx<PageController> pageController=PageController().obs;
+  TextEditingController searchController = TextEditingController();
+  Rx<PageController> pageController = PageController().obs;
   Rx<int> currentPage = 0.obs;
-  List<String>bannerContent=[AssetsConstant.slider1,
- /* AssetsConstant.slider2,*/
-AssetsConstant.verticalBannner
+  List<String> bannerContent = [
+    AssetsConstant.slider1,
+    /* AssetsConstant.slider2,*/
+    AssetsConstant.verticalBannner
   ];
   @override
   void onClose() {
@@ -56,6 +118,7 @@ AssetsConstant.verticalBannner
     // TODO: implement onClose
     super.onClose();
   }
+
   @override
   void onInit() {
     Timer.periodic(Duration(milliseconds: 800), (timer) {

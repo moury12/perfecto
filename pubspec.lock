@@ -324,8 +324,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: alpha
-      resolved-ref: "8d07072f78951341f5a5e91f9afd3f3409328bf1"
+      ref: HEAD
+      resolved-ref: "5b205a11b50fe78bbef8390c19a4a29a5537a3cf"
       url: "https://github.com/mh-sarkar/mh-core.git"
     source: git
     version: "0.0.1"
