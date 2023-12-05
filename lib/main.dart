@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/color/custom_color.dart';
+import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/home_page.dart';
 import 'package:perfecto/routes/app_routes.dart';
 
 void main() {
   runApp(const MyApp());
+  CustomColor.setPrimaryColor(AppColors.kPrimaryColor);
 }
 
 class MyApp extends StatelessWidget {

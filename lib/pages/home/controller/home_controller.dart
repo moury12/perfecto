@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
+import 'package:perfecto/pages/category/single_category_page.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
@@ -68,38 +69,53 @@ class HomeController extends GetxController {
       'img': AssetsConstant.megaDeals3
     },
   ];
-  List<Map<String, dynamic>> productItem = [
+  List<Map<String, dynamic>> categoryItem = [
     {
       'name': 'Skin',
       'img': AssetsConstant.firstCategory1,
+      'route':SingleCatergoryWiseScreen.routeName
     },
     {
       'name': 'Skin',
       'img': AssetsConstant.firstCategory2,
+      'route':SingleCatergoryWiseScreen.routeName
+
     },
     {
       'name': 'Skin',
       'img': AssetsConstant.firstCategory3,
+      'route':SingleCatergoryWiseScreen.routeName
+
     },
     {
       'name': 'Skin',
       'img': AssetsConstant.firstCategory4,
+      'route':SingleCatergoryWiseScreen.routeName
+
     },
     {
       'name': 'Skin',
       'img': AssetsConstant.firstCategory5,
+      'route':SingleCatergoryWiseScreen.routeName
+
     },
     {
       'name': 'Skin',
       'img': AssetsConstant.firstCategory6,
+      'route':SingleCatergoryWiseScreen.routeName
+
     },
     {
       'name': 'Skin',
       'img': AssetsConstant.firstCategory7,
+      'route':SingleCatergoryWiseScreen.routeName
+
     },
     {
       'name': 'Offers',
       'img': AssetsConstant.firstCategory8,
+      'route':SingleCatergoryWiseScreen.routeName
+
     },
   ];
 

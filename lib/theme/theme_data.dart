@@ -26,6 +26,10 @@ class AppTheme {
     color: Colors.white,
     fontSize: 10,
     fontWeight: FontWeight.bold,
+  );static const textStyleBoldWhite12 = TextStyle(
+    color: Colors.white,
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
   );
   static const textStyleMediumBlack10 = TextStyle(
     fontSize: 10,
@@ -61,7 +65,7 @@ class AppTheme {
   );
 
   ///font 12
-  static const textStyleNormalBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);
+  static const textStyleNormalBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);  static const textStyleNormalFadeBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.grey);
   static const textStyleNormalWhite12 = TextStyle(
     color: Colors.white,
     fontSize: 12,
@@ -203,6 +207,10 @@ class AppTheme {
   );
   static const textStyleBoldWhite18 = TextStyle(
     fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: AppColors.kWhiteColor,
+  ); static const textStyleBoldWhite16 = TextStyle(
+    fontSize: 16,
     fontWeight: FontWeight.bold,
     color: AppColors.kWhiteColor,
   );static const textStyleBoldWhite20= TextStyle(

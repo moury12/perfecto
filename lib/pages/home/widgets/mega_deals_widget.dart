@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
+
+import '../controller/home_controller.dart';
 
 class MegaDealsWidget extends StatelessWidget {
   final String name;
@@ -77,16 +80,83 @@ class MegaDealsWidget extends StatelessWidget {
             ],
           ),
         ),
-        isStacked?isBestSeller?Container(
+        isStacked?isBestSeller?
+        Container(
           padding: const EdgeInsets.all(4),
           decoration: const BoxDecoration(color: Color(0xffD4F3FF),borderRadius: BorderRadius.only(topLeft: Radius.circular(4),bottomRight: Radius.circular(4)),
           ),
-          child: const Text('Bestseller', style: TextStyle(color: Color(0xff0094CF),fontSize: 10),),):Container(
+          child: const Text('Bestseller', style: TextStyle(color: Color(0xff0094CF),fontSize: 10),),):
+        Container(
           padding: const EdgeInsets.all(4),
           decoration: const BoxDecoration(color: Color(0xffECDDFF),borderRadius: BorderRadius.only(topLeft: Radius.circular(4),bottomRight: Radius.circular(4)),
         ),
         child: const Text('Offer', style: TextStyle(color: Color(0xff8513DF),fontSize: 10),),):const SizedBox.shrink()
       ],
+    );
+  }
+}
+class TileTextWidget extends StatelessWidget {
+  final String tileText;
+  const TileTextWidget({
+    super.key, required this.tileText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return  Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+      child: Text(tileText,style: AppTheme.textStyleSemiBoldBlack16,),
+    );
+  }
+}
+
+class GridItemWidget extends StatelessWidget {
+  final String img;
+  const GridItemWidget({
+    super.key,
+    required this.size, required this.img,
+  });
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(img,),fit: BoxFit.fitWidth,alignment: Alignment.topCenter)),
+      child: Column(
+        children: [
+          CustomSizedBox.space8H,
+          SizedBox(height:MediaQuery.of(context).size.width>800?size.height/1.5:size.height/7.5,),
+          GridView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            shrinkWrap: true,
+            primary: false,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                mainAxisSpacing: 0,
+                crossAxisSpacing: 0,
+                mainAxisExtent: 250
+
+            ),itemBuilder: (context, index)
+          {
+            Map<String, dynamic> data=HomeController.to.megadealsITem[index];
+            return Padding(
+              padding:  EdgeInsets.all(MediaQuery.of(context).size.width>800?8:4.0),
+              child: MegaDealsWidget(
+                name: data['name'],
+                isBestSeller:data['isBestSeller'] ,
+                isBuy1Get1:data['isbuy1Get1'] ,
+                isStacked: data['isStacked'],
+                rate: data['rating'],
+                price: data['price'],
+                previousPrice: data['previousPrice'], img: data['img'],),
+            );
+          },
+            itemCount: 6,
+          )
+        ],
+      ),
     );
   }
 }
