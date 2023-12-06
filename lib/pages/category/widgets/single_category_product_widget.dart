@@ -63,7 +63,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                   '',
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(img,
-                        fit: BoxFit.fitWidth, height: 168, width: 200);
+                        fit: BoxFit.fill, height: 168, width: 200);
                   },
                 ),
               ),
@@ -182,7 +182,6 @@ class SingleCategoryProductWidget extends StatelessWidget {
                               ]
                             : []),
                   ])),
-              CustomSizedBox.space4H,
               FittedBox(
                 child: Row(
                   children: [
@@ -202,7 +201,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                     CustomButton(
                       label: buttonText,
                       marginHorizontal: 8,
-                      marginVertical: 6,
+                      marginVertical: 4,
                       height: 39,
                       primary: isOutofStock
                           ? AppColors.kDarkPrimaryColor

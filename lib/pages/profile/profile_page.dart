@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:perfecto/constants/assets_constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String routeName='/profile';
@@ -7,6 +8,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Image.asset(AssetsConstant.banner2);
   }
 }

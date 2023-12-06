@@ -1,6 +1,6 @@
 
 import 'package:get/get.dart';
-import 'package:perfecto/pages/offer/offer_controller.dart';
+import 'package:perfecto/pages/offer/controller/offer_controller.dart';
 
 class OfferBinding extends Bindings {
   @override

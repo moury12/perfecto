@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
 class TopBrandsOfferListWidget extends StatelessWidget {
@@ -159,6 +160,36 @@ maxCrossAxisExtent: 200,          mainAxisExtent: 200,
 
         );
       },
+    );
+  }
+}
+class GreetingCardWidget extends StatelessWidget {
+  const GreetingCardWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(width: double.infinity,
+      height: 220,
+      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.bottomGrettings),fit: BoxFit.fill)),
+      child: Column(
+crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CustomSizedBox.space8H,
+          Image.asset('assets/Enhance_Your_Beauty_With_ Perfecto.png',height: 46,),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
+            child: Text(
+              'With vast experience in the cosmetics industry, who sourcing cosmetics, skincare and hair care on a global level. We deliver the highest quality products of world renowned at the most affordable prices. We believe that everyone – no matter their sex, ethnicity, age, budget or location – should be thrilled by Perfecto.',
+              style: AppTheme.textStyleMediumBlack12,
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

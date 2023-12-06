@@ -65,7 +65,7 @@ class AppTheme {
   );
 
   ///font 12
-  static const textStyleNormalBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);  static const textStyleNormalFadeBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.grey);
+  static const textStyleNormalBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);  static const textStyleNormalFadeBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);
   static const textStyleNormalWhite12 = TextStyle(
     color: Colors.white,
     fontSize: 12,

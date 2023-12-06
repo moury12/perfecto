@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/pages/category/controller/category_controller.dart';
+import 'package:perfecto/pages/category/widgets/single_category_product_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -112,49 +115,157 @@ class TileTextWidget extends StatelessWidget {
 
 class GridItemWidget extends StatelessWidget {
   final String img;
+  final Widget? widget;
+  final int? gridItem;
+  final double? maxCrossAxisExtent;
+  final List<Map<String, dynamic>> data; // Change this line
   const GridItemWidget({
-    super.key,
-    required this.size, required this.img,
-  });
+    Key? key, // Fix the super.key syntax
+    required this.size,
+    required this.img,
+    this.widget,
+    this.gridItem,
+    this.maxCrossAxisExtent,
+    required this.data, // Change this line
+  }) : super(key: key); // Fix the super.key syntax
 
   final Size size;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
-      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(img,),fit: BoxFit.fitWidth,alignment: Alignment.topCenter)),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(img),
+          fit: BoxFit.fitWidth,
+          alignment: Alignment.topCenter,
+        ),
+      ),
       child: Column(
         children: [
           CustomSizedBox.space8H,
-          SizedBox(height:MediaQuery.of(context).size.width>800?size.height/1.5:size.height/7.5,),
+          SizedBox(
+            height: MediaQuery.of(context).size.width > 800
+                ? size.height / 1.5
+                : size.height / 7.5,
+          ),
           GridView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16),
             shrinkWrap: true,
             primary: false,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                mainAxisSpacing: 0,
-                crossAxisSpacing: 0,
-                mainAxisExtent: 250
+              maxCrossAxisExtent: maxCrossAxisExtent ?? 150,
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
+              mainAxisExtent: 250,
+            ),
+            itemBuilder: (context, index) {
+              Map<String, dynamic> dataItem = data[index];
+              return widget ??
+                  Padding(
+                    padding: EdgeInsets.all(
+                      MediaQuery.of(context).size.width > 800 ? 8 : 4.0,
+                    ),
+                    child: MegaDealsWidget(
+                      name: dataItem['name'],
+                      isBestSeller: dataItem['isBestSeller'],
+                      isBuy1Get1: dataItem['isbuy1Get1'],
+                      isStacked: dataItem['isStacked'],
+                      rate: dataItem['rating'],
+                      price: dataItem['price'],
+                      previousPrice: dataItem['previousPrice'],
+                      img: dataItem['img'],
+                    ),
+                  );
+            },
+            itemCount: gridItem ?? data.length,
+          ),
+        ],
+      ),
+    );
+  }
+}
+class GridItemForSegmentsWidget extends StatelessWidget {
+  final String img;
+  final Widget? widget;
+  final int? gridItem;
+  final double? maxCrossAxisExtent;
+  final RxList<dynamic> data; // Change this line
+  const GridItemForSegmentsWidget({
+    Key? key, // Fix the super.key syntax
+    required this.size,
+    required this.img,
+    this.widget,
+    this.gridItem,
+    this.maxCrossAxisExtent,
+    required this.data, // Change this line
+  }) : super(key: key); // Fix the super.key syntax
 
-            ),itemBuilder: (context, index)
-          {
-            Map<String, dynamic> data=HomeController.to.megadealsITem[index];
-            return Padding(
-              padding:  EdgeInsets.all(MediaQuery.of(context).size.width>800?8:4.0),
-              child: MegaDealsWidget(
-                name: data['name'],
-                isBestSeller:data['isBestSeller'] ,
-                isBuy1Get1:data['isbuy1Get1'] ,
-                isStacked: data['isStacked'],
-                rate: data['rating'],
-                price: data['price'],
-                previousPrice: data['previousPrice'], img: data['img'],),
-            );
-          },
-            itemCount: 6,
-          )
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(img),
+          fit: BoxFit.fitWidth,
+          alignment: Alignment.topCenter,
+        ),
+      ),
+      child: Column(
+        children: [
+          CustomSizedBox.space8H,
+          SizedBox(
+            height: MediaQuery.of(context).size.width > 800
+                ? size.height / 1.5
+                : size.height / 7.5,
+          ),
+          GridView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            shrinkWrap: true,
+            primary: false,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: maxCrossAxisExtent ?? 200,
+
+              mainAxisExtent: 370,
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
+
+            ),
+            itemBuilder: (context, index) {
+              Map<String, dynamic> dataItem = data[index];
+              return widget ??
+                  Padding(
+                    padding: EdgeInsets.all(
+                      MediaQuery.of(context).size.width > 800 ? 8 : 4.0,
+                    ),
+                    child: SingleCategoryProductWidget(
+                      name: dataItem['name'],
+                      rating: dataItem['rating'],
+                      img: dataItem['img'],
+                      price: dataItem['price'],
+                      buttonText: dataItem['buttonText'],
+                      previousPrice: dataItem['previousPrice'],
+                      isBestSeller: dataItem['isBestSeller'],
+                      isStacked: dataItem['isStacked'],
+                      isBuy1Get1: dataItem['isbuy1Get1'],
+                      isDiscount: dataItem['isDiscount'],
+                      isFavourite: dataItem['isFavourite'],
+                      isFeatured: dataItem['isFeatured'],
+                      isOnSale: dataItem['isOnSale'],
+                      isOutofStock: dataItem['isOutofStock'],
+                      onTap: () {
+                        print(dataItem['isFavourite']);
+                        dataItem['isFavourite']=!dataItem['isFavourite'];
+                        CategoryController.to.categoryWiseITem[index] = dataItem;
+
+                      },
+                    )
+                  );
+            },
+            itemCount: gridItem ?? data.length,
+          ),
         ],
       ),
     );

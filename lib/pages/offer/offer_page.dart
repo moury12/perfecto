@@ -129,17 +129,18 @@ class OfferScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: CustomNetworkImage(networkImagePath: '',errorImagePath: AssetsConstant.banner2,fit: BoxFit.cover,width:Get.width,borderRadius: 10,),
+                    child: CustomNetworkImage(networkImagePath: '',errorImagePath: AssetsConstant.banner2,fit: BoxFit.cover,width:double.infinity,borderRadius: 10,),
                   ),
                   SizedBox(
                     height: 120,
                     child: ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
                       scrollDirection: Axis.horizontal,
                       itemCount: 13,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            Container(margin: EdgeInsets.symmetric(horizontal: 12),
+                            Container(margin: EdgeInsets.symmetric(horizontal: 4),
                               decoration: BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground))),height:100,width:100,child: CustomNetworkImage(networkImagePath: '',errorImagePath: AssetsConstant.foregrond2,height: 60,width: 60,),),
                             Text('Lipstick',style: AppTheme.textStyleSemiBoldBlack10,)
                           ],

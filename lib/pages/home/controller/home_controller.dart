@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
+import 'package:perfecto/pages/outlets/oulet_page.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
@@ -90,7 +91,7 @@ class HomeController extends GetxController {
     {
       'name': 'Skin',
       'img': AssetsConstant.firstCategory4,
-      'route':SingleCatergoryWiseScreen.routeName
+      'route':OutletScreen.routeName
 
     },
     {

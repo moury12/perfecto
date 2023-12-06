@@ -18,9 +18,14 @@ class AssetsConstant{
   static const String circleBackground = "assets/circleBackground.png";
   static const String circleBackground2 = "assets/circleBackground2.png";
   static const String circleBackground3 = "assets/circleBackground3.png";
+  static const String circleBackground4 = "assets/circleBackground4.png";
   static const String banner2 = "assets/banner2.png";
   static const String foregrond = "assets/foregrond.png";
   static const String foregrond2 = "assets/foregrond2.png";
+  static const String foregrond3 = "assets/foregrond3.png";
+  static const String phone = "assets/phone.png";
+  static const String mapView = "assets/mapView.png";
+  static const String skinCareBackground = "assets/skin_care_background.png";
   static const String blueBackground = "assets/blue_background.png";
   static const String banner = "assets/banner.png";
   static const String favIcon = "assets/fav_icon.png";

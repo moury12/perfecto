@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/utils/color/custom_color.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/home_page.dart';
+import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/routes/app_routes.dart';
 
 void main() {
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Perfecto',
       theme: ThemeData.light(),
       getPages: AppRoutes.routes(),
-      initialRoute: HomeScreen.routeName,
+      initialRoute: PageWithNavigation.routeName,
     );
   }
 }
