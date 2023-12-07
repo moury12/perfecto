@@ -10,6 +10,8 @@ import 'package:perfecto/pages/offer/offer_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
 import 'package:perfecto/pages/outlets/outlet_details_page.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
+import 'package:perfecto/pages/product-details/product_details_binding.dart';
+import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
 
 import '../pages/category/bindings/category_binding.dart';
@@ -35,6 +37,6 @@ class AppRoutes {
         GetPage(name: OfferScreen.routeName, page: () => const OfferScreen(), binding: OfferBinding()),
         GetPage(name: SaleScreen.routeName, page: () => const SaleScreen(), binding: OfferBinding()),
         GetPage(name: OutletScreen.routeName, page: () => const OutletScreen(), binding: OfferBinding()),
-        GetPage(name: OutletDetailsScreen.routeName, page: () => const OutletDetailsScreen(), binding: OfferBinding()),
+        GetPage(name: OutletDetailsScreen.routeName, page: () => const OutletDetailsScreen(), binding: OfferBinding()),  GetPage(name: ProductDetailsScreen.routeName, page: () => const ProductDetailsScreen(), binding: ProductDetailsBinding()),
       ];
 }

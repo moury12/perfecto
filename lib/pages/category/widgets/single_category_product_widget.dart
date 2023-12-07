@@ -222,7 +222,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                     decoration: const BoxDecoration(
                       color: Color(0xffD4F3FF),
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(4),
+                          topLeft: Radius.circular(10),
                           bottomRight: Radius.circular(4)),
                     ),
                     child: const Text(
@@ -237,7 +237,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         decoration: const BoxDecoration(
                           color: Color(0xffECDDFF),
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(4),
+                              topLeft: Radius.circular(10),
                               bottomRight: Radius.circular(4)),
                         ),
                         child: const Text(

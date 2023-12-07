@@ -24,7 +24,11 @@ class AssetsConstant{
   static const String foregrond2 = "assets/foregrond2.png";
   static const String foregrond3 = "assets/foregrond3.png";
   static const String phone = "assets/phone.png";
+  static const String phoneFill = "assets/phone_fill.png";
+  static const String reviewTop = "assets/review_top.png";
+  static const String verified = "assets/verified.png";
   static const String mapView = "assets/mapView.png";
+  static const String location = "assets/location.png";
   static const String skinCareBackground = "assets/skin_care_background.png";
   static const String blueBackground = "assets/blue_background.png";
   static const String banner = "assets/banner.png";

@@ -32,29 +32,31 @@ class OutletScreen extends StatelessWidget {
                 isSearchInclude: false,
               ),
               Expanded(
-                  child: Container(
-                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.mapView), fit: BoxFit.fill)),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    const CustomTextField(
-                      height: 42,
-                      fillColor: Colors.white,
-                      /*controller:controller==null?HomeController.to.searchController: controller!.searchController,*/
-                      hintText: 'Search for products...',
-                      focusColor: AppColors.kPrimaryColor,
-                      enableBorderColor: AppColors.kPrimaryColor,
-                      prefixWidget: Icon(
-                        Icons.search_rounded,
-                        color: Colors.grey,
-                      ),
-                      marginVertical: 12,
-                      marginHorizontal: 16,
+                child: Container(
+                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.mapView), fit: BoxFit.fill)),
+                  child: Column(
+         
+                children: [
+                  const CustomTextField(
+                    height: 42,
+                    fillColor: Colors.white,
+                    /*controller:controller==null?HomeController.to.searchController: controller!.searchController,*/
+                    hintText: 'Search for products...',
+                    focusColor: AppColors.kPrimaryColor,
+                    enableBorderColor: AppColors.kPrimaryColor,
+                    prefixWidget: Icon(
+                      Icons.search_rounded,
+                      color: Colors.grey,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+                    marginVertical: 12,
+                    marginHorizontal: 16,
+                  ),
+                  Container(
+                    height: 516,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+                    child: SingleChildScrollView(
                       child: Column(
                         children: [
                           ...List.generate(
@@ -65,53 +67,56 @@ class OutletScreen extends StatelessWidget {
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                                child: Column(
-                                  children: [
-                                    CustomSizedBox.space8H,
-                                    Row(
-                                      children: [
-                                        const CustomNetworkImage(
-                                          networkImagePath: '',
-                                          errorImagePath: AssetsConstant.slider2,
-                                          height: 52,
-                                          width: 52,
-                                          borderRadius: 10,
-                                        ),
-                                        CustomSizedBox.space8W,
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Mirpur Outlet',
-                                              style: AppTheme.textStyleNormalBlack16,
-                                            ),
-                                            const SizedBox(
-                                              height: 6,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  AssetsConstant.phone,
-                                                  height: 16,
-                                                ),
-                                                const Text(
-                                                  '+88018996514',
-                                                  style: AppTheme.textStyleNormalFadeBlack12,
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    CustomSizedBox.space8H,
-                                    index == 7
-                                        ? CustomSizedBox.space8H
-                                        : const Divider(
-                                            thickness: 0.3,
-                                            color: Colors.black54,
+                                child: Container(color: Colors.white,
+                                  clipBehavior: Clip.none,
+                                  child: Column(
+                                    children: [
+                                      CustomSizedBox.space8H,
+                                      Row(
+                                        children: [
+                                          const CustomNetworkImage(
+                                            networkImagePath: '',
+                                            errorImagePath: AssetsConstant.slider2,
+                                            height: 52,
+                                            width: 52,
+                                            borderRadius: 10,
                                           ),
-                                  ],
+                                          CustomSizedBox.space8W,
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Mirpur Outlet',
+                                                style: AppTheme.textStyleNormalBlack16,
+                                              ),
+                                              const SizedBox(
+                                                height: 6,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    AssetsConstant.phone,
+                                                    height: 16,
+                                                  ),
+                                                  const Text(
+                                                    '+88018996514',
+                                                    style: AppTheme.textStyleNormalFadeBlack12,
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      CustomSizedBox.space8H,
+                                      index == 7
+                                          ? CustomSizedBox.space8H
+                                          : const Divider(
+                                              thickness: 0.3,
+                                              color: Colors.black54,
+                                            ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -119,9 +124,11 @@ class OutletScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ],
+                  ),
+                ],
+                  ),
                 ),
-              ))
+              )
             ],
           ),
         ),

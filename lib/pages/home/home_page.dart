@@ -245,15 +245,23 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const TileTextWidget(tileText: 'Segments You Can’t Miss'),
-              const SegmentGridWidget(
-                  blueBackground: AssetsConstant.blueCircleBackground,
-                  img: ClipOval(
-                    child: CustomNetworkImage(
-                      networkImagePath: '',
-                      borderRadius: 0,
-                      errorImagePath: AssetsConstant.superOfferForeground,
-                      height: 104,
-                      width: 104,
+               SegmentGridWidget(
+                  blueBackground: AssetsConstant.blueBackground,
+                  img: Container(
+alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+
+                        image: DecorationImage(image: AssetImage(AssetsConstant.blueCircleBackground),fit: BoxFit.contain)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: CustomNetworkImage(
+                        networkImagePath: '',
+                        borderRadius: 360,
+                        errorImagePath: AssetsConstant.superOfferForeground,
+                        border: NetworkImageBorder.Circle,fit: BoxFit.cover,
+height: 104,
+                      ),
                     ),
                   ),
                   widgetinBlueShade: Positioned(
@@ -286,7 +294,7 @@ class HomeScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: AppColors.kPrimaryColor, width: 2.5),
-                        image: DecorationImage(image: AssetImage(AssetsConstant.slider1), fit: BoxFit.fitWidth)),
+                        image: DecorationImage(image: AssetImage(AssetsConstant.slider1), fit: BoxFit.fill)),
                     child: Image.asset(
                       AssetsConstant.playButton,
                       height: 22,
