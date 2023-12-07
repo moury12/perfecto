@@ -17,7 +17,7 @@ import '../pages/offer/sale_page.dart';
 
 class AppRoutes {
   static routes() => [
-        GetPage(name: '/', page: () => const PageWithNavigation(), binding: NavigationBinding()),
+        GetPage(name: MainHomeScreen.routeName, page: () => const MainHomeScreen()),
         GetPage(name: HomeScreen.routeName, page: () => const HomeScreen(), binding: HomeBinding()),
         GetPage(
           name: CategoryScreen.routeName,
@@ -31,24 +31,10 @@ class AppRoutes {
           name: ChatScreen.routeName,
           page: () => const ChatScreen(),
         ),
-        GetPage(
-            name: SingleCatergoryWiseScreen.routeName,
-            page: () => const SingleCatergoryWiseScreen(),
-            binding: CategoryBinding()),
-        GetPage(
-            name: OfferScreen.routeName,
-            page: () => const OfferScreen(),
-            binding: OfferBinding()),
-        GetPage(
-            name: SaleScreen.routeName,
-            page: () => const SaleScreen(),
-            binding: OfferBinding()),
-    GetPage(
-            name: OutletScreen.routeName,
-            page: () => const OutletScreen(),
-            binding: OfferBinding()), GetPage(
-            name: OutletDetailsScreen.routeName,
-            page: () => const OutletDetailsScreen(),
-            binding: OfferBinding()),
+        GetPage(name: SingleCatergoryWiseScreen.routeName, page: () => const SingleCatergoryWiseScreen(), binding: CategoryBinding()),
+        GetPage(name: OfferScreen.routeName, page: () => const OfferScreen(), binding: OfferBinding()),
+        GetPage(name: SaleScreen.routeName, page: () => const SaleScreen(), binding: OfferBinding()),
+        GetPage(name: OutletScreen.routeName, page: () => const OutletScreen(), binding: OfferBinding()),
+        GetPage(name: OutletDetailsScreen.routeName, page: () => const OutletDetailsScreen(), binding: OfferBinding()),
       ];
 }

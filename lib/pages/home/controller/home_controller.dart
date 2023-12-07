@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
@@ -71,56 +72,15 @@ class HomeController extends GetxController {
     },
   ];
   List<Map<String, dynamic>> categoryItem = [
-    {
-      'name': 'Skin',
-      'img': AssetsConstant.firstCategory1,
-      'route':SingleCatergoryWiseScreen.routeName
-    },
-    {
-      'name': 'Skin',
-      'img': AssetsConstant.firstCategory2,
-      'route':SingleCatergoryWiseScreen.routeName
-
-    },
-    {
-      'name': 'Skin',
-      'img': AssetsConstant.firstCategory3,
-      'route':SingleCatergoryWiseScreen.routeName
-
-    },
-    {
-      'name': 'Skin',
-      'img': AssetsConstant.firstCategory4,
-      'route':OutletScreen.routeName
-
-    },
-    {
-      'name': 'Skin',
-      'img': AssetsConstant.firstCategory5,
-      'route':SingleCatergoryWiseScreen.routeName
-
-    },
-    {
-      'name': 'Skin',
-      'img': AssetsConstant.firstCategory6,
-      'route':SingleCatergoryWiseScreen.routeName
-
-    },
-    {
-      'name': 'Skin',
-      'img': AssetsConstant.firstCategory7,
-      'route':SingleCatergoryWiseScreen.routeName
-
-    },
-    {
-      'name': 'Offers',
-      'img': AssetsConstant.firstCategory8,
-      'route':SingleCatergoryWiseScreen.routeName
-
-    },
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory1, 'route': SingleCatergoryWiseScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory2, 'route': SingleCatergoryWiseScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory3, 'route': SingleCatergoryWiseScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory4, 'route': OutletScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory5, 'route': SingleCatergoryWiseScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory6, 'route': SingleCatergoryWiseScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory7, 'route': SingleCatergoryWiseScreen.routeName},
+    {'name': 'Offers', 'img': AssetsConstant.firstCategory8, 'route': SingleCatergoryWiseScreen.routeName},
   ];
-
-  TextEditingController searchController = TextEditingController();
   Rx<PageController> pageController = PageController().obs;
   Rx<int> currentPage = 0.obs;
   List<String> bannerContent = [
@@ -128,9 +88,9 @@ class HomeController extends GetxController {
     /* AssetsConstant.slider2,*/
     AssetsConstant.verticalBannner
   ];
+
   @override
   void onClose() {
-    searchController.dispose();
     pageController.value.dispose();
     // TODO: implement onClose
     super.onClose();
@@ -140,11 +100,9 @@ class HomeController extends GetxController {
   void onInit() {
     Timer.periodic(Duration(milliseconds: 800), (timer) {
       if (currentPage < (bannerContent.length - 1)) {
-        pageController.value.nextPage(
-            duration: Duration(milliseconds: 800), curve: Curves.ease);
+        pageController.value.nextPage(duration: Duration(milliseconds: 800), curve: Curves.ease);
       } else {
-        pageController.value.animateToPage(0,
-            duration: Duration(milliseconds: 1000), curve: Curves.ease);
+        pageController.value.animateToPage(0, duration: Duration(milliseconds: 1000), curve: Curves.ease);
       }
     });
     // TODO: implement onInit

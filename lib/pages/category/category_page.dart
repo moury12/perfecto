@@ -6,7 +6,7 @@ import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 
 class CategoryScreen extends StatelessWidget {
-  static const String routeName='/category';
+  static const String routeName = '/category';
 
   const CategoryScreen({super.key});
 
@@ -14,21 +14,42 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        HomeTopWidget(),
-        Expanded(child: ListView(
+        const HomeTopWidget(),
+        Expanded(
+            child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            ...List.generate(5, (index) => Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 2),
-              margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-              decoration: BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.blueCircleBackground4),fit: BoxFit.fill,),
-              ),
-              child: Row(children: [Text('MakeUp',style: TextStyle(color: AppColors.kDarkPrimaryColor,fontSize: 27,fontWeight: FontWeight.w700)), Spacer(),Container(decoration: BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground4))),child: CustomNetworkImage(networkImagePath: '',errorImagePath:AssetsConstant.foregrond3 ,borderRadius: 0,),)
-                ],),
-            )),
-            GreetingCardWidget(),
-            SizedBox(height: 62,)
+            ...List.generate(
+                5,
+                (index) => Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(AssetsConstant.blueCircleBackground4),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text('MakeUp', style: TextStyle(color: AppColors.kDarkPrimaryColor, fontSize: 27, fontWeight: FontWeight.w700)),
+                          const Spacer(),
+                          Container(
+                            decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground4))),
+                            child: const CustomNetworkImage(
+                              networkImagePath: '',
+                              errorImagePath: AssetsConstant.foregrond3,
+                              borderRadius: 0,
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
+            const GreetingCardWidget(),
+            const SizedBox(
+              height: 62,
+            )
           ],
         ))
       ],

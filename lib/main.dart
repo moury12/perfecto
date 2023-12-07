@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/utils/color/custom_color.dart';
+import 'package:perfecto/bindings/navigation_binding.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/home_page.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
@@ -22,9 +23,8 @@ class MyApp extends StatelessWidget {
       title: 'Perfecto',
       theme: ThemeData.light(),
       getPages: AppRoutes.routes(),
-      initialRoute: PageWithNavigation.routeName,
+      initialRoute: MainHomeScreen.routeName,
+      initialBinding: NavigationBinding(),
     );
   }
 }
-
-

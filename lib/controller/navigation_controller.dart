@@ -1,21 +1,34 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 
 import '../constants/assets_constants.dart';
 
-class NavigationController extends GetxController{
+class NavigationController extends GetxController {
+  static NavigationController get to => Get.find();
   var selectedIndex = 0.obs;
-RxList<dynamic> navList=[
-  {'title':'Home',
-  'icon':AssetsConstant.navIcon1,
-  'isSelected': false,'index':0},{'title':'Category',
-  'icon':AssetsConstant.navIcon2,
-  'isSelected': false,'index':1},{'title':'Chat',
-  'icon':AssetsConstant.navIcon3,
-  'isSelected': false,'index':2},{'title':'Account',
-  'icon':AssetsConstant.navIcon4,
-  'isSelected': false,'index':3},
-].obs;
+  RxList<dynamic> navList = [
+    {'title': 'Home', 'icon': AssetsConstant.navIcon1},
+    {'title': 'Category', 'icon': AssetsConstant.navIcon2},
+    {'title': 'Chat', 'icon': AssetsConstant.navIcon3},
+    {'title': 'Account', 'icon': AssetsConstant.navIcon4},
+  ].obs;
   void changeTabIndex(int index) {
     selectedIndex.value = index;
+  }
+
+  TextEditingController? searchController;
+
+  @override
+  void onInit() {
+    searchController = TextEditingController();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    searchController!.dispose();
+    globalLogger.d("searchController dispose");
+    super.onClose();
   }
 }

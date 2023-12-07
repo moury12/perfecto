@@ -7,15 +7,17 @@ import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
+import '../../../controller/navigation_controller.dart';
+
 class HomeTopWidget extends StatelessWidget {
   final bool isSearchInclude;
-  final HomeController? controller;
-  const HomeTopWidget({super.key,  this.controller,  this.isSearchInclude=true});
+  final TextEditingController? controller;
+  const HomeTopWidget({super.key, this.controller, this.isSearchInclude = true});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white,boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08))]),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08))]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -35,9 +37,7 @@ class HomeTopWidget extends StatelessWidget {
                 const Spacer(),
                 Container(
                   padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                      color: AppColors.kAccentColor,
-                      borderRadius: BorderRadius.circular(4)),
+                  decoration: BoxDecoration(color: AppColors.kAccentColor, borderRadius: BorderRadius.circular(4)),
                   child: Row(
                     children: [
                       Image.asset(
@@ -46,43 +46,48 @@ class HomeTopWidget extends StatelessWidget {
                       ),
                       CustomSizedBox.space4W,
                       RichText(
-                          text: const TextSpan(text: '', children: [
-                            TextSpan(text: '0', style: AppTheme.textStyleBoldBlack12),
-                            TextSpan(
-                                text: ' Points',
-                                style: AppTheme.textStyleNormalBlack12)
-                          ])),
+                          text: const TextSpan(
+                              text: '', children: [TextSpan(text: '0', style: AppTheme.textStyleBoldBlack12), TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)])),
                     ],
                   ),
-                ),CustomSizedBox.space16W,
-                Stack(clipBehavior: Clip.none,
+                ),
+                CustomSizedBox.space16W,
+                Stack(
+                  clipBehavior: Clip.none,
                   children: [
-                    Image.asset(AssetsConstant.cartIcon,height: 20,),
+                    Image.asset(
+                      AssetsConstant.cartIcon,
+                      height: 20,
+                    ),
                     Positioned(
                       top: 0,
                       right: -8,
                       child: Container(
                         padding: EdgeInsets.all(2.5),
-                        decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.kDarkPrimaryColor),
-                        child: Text('12',style: AppTheme.textStyleBoldWhite8),
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                        child: Text('12', style: AppTheme.textStyleBoldWhite8),
                       ),
                     )
                   ],
                 )
-
               ],
             ),
           ),
-          isSearchInclude?  CustomTextField(
-            height: 42,
-            controller:controller==null?HomeController.to.searchController: controller!.searchController,
-            hintText: 'Search for products...',
-            focusColor: AppColors.kPrimaryColor,
-            enableBorderColor: AppColors.kPrimaryColor,
-            prefixWidget: Icon(Icons.search_rounded,color: Colors.grey,),
-            marginVertical: 8,
-            marginBottom: 16,
-          ):SizedBox.shrink(),
+          isSearchInclude
+              ? CustomTextField(
+                  height: 42,
+                  controller: controller ?? NavigationController.to.searchController!,
+                  hintText: 'Search for products...',
+                  focusColor: AppColors.kPrimaryColor,
+                  enableBorderColor: AppColors.kPrimaryColor,
+                  prefixWidget: Icon(
+                    Icons.search_rounded,
+                    color: Colors.grey,
+                  ),
+                  marginVertical: 8,
+                  marginBottom: 16,
+                )
+              : SizedBox.shrink(),
         ],
       ),
     );
