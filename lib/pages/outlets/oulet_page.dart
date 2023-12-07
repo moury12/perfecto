@@ -58,66 +58,67 @@ class OutletScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           ...List.generate(
-                              8,
-                              (index) => GestureDetector(
-                                    onTap: () {
-                                      Get.toNamed(OutletDetailsScreen.routeName);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                                      child: Column(
-                                        children: [
-                                          CustomSizedBox.space8H,
-                                          Row(
-                                            children: [
-                                              const CustomNetworkImage(
-                                                networkImagePath: '',
-                                                errorImagePath: AssetsConstant.slider2,
-                                                height: 52,
-                                                width: 52,
-                                                borderRadius: 10,
-                                              ),
-                                              CustomSizedBox.space8W,
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    'Mirpur Outlet',
-                                                    style: AppTheme.textStyleNormalBlack16,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 6,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Image.asset(
-                                                        AssetsConstant.phone,
-                                                        height: 16,
-                                                      ),
-                                                      const Text(
-                                                        '+88018996514',
-                                                        style: AppTheme.textStyleNormalFadeBlack12,
-                                                      )
-                                                    ],
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          CustomSizedBox.space8H,
-                                          index == 7
-                                              ? CustomSizedBox.space8H
-                                              : const Divider(
-                                                  thickness: 0.3,
-                                                  color: Colors.black54,
+                            8,
+                            (index) => GestureDetector(
+                              onTap: () {
+                                Get.toNamed(OutletDetailsScreen.routeName);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  children: [
+                                    CustomSizedBox.space8H,
+                                    Row(
+                                      children: [
+                                        const CustomNetworkImage(
+                                          networkImagePath: '',
+                                          errorImagePath: AssetsConstant.slider2,
+                                          height: 52,
+                                          width: 52,
+                                          borderRadius: 10,
+                                        ),
+                                        CustomSizedBox.space8W,
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              'Mirpur Outlet',
+                                              style: AppTheme.textStyleNormalBlack16,
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  AssetsConstant.phone,
+                                                  height: 16,
                                                 ),
-                                        ],
-                                      ),
+                                                const Text(
+                                                  '+88018996514',
+                                                  style: AppTheme.textStyleNormalFadeBlack12,
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                  ))
+                                    CustomSizedBox.space8H,
+                                    index == 7
+                                        ? CustomSizedBox.space8H
+                                        : const Divider(
+                                            thickness: 0.3,
+                                            color: Colors.black54,
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ))
