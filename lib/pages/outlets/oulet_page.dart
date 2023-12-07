@@ -65,45 +65,47 @@ class OutletScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       CustomSizedBox.space8H,
-                                      Row(
-                                        children: [
-                                          const CustomNetworkImage(
-                                            networkImagePath: '',
-                                            errorImagePath:
-                                                AssetsConstant.slider2,
-                                            height: 52,
-                                            width: 52,
-                                            borderRadius: 10,
-                                          ),
-                                          CustomSizedBox.space8W,
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                'Mirpur Outlet',
-                                                style: AppTheme
-                                                    .textStyleNormalBlack16,
-                                              ),
-                                              const SizedBox(
-                                                height: 6,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Image.asset(
-                                                    AssetsConstant.phone,
-                                                    height: 16,
-                                                  ),
-                                                  const Text(
-                                                    '+88018996514',
-                                                    style: AppTheme
-                                                        .textStyleNormalFadeBlack12,
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          )
-                                        ],
+                                      Container(color: Colors.white,
+                                        child: Row(mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            const CustomNetworkImage(
+                                              networkImagePath: '',
+                                              errorImagePath:
+                                                  AssetsConstant.slider2,
+                                              height: 52,
+                                              width: 52,
+                                              borderRadius: 10,
+                                            ),
+                                            CustomSizedBox.space8W,
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  'Mirpur Outlet',
+                                                  style: AppTheme
+                                                      .textStyleNormalBlack16,maxLines: 1,overflow: TextOverflow.ellipsis,
+                                                ),
+                                                const SizedBox(
+                                                  height: 6,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      AssetsConstant.phone,
+                                                      height: 16,
+                                                    ),
+                                                    const Text(
+                                                      '+88018996514',
+                                                      style: AppTheme
+                                                          .textStyleNormalFadeBlack12,
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       CustomSizedBox.space8H,
                                       index == 7
