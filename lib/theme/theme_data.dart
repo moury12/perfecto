@@ -65,17 +65,13 @@ class AppTheme {
   );
 
   ///font 12
-  static const textStyleNormalBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);  static const textStyleNormalFadeBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);
+  static const textStyleNormalBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black);  static const textStyleNormalRed12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.red);  static const textStyleNormalFadeBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);
   static const textStyleNormalWhite12 = TextStyle(
     color: Colors.white,
     fontSize: 12,
     fontWeight: FontWeight.normal,
   );
-  static const textStyleNormalRed12 = TextStyle(
-    color: Colors.red,
-    fontSize: 12,
-    fontWeight: FontWeight.normal,
-  );
+
   static const textStyleNormalPrimary12 = TextStyle(
     color: AppColors.kPrimaryColor,
     fontSize: 30,
