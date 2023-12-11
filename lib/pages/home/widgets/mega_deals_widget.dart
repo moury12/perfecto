@@ -144,9 +144,9 @@ class MegaDealsWidget extends StatelessWidget {
   }
 }
 
-class TileTextWidget extends StatelessWidget {
+class TitleTextWidget extends StatelessWidget {
   final String tileText;
-  const TileTextWidget({
+  const TitleTextWidget({
     super.key,
     required this.tileText,
   });

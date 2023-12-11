@@ -4,6 +4,8 @@ import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
+import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
+import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -88,6 +90,52 @@ class HomeTopWidget extends StatelessWidget {
                   marginBottom: 16,
                 )
               : SizedBox.shrink(),
+        ],
+      ),
+    );
+  }
+}
+class PrimaryAcceantListViewItemWidget extends StatelessWidget {
+  final String? title;
+  const PrimaryAcceantListViewItemWidget({
+    super.key, this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0xffEAF9FF),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+               TitleTextWidget(tileText:title?? 'Personal Care'),
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  'See All',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.kPrimaryColor,
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 350,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return const BestSellerListWidget(
+                  isBestSeller: false,
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

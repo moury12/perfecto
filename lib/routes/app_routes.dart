@@ -12,7 +12,9 @@ import 'package:perfecto/pages/outlets/outlet_details_page.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/pages/product-details/product_details_binding.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
+import 'package:perfecto/pages/product-details/product_discription_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
+import 'package:perfecto/pages/product-details/review/review_page.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
 
 import '../pages/category/bindings/category_binding.dart';
@@ -65,6 +67,13 @@ class AppRoutes {
     GetPage(
             name: ProductShadeScreen.routeName,
             page: () => const ProductShadeScreen(),
+            binding: ProductDetailsBinding()),
+    GetPage(
+            name: ProductDescriptionScreen.routeName,
+            page: () => const ProductDescriptionScreen(),
+            binding: ProductDetailsBinding()),GetPage(
+            name: ReviewScreen.routeName,
+            page: () => const ReviewScreen(),
             binding: ProductDetailsBinding()),
       ];
 }

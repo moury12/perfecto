@@ -140,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: 10,
                     ),
                   )),
-              const TileTextWidget(tileText: 'Deals You Cannot Miss'),
+              const TitleTextWidget(tileText: 'Deals You Cannot Miss'),
               GridView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 shrinkWrap: true,
@@ -170,15 +170,15 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
               CustomSizedBox.space8H,
-              const TileTextWidget(tileText: 'Top Brands & Offers'),
+              const TitleTextWidget(tileText: 'Top Brands & Offers'),
               ...List.generate(5, (index) => const TopBrandsOfferListWidget()),
-              const TileTextWidget(tileText: 'Mega Deals'),
+              const TitleTextWidget(tileText: 'Mega Deals'),
               GridItemWidget(
                 size: size,
                 img: AssetsConstant.megaDealsBackground,
                 data: HomeController.to.megadealsITem,
               ),
-              const TileTextWidget(tileText: 'Clearance Sale'),
+              const TitleTextWidget(tileText: 'Clearance Sale'),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Container(
@@ -200,9 +200,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const TileTextWidget(tileText: 'Super Offer'),
+              const TitleTextWidget(tileText: 'Super Offer'),
               GridItemWidget(data: HomeController.to.megadealsITem, size: size, img: AssetsConstant.superOfferBackground),
-              const TileTextWidget(tileText: 'Segments You Can’t Miss'),
+              const TitleTextWidget(tileText: 'Segments You Can’t Miss'),
               const SegmentGridWidget(),
               CustomSizedBox.space16H,
               Container(
@@ -212,7 +212,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const TileTextWidget(tileText: 'Bestseller'),
+                        const TitleTextWidget(tileText: 'Bestseller'),
                         Spacer(),
                         InkWell(
                           onTap: () {
@@ -244,7 +244,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const TileTextWidget(tileText: 'Segments You Can’t Miss'),
+              const TitleTextWidget(tileText: 'Segments You Can’t Miss'),
                SegmentGridWidget(
                   blueBackground: AssetsConstant.blueBackground,
                   img: Container(
@@ -280,7 +280,7 @@ height: 104,
                           )
                         ],
                       ))),
-              TileTextWidget(tileText: 'Perfecto Tips & Tricks'),
+              TitleTextWidget(tileText: 'Perfecto Tips & Tricks'),
               GridView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 shrinkWrap: true,
@@ -303,44 +303,9 @@ height: 104,
                   );
                 },
               ),
-              TileTextWidget(tileText: 'Just For You'),
+              TitleTextWidget(tileText: 'Just For You'),
               GridItemWidget(data: HomeController.to.megadealsITem, size: size, img: AssetsConstant.justForUBackground),
-              Container(
-                color: const Color(0xffEAF9FF),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const TileTextWidget(tileText: 'Personal Care'),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            'See All',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.kPrimaryColor,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 350,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return const BestSellerListWidget(
-                            isBestSeller: false,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              PrimaryAcceantListViewItemWidget(),
               GreetingCardWidget(),
               SizedBox(
                 height: 60,
@@ -355,3 +320,4 @@ height: 104,
     );
   }
 }
+

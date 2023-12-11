@@ -70,7 +70,7 @@ class OfferScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  TileTextWidget(tileText: 'Top Brands'),
+                  TitleTextWidget(tileText: 'Top Brands'),
                   GridView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     shrinkWrap: true,
@@ -130,7 +130,7 @@ class OfferScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  TileTextWidget(tileText: 'Top Categories'),
+                  TitleTextWidget(tileText: 'Top Categories'),
                   ...List.generate(
                       4,
                       (index) => Column(
