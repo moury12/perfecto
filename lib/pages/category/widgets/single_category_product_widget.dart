@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
+import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -21,6 +23,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
   final bool isFeatured;
   final bool isOutofStock;
   final bool isOnSale;
+  final bool isShadeSwatch;
   final Function() onTap;
   const SingleCategoryProductWidget({
     super.key,
@@ -38,7 +41,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
     this.isOutofStock = false,
     this.isOnSale = false,
     this.isFeatured = false,
-    required this.onTap,
+    required this.onTap,  this.isShadeSwatch=true,
   });
 
   @override
@@ -207,7 +210,9 @@ class SingleCategoryProductWidget extends StatelessWidget {
                           ? AppColors.kDarkPrimaryColor
                           : AppColors.kPrimaryColor,
                       width: 140,
-                      onPressed: () {},
+                      onPressed: () {
+                      Get.to(ProductShadeScreen(isSelectSize: isShadeSwatch?false:true,));
+                      },
                     ),
                   ],
                 ),

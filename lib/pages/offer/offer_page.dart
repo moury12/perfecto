@@ -7,6 +7,7 @@ import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
+import '../../drawer/custom_drawer.dart';
 import '../page_with_navigation.dart';
 
 class OfferScreen extends StatelessWidget {
@@ -18,6 +19,7 @@ class OfferScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageWithNavigation(
       scaffoldChild: Scaffold(
+        drawer: CustomDrawer(),
         body: Column(
           children: [
             HomeTopWidget(

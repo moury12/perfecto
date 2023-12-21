@@ -11,6 +11,7 @@ import 'package:perfecto/theme/theme_data.dart';
 
 import '../../constants/color_constants.dart';
 import '../../controller/navigation_controller.dart';
+import '../../drawer/custom_drawer.dart';
 
 class OutletScreen extends StatelessWidget {
   static const String routeName = '/outlet';
@@ -25,7 +26,7 @@ class OutletScreen extends StatelessWidget {
         return true;
       },
       child: PageWithNavigation(
-        scaffoldChild: Scaffold(
+        scaffoldChild: Scaffold(drawer: CustomDrawer(),
           body: Column(
             children: [
               const HomeTopWidget(

@@ -21,7 +21,8 @@ RxBool  tapped = false.obs;
       'isOnSale':false,
 
       'img': AssetsConstant.megaDeals1,
-      'buttonText': 'SELECT SHADE'
+      'buttonText': 'SELECT SHADE',
+      'shade':true
     },
     {
       'name': 'Maybelline New York Superstay Vi sdfsrgffg',
@@ -36,6 +37,7 @@ RxBool  tapped = false.obs;
       'isFavourite': false,
       'isOutofStock': true,
       'isOnSale':false,
+      'shade':true,
       'img': AssetsConstant.megaDeals2,
       'buttonText': 'OUT OF STOCK'
     },
@@ -52,7 +54,7 @@ RxBool  tapped = false.obs;
       'isFavourite': false,
       'isOutofStock': false,
       'isOnSale':false,
-
+      'shade':false,
       'img': AssetsConstant.megaDeals3,
       'buttonText': 'SELECT SIZE'
     },
@@ -67,7 +69,7 @@ RxBool  tapped = false.obs;
       'isDiscount': true,
       'isFavourite': false,
       'isOnSale':true,
-
+      'shade':true,
       'isStacked': true,
       'isOutofStock': false,
       'img': AssetsConstant.megaDeals1,
@@ -84,7 +86,7 @@ RxBool  tapped = false.obs;
       'isDiscount': true,
       'isFavourite': false,
       'isOnSale':false,
-
+      'shade':true,
       'isOutofStock': false,
       'isStacked': true,
       'img': AssetsConstant.megaDeals2,
@@ -101,7 +103,7 @@ RxBool  tapped = false.obs;
       'isDiscount': true,
       'isFavourite': false,
       'isOnSale':true,
-
+      'shade':true,
       'isOutofStock': false,
       'isStacked': false,
       'img': AssetsConstant.megaDeals3,

@@ -7,6 +7,8 @@ class ProductDetailsController extends GetxController  with GetTickerProviderSta
    TabController? tabController;
    TabController? tabController2;
  RxBool isFavourite=false.obs;
+ RxBool isAvaiableShade=true.obs;
+ RxBool isHelpfull=false.obs;
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);

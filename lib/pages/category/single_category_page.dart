@@ -6,6 +6,7 @@ import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 
+import '../../drawer/custom_drawer.dart';
 import 'widgets/single_category_product_widget.dart';
 
 class SingleCatergoryWiseScreen extends StatelessWidget {
@@ -17,6 +18,7 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
     final controller = HomeController.to;
 
     return Scaffold(
+      drawer: CustomDrawer(),
       body: Obx(() {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,6 +53,7 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
                         isFeatured: data['isFeatured'],
                         isOnSale: data['isOnSale'],
                         isOutofStock: data['isOutofStock'],
+                        isShadeSwatch: data['shade'],
                         onTap: () {
                           print(data['isFavourite']);
                           data['isFavourite'] = !data['isFavourite'];

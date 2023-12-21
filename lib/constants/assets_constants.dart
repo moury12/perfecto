@@ -30,8 +30,15 @@ class AssetsConstant{
   static const String returnIcon = "assets/return_icon.png";
   static const String reviewTop = "assets/review_top.png";
   static const String verified = "assets/verified.png";
+  static const String backRoute = "assets/back_route.png";
   static const String mapView = "assets/mapView.png";
+  static const String rewardIcon = "assets/reward_icon.png";
+  static const String cuppon = "assets/cuppon.png";
+  static const String emptyBag = "assets/empty_bag.png";
+  static const String emptyWishList = "assets/empty_wishList.png";
   static const String location = "assets/location.png";
+  static const String deleteIcon = "assets/delete_icon.png";
+  static const String infoIcon = "assets/info.png";
   static const String skinCareBackground = "assets/skin_care_background.png";
   static const String blueBackground = "assets/blue_background.png";
   static const String banner = "assets/banner.png";

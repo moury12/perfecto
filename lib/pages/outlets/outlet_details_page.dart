@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
+import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import '../../theme/theme_data.dart';
@@ -14,7 +15,7 @@ class OutletDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageWithNavigation(
-      scaffoldChild: Scaffold(
+      scaffoldChild: Scaffold(drawer: CustomDrawer(),
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(

@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
+import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -13,8 +15,9 @@ import '../../../controller/navigation_controller.dart';
 
 class HomeTopWidget extends StatelessWidget {
   final bool isSearchInclude;
+  final Widget? title;
   final TextEditingController? controller;
-  const HomeTopWidget({super.key, this.controller, this.isSearchInclude = true});
+  const HomeTopWidget({super.key, this.controller, this.isSearchInclude = true, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +33,16 @@ class HomeTopWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                Image.asset(
-                  AssetsConstant.drawerIcon,
-                  height: 22,
-                ),
+             title==null?   GestureDetector(  onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                  child: Image.asset(
+                    AssetsConstant.drawerIcon,
+                    height: 22,
+                  ),
+                ):SizedBox.shrink(),
                 CustomSizedBox.space8W,
-                Image.asset(AssetsConstant.perfectoLogo, height: 18),
+              title??  Image.asset(AssetsConstant.perfectoLogo, height: 18),
                 const Spacer(),
                 Container(
                   padding: const EdgeInsets.all(4),
@@ -54,23 +61,33 @@ class HomeTopWidget extends StatelessWidget {
                   ),
                 ),
                 CustomSizedBox.space16W,
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Image.asset(
-                      AssetsConstant.cartIcon,
-                      height: 20,
+                InkWell(borderRadius: BorderRadius.circular(360),
+                  onTap: () {
+                   Get.toNamed( CartScreen.routeName);
+                  },
+
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Image.asset(
+                          AssetsConstant.cartIcon,
+                          height: 20,
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 2,
+                          child: Container(
+                            padding: EdgeInsets.all(2.5),
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                            child: Text('12', style: AppTheme.textStyleBoldWhite8),
+                          ),
+                        )
+                      ],
                     ),
-                    Positioned(
-                      top: 0,
-                      right: -8,
-                      child: Container(
-                        padding: EdgeInsets.all(2.5),
-                        decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                        child: Text('12', style: AppTheme.textStyleBoldWhite8),
-                      ),
-                    )
-                  ],
+                  ),
                 )
               ],
             ),

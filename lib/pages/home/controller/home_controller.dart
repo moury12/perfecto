@@ -85,7 +85,7 @@ class HomeController extends GetxController {
   Rx<int> currentPage = 0.obs;
   List<String> bannerContent = [
     AssetsConstant.slider1,
-    /* AssetsConstant.slider2,*/
+     AssetsConstant.slider2,
     AssetsConstant.verticalBannner
   ];
 
@@ -98,11 +98,11 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    Timer.periodic(Duration(milliseconds: 800), (timer) {
+    Timer.periodic(Duration(milliseconds: 2000), (timer) {
       if (currentPage < (bannerContent.length - 1)) {
-        pageController.value.nextPage(duration: Duration(milliseconds: 800), curve: Curves.ease);
+        pageController.value.nextPage(duration: Duration(milliseconds: 2000), curve: Curves.ease);
       } else {
-        pageController.value.animateToPage(0, duration: Duration(milliseconds: 1000), curve: Curves.ease);
+        pageController.value.animateToPage(0, duration: Duration(milliseconds: 2000), curve: Curves.ease);
       }
     });
     // TODO: implement onInit

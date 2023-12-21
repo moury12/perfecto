@@ -4,6 +4,7 @@ import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -17,7 +18,7 @@ class ProductDescriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(drawer: CustomDrawer(),
       body: Column(
         children: [
           const HomeTopWidget(),

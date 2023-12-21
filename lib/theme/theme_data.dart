@@ -97,6 +97,7 @@ class AppTheme {
   static const textStyleMediumBlack12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
+    color: Colors.black
   );
   static const textStyleMediumWhite12 = TextStyle(
     fontSize: 12,
@@ -153,7 +154,10 @@ class AppTheme {
   static TextStyle textStyleSemiBoldBlack14 = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: Colors.black.withOpacity(.8));
+      color: Colors.black.withOpacity(.8));  static TextStyle textStyleSemiBoldFadeBlack14 = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Colors.black.withOpacity(.5));
   static const textStyleSemiBoldWhite14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w600,
@@ -184,6 +188,10 @@ class AppTheme {
   );
   static const textStyleMediumBlack16 = TextStyle(
     fontSize: 16,
+    fontWeight: FontWeight.w500,
+  ); static  TextStyle textStyleMediumFadeBlack16 = TextStyle(
+    fontSize: 16,
+    color: Colors.black.withOpacity(.7),
     fontWeight: FontWeight.w500,
   );
   static const textStyleSemiBoldBlack16 = TextStyle(

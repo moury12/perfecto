@@ -5,19 +5,21 @@ import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
 class ProductShadeScreen extends StatelessWidget {
+  final bool isSelectSize;
   static const String routeName = '/product_shade_details';
 
-  const ProductShadeScreen({super.key});
+  const ProductShadeScreen({super.key,  this.isSelectSize=false});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(drawer: CustomDrawer(),
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -79,38 +81,87 @@ class ProductShadeScreen extends StatelessWidget {
                     style: AppTheme.textStyleBoldBlack14,
                   ),
                 ),
-                Container(
-                           decoration: BoxDecoration(
-                  //This is for background color
-                             color: Color(0xffF9F9F9),
-                             //This is for bottom border that is needed
-                  border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
-                ),
-                  child: TabBar(
+             isSelectSize? Column(
+               children: [Container(color: Color(0xffF9F9F9),
+                 child: Padding(
+                   padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 4),
+                   child: Column(
+                     children: [
+                       CustomSizedBox.space8H,
+                       Row(
+                         children: [
+                           Text(
+                             'Select a Size',
+                             style: AppTheme.textStyleBoldBlack14,
+                           ),
+                       Container(height:15 ,width: 1,color: Colors.grey,margin: EdgeInsets.symmetric(horizontal: 8),),
+                           Text('4 varients',style: AppTheme.textStyleSemiBoldFadeBlack14,)
+                         ],
+                       ),
+                       CustomSizedBox.space8H,
+                     ],
+                   ),
+                 ),
+               ),
 
-                      labelColor: AppColors.kBlackColor,
-                      unselectedLabelColor: Colors.black54,
-                      labelStyle: AppTheme.textStyleBoldBlack14,
-                      unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
-                      indicatorColor: AppColors.kPrimaryColor,
-                      dividerColor: AppColors.kPrimaryColor,
-                      automaticIndicatorColorAdjustment: true,
-                      labelPadding: EdgeInsets.symmetric(vertical: 6),
-                      controller: ProductDetailsController.to.tabController,
-                      tabs: ProductDetailsController.to.tabTiles
-                          .map((String title) {
-                        return Tab(
-                          text: title,
-                        );
-                      }).toList()),
-                ),
-                SizedBox(
-                  height: 300,
-                  child: TabBarView(
-                      controller: ProductDetailsController.to.tabController,
-                      children:
-                          List.generate(2, (index) => buildwidget(index))),
-                ),
+                 Divider(thickness: 1.5, color: Color(0xffECECEC),height: 0,
+                   indent: 0,),
+                 CustomSizedBox.space20H,
+                 SizedBox(height: 42,
+                   child: ListView.builder(
+                     padding: EdgeInsets.symmetric(horizontal: 12),
+                     scrollDirection: Axis.horizontal,
+                     itemCount: 23,
+                     itemBuilder: (context, index) => Container(
+                       margin: EdgeInsets.symmetric(horizontal: 6),
+                       alignment: Alignment.center,
+                       decoration: BoxDecoration(
+color: index==0 ? AppColors.kPrimaryColor:Colors.transparent,
+                           border:
+                           Border.all(color: AppColors.kPrimaryColor, width: 1.5),
+                           borderRadius: BorderRadius.circular(4)),
+                       padding: EdgeInsets.symmetric(
+                           horizontal: 16, vertical: 8),
+                       child: Text(
+
+                         '180ml',
+                         textAlign: TextAlign.center,
+                         style:index==0? AppTheme.textStyleSemiBoldWhite14:AppTheme.textStyleSemiBoldFadeBlack14,
+                       ),
+                     ),),
+                 ),],
+             ):  Column(children: [ Container(
+                 decoration: BoxDecoration(
+                   //This is for background color
+                   color: Color(0xffF9F9F9),
+                   //This is for bottom border that is needed
+                   border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
+                 ),
+                 child: TabBar(
+
+                     labelColor: AppColors.kBlackColor,
+                     unselectedLabelColor: Colors.black54,
+                     labelStyle: AppTheme.textStyleBoldBlack14,
+                     unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
+                     indicatorColor: AppColors.kPrimaryColor,
+                     dividerColor: AppColors.kPrimaryColor,
+                     automaticIndicatorColorAdjustment: true,
+                     labelPadding: EdgeInsets.symmetric(vertical: 6),
+                     controller: ProductDetailsController.to.tabController,
+                     tabs: ProductDetailsController.to.tabTiles
+                         .map((String title) {
+                       return Tab(
+                         text: title,
+                       );
+                     }).toList()),
+               ),
+                 SizedBox(
+                   height: 300,
+                   child: TabBarView(
+                       controller: ProductDetailsController.to.tabController,
+                       children:
+                       List.generate(2, (index) => buildwidget(index))),
+                 ),],)
               ],
             ),
           ),
@@ -132,8 +183,8 @@ class ProductShadeScreen extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
               child: Row(
                 children: [
-                  const Text(
-                    'Nude Shade Color',
+                   Text(
+                isSelectSize?'180ml':    'Nude Shade Color',
                     style: AppTheme.textStyleBoldFadeBlack14,
                   ),
                   const Spacer(),

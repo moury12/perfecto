@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
+import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
 import 'package:perfecto/pages/category/widgets/single_category_product_widget.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
@@ -16,7 +17,7 @@ class SaleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return Scaffold(drawer: CustomDrawer(),
       body:
            Column(children: [
             HomeTopWidget(),

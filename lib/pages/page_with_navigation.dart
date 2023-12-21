@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
+import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/category/category_page.dart';
 import 'package:perfecto/pages/chat/chat_page.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
@@ -18,6 +19,7 @@ class MainHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final NavigationController controller = NavigationController.to;
     return Scaffold(
+      drawer: CustomDrawer(),
       body: Stack(
         children: [
           Obx(

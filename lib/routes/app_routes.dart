@@ -5,6 +5,7 @@ import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/chat/chat_page.dart';
 import 'package:perfecto/pages/home/bindings/home_binding.dart';
 import 'package:perfecto/pages/home/home_page.dart';
+import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/offer/binding/offer_binding.dart';
 import 'package:perfecto/pages/offer/offer_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
@@ -64,16 +65,20 @@ class AppRoutes {
             name: ProductDetailsScreen.routeName,
             page: () => const ProductDetailsScreen(),
             binding: ProductDetailsBinding()),
-    GetPage(
+        GetPage(
             name: ProductShadeScreen.routeName,
             page: () => const ProductShadeScreen(),
             binding: ProductDetailsBinding()),
-    GetPage(
+        GetPage(
             name: ProductDescriptionScreen.routeName,
             page: () => const ProductDescriptionScreen(),
-            binding: ProductDetailsBinding()),GetPage(
+            binding: ProductDetailsBinding()),
+        GetPage(
             name: ReviewScreen.routeName,
             page: () => const ReviewScreen(),
+            binding: ProductDetailsBinding()), GetPage(
+            name: CartScreen.routeName,
+            page: () => const CartScreen(),
             binding: ProductDetailsBinding()),
       ];
 }
