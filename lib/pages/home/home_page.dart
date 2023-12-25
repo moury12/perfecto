@@ -53,7 +53,8 @@ class HomeScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 0),
                               child: Image.network('',
                                   fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Image.asset(
                                         data,
                                         fit: BoxFit.cover,
                                       )),
@@ -64,7 +65,8 @@ class HomeScreen extends StatelessWidget {
               CustomSizedBox.space8H,
               GridView.builder(
                 physics: const ScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 shrinkWrap: true,
                 primary: false,
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -82,7 +84,9 @@ class HomeScreen extends StatelessWidget {
                             Get.toNamed(data['route']);
                           },
                           child: Container(
-                            decoration: BoxDecoration(color: AppColors.kPrimaryColor, borderRadius: BorderRadius.circular(10)),
+                            decoration: BoxDecoration(
+                                color: AppColors.kPrimaryColor,
+                                borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.all(12),
                             child: Column(
                               children: [
@@ -102,14 +106,17 @@ class HomeScreen extends StatelessWidget {
                       : GestureDetector(
                           onTap: () {
                             if (data['route'] == OutletScreen.routeName) {
-                              globalLogger.d(data['route'] == OutletScreen.routeName);
+                              globalLogger
+                                  .d(data['route'] == OutletScreen.routeName);
                               NavigationController.to.changeTabIndex(5);
                               NavigationController.to.update();
                             }
                             Get.toNamed(data['route']);
                           },
                           child: Container(
-                            decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.all(12),
                             child: Column(
                               children: [
@@ -128,10 +135,17 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black.withOpacity(.25), blurRadius: 4)]),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(.25),
+                              blurRadius: 4)
+                        ]),
                     child: CustomNetworkImage(
                       networkImagePath: '',
                       errorImagePath: AssetsConstant.slider1,
@@ -146,13 +160,20 @@ class HomeScreen extends StatelessWidget {
                 shrinkWrap: true,
                 primary: false,
                 physics: const ScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 167, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    mainAxisExtent: 167,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12),
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () => Get.toNamed(SaleScreen.routeName),
                     child: Container(
-                      decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.black.withOpacity(.16), blurRadius: 8)]),
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(.16), blurRadius: 8)
+                      ]),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.network(
@@ -185,9 +206,11 @@ class HomeScreen extends StatelessWidget {
                   margin: EdgeInsets.all(4),
                   width: double.infinity,
                   height: 200,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
-                    BoxShadow(color: Color(0xffCAC6BF), blurRadius: 8),
-                  ]),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(color: Color(0xffCAC6BF), blurRadius: 8),
+                      ]),
                   child: Center(
                     child: CustomNetworkImage(
                       networkImagePath: "",
@@ -201,66 +224,34 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const TitleTextWidget(tileText: 'Super Offer'),
-              GridItemWidget(data: HomeController.to.megadealsITem, size: size, img: AssetsConstant.superOfferBackground),
+              GridItemWidget(
+                  data: HomeController.to.megadealsITem,
+                  size: size,
+                  img: AssetsConstant.superOfferBackground),
               const TitleTextWidget(tileText: 'Segments You Can’t Miss'),
               const SegmentGridWidget(),
               CustomSizedBox.space16H,
-              Container(
-                color: const Color(0xffEAF9FF),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const TitleTextWidget(tileText: 'Bestseller'),
-                        Spacer(),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(SaleScreen.routeName);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Text(
-                              'See All',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColors.kPrimaryColor,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 350,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return const BestSellerListWidget();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              BestSellerListViewBuilder(),
               const TitleTextWidget(tileText: 'Segments You Can’t Miss'),
-               SegmentGridWidget(
+              SegmentGridWidget(
                   blueBackground: AssetsConstant.blueBackground,
                   img: Container(
-alignment: Alignment.center,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-
-                        image: DecorationImage(image: AssetImage(AssetsConstant.blueCircleBackground),fit: BoxFit.contain)),
+                        image: DecorationImage(
+                            image:
+                                AssetImage(AssetsConstant.blueCircleBackground),
+                            fit: BoxFit.contain)),
                     child: Padding(
                       padding: const EdgeInsets.all(28.0),
                       child: CustomNetworkImage(
                         networkImagePath: '',
                         borderRadius: 360,
                         errorImagePath: AssetsConstant.superOfferForeground,
-                        border: NetworkImageBorder.Circle,fit: BoxFit.cover,
-height: 104,
+                        border: NetworkImageBorder.Circle,
+                        fit: BoxFit.cover,
+                        height: 104,
                       ),
                     ),
                   ),
@@ -286,15 +277,22 @@ height: 104,
                 shrinkWrap: true,
                 primary: false,
                 physics: const ScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 100, crossAxisSpacing: 8, mainAxisSpacing: 8),
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    mainAxisExtent: 100,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8),
                 itemCount: 8,
                 itemBuilder: (context, index) {
                   return Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColors.kPrimaryColor, width: 2.5),
-                        image: DecorationImage(image: AssetImage(AssetsConstant.slider1), fit: BoxFit.fill)),
+                        border: Border.all(
+                            color: AppColors.kPrimaryColor, width: 2.5),
+                        image: DecorationImage(
+                            image: AssetImage(AssetsConstant.slider1),
+                            fit: BoxFit.fill)),
                     child: Image.asset(
                       AssetsConstant.playButton,
                       height: 22,
@@ -304,7 +302,10 @@ height: 104,
                 },
               ),
               TitleTextWidget(tileText: 'Just For You'),
-              GridItemWidget(data: HomeController.to.megadealsITem, size: size, img: AssetsConstant.justForUBackground),
+              GridItemWidget(
+                  data: HomeController.to.megadealsITem,
+                  size: size,
+                  img: AssetsConstant.justForUBackground),
               PrimaryAcceantListViewItemWidget(),
               GreetingCardWidget(),
               SizedBox(
@@ -320,4 +321,6 @@ height: 104,
     );
   }
 }
+
+
 

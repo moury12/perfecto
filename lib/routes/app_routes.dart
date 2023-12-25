@@ -5,7 +5,10 @@ import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/chat/chat_page.dart';
 import 'package:perfecto/pages/home/bindings/home_binding.dart';
 import 'package:perfecto/pages/home/home_page.dart';
+import 'package:perfecto/pages/my-cart/apply_cuppon_reward.dart';
+import 'package:perfecto/pages/my-cart/cart_bindings.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
+import 'package:perfecto/pages/my-cart/wish_list_page.dart';
 import 'package:perfecto/pages/offer/binding/offer_binding.dart';
 import 'package:perfecto/pages/offer/offer_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
@@ -17,6 +20,8 @@ import 'package:perfecto/pages/product-details/product_discription_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
+import 'package:perfecto/pages/search/search_bindings.dart';
+import 'package:perfecto/pages/search/search_page.dart';
 
 import '../pages/category/bindings/category_binding.dart';
 import '../pages/offer/sale_page.dart';
@@ -76,9 +81,22 @@ class AppRoutes {
         GetPage(
             name: ReviewScreen.routeName,
             page: () => const ReviewScreen(),
-            binding: ProductDetailsBinding()), GetPage(
+            binding: ProductDetailsBinding()),
+        GetPage(
             name: CartScreen.routeName,
             page: () => const CartScreen(),
-            binding: ProductDetailsBinding()),
+            binding: CartBinding()),
+        GetPage(
+            name: ApplyCupponRewardScreen.routeName,
+            page: () => const ApplyCupponRewardScreen(),
+            binding: CartBinding()),
+        GetPage(
+            name: WishListScreen.routeName,
+            page: () => const WishListScreen(),
+            binding: CartBinding()),
+        GetPage(
+            name: SearchScreen.routeName,
+            page: () => const SearchScreen(),
+            binding: SearchBinding()),
       ];
 }

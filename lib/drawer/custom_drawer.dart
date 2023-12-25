@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/drawer_controller.dart';
+import 'package:perfecto/pages/my-cart/wish_list_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -12,7 +13,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return Drawer(backgroundColor: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,7 +45,11 @@ class CustomDrawer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SaleTextWidget(),
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(WishListScreen.routeName);
+                      },
+                        child: SaleTextWidget()),
                     SaleTextWidget(text: 'Puja Sale', color: Color(0xffD90068)),
                     SaleTextWidget(
                         text: 'Buy 1 Get 1', color: Color(0xff9747FF)),

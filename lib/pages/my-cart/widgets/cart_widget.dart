@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
@@ -7,8 +8,9 @@ import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
 class CartWidget extends StatelessWidget {
+  final bool iswish;
   const CartWidget({
-    super.key,
+    super.key,  this.iswish=false,
   });
 
   @override
@@ -94,7 +96,8 @@ class CartWidget extends StatelessWidget {
                     CustomSizedBox.space8H,
                   ],
                 ),
-              )
+              ),
+              Image.asset(AssetsConstant.deleteIcon,height: 16,)
             ],
           ),
           Divider(
@@ -102,7 +105,26 @@ class CartWidget extends StatelessWidget {
             thickness: 1,
           ),
           CustomSizedBox.space8H,
-          Row(
+          iswish?Row(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '৳550',
+                    style: AppTheme.textStyleSemiBoldBlack16,
+                  ),CustomSizedBox.space4W,
+                  Text(
+                    '৳550',
+                    style: TextStyle(color: Colors.black45,fontSize: 14,decoration: TextDecoration.lineThrough),
+                  ),
+                ],
+              ),
+Spacer(),
+            CustomButton(label: 'Move to Cart',width: 150,marginVertical: 0,marginHorizontal: 0,onPressed: () {
+
+            },)
+            ],
+          ):    Row(
             children: [
               Container(
                 decoration: BoxDecoration(
@@ -144,10 +166,18 @@ class CartWidget extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Text(
-                '৳550',
-                style: AppTheme.textStyleSemiBoldBlack16,
-              )
+              Row(
+                children: [
+                  Text(
+                    '৳550',
+                    style: AppTheme.textStyleSemiBoldBlack16,
+                  ),CustomSizedBox.space4W,
+                  Text(
+                    '৳550',
+                    style: TextStyle(color: Colors.black45,fontSize: 14,decoration: TextDecoration.lineThrough),
+                  ),
+                ],
+              ),
             ],
           )
         ],

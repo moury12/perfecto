@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
+
+import '../../offer/sale_page.dart';
 
 class TopBrandsOfferListWidget extends StatelessWidget {
   const TopBrandsOfferListWidget({
@@ -106,6 +110,55 @@ class BestSellerListWidget extends StatelessWidget {
             decoration: const BoxDecoration(color: Color(0xffD4F3FF),borderRadius: BorderRadius.only(topLeft: Radius.circular(4),bottomRight: Radius.circular(4)),
             ),
             child: const Text('Bestseller', style: TextStyle(color: Color(0xff0094CF),fontSize: 10),),):SizedBox.shrink()
+        ],
+      ),
+    );
+  }
+}
+class BestSellerListViewBuilder extends StatelessWidget {
+  const BestSellerListViewBuilder({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0xffEAF9FF),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const TitleTextWidget(tileText: 'Bestseller'),
+              Spacer(),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(SaleScreen.routeName);
+                },
+                child: Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'See All',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.kPrimaryColor,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 380,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return const BestSellerListWidget();
+              },
+            ),
+          )
         ],
       ),
     );

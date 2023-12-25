@@ -8,6 +8,7 @@ import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
+import 'package:perfecto/pages/search/search_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -15,14 +16,22 @@ import '../../../controller/navigation_controller.dart';
 
 class HomeTopWidget extends StatelessWidget {
   final bool isSearchInclude;
+  final bool isSearchpage;
   final Widget? title;
   final TextEditingController? controller;
-  const HomeTopWidget({super.key, this.controller, this.isSearchInclude = true, this.title});
+  const HomeTopWidget(
+      {super.key,
+      this.controller,
+      this.isSearchInclude = true,
+      this.title,
+      this.isSearchpage = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08))]),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08))]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -33,20 +42,25 @@ class HomeTopWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-             title==null?   GestureDetector(  onTap: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                  child: Image.asset(
-                    AssetsConstant.drawerIcon,
-                    height: 22,
-                  ),
-                ):SizedBox.shrink(),
+                title == null
+                    ? GestureDetector(
+                        onTap: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                        child: Image.asset(
+                          AssetsConstant.drawerIcon,
+                          height: 22,
+                        ),
+                      )
+                    : SizedBox.shrink(),
                 CustomSizedBox.space8W,
-              title??  Image.asset(AssetsConstant.perfectoLogo, height: 18),
+                title ?? Image.asset(AssetsConstant.perfectoLogo, height: 18),
                 const Spacer(),
                 Container(
                   padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(color: AppColors.kAccentColor, borderRadius: BorderRadius.circular(4)),
+                  decoration: BoxDecoration(
+                      color: AppColors.kAccentColor,
+                      borderRadius: BorderRadius.circular(4)),
                   child: Row(
                     children: [
                       Image.asset(
@@ -55,17 +69,22 @@ class HomeTopWidget extends StatelessWidget {
                       ),
                       CustomSizedBox.space4W,
                       RichText(
-                          text: const TextSpan(
-                              text: '', children: [TextSpan(text: '0', style: AppTheme.textStyleBoldBlack12), TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)])),
+                          text: const TextSpan(text: '', children: [
+                        TextSpan(
+                            text: '0', style: AppTheme.textStyleBoldBlack12),
+                        TextSpan(
+                            text: ' Points',
+                            style: AppTheme.textStyleNormalBlack12)
+                      ])),
                     ],
                   ),
                 ),
                 CustomSizedBox.space16W,
-                InkWell(borderRadius: BorderRadius.circular(360),
+                InkWell(
+                  borderRadius: BorderRadius.circular(360),
                   onTap: () {
-                   Get.toNamed( CartScreen.routeName);
+                    Get.toNamed(CartScreen.routeName);
                   },
-
                   child: Container(
                     height: 30,
                     width: 30,
@@ -81,8 +100,11 @@ class HomeTopWidget extends StatelessWidget {
                           right: 2,
                           child: Container(
                             padding: EdgeInsets.all(2.5),
-                            decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                            child: Text('12', style: AppTheme.textStyleBoldWhite8),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.kDarkPrimaryColor),
+                            child:
+                                Text('12', style: AppTheme.textStyleBoldWhite8),
                           ),
                         )
                       ],
@@ -93,18 +115,61 @@ class HomeTopWidget extends StatelessWidget {
             ),
           ),
           isSearchInclude
-              ? CustomTextField(
-                  height: 42,
-                  controller: controller ?? NavigationController.to.searchController!,
-                  hintText: 'Search for products...',
-                  focusColor: AppColors.kPrimaryColor,
-                  enableBorderColor: AppColors.kPrimaryColor,
-                  prefixWidget: Icon(
-                    Icons.search_rounded,
-                    color: Colors.grey,
-                  ),
-                  marginVertical: 8,
-                  marginBottom: 16,
+              ? Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(SearchScreen.routeName);
+                      },
+                      child: CustomTextField(
+                        height: 42,
+                        isEnable: isSearchpage ? true : false,
+                        controller: controller ??
+                            NavigationController.to.searchController!,
+                        hintText: 'Search for products...',
+                        focusColor: AppColors.kPrimaryColor,
+                        enableBorderColor: AppColors.kPrimaryColor,
+                        prefixWidget: Icon(
+                          Icons.search_rounded,
+                          color: Colors.grey,
+                        ),
+                        marginVertical: 8,
+                        marginBottom: 16,
+                      ),
+                    ),
+                    NavigationController
+                            .to.searchController!.value.text.isNotEmpty
+                        ? Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(.10),
+                                      blurRadius: 10)
+                                ]),
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                ...List.generate(
+                                    4,
+                                    (index) => Row(
+                                          children: [
+                                            Icon(
+                                              Icons.search_rounded,
+                                              color: Colors.black45,
+                                            ),
+                                            Text('Lakme Absolute Lipstick'),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black45,
+                                            )
+                                          ],
+                                        ))
+                              ],
+                            ),
+                          )
+                        : SizedBox.shrink()
+                  ],
                 )
               : SizedBox.shrink(),
         ],
@@ -112,10 +177,12 @@ class HomeTopWidget extends StatelessWidget {
     );
   }
 }
+
 class PrimaryAcceantListViewItemWidget extends StatelessWidget {
   final String? title;
   const PrimaryAcceantListViewItemWidget({
-    super.key, this.title,
+    super.key,
+    this.title,
   });
 
   @override
@@ -127,7 +194,7 @@ class PrimaryAcceantListViewItemWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-               TitleTextWidget(tileText:title?? 'Personal Care'),
+              TitleTextWidget(tileText: title ?? 'Personal Care'),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
