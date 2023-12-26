@@ -274,7 +274,7 @@ class GridItemForSegmentsWidget extends StatelessWidget {
             primary: false,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: maxCrossAxisExtent ?? 200,
-              mainAxisExtent: 370,
+              mainAxisExtent: 380,
               mainAxisSpacing: 0,
               crossAxisSpacing: 0,
             ),

@@ -3,6 +3,9 @@ import 'package:perfecto/bindings/navigation_binding.dart';
 import 'package:perfecto/pages/category/category_page.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/chat/chat_page.dart';
+import 'package:perfecto/pages/checkout-page/checkout_bindings.dart';
+import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
+import 'package:perfecto/pages/checkout-page/checkout_page.dart';
 import 'package:perfecto/pages/home/bindings/home_binding.dart';
 import 'package:perfecto/pages/home/home_page.dart';
 import 'package:perfecto/pages/my-cart/apply_cuppon_reward.dart';
@@ -14,11 +17,13 @@ import 'package:perfecto/pages/offer/offer_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
 import 'package:perfecto/pages/outlets/outlet_details_page.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
+import 'package:perfecto/pages/points/my_points_page.dart';
 import 'package:perfecto/pages/product-details/product_details_binding.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_discription_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
+import 'package:perfecto/pages/profile/my_profile_page.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
 import 'package:perfecto/pages/search/search_bindings.dart';
 import 'package:perfecto/pages/search/search_page.dart';
@@ -98,5 +103,15 @@ class AppRoutes {
             name: SearchScreen.routeName,
             page: () => const SearchScreen(),
             binding: SearchBinding()),
+    GetPage(
+            name: CheckoutScreen.routeName,
+            page: () => const CheckoutScreen(),
+            binding: CheckoutBinding()),GetPage(
+            name: MyProfileScreen.routeName,
+            page: () => const MyProfileScreen(),
+           ),GetPage(
+            name: MyPointsScreen.routeName,
+            page: () => const MyPointsScreen(),
+           ),
       ];
 }

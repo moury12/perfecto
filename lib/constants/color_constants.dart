@@ -4,6 +4,9 @@ class AppColors {
   static const Color kPrimaryColor = Color(0xFF5DC9F4);
   static const Color kDarkPrimaryColor = Color(0xFF0094CF);
   static const Color kAccentColor = Color(0xffD4F3FF);
+  static const Color klightAccentColor = Color(0xffEEFAFF);
+  static const Color kBackgroundColor = Color(0xffF9F9F9);
+  static const Color kborderColor = Color(0xffECECEC);
 
   static MaterialColor kPrimarySwatch = MaterialColor(0xff2A41CB, swatch);
 
@@ -20,7 +23,6 @@ class AppColors {
     900: kPrimaryColor.withOpacity(1),
   };
 
-  static const Color kBackgroundColor = Color(0xFFEFF2FB);
   static const Color kOfferButtonColor = Color(0xffFFAC0A);
   static const Color kFreeDeliveryButtonColor = Color(0xffFF800A);
   static const Color kWhiteColor = Colors.white;

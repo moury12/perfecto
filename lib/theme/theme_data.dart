@@ -98,6 +98,10 @@ class AppTheme {
     fontSize: 12,
     fontWeight: FontWeight.w500,
     color: Colors.black
+  ); static const textStyleMediumCustomBlack12 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: Color(0xff252728)
   );
   static const textStyleMediumWhite12 = TextStyle(
     fontSize: 12,
@@ -128,7 +132,7 @@ class AppTheme {
   static const textStyleBoldPrimary12 = TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.bold,
-      color: AppColors.kPrimaryColor);
+      color: AppColors.kDarkPrimaryColor);
   static const textStyleBoldRed12 = TextStyle(
       fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.kRedColor);
 
@@ -136,6 +140,7 @@ class AppTheme {
   static const textStyleNormalBlack14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.normal,
+    color: Colors.black
   );
   static const textStyleMediumBlack14 = TextStyle(
     fontSize: 14,

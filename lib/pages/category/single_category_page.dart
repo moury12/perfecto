@@ -34,7 +34,7 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     shrinkWrap: true,
                     primary: false,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 360, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
                     itemCount: CategoryController.to.categoryWiseITem.length,
                     itemBuilder: (context, index) {
                       final data = CategoryController.to.categoryWiseITem[index];

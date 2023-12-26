@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:perfecto/constants/assets_constants.dart';
+import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
+import 'package:perfecto/pages/category/controller/category_controller.dart';
+import 'package:perfecto/pages/category/widgets/single_category_product_widget.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
@@ -12,25 +18,72 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white,
+    final searched =Get.arguments;
+    return Scaffold(backgroundColor: Color(0xffF9F9F9),
       drawer: CustomDrawer(),
-      body: Column(children: [
-        HomeTopWidget(isSearchpage: true,),
-        Expanded(child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            TitleTextWidget(tileText: 'Trending Searches'),
-            ...List.generate(5, (index) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
-              child: Row(children: [
-                Image.asset('assets/trending.png',height: 16,),
-                CustomSizedBox.space8W,Text('Lakme Absolute Lipstick',style: AppTheme.textStyleNormalBlack14,)
-              ],),
-            )),
-            CustomSizedBox.space16H,
-           BestSellerListViewBuilder()
-        ],))
-      ],),
+      body: Obx(
+       () {
+          return Column(children: [
+            HomeTopWidget(isSearchpage: true,isSearchInclude: false,),
+            NavigationController
+                .to.searchController.value.text.isNotEmpty?Expanded(child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+CustomSizedBox.space8H,
+                GridView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  shrinkWrap: true,
+                  primary: false,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                  itemCount: CategoryController.to.categoryWiseITem.length,
+                  itemBuilder: (context, index) {
+                    final data = CategoryController.to.categoryWiseITem[index];
+                    return SingleCategoryProductWidget(
+                      name: data['name'],
+                      rating: data['rating'],
+                      img: data['img'],
+                      price: data['price'],
+                      buttonText: data['buttonText'],
+                      previousPrice: data['previousPrice'],
+                      isBestSeller: data['isBestSeller'],
+                      isStacked: data['isStacked'],
+                      isBuy1Get1: data['isbuy1Get1'],
+                      isDiscount: data['isDiscount'],
+                      isFavourite: data['isFavourite'],
+                      isFeatured: data['isFeatured'],
+                      isOnSale: data['isOnSale'],
+                      isOutofStock: data['isOutofStock'],
+                      isShadeSwatch: data['shade'],
+                      onTap: () {
+                        print(data['isFavourite']);
+                        data['isFavourite'] = !data['isFavourite'];
+                        CategoryController.to.categoryWiseITem[index] = data;
+                      },
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 60,
+                )
+              ],
+            ))
+                : Expanded(child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                TitleTextWidget(tileText: 'Trending Searches'),
+                ...List.generate(5, (index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
+                  child: Row(children: [
+                    Image.asset('assets/trending.png',height: 16,),
+                    CustomSizedBox.space8W,Text('Lakme Absolute Lipstick',style: AppTheme.textStyleNormalBlack14,)
+                  ],),
+                )),
+                CustomSizedBox.space16H,
+               BestSellerListViewBuilder()
+            ],))
+          ],);
+        }
+      ),
     );
   }
 }

@@ -7,6 +7,9 @@ import '../constants/assets_constants.dart';
 class NavigationController extends GetxController {
   static NavigationController get to => Get.find();
   var selectedIndex = 0.obs;
+  RxBool openSearchResult = false.obs;
+  RxBool checked =false.obs;
+  RxBool checked2 =false.obs;
   RxList<dynamic> navList = [
     {'title': 'Home', 'icon': AssetsConstant.navIcon1},
     {'title': 'Category', 'icon': AssetsConstant.navIcon2},
@@ -17,17 +20,17 @@ class NavigationController extends GetxController {
     selectedIndex.value = index;
   }
 
-  TextEditingController? searchController;
+  Rx<TextEditingController> searchController=TextEditingController().obs;
 
   @override
   void onInit() {
-    searchController = TextEditingController();
+
     super.onInit();
   }
 
   @override
   void onClose() {
-    searchController!.dispose();
+    searchController.value.dispose();
     globalLogger.d("searchController dispose");
     super.onClose();
   }
