@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/widgets/button/custom_button.dart';
+import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
+import 'package:perfecto/pages/profile/my-orders/order_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
-class EditProfileScreen extends StatelessWidget {
-  static const String routeName ='/edit_profile';
-  const EditProfileScreen({super.key});
+class MyOrdersScreen extends StatelessWidget {
+  static const String routeName ='/my_order';
+  const MyOrdersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +40,14 @@ class EditProfileScreen extends StatelessWidget {
           ),
           isSearchInclude: false,
         ),
-        Expanded(child: ListView(padding: EdgeInsets.zero,
-          children: [
-
-          ],))
+        CustomSizedBox.space8H,
+        Expanded(child: ListView.builder(padding: EdgeInsets.zero,
+          itemBuilder: (context, index) => OrderWidget(),
+          itemCount: 5,
+         ))
       ],),
     );
   }
 }
+
+

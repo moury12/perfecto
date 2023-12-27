@@ -23,7 +23,12 @@ import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_discription_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
+import 'package:perfecto/pages/profile/controller/profile_binding.dart';
+import 'package:perfecto/pages/profile/edit_profile_page.dart';
+import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
+import 'package:perfecto/pages/profile/my_address_page.dart';
 import 'package:perfecto/pages/profile/my_profile_page.dart';
+import 'package:perfecto/pages/profile/my_rating_review_page.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
 import 'package:perfecto/pages/search/search_bindings.dart';
 import 'package:perfecto/pages/search/search_page.dart';
@@ -112,6 +117,20 @@ class AppRoutes {
            ),GetPage(
             name: MyPointsScreen.routeName,
             page: () => const MyPointsScreen(),
+           ),GetPage(
+            name: MyOrdersScreen.routeName,
+            page: () => const MyOrdersScreen(),
+           ),GetPage(
+            name: EditProfileScreen.routeName,
+            page: () => const EditProfileScreen(),
+           ),GetPage(
+            name: MyAddressScreen.routeName,
+            page: () => const MyAddressScreen(),
+      binding: ProfileBinding()
+           ),GetPage(
+            name: MyRatingReviewScreen.routeName,
+            page: () => const MyRatingReviewScreen(),
+      binding: ProfileBinding()
            ),
       ];
 }

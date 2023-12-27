@@ -5,7 +5,10 @@ import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/points/my_points_page.dart';
+import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
+import 'package:perfecto/pages/profile/my_address_page.dart';
 import 'package:perfecto/pages/profile/my_profile_page.dart';
+import 'package:perfecto/pages/profile/my_rating_review_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -29,7 +32,10 @@ class ProfileScreen extends StatelessWidget {
                 clipBehavior: Clip.none,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage(AssetsConstant.profileBackground, ),alignment: Alignment.topCenter)),
+                        image: AssetImage(
+                          AssetsConstant.profileBackground,
+                        ),
+                        alignment: Alignment.topCenter)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           ProfileItemWidget(
                             function: () {
-Get.toNamed(MyPointsScreen.routeName);
+                              Get.toNamed(MyPointsScreen.routeName);
                             },
                             image: AssetsConstant.wallet,
                             title: 'My Wallet',
@@ -118,7 +124,7 @@ Get.toNamed(MyPointsScreen.routeName);
                           ),
                           ProfileItemWidget(
                             function: () {
-
+                              Get.toNamed(MyOrdersScreen.routeName);
                             },
                             image: AssetsConstant.ordersIcon,
                             title: 'My Orders',
@@ -129,9 +135,7 @@ Get.toNamed(MyPointsScreen.routeName);
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
-
-                            },
+                            function: () {},
                             image: AssetsConstant.returnCancel,
                             title: 'Returns & Cancel',
                           ),
@@ -142,7 +146,7 @@ Get.toNamed(MyPointsScreen.routeName);
                           ),
                           ProfileItemWidget(
                             function: () {
-
+                              Get.toNamed(MyRatingReviewScreen.routeName);
                             },
                             image: AssetsConstant.ratingReview,
                             title: 'My Ratings & Reviews',
@@ -153,9 +157,7 @@ Get.toNamed(MyPointsScreen.routeName);
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
-
-                            },
+                            function: () {},
                             image: AssetsConstant.notification,
                             title: 'Notifications',
                           ),
@@ -163,9 +165,10 @@ Get.toNamed(MyPointsScreen.routeName);
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
-                          ),ProfileItemWidget(
+                          ),
+                          ProfileItemWidget(
                             function: () {
-
+                              Get.toNamed(MyAddressScreen.routeName);
                             },
                             image: AssetsConstant.myAddress,
                             title: 'My Addresses',
@@ -174,14 +177,12 @@ Get.toNamed(MyPointsScreen.routeName);
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
-                          ),ProfileItemWidget(
-                            function: () {
-
-                            },
+                          ),
+                          ProfileItemWidget(
+                            function: () {},
                             image: AssetsConstant.logout,
                             title: 'Logout',
                           ),
-
                         ],
                       ),
                     )
@@ -203,7 +204,8 @@ class ProfileItemWidget extends StatelessWidget {
   const ProfileItemWidget({
     super.key,
     required this.image,
-    required this.title, required this.function,
+    required this.title,
+    required this.function,
   });
 
   @override

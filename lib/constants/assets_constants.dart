@@ -1,4 +1,4 @@
-class AssetsConstant{
+class AssetsConstant {
   static const String gridItem = "assets/grid_item.png";
   static const String firstCategory1 = "assets/first_category1.png";
   static const String firstCategory2 = "assets/first_category2.png";
@@ -11,9 +11,12 @@ class AssetsConstant{
   static const String drawerIcon = "assets/drawer_icon.png";
   static const String cartIcon = "assets/cart_icon.png";
   static const String bottomGrettings = "assets/bottom_grettings.png";
-  static const String blueCircleBackground = "assets/blue_circle_background.png";
-  static const String blueCircleBackground2 = "assets/blue_circle_background2.png";
-  static const String blueCircleBackground3 = "assets/blue_circle_background3.png";
+  static const String blueCircleBackground =
+      "assets/blue_circle_background.png";
+  static const String blueCircleBackground2 =
+      "assets/blue_circle_background2.png";
+  static const String blueCircleBackground3 =
+      "assets/blue_circle_background3.png";
   static const String blueCircleBackground4 = "assets/category_blue.png";
   static const String circleBackground = "assets/circleBackground.png";
   static const String circleBackground2 = "assets/circleBackground2.png";
@@ -27,6 +30,16 @@ class AssetsConstant{
   static const String shade = "assets/shade.png";
   static const String wallet = "assets/wallet.png";
   static const String edit = "assets/tabler_edit.png";
+  static const String sendIcon = "assets/send_icon.png";
+  static const String alertIcon = "assets/alert_icon.png";
+  static const String disconnected = "assets/disconnected.png";
+  static const String email = "assets/email.png";
+  static const String facebook = "assets/facebook.png";
+  static const String google = "assets/google.png";
+  static const String link = "assets/link.png";
+  static const String locationAddress = "assets/location_address.png";
+  static const String messageDefault = "assets/message_default.png";
+  static const String phoneLogin = "assets/phone_login.png";
   static const String sort = "assets/sort.png";
   static const String returnCancel = "assets/return_cancel.png";
   static const String ratingReview = "assets/rating_review.png";
@@ -58,8 +71,10 @@ class AssetsConstant{
   static const String favIcon = "assets/fav_icon.png";
   static const String favIconFill = "assets/fav_icon_fill.png";
   static const String lipstickShade = "assets/lipstickShade.png";
-  static const String superOfferForeground = "assets/super_offer_foreground.png";
-  static const String superOfferBackground = "assets/super_offer_background.png";
+  static const String superOfferForeground =
+      "assets/super_offer_foreground.png";
+  static const String superOfferBackground =
+      "assets/super_offer_background.png";
   static const String slider1 = "assets/slider1.png";
   static const String slider2 = "assets/slider2.png";
   static const String pointsIcon = "assets/points_icon.png";
@@ -74,6 +89,6 @@ class AssetsConstant{
   static const String justForUBackground = "assets/just_for_u_background.png";
   static const String megaDeals1 = "assets/mega_deals1.png";
   static const String megaDeals2 = "assets/mega_deals2.png";
-  static const String megaDeals3= "assets/mega_deals3.png";
+  static const String megaDeals3 = "assets/mega_deals3.png";
   static const String verticalBannner = "assets/vertical_bannner.png";
 }

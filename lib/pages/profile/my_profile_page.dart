@@ -43,7 +43,7 @@ backgroundColor: AppColors.kBackgroundColor,
         CustomSizedBox.space12H,
         Container(
           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 3),
-          decoration: BoxDecoration(
+          decoration: BoxDecoration(border: Border.all(color: AppColors.kborderColor,width: .5),
               color: Colors.white, borderRadius: BorderRadius.circular(4)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +124,7 @@ Padding(
         ), CustomSizedBox.space12H,
         Container(
           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 3),
-          decoration: BoxDecoration(
+          decoration: BoxDecoration(border: Border.all(color: AppColors.kborderColor,width: .5),
               color: Colors.white, borderRadius: BorderRadius.circular(4)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,6 +20,7 @@ class ReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(drawer: CustomDrawer(),
+      backgroundColor: AppColors.kBackgroundColor,
       body: Column(
         children: [
           const HomeTopWidget(),
