@@ -101,7 +101,7 @@ class AppTheme {
   ); static const textStyleMediumCustomBlack12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
-    color: Color(0xff252728)
+    color: Colors.black54
   );
   static const textStyleMediumWhite12 = TextStyle(
     fontSize: 12,

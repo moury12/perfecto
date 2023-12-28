@@ -19,63 +19,54 @@ class MainHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final NavigationController controller = NavigationController.to;
     return Scaffold(
+      backgroundColor: AppColors.kBackgroundColor,
       drawer: CustomDrawer(),
-      body: Stack(
-        children: [
-          Obx(
-            () {
-              switch (controller.selectedIndex.value) {
-                case 0:
-                  return const HomeScreen();
-                case 1:
-                  return const CategoryScreen();
-                case 2:
-                  return const ChatScreen();
-                case 3:
-                  return const ProfileScreen();
-                default:
-                  return const HomeScreen();
-              }
-            },
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            top: MediaQuery.of(context).size.height - 70,
-            child: Obx(() {
-              return Container(
-                height: 70,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                    boxShadow: [BoxShadow(blurRadius: 12, color: Colors.black.withOpacity(.08))],
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(15))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ...List.generate(controller.navList.length, (index) {
-                      final data = controller.navList[index];
-                      return GestureDetector(
-                          onTap: () {
-                            // index=controller.selectedIndex.value;
-                            print('Tab tapped: ${index}');
-
-                            controller.changeTabIndex(index);
-                          },
-                          child: NavWidget(
-                            title: data['title'] + (index == 2 ? '(0)' : ''),
-                            icon: data['icon'],
-                            isSelected: controller.selectedIndex.value == index,
-                          ));
-                    })
-                  ],
-                ),
-              );
-            }),
-          ),
-        ],
+      body: Obx(
+        () {
+          switch (controller.selectedIndex.value) {
+            case 0:
+              return const HomeScreen();
+            case 1:
+              return const CategoryScreen();
+            case 2:
+              return const ChatScreen();
+            case 3:
+              return const ProfileScreen();
+            default:
+              return const HomeScreen();
+          }
+        },
       ),
+      bottomNavigationBar: Obx(() {
+    return Container(
+    height: 70,
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    decoration: BoxDecoration(
+    boxShadow: [BoxShadow(blurRadius: 12, color: Colors.black.withOpacity(.08))],
+    color: Colors.white,
+    borderRadius: const BorderRadius.vertical(top: Radius.circular(15))),
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+    ...List.generate(controller.navList.length, (index) {
+    final data = controller.navList[index];
+    return GestureDetector(
+    onTap: () {
+    // index=controller.selectedIndex.value;
+    print('Tab tapped: ${index}');
+
+    controller.changeTabIndex(index);
+    },
+    child: NavWidget(
+    title: data['title'] + (index == 2 ? '(0)' : ''),
+    icon: data['icon'],
+    isSelected: controller.selectedIndex.value == index,
+    ));
+    })
+    ],
+    ),
+    );
+    }),
     );
   }
 }

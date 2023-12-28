@@ -9,9 +9,9 @@ import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
-class EditProfileScreen extends StatelessWidget {
-  static const String routeName ='/edit_profile';
-  const EditProfileScreen({super.key});
+class EditPasswordScreen extends StatelessWidget {
+  static const String routeName ='/edit_pass';
+  const EditPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class EditProfileScreen extends StatelessWidget {
               ),
               CustomSizedBox.space8W,
               Text(
-                'My Profile',
+                'My Orders',
                 style: AppTheme.textStyleSemiBoldBlack16,
               ),
               CustomSizedBox.space4W,
@@ -39,32 +39,39 @@ class EditProfileScreen extends StatelessWidget {
             ],
           ),
           isSearchInclude: false,
-        ),CustomSizedBox.space12H,
+        ),
         Expanded(child: ListView(padding: EdgeInsets.zero,
           children: [
+            CustomSizedBox.space12H,
             CheckoutWidget(
-              title: 'Edit Personal Details',
+              title: 'Edit Password',
               widget: Column(
                 children: [
                   CustomTextField(
                     marginVertical: 6,
-                    hintText: 'Enter your full name',
-                    labelText: 'Full Name',
-                    
+                    hintText: 'Enter Old Password',
+                    labelText: 'Old Password',
+
+                    focusColor: Colors.black,
+                  ),CustomTextField(
+                    marginVertical: 6,
+                    hintText: 'Enter New Password',
+                    labelText: 'New Password',
+
                     focusColor: Colors.black,
                   ),
 
                   CustomTextField(
                     marginVertical: 6,
-                    hintText: 'Enter your email',
-                    labelText: 'Email Address',
+                    hintText: ' Confirm New Password',
+                    labelText: 'Confirm New Password',
                     focusColor: Colors.black,
                   ),
-                 
-                CustomButton(label: 'Save',onPressed: () {
-                  
-                },marginVertical: 12,),
-CustomSizedBox.space12H,
+
+                  CustomButton(label: 'Change Password',onPressed: () {
+
+                  },marginVertical: 12,),
+                  CustomSizedBox.space12H,
                 ],
               ),
             ),

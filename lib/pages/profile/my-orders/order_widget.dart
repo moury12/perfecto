@@ -5,6 +5,7 @@ import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
+import 'package:perfecto/pages/profile/my-orders/my_order_details_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 class OrderWidget extends StatelessWidget {
@@ -210,7 +211,7 @@ class OrderWidget extends StatelessWidget {
             height: 2,
           ),
           CustomButton(label: 'See Details', labelColor: Colors.white,marginVertical: 16,marginHorizontal: 16,onPressed: () {
-
+Get.toNamed(MyOrderDetailsScreen.routeName);
           },)
         ],
       ),

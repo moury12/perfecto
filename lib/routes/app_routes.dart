@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:perfecto/bindings/navigation_binding.dart';
 import 'package:perfecto/pages/category/category_page.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
+import 'package:perfecto/pages/chat/chat_binding.dart';
 import 'package:perfecto/pages/chat/chat_page.dart';
 import 'package:perfecto/pages/checkout-page/checkout_bindings.dart';
 import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
@@ -24,7 +25,10 @@ import 'package:perfecto/pages/product-details/product_discription_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
 import 'package:perfecto/pages/profile/controller/profile_binding.dart';
+import 'package:perfecto/pages/profile/edit_my_address_page.dart';
+import 'package:perfecto/pages/profile/edit_password_page.dart';
 import 'package:perfecto/pages/profile/edit_profile_page.dart';
+import 'package:perfecto/pages/profile/my-orders/my_order_details_page.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
 import 'package:perfecto/pages/profile/my_address_page.dart';
 import 'package:perfecto/pages/profile/my_profile_page.dart';
@@ -49,13 +53,13 @@ class AppRoutes {
           page: () => const CategoryScreen(),
         ),
         GetPage(
-          name: ProfileScreen.routeName,
-          page: () => const ProfileScreen(),
-        ),
+            name: ProfileScreen.routeName,
+            page: () => const ProfileScreen(),
+            binding: ProfileBinding()),
         GetPage(
-          name: ChatScreen.routeName,
-          page: () => const ChatScreen(),
-        ),
+            name: ChatScreen.routeName,
+            page: () => const ChatScreen(),
+            binding: ChatBinding()),
         GetPage(
             name: SingleCatergoryWiseScreen.routeName,
             page: () => const SingleCatergoryWiseScreen(),
@@ -108,29 +112,45 @@ class AppRoutes {
             name: SearchScreen.routeName,
             page: () => const SearchScreen(),
             binding: SearchBinding()),
-    GetPage(
+        GetPage(
             name: CheckoutScreen.routeName,
             page: () => const CheckoutScreen(),
-            binding: CheckoutBinding()),GetPage(
-            name: MyProfileScreen.routeName,
-            page: () => const MyProfileScreen(),
-           ),GetPage(
-            name: MyPointsScreen.routeName,
-            page: () => const MyPointsScreen(),
-           ),GetPage(
-            name: MyOrdersScreen.routeName,
-            page: () => const MyOrdersScreen(),
-           ),GetPage(
-            name: EditProfileScreen.routeName,
-            page: () => const EditProfileScreen(),
-           ),GetPage(
+            binding: CheckoutBinding()),
+        GetPage(
+          name: MyProfileScreen.routeName,
+          page: () => const MyProfileScreen(),
+        ),
+        GetPage(
+          name: MyPointsScreen.routeName,
+          page: () => const MyPointsScreen(),
+        ),
+        GetPage(
+          name: MyOrdersScreen.routeName,
+          page: () => const MyOrdersScreen(),
+        ),
+        GetPage(
+          name: EditProfileScreen.routeName,
+          page: () => const EditProfileScreen(),
+        ),
+        GetPage(
             name: MyAddressScreen.routeName,
             page: () => const MyAddressScreen(),
-      binding: ProfileBinding()
-           ),GetPage(
+            binding: ProfileBinding()),
+        GetPage(
             name: MyRatingReviewScreen.routeName,
             page: () => const MyRatingReviewScreen(),
-      binding: ProfileBinding()
-           ),
+            binding: ProfileBinding()),
+    GetPage(
+            name: MyOrderDetailsScreen.routeName,
+            page: () => const MyOrderDetailsScreen(),
+            binding: ProfileBinding()),
+        GetPage(
+            name: EditPasswordScreen.routeName,
+            page: () => const EditPasswordScreen(),
+            binding: ProfileBinding()),
+        GetPage(
+            name: EditAddressScreen.routeName,
+            page: () => const EditAddressScreen(),
+            binding: ProfileBinding()),
       ];
 }

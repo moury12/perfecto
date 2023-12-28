@@ -9,6 +9,7 @@ import 'package:perfecto/pages/profile/controller/profile_controller.dart';
 import 'package:perfecto/pages/profile/controller/profile_controller.dart';
 import 'package:perfecto/pages/profile/controller/profile_controller.dart';
 import 'package:perfecto/pages/profile/controller/profile_controller.dart';
+import 'package:perfecto/pages/profile/edit_my_address_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -71,7 +72,7 @@ class MyAddressScreen extends StatelessWidget {
                        CustomButton(
                          marginVertical: 0,
                          marginHorizontal: 0,
-                         onPressed: () {},
+                         onPressed: () {Get.toNamed(EditAddressScreen.routeName);},
                          primary: Colors.transparent,
                          borderColor: Colors.grey,
                          isBorder: true,

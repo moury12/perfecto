@@ -188,7 +188,8 @@ class ProfileScreen extends StatelessWidget {
                     )
                   ],
                 ),
-              )
+              ),
+
             ],
           ),
         )
@@ -212,20 +213,24 @@ class ProfileItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: function,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: Row(
-          children: [
-            Image.asset(
-              image,
-              height: 26,
-            ),
-            CustomSizedBox.space8W,
-            Text(
-              title,
-              style: AppTheme.textStyleMediumBlack16,
-            )
-          ],
+      child: Container(
+        width: double.infinity,
+        color: Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Row(
+            children: [
+              Image.asset(
+                image,
+                height: 26,
+              ),
+              CustomSizedBox.space8W,
+              Text(
+                title,
+                style: AppTheme.textStyleMediumBlack16,
+              )
+            ],
+          ),
         ),
       ),
     );

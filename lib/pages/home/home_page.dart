@@ -308,15 +308,11 @@ class HomeScreen extends StatelessWidget {
                   img: AssetsConstant.justForUBackground),
               PrimaryAcceantListViewItemWidget(),
               GreetingCardWidget(),
-              SizedBox(
-                height: 60,
-              )
+
             ],
           ),
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-        ),
+
       ],
     );
   }

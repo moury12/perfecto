@@ -47,9 +47,7 @@ class CategoryScreen extends StatelessWidget {
                       ),
                     )),
             const GreetingCardWidget(),
-            const SizedBox(
-              height: 62,
-            )
+
           ],
         ))
       ],
