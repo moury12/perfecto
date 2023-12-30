@@ -19,12 +19,12 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.of(context).viewPadding.top),
-            CustomSizedBox.space32H,
+            CustomSizedBox.space20H,
             Image.asset(
               AssetsConstant.perfectoLogo,
               height: 30,
@@ -115,7 +115,7 @@ class LoginScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-Get.toNamed(RegistrationScreen.routeName);
+        Get.toNamed(RegistrationScreen.routeName);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

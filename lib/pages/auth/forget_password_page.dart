@@ -26,7 +26,7 @@ class ForgetPasswordScreen extends StatelessWidget {
         ),
       ),elevation: 0,backgroundColor: AppColors.kBackgroundColor,),
       backgroundColor: AppColors.kBackgroundColor,
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -40,7 +40,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 style: AppTheme.textStyleSemiBoldBlack24,
               ),
             ),
-      Padding(
+              Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 'Enter the email address you used when you registered and we’ll send you instructions to reset your password.',

@@ -26,7 +26,7 @@ class RegistrationScreen extends StatelessWidget {
         ),
       ),elevation: 0,backgroundColor: AppColors.kBackgroundColor,),
       backgroundColor: AppColors.kBackgroundColor,
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

@@ -115,6 +115,7 @@ class HomeTopWidget extends StatelessWidget {
                 },
                 child: isSearchInclude
                     ? CustomTextField(
+
                         height: 42,
                         isEnable: isSearchpage ? true : false,
                         controller: controller ?? NavigationController.to.searchController.value,
@@ -138,117 +139,119 @@ class HomeTopWidget extends StatelessWidget {
                           color: Colors.grey,
                         ),
                         marginVertical: 8,
-                        marginBottom: NavigationController.to.isSearchFieldNotEmpty.value ? 0 : 16,
+                        marginBottom:  16,
                       )
                     : SizedBox.shrink(),
               ),
               if (isSearchpage)
                 Obx(
                   () => NavigationController.to.isSearchFieldNotEmpty.value
-                      ? Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.10), blurRadius: 10)]),
-                              padding: EdgeInsets.all(16),
-                              margin: EdgeInsets.symmetric(horizontal: 16),
-                              child: Column(
-                                children: [
-                                  ...List.generate(
-                                      4,
-                                      (index) => Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.search_rounded,
-                                                    color: Colors.black45,
-                                                    size: 15,
-                                                  ),
-                                                  CustomSizedBox.space8W,
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                    child: Text(
-                                                      'Lakme Absolute Lipstick',
-                                                      style: AppTheme.textStyleMediumBlack14,
+                      ? SingleChildScrollView(
+                        child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.10), blurRadius: 10)]),
+                                padding: EdgeInsets.all(16),
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  children: [
+                                    ...List.generate(
+                                        4,
+                                        (index) => Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.search_rounded,
+                                                      color: Colors.black45,
+                                                      size: 15,
                                                     ),
-                                                  ),
-                                                  Spacer(),
-                                                  Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: Colors.black45,
-                                                    size: 15,
-                                                  )
-                                                ],
-                                              ),
-                                              Divider(
-                                                thickness: 1,
-                                                color: Color(0xffECECEC),
-                                              )
-                                            ],
-                                          ))
-                                ],
+                                                    CustomSizedBox.space8W,
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                      child: Text(
+                                                        'Lakme Absolute Lipstick',
+                                                        style: AppTheme.textStyleMediumBlack14,
+                                                      ),
+                                                    ),
+                                                    Spacer(),
+                                                    Icon(
+                                                      Icons.arrow_forward_ios,
+                                                      color: Colors.black45,
+                                                      size: 15,
+                                                    )
+                                                  ],
+                                                ),
+                                                Divider(
+                                                  thickness: 1,
+                                                  color: Color(0xffECECEC),
+                                                )
+                                              ],
+                                            ))
+                                  ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      padding: EdgeInsets.all(12),
-                                      alignment: Alignment.center,
-                                      width: MediaQuery.of(context).size.width / 2.2,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Color(0xffEEFAFF)),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            AssetsConstant.filter,
-                                            height: 16,
-                                          ),
-                                          CustomSizedBox.space8W,
-                                          Text(
-                                            'FILTER',
-                                            style: AppTheme.textStyleBoldPrimary12,
-                                          )
-                                        ],
-                                        mainAxisSize: MainAxisSize.min,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      child: Container(
+                                        padding: EdgeInsets.all(12),
+                                        alignment: Alignment.center,
+                                        width: MediaQuery.of(context).size.width / 2.2,
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Color(0xffEEFAFF)),
+                                        child: Row(
+                                          children: [
+                                            Image.asset(
+                                              AssetsConstant.filter,
+                                              height: 16,
+                                            ),
+                                            CustomSizedBox.space8W,
+                                            Text(
+                                              'FILTER',
+                                              style: AppTheme.textStyleBoldPrimary12,
+                                            )
+                                          ],
+                                          mainAxisSize: MainAxisSize.min,
+                                        ),
                                       ),
+                                      onTap: () {
+                                        _showBottomSheetFilter(context);
+                                      },
                                     ),
-                                    onTap: () {
-                                      _showBottomSheetFilter(context);
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Container(
-                                      padding: EdgeInsets.all(12),
-                                      alignment: Alignment.center,
-                                      width: MediaQuery.of(context).size.width / 2.2,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Color(0xffEEFAFF)),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            AssetsConstant.sort,
-                                            height: 16,
-                                          ),
-                                          CustomSizedBox.space8W,
-                                          Text(
-                                            'SORT',
-                                            style: AppTheme.textStyleBoldPrimary12,
-                                          )
-                                        ],
-                                        mainAxisSize: MainAxisSize.min,
+                                    GestureDetector(
+                                      child: Container(
+                                        padding: EdgeInsets.all(12),
+                                        alignment: Alignment.center,
+                                        width: MediaQuery.of(context).size.width / 2.2,
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Color(0xffEEFAFF)),
+                                        child: Row(
+                                          children: [
+                                            Image.asset(
+                                              AssetsConstant.sort,
+                                              height: 16,
+                                            ),
+                                            CustomSizedBox.space8W,
+                                            Text(
+                                              'SORT',
+                                              style: AppTheme.textStyleBoldPrimary12,
+                                            )
+                                          ],
+                                          mainAxisSize: MainAxisSize.min,
+                                        ),
                                       ),
+                                      onTap: () {
+                                        _showBottomSheetSort(context);
+                                      },
                                     ),
-                                    onTap: () {
-                                      _showBottomSheetSort(context);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                      )
                       : SizedBox.shrink(),
                 ),
             ],

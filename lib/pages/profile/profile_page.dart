@@ -46,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                     CustomNetworkImage(
                       networkImagePath: '',
                       errorImagePath: 'assets/dummy_profile.png',
-                      backgroundColor: Colors.white,
+                  
                     ),
                     CustomSizedBox.space8H,
                     Text(

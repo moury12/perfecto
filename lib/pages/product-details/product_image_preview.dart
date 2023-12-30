@@ -32,7 +32,7 @@ class ProductImagePreview extends StatelessWidget {
                    return CustomNetworkImage(
                         networkImagePath: '',
                         fit: BoxFit.fill,
-                        errorImagePath:ProductDetailsController.to.displayUrl.value.isEmpty?ProductDetailsController.to.displayUrl.value[0]:ProductDetailsController.to.displayUrl.value,
+                        errorImagePath:ProductDetailsController.to.displayUrl.value.isEmpty?AssetsConstant.megaDeals1:ProductDetailsController.to.displayUrl.value,
                         width: double.infinity,
                         height: 400,
                         borderRadius: 0,
