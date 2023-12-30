@@ -8,8 +8,8 @@ class NavigationController extends GetxController {
   static NavigationController get to => Get.find();
   var selectedIndex = 0.obs;
   RxBool openSearchResult = false.obs;
-  RxBool checked =false.obs;
-  RxBool checked2 =false.obs;
+  RxBool checked = false.obs;
+  RxBool checked2 = false.obs;
   RxList<dynamic> navList = [
     {'title': 'Home', 'icon': AssetsConstant.navIcon1},
     {'title': 'Category', 'icon': AssetsConstant.navIcon2},
@@ -20,11 +20,11 @@ class NavigationController extends GetxController {
     selectedIndex.value = index;
   }
 
-  Rx<TextEditingController> searchController=TextEditingController().obs;
+  Rx<TextEditingController> searchController = TextEditingController().obs;
+  RxBool isSearchFieldNotEmpty = false.obs;
 
   @override
   void onInit() {
-
     super.onInit();
   }
 

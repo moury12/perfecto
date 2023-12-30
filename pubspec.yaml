@@ -37,8 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.6
   mh_core:
-      git:
-        url: https://github.com/mh-sarkar/mh-core.git
+    path: ../mh_core
+#      git:
+#        url: https://github.com/mh-sarkar/mh-core.git
 #        ref: alpha
 
 

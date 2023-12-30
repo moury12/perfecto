@@ -13,76 +13,101 @@ import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
 class SearchScreen extends StatelessWidget {
-  static const String routeName ='/search_page';
+  static const String routeName = '/search_page';
   const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final searched =Get.arguments;
-    return Scaffold(backgroundColor: Color(0xffF9F9F9),
-      drawer: CustomDrawer(),
-      body: Obx(
-       () {
-          return Column(children: [
-            HomeTopWidget(isSearchpage: true,isSearchInclude: false,),
-            NavigationController
-                .to.searchController.value.text.isNotEmpty?Expanded(child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-CustomSizedBox.space8H,
-                GridView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  shrinkWrap: true,
-                  primary: false,
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
-                  itemCount: CategoryController.to.categoryWiseITem.length,
-                  itemBuilder: (context, index) {
-                    final data = CategoryController.to.categoryWiseITem[index];
-                    return SingleCategoryProductWidget(
-                      name: data['name'],
-                      rating: data['rating'],
-                      img: data['img'],
-                      price: data['price'],
-                      buttonText: data['buttonText'],
-                      previousPrice: data['previousPrice'],
-                      isBestSeller: data['isBestSeller'],
-                      isStacked: data['isStacked'],
-                      isBuy1Get1: data['isbuy1Get1'],
-                      isDiscount: data['isDiscount'],
-                      isFavourite: data['isFavourite'],
-                      isFeatured: data['isFeatured'],
-                      isOnSale: data['isOnSale'],
-                      isOutofStock: data['isOutofStock'],
-                      isShadeSwatch: data['shade'],
-                      onTap: () {
-                        print(data['isFavourite']);
-                        data['isFavourite'] = !data['isFavourite'];
-                        CategoryController.to.categoryWiseITem[index] = data;
-                      },
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 60,
-                )
-              ],
-            ))
-                : Expanded(child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                TitleTextWidget(tileText: 'Trending Searches'),
-                ...List.generate(5, (index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
-                  child: Row(children: [
-                    Image.asset('assets/trending.png',height: 16,),
-                    CustomSizedBox.space8W,Text('Lakme Absolute Lipstick',style: AppTheme.textStyleNormalBlack14,)
-                  ],),
-                )),
-                CustomSizedBox.space16H,
-               BestSellerListViewBuilder()
-            ],))
-          ],);
-        }
+    final searched = Get.arguments;
+    return WillPopScope(
+      onWillPop: () async {
+        NavigationController.to.searchController.value.clear();
+        NavigationController.to.isSearchFieldNotEmpty.value = false;
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Color(0xffF9F9F9),
+        drawer: CustomDrawer(),
+        body: Obx(() {
+          return Column(
+            children: [
+              HomeTopWidget(
+                isSearchpage: true,
+                isSearchInclude: false,
+              ),
+              NavigationController.to.isSearchFieldNotEmpty.value
+                  ? Expanded(
+                      child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: [
+                        CustomSizedBox.space8H,
+                        GridView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          shrinkWrap: true,
+                          primary: false,
+                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                          itemCount: CategoryController.to.categoryWiseITem.length,
+                          itemBuilder: (context, index) {
+                            final data = CategoryController.to.categoryWiseITem[index];
+                            return SingleCategoryProductWidget(
+                              name: data['name'],
+                              rating: data['rating'],
+                              img: data['img'],
+                              price: data['price'],
+                              buttonText: data['buttonText'],
+                              previousPrice: data['previousPrice'],
+                              isBestSeller: data['isBestSeller'],
+                              isStacked: data['isStacked'],
+                              isBuy1Get1: data['isbuy1Get1'],
+                              isDiscount: data['isDiscount'],
+                              isFavourite: data['isFavourite'],
+                              isFeatured: data['isFeatured'],
+                              isOnSale: data['isOnSale'],
+                              isOutofStock: data['isOutofStock'],
+                              isShadeSwatch: data['shade'],
+                              onTap: () {
+                                print(data['isFavourite']);
+                                data['isFavourite'] = !data['isFavourite'];
+                                CategoryController.to.categoryWiseITem[index] = data;
+                              },
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          height: 60,
+                        )
+                      ],
+                    ))
+                  : Expanded(
+                      child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: [
+                        TitleTextWidget(tileText: 'Trending Searches'),
+                        ...List.generate(
+                            5,
+                            (index) => Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/trending.png',
+                                        height: 16,
+                                      ),
+                                      CustomSizedBox.space8W,
+                                      Text(
+                                        'Lakme Absolute Lipstick',
+                                        style: AppTheme.textStyleNormalBlack14,
+                                      )
+                                    ],
+                                  ),
+                                )),
+                        CustomSizedBox.space16H,
+                        BestSellerListViewBuilder()
+                      ],
+                    ))
+            ],
+          );
+        }),
       ),
     );
   }
