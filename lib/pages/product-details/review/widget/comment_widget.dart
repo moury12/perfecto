@@ -6,14 +6,16 @@ import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
+import 'package:perfecto/pages/product-details/review/verified_user_page.dart';
 
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
 class CommentWidget extends StatelessWidget {
   final int index;
+  final bool isHelpful;
   const CommentWidget({
-    super.key, required this.index,
+    super.key, required this.index,  this.isHelpful=true,
   });
 
   @override
@@ -26,49 +28,54 @@ class CommentWidget extends StatelessWidget {
             thickness: 1.5,
           ),
         ):SizedBox.shrink(),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 16.0, vertical: 12),
-          child: Row(
-            children: [
-              CustomNetworkImage(
-                networkImagePath: '',
-                errorImagePath: AssetsConstant.profile,
-                borderRadius: 360,
-                height: 50,
-                width: 50,
-                fit: BoxFit.cover,
-              ),
-              CustomSizedBox.space8W,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Vinod Kumar',
-                    style: AppTheme.textStyleBoldBlack14,
-                  ),
-                  CustomSizedBox.space4H,
-                  Row(
-                    children: [
-                      Image.asset(
-                        AssetsConstant.verified,
-                        height: 14,
-                      ),
-                      CustomSizedBox.space4W,
-                      Text(
-                        'Verified Buyers',
-                        style: AppTheme.textStyleNormalFadeBlack10,
-                      )
-                    ],
-                  )
-                ],
-              ),
-              Spacer(),
-              Text(
-                '20 July 2023',
-                style: AppTheme.textStyleNormalFadeBlack12,
-              )
-            ],
+        GestureDetector(
+          onTap: () {
+            Get.toNamed(VerifiedUserScreen.routeName);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 16.0, vertical: 12),
+            child: Row(
+              children: [
+                CustomNetworkImage(
+                  networkImagePath: '',
+                  errorImagePath: AssetsConstant.profile,
+                  borderRadius: 360,
+                  height: 50,
+                  width: 50,
+                  fit: BoxFit.cover,
+                ),
+                CustomSizedBox.space8W,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Vinod Kumar',
+                      style: AppTheme.textStyleBoldBlack14,
+                    ),
+                    CustomSizedBox.space4H,
+                    Row(
+                      children: [
+                        Image.asset(
+                          AssetsConstant.verified,
+                          height: 14,
+                        ),
+                        CustomSizedBox.space4W,
+                        Text(
+                          'Verified Buyers',
+                          style: AppTheme.textStyleNormalFadeBlack10,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Spacer(),
+                Text(
+                  '20 July 2023',
+                  style: AppTheme.textStyleNormalFadeBlack12,
+                )
+              ],
+            ),
           ),
         ),
         Padding(
@@ -162,11 +169,11 @@ class CommentWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Obx(
+              isHelpful?     Obx(
                  () {
                   return Row(
                     children: [
-                      GestureDetector(
+                       GestureDetector(
                         onTap: () {
                           ProductDetailsController.to.isHelpfull.value=!ProductDetailsController.to.isHelpfull.value;
                         },
@@ -195,7 +202,7 @@ class CommentWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      CustomSizedBox.space8W,
+                     CustomSizedBox.space8W,
                       Text(
                         '12 people found this helpful',
                         style: AppTheme.textStyleNormalFadeBlack14,
@@ -203,7 +210,10 @@ class CommentWidget extends StatelessWidget {
                     ],
                   );
                 }
-              )
+              ):Text(
+                '12 people found this helpful',
+                style: AppTheme.textStyleNormalFadeBlack14,
+              ),
             ],
           ),
         ),

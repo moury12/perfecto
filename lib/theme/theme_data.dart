@@ -164,7 +164,10 @@ class AppTheme {
   static TextStyle textStyleSemiBoldFadeBlack14 = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: Colors.black.withOpacity(.5));
+      color: Colors.black.withOpacity(.5));static TextStyle textStyleSemiBoldlightFadeBlack14 = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Colors.black.withOpacity(.7));
   static TextStyle textStyleSemiBoldFadeDarkBlack14 = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w600,

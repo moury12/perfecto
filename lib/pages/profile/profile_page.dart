@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/points/my_points_page.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
 import 'package:perfecto/pages/profile/my_address_page.dart';
 import 'package:perfecto/pages/profile/my_profile_page.dart';
 import 'package:perfecto/pages/profile/my_rating_review_page.dart';
+import 'package:perfecto/pages/profile/return_and_cancelation.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -135,7 +137,7 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {},
+                            function: () {Get.toNamed(ReturnAndCancelScreen.routeName);},
                             image: AssetsConstant.returnCancel,
                             title: 'Returns & Cancel',
                           ),
@@ -179,7 +181,9 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {},
+                            function: () {
+                              Get.toNamed(LoginScreen.routeName);
+                            },
                             image: AssetsConstant.logout,
                             title: 'Logout',
                           ),

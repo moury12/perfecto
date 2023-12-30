@@ -15,11 +15,12 @@ class ProductShadeScreen extends StatelessWidget {
   final bool isSelectSize;
   static const String routeName = '/product_shade_details';
 
-  const ProductShadeScreen({super.key,  this.isSelectSize=false});
+  const ProductShadeScreen({super.key, this.isSelectSize = false});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: CustomDrawer(),
+    return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -81,194 +82,126 @@ class ProductShadeScreen extends StatelessWidget {
                     style: AppTheme.textStyleBoldBlack14,
                   ),
                 ),
-             isSelectSize? Column(
-               children: [Container(color: Color(0xffF9F9F9),
-                 child: Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 4),
-                   child: Column(
-                     children: [
-                       CustomSizedBox.space8H,
-                       Row(
-                         children: [
-                           Text(
-                             'Select a Size',
-                             style: AppTheme.textStyleBoldBlack14,
-                           ),
-                       Container(height:15 ,width: 1,color: Colors.grey,margin: EdgeInsets.symmetric(horizontal: 8),),
-                           Text('4 varients',style: AppTheme.textStyleSemiBoldFadeBlack14,)
-                         ],
-                       ),
-                       CustomSizedBox.space8H,
-                     ],
-                   ),
-                 ),
-               ),
-
-                 Divider(thickness: 1.5, color: Color(0xffECECEC),height: 0,
-                   indent: 0,),
-                 CustomSizedBox.space20H,
-                 SizedBox(height: 42,
-                   child: ListView.builder(
-                     padding: EdgeInsets.symmetric(horizontal: 12),
-                     scrollDirection: Axis.horizontal,
-                     itemCount: 23,
-                     itemBuilder: (context, index) => Container(
-                       margin: EdgeInsets.symmetric(horizontal: 6),
-                       alignment: Alignment.center,
-                       decoration: BoxDecoration(
-color: index==0 ? AppColors.kPrimaryColor:Colors.transparent,
-                           border:
-                           Border.all(color: AppColors.kPrimaryColor, width: 1.5),
-                           borderRadius: BorderRadius.circular(4)),
-                       padding: EdgeInsets.symmetric(
-                           horizontal: 16, vertical: 8),
-                       child: Text(
-
-                         '180ml',
-                         textAlign: TextAlign.center,
-                         style:index==0? AppTheme.textStyleSemiBoldWhite14:AppTheme.textStyleSemiBoldFadeBlack14,
-                       ),
-                     ),),
-                 ),],
-             ):  Column(children: [ Container(
-                 decoration: BoxDecoration(
-                   //This is for background color
-                   color: Color(0xffF9F9F9),
-                   //This is for bottom border that is needed
-                   border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
-                 ),
-                 child: TabBar(
-
-                     labelColor: AppColors.kBlackColor,
-                     unselectedLabelColor: Colors.black54,
-                     labelStyle: AppTheme.textStyleBoldBlack14,
-                     unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
-                     indicatorColor: AppColors.kPrimaryColor,
-                     dividerColor: AppColors.kPrimaryColor,
-                     automaticIndicatorColorAdjustment: true,
-                     labelPadding: EdgeInsets.symmetric(vertical: 6),
-                     controller: ProductDetailsController.to.tabController,
-                     tabs: ProductDetailsController.to.tabTiles
-                         .map((String title) {
-                       return Tab(
-                         text: title,
-                       );
-                     }).toList()),
-               ),
-                 SizedBox(
-                   height: 300,
-                   child: TabBarView(
-                       controller: ProductDetailsController.to.tabController,
-                       children:
-                       List.generate(2, (index) => buildwidget(index))),
-                 ),],)
+                isSelectSize
+                    ? Column(
+                        children: [
+                          Container(
+                            color: Color(0xffF9F9F9),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 4),
+                              child: Column(
+                                children: [
+                                  CustomSizedBox.space8H,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Select a Size',
+                                        style: AppTheme.textStyleBoldBlack14,
+                                      ),
+                                      Container(
+                                        height: 15,
+                                        width: 1,
+                                        color: Colors.grey,
+                                        margin:
+                                            EdgeInsets.symmetric(horizontal: 8),
+                                      ),
+                                      Text(
+                                        '4 varients',
+                                        style: AppTheme
+                                            .textStyleSemiBoldFadeBlack14,
+                                      )
+                                    ],
+                                  ),
+                                  CustomSizedBox.space8H,
+                                ],
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            thickness: 1.5,
+                            color: Color(0xffECECEC),
+                            height: 0,
+                            indent: 0,
+                          ),
+                          CustomSizedBox.space20H,
+                          SizedBox(
+                            height: 42,
+                            child: ListView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 23,
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.symmetric(horizontal: 6),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: index == 0
+                                        ? AppColors.kPrimaryColor
+                                        : Colors.transparent,
+                                    border: Border.all(
+                                        color: AppColors.kPrimaryColor,
+                                        width: 1.5),
+                                    borderRadius: BorderRadius.circular(4)),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Text(
+                                  '180ml',
+                                  textAlign: TextAlign.center,
+                                  style: index == 0
+                                      ? AppTheme.textStyleSemiBoldWhite14
+                                      : AppTheme.textStyleSemiBoldFadeBlack14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              //This is for background color
+                              color: Color(0xffF9F9F9),
+                              //This is for bottom border that is needed
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Color(0xffECECEC), width: 1.5)),
+                            ),
+                            child: TabBar(
+                                labelColor: AppColors.kBlackColor,
+                                unselectedLabelColor: Colors.black54,
+                                labelStyle: AppTheme.textStyleBoldBlack14,
+                                unselectedLabelStyle:
+                                    AppTheme.textStyleBoldFadeBlack14,
+                                indicatorColor: AppColors.kPrimaryColor,
+                                dividerColor: AppColors.kPrimaryColor,
+                                automaticIndicatorColorAdjustment: true,
+                                labelPadding: EdgeInsets.symmetric(vertical: 6),
+                                controller:
+                                    ProductDetailsController.to.tabController,
+                                tabs: ProductDetailsController.to.tabTiles
+                                    .map((String title) {
+                                  return Tab(
+                                    text: title,
+                                  );
+                                }).toList()),
+                          ),
+                          SizedBox(
+                            height: 300,
+                            child: TabBarView(
+                                controller:
+                                    ProductDetailsController.to.tabController,
+                                children: List.generate(
+                                    2, (index) => buildwidget(index))),
+                          ),
+                        ],
+                      )
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: 115,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)
-            ]),
-        child: Column(
-          children: [
-            CustomSizedBox.space8H,
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-              child: Row(
-                children: [
-                   Text(
-                isSelectSize?'180ml':    'Nude Shade Color',
-                    style: AppTheme.textStyleBoldFadeBlack14,
-                  ),
-                  const Spacer(),
-                  RichText(
-                      text: const TextSpan(
-                          text: '',
-                          style: AppTheme.textStyleBoldBlack14,
-                          children: [
-                        TextSpan(
-                            text: '৳ 550  ',
-                            style: AppTheme.textStyleBoldBlack20,
-                            children: [
-                              TextSpan(
-                                text: '৳550',
-                                style: TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                    color: Colors.black54,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              TextSpan(
-                                text: ' | ',
-                                style: AppTheme.textStyleNormalFadeBlack14,
-                              ),
-                              TextSpan(
-                                text: '(-25% Off)',
-                                style: TextStyle(
-                                    color: Color(0xff02792A),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ]),
-                      ])),
-                ],
-              ),
-            ),
-            FittedBox(
-              child: Row(
-                children: [
-                  Obx(() {
-                    return GestureDetector(
-                      onTap: () {
-                        ProductDetailsController.to.isFavourite.value =
-                            !ProductDetailsController.to.isFavourite.value;
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        margin: EdgeInsets.only(left: 8),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: AppColors.kPrimaryColor, width: 1),
-                            borderRadius: BorderRadius.circular(4)),
-                        child: ProductDetailsController.to.isFavourite.value
-                            ? Image.asset(
-                                AssetsConstant.favIconFill,
-                                height: 24,
-                              )
-                            : Image.asset(
-                                AssetsConstant.favIcon,
-                                height: 26,
-                              ),
-                      ),
-                    );
-                  }),
-                  CustomSizedBox.space4W,
-                  CustomButton(
-                    label: 'Add To Bag',
-                    marginHorizontal: 8,
-                    marginVertical: 4,
-                    height: 50,
-                    prefixImage: AssetsConstant.cartIcon,
-                    prefixImageColor: Colors.white,
-                    prefixImageHeight: 20,
-                    primary: AppColors.kPrimaryColor,
-                    width: MediaQuery.of(context).size.width / 1.3,
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomCalculationTotalWidget(isSelectSize: isSelectSize),
     );
   }
 
@@ -293,8 +226,8 @@ color: index==0 ? AppColors.kPrimaryColor:Colors.transparent,
                     CustomNetworkImage(
                       networkImagePath: '',
                       borderRadius: 5,
-                      height: 42,
-                      width: 42,
+                      height: 52,
+                      width: 52,
                       errorImagePath: AssetsConstant.lipstickShade,
                       fit: BoxFit.fitHeight,
                     ),
@@ -400,5 +333,120 @@ color: index==0 ? AppColors.kPrimaryColor:Colors.transparent,
           ),
         );
     }
+  }
+}
+
+class BottomCalculationTotalWidget extends StatelessWidget {
+  const BottomCalculationTotalWidget({
+    super.key,
+    required this.isSelectSize,
+  });
+
+  final bool isSelectSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 115,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)
+          ]),
+      child: Column(
+        children: [
+          CustomSizedBox.space8H,
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+            child: Row(
+              children: [
+                Text(
+                  isSelectSize ? '180ml' : 'Nude Shade Color',
+                  style: AppTheme.textStyleBoldFadeBlack14,
+                ),
+                const Spacer(),
+                RichText(
+                    text: const TextSpan(
+                        text: '',
+                        style: AppTheme.textStyleBoldBlack14,
+                        children: [
+                      TextSpan(
+                          text: '৳ 550  ',
+                          style: AppTheme.textStyleBoldBlack20,
+                          children: [
+                            TextSpan(
+                              text: '৳550',
+                              style: TextStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Colors.black54,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                            TextSpan(
+                              text: ' | ',
+                              style: AppTheme.textStyleNormalFadeBlack14,
+                            ),
+                            TextSpan(
+                              text: '(-25% Off)',
+                              style: TextStyle(
+                                  color: Color(0xff02792A),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ]),
+                    ])),
+              ],
+            ),
+          ),
+          FittedBox(
+            child: Row(
+              children: [
+                Obx(() {
+                  return GestureDetector(
+                    onTap: () {
+                      ProductDetailsController.to.isFavourite.value =
+                          !ProductDetailsController.to.isFavourite.value;
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      margin: EdgeInsets.only(left: 8),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.kPrimaryColor, width: 1),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: ProductDetailsController.to.isFavourite.value
+                          ? Image.asset(
+                              AssetsConstant.favIconFill,
+                              height: 24,
+                            )
+                          : Image.asset(
+                              AssetsConstant.favIcon,
+                              height: 26,
+                            ),
+                    ),
+                  );
+                }),
+                CustomSizedBox.space4W,
+                CustomButton(
+                  label: 'Add To Bag',
+                  marginHorizontal: 8,
+                  marginVertical: 4,
+                  height: 50,
+                  prefixImage: AssetsConstant.cartIcon,
+                  prefixImageColor: Colors.white,
+                  prefixImageHeight: 20,
+                  primary: AppColors.kPrimaryColor,
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

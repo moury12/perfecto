@@ -11,8 +11,10 @@ import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/product-details/product_discription_page.dart';
+import 'package:perfecto/pages/product-details/product_image_preview.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
+import 'package:perfecto/pages/product-details/review/widget/comment_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -22,7 +24,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: CustomDrawer(),
+    return Scaffold(drawer: const CustomDrawer(),backgroundColor: AppColors.kBackgroundColor,
       body: Column(
         children: [
           const HomeTopWidget(),
@@ -43,13 +45,17 @@ class ProductDetailsScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       String data =
                           ProductDetailsController.to.bannerContent[index];
-                      return CustomNetworkImage(
-                        networkImagePath: '',
-                        fit: BoxFit.fill,
-                        errorImagePath: data,
-                        height: double.maxFinite,
-                        width: double.infinity,
-                        borderRadius: 0,
+                      return GestureDetector(onTap: () {
+Get.toNamed(ProductImagePreview.routeName);
+                      },
+                        child: CustomNetworkImage(
+                          networkImagePath: '',
+                          fit: BoxFit.fill,
+                          errorImagePath: data,
+                          height: double.maxFinite,
+                          width: double.infinity,
+                          borderRadius: 0,
+                        ),
                       );
                     },
                   ),
@@ -247,11 +253,11 @@ class ProductDetailsScreen extends StatelessWidget {
                                     const EdgeInsets.symmetric(horizontal: 8),
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) => Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [
-                                      CustomNetworkImage(
+                                      const CustomNetworkImage(
                                         networkImagePath: '',
                                         errorImagePath:
                                             AssetsConstant.lipstickShade,
@@ -260,11 +266,11 @@ class ProductDetailsScreen extends StatelessWidget {
                                         borderRadius: 4,
                                       ),
                                       index == 0
-                                          ? Icon(
+                                          ? const Icon(
                                               Icons.check,
                                               color: Colors.white,
                                             )
-                                          : SizedBox.shrink()
+                                          : const SizedBox.shrink()
                                     ],
                                   ),
                                 ),
@@ -273,16 +279,16 @@ class ProductDetailsScreen extends StatelessWidget {
                             ),
                           ]
                         : [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 6),
                               child: Row(
                                 children: [
-                                  const Text(
+                                  Text(
                                     'Selected Size - ',
                                     style: AppTheme.textStyleBoldFadeBlack14,
                                   ),
-                                  const Text(
+                                  Text(
                                     '180ml',
                                     style: AppTheme.textStyleBoldBlack14,
                                   ),
@@ -294,11 +300,11 @@ class ProductDetailsScreen extends StatelessWidget {
                               child: SizedBox(
                                 height: 42,
                                 child: ListView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
                                   scrollDirection: Axis.horizontal,
                                   itemCount: 23,
                                   itemBuilder: (context, index) => Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 6),
+                                    margin: const EdgeInsets.symmetric(horizontal: 6),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                         color: index == 0
@@ -308,7 +314,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                             color: AppColors.kPrimaryColor,
                                             width: 1.5),
                                         borderRadius: BorderRadius.circular(4)),
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 8),
                                     child: Text(
                                       '180ml',
@@ -392,13 +398,14 @@ class ProductDetailsScreen extends StatelessWidget {
                   thickness: 1.5,
                 ),
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                         bottom:
                             BorderSide(color: Color(0xffECECEC), width: 1.5)),
                   ),
                   child: TabBar(
                       isScrollable: true,
+                      padding: EdgeInsets.zero,
                       labelColor: AppColors.kBlackColor,
                       unselectedLabelColor: Colors.black54,
                       labelStyle: AppTheme.textStyleBoldBlack14,
@@ -406,12 +413,13 @@ class ProductDetailsScreen extends StatelessWidget {
                       indicatorColor: AppColors.kPrimaryColor,
                       dividerColor: AppColors.kPrimaryColor,
                       labelPadding:
-                          EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                          const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                       controller: ProductDetailsController.to.tabController2,
                       tabs: ProductDetailsController.to.tabTiles2
                           .map((String title) {
                         return Tab(
                           text: title,
+
                         );
                       }).toList()),
                 ),
@@ -423,15 +431,15 @@ class ProductDetailsScreen extends StatelessWidget {
                           ProductDetailsController.to.tabTiles2.length,
                           (index) => buildwidget(index, context))),
                 ),
-                Divider(thickness: 1.5, color: Color(0xffECECEC)),
+                const Divider(thickness: 1.5, color: Color(0xffECECEC)),
                 GestureDetector(
                   onTap: () {
                     Get.toNamed(ProductDescriptionScreen.routeName);
                   },
                   child: Container(
                     width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -450,12 +458,12 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Divider(thickness: 8, color: Color(0xffECECEC)),
-                TitleTextWidget(tileText: 'Ratings & Reviews'),
-                Divider(thickness: 1.5, color: Color(0xffECECEC)),
+                const Divider(thickness: 8, color: Color(0xffECECEC)),
+                const TitleTextWidget(tileText: 'Ratings & Reviews'),
+                const Divider(thickness: 1.5, color: Color(0xffECECEC)),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: AppColors.kAccentColor,
@@ -470,7 +478,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         height: 24,
                       ),
                       CustomSizedBox.space16W,
-                      Flexible(
+                      const Flexible(
                         child: Text(
                           'Perfecto is committed to showing genuine and verified reviews.',
                           style: TextStyle(color: Colors.black54, fontSize: 14),
@@ -484,12 +492,12 @@ class ProductDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         '4.3/5',
                         style: AppTheme.textStyleSemiBoldBlack32,
                       ),
                       CustomSizedBox.space8W,
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -505,14 +513,14 @@ class ProductDetailsScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black, width: 1),
                             borderRadius: BorderRadius.circular(4)),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        child: Text(
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        child: const Text(
                           'Write Review',
                           style: AppTheme.textStyleBoldBlack14,
                         ),
@@ -531,13 +539,13 @@ class ProductDetailsScreen extends StatelessWidget {
                       itemBuilder: (context, index) => Container(
                         height: 72,
                         width: 72,
-                        margin: EdgeInsets.symmetric(vertical: 8)
+                        margin: const EdgeInsets.symmetric(vertical: 8)
                             .copyWith(left: 16),
                         decoration: BoxDecoration(
                             border:
-                                Border.all(color: Color(0xffCECECE), width: 1),
+                                Border.all(color: const Color(0xffCECECE), width: 1),
                             borderRadius: BorderRadius.circular(2),
-                            image: DecorationImage(
+                            image: const DecorationImage(
                                 image: AssetImage(
                                   AssetsConstant.megaDeals2,
                                 ),
@@ -546,156 +554,8 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                TitleTextWidget(tileText: 'Most Useful Review'),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Divider(
-                    thickness: 1.5,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 12),
-                  child: Row(
-                    children: [
-                      CustomNetworkImage(
-                        networkImagePath: '',
-                        errorImagePath: AssetsConstant.profile,
-                        borderRadius: 360,
-                        height: 50,
-                        width: 50,
-                        fit: BoxFit.cover,
-                      ),
-                      CustomSizedBox.space8W,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Vinod Kumar',
-                            style: AppTheme.textStyleBoldBlack14,
-                          ),
-                          CustomSizedBox.space4H,
-                          Row(
-                            children: [
-                              Image.asset(
-                                AssetsConstant.verified,
-                                height: 14,
-                              ),
-                              CustomSizedBox.space4W,
-                              Text(
-                                'Verified Buyers',
-                                style: AppTheme.textStyleNormalFadeBlack10,
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Spacer(),
-                      Text(
-                        '20 July 2023',
-                        style: AppTheme.textStyleNormalFadeBlack12,
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.kPrimaryColor,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 3, horizontal: 4),
-                        child: Row(children: [
-                          Text(
-                            '5',
-                            style: AppTheme.textStyleBoldWhite12,
-                          ),
-                          CustomSizedBox.space4W,
-                          Icon(
-                            Icons.star_rate_rounded,
-                            color: Colors.white,
-                            size: 16,
-                          )
-                        ]),
-                      ),
-                      CustomSizedBox.space8W,
-                      Container(
-                        color: Colors.black.withOpacity(.4),
-                        height: 20,
-                        width: .5,
-                      ),
-                      CustomSizedBox.space8W,
-                      CustomNetworkImage(
-                        networkImagePath: '',
-                        errorImagePath: AssetsConstant.lipstickShade,
-                        borderRadius: 2,
-                        height: 21,
-                        width: 21,
-                      ),
-                      CustomSizedBox.space8W,
-                      Text(
-                        'Nude Shade Color',
-                        style: AppTheme.textStyleNormalFadeBlack14,
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomSizedBox.space8H,
-                      Text(
-                        '“Velvet in bullet.....”',
-                        style: AppTheme.textStyleBoldBlack14,
-                      ),
-                      CustomSizedBox.space4H,
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                          text:
-                              'It feels light and weightless and has a matte finish This one with Avocado oil and hyalu',
-                          style: AppTheme.textStyleNormalFadeBlack14,
-                        ),
-                        TextSpan(
-                          text: '...Read More',
-                          style: AppTheme.textStyleSemiBoldBlack14,
-                          onEnter: (event) {},
-                        )
-                      ])),
-                      Wrap(
-                        children: [
-                          ...List.generate(
-                            5,
-                            (index) => Container(
-                              height: 48,
-                              width: 48,
-                              margin: EdgeInsets.symmetric(vertical: 8)
-                                  .copyWith(right: 8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(2),
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                        AssetsConstant.megaDeals3,
-                                      ),
-                                      fit: BoxFit.cover)),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '12 people found this helpful',
-                        style: AppTheme.textStyleNormalFadeBlack14,
-                      )
-                    ],
-                  ),
-                ),
+                const TitleTextWidget(tileText: 'Most Useful Review'),
+               CommentWidget(index: 1,isHelpful: false,),
                 CustomSizedBox.space12H,
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -709,8 +569,8 @@ class ProductDetailsScreen extends StatelessWidget {
                   },
                   child: Container(
                     width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -729,7 +589,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 CustomSizedBox.space12H,
-                PrimaryAcceantListViewItemWidget(
+                const PrimaryAcceantListViewItemWidget(
                   title: 'Customers also Viewed',
                 )
               ],
@@ -740,7 +600,7 @@ class ProductDetailsScreen extends StatelessWidget {
       bottomNavigationBar: Container(
         height: 95,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
             color: Colors.white,
             boxShadow: [
               BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)
@@ -755,8 +615,8 @@ class ProductDetailsScreen extends StatelessWidget {
                         !ProductDetailsController.to.isFavourite.value;
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    margin: EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: AppColors.kPrimaryColor, width: 1),
@@ -797,7 +657,7 @@ class ProductDetailsScreen extends StatelessWidget {
     switch (tabIndex) {
       case 0:
         return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -805,7 +665,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                           image: AssetImage(AssetsConstant.banner2),
                           fit: BoxFit.fitWidth)),
                 ),
@@ -814,12 +674,12 @@ class ProductDetailsScreen extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.vertical(
+                        borderRadius: const BorderRadius.vertical(
                             bottom: Radius.circular(
                                 /*MediaQuery.of(context).size.width>600?20:*/ 10)),
                         child: Image.asset(
                           AssetsConstant.shade,
-                          color: Color(0xffBABABA).withOpacity(.8),
+                          color: const Color(0xffBABABA).withOpacity(.8),
                         ))),
               ],
             ));
@@ -849,7 +709,7 @@ class ProductDetailsScreen extends StatelessWidget {
         );
 
       default:
-        return Center(
+        return const Center(
           child: Text(
             'Unknown Tab',
             style: TextStyle(fontSize: 10),

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 
-class ProductDetailsController extends GetxController  with GetTickerProviderStateMixin {
+class ProductDetailsController extends GetxController
+    with GetTickerProviderStateMixin {
   static ProductDetailsController get to => Get.find();
-   TabController? tabController;
-   TabController? tabController2;
- RxBool isFavourite=false.obs;
- RxBool isAvaiableShade=true.obs;
- RxBool isHelpfull=false.obs;
+  TabController? tabController;
+  TabController? tabController2;
+  RxBool isFavourite = false.obs;
+  RxBool isAvaiableShade = true.obs;
+  RxBool isHelpfull = false.obs;
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
@@ -23,11 +24,21 @@ class ProductDetailsController extends GetxController  with GetTickerProviderSta
   }
 
   List<String> tabTiles = ['All Shades', 'Bestsellers'];
-  List<String> tabTiles2 = ['Description', 'Ingredients','How to Use','FAQ'];
+  List<String> tabTiles2 = ['Description', 'Ingredients', 'How to Use', 'FAQ']; RxString displayUrl=''.obs;
+  RxList<String> images = [
+    AssetsConstant.megaDeals1,
+    AssetsConstant.megaDeals2,
+    AssetsConstant.megaDeals3,
+    AssetsConstant.megaDeals1,
+    AssetsConstant.megaDeals2,
+    AssetsConstant.megaDeals3,
+  ].obs;
   var currentIndex = 0.obs;
   var currentIndex2 = 0.obs;
   var currentPage = 0.obs;
   List<dynamic> bannerContent = [
-AssetsConstant.megaDeals2,AssetsConstant.megaDeals1,AssetsConstant.megaDeals3  ];
-
+    AssetsConstant.megaDeals2,
+    AssetsConstant.megaDeals1,
+    AssetsConstant.megaDeals3
+  ];
 }

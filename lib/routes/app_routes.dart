@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 import 'package:perfecto/bindings/navigation_binding.dart';
+import 'package:perfecto/pages/auth/forget_password_page.dart';
+import 'package:perfecto/pages/auth/login_page.dart';
+import 'package:perfecto/pages/auth/registration_page.dart';
 import 'package:perfecto/pages/category/category_page.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/chat/chat_binding.dart';
@@ -22,18 +25,23 @@ import 'package:perfecto/pages/points/my_points_page.dart';
 import 'package:perfecto/pages/product-details/product_details_binding.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_discription_page.dart';
+import 'package:perfecto/pages/product-details/product_image_preview.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
+import 'package:perfecto/pages/product-details/review/verified_user_page.dart';
 import 'package:perfecto/pages/profile/controller/profile_binding.dart';
 import 'package:perfecto/pages/profile/edit_my_address_page.dart';
 import 'package:perfecto/pages/profile/edit_password_page.dart';
 import 'package:perfecto/pages/profile/edit_profile_page.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_details_page.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
+import 'package:perfecto/pages/profile/my-orders/return_page.dart';
+import 'package:perfecto/pages/profile/my-orders/return_process.dart';
 import 'package:perfecto/pages/profile/my_address_page.dart';
 import 'package:perfecto/pages/profile/my_profile_page.dart';
 import 'package:perfecto/pages/profile/my_rating_review_page.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
+import 'package:perfecto/pages/profile/return_and_cancelation.dart';
 import 'package:perfecto/pages/search/search_bindings.dart';
 import 'package:perfecto/pages/search/search_page.dart';
 
@@ -93,6 +101,14 @@ class AppRoutes {
             page: () => const ProductDescriptionScreen(),
             binding: ProductDetailsBinding()),
         GetPage(
+            name: VerifiedUserScreen.routeName,
+            page: () => const VerifiedUserScreen(),
+            binding: ProductDetailsBinding()),
+        GetPage(
+            name: ProductImagePreview.routeName,
+            page: () => const ProductImagePreview(),
+            binding: ProductDetailsBinding()),
+        GetPage(
             name: ReviewScreen.routeName,
             page: () => const ReviewScreen(),
             binding: ProductDetailsBinding()),
@@ -131,6 +147,15 @@ class AppRoutes {
         GetPage(
           name: EditProfileScreen.routeName,
           page: () => const EditProfileScreen(),
+        ),GetPage(
+          name: LoginScreen.routeName,
+          page: () => const LoginScreen(),
+        ),GetPage(
+          name: RegistrationScreen.routeName,
+          page: () => const RegistrationScreen(),
+        ),GetPage(
+          name: ForgetPasswordScreen.routeName,
+          page: () => const ForgetPasswordScreen(),
         ),
         GetPage(
             name: MyAddressScreen.routeName,
@@ -140,7 +165,7 @@ class AppRoutes {
             name: MyRatingReviewScreen.routeName,
             page: () => const MyRatingReviewScreen(),
             binding: ProfileBinding()),
-    GetPage(
+        GetPage(
             name: MyOrderDetailsScreen.routeName,
             page: () => const MyOrderDetailsScreen(),
             binding: ProfileBinding()),
@@ -151,6 +176,18 @@ class AppRoutes {
         GetPage(
             name: EditAddressScreen.routeName,
             page: () => const EditAddressScreen(),
+            binding: ProfileBinding()),
+        GetPage(
+            name: ReturnScreen.routeName,
+            page: () => const ReturnScreen(),
+            binding: ProfileBinding()),
+        GetPage(
+            name: ReturnProcess.routeName,
+            page: () => const ReturnProcess(),
+            binding: ProfileBinding()),
+        GetPage(
+            name: ReturnAndCancelScreen.routeName,
+            page: () => const ReturnAndCancelScreen(),
             binding: ProfileBinding()),
       ];
 }

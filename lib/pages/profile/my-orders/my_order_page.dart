@@ -5,7 +5,7 @@ import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
-import 'package:perfecto/pages/profile/my-orders/order_widget.dart';
+import 'package:perfecto/pages/profile/my-orders/widgets/order_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
