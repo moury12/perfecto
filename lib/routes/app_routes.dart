@@ -11,6 +11,7 @@ import 'package:perfecto/pages/checkout-page/checkout_bindings.dart';
 import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
 import 'package:perfecto/pages/checkout-page/checkout_page.dart';
 import 'package:perfecto/pages/home/bindings/home_binding.dart';
+import 'package:perfecto/pages/home/brand_page.dart';
 import 'package:perfecto/pages/home/home_page.dart';
 import 'package:perfecto/pages/my-cart/apply_cuppon_reward.dart';
 import 'package:perfecto/pages/my-cart/cart_bindings.dart';
@@ -40,6 +41,7 @@ import 'package:perfecto/pages/profile/my-orders/return_process.dart';
 import 'package:perfecto/pages/profile/my_address_page.dart';
 import 'package:perfecto/pages/profile/my_profile_page.dart';
 import 'package:perfecto/pages/profile/my_rating_review_page.dart';
+import 'package:perfecto/pages/profile/notification.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
 import 'package:perfecto/pages/profile/return_and_cancelation.dart';
 import 'package:perfecto/pages/search/search_bindings.dart';
@@ -147,16 +149,23 @@ class AppRoutes {
         GetPage(
           name: EditProfileScreen.routeName,
           page: () => const EditProfileScreen(),
-        ),GetPage(
+        ),
+        GetPage(
           name: LoginScreen.routeName,
           page: () => const LoginScreen(),
-        ),GetPage(
+        ),
+        GetPage(
           name: RegistrationScreen.routeName,
           page: () => const RegistrationScreen(),
-        ),GetPage(
+        ),
+        GetPage(
           name: ForgetPasswordScreen.routeName,
           page: () => const ForgetPasswordScreen(),
         ),
+        GetPage(
+            name: BrandScreen.routeName,
+            page: () => const BrandScreen(),
+            binding: HomeBinding()),
         GetPage(
             name: MyAddressScreen.routeName,
             page: () => const MyAddressScreen(),
@@ -188,6 +197,9 @@ class AppRoutes {
         GetPage(
             name: ReturnAndCancelScreen.routeName,
             page: () => const ReturnAndCancelScreen(),
+            binding: ProfileBinding()), GetPage(
+            name: NotificationScreen.routeName,
+            page: () => const NotificationScreen(),
             binding: ProfileBinding()),
       ];
 }

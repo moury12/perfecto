@@ -69,6 +69,7 @@ class CheckoutScreen extends StatelessWidget {
                       labelText: 'Email (Optional)',
                       focusColor: Colors.black,
                     ),
+
                     CustomTextField(
                       marginVertical: 6,
                       hintText: 'Select your district',

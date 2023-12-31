@@ -77,7 +77,7 @@ class OfferScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     shrinkWrap: true,
                     primary: false,
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 180, crossAxisSpacing: 16, mainAxisSpacing: 16),
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 200, crossAxisSpacing: 16, mainAxisSpacing: 16),
                     itemCount: 10,
                     itemBuilder: (context, index) {
                       return GestureDetector(

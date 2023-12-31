@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/drawer_controller.dart';
+import 'package:perfecto/pages/home/brand_page.dart';
 import 'package:perfecto/pages/my-cart/wish_list_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
@@ -58,9 +59,15 @@ class CustomDrawer extends StatelessWidget {
                     CustomSizedBox.space12H,
                     CustomDividerWidget(),
                     CustomSizedBox.space8H,
-                    SaleTextWidget(
-                      text: 'Brands',
-                      color: Colors.black,
+                    GestureDetector(onTap: () {
+                      Get.toNamed(BrandScreen.routeName);
+                    },
+                      child: Container(width: double.infinity,color: Colors.transparent,
+                        child: SaleTextWidget(
+                          text: 'Brands',
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                     CustomSizedBox.space8H,
                     CustomDividerWidget(),

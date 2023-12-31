@@ -232,7 +232,7 @@ class HomeScreen extends StatelessWidget {
               const SegmentGridWidget(),
               CustomSizedBox.space16H,
               BestSellerListViewBuilder(),
-              const TitleTextWidget(tileText: 'Segments You Can’t Miss'),
+              const TitleTextWidget(tileText: 'Shop By Concern'),
               SegmentGridWidget(
                   blueBackground: AssetsConstant.blueBackground,
                   img: Container(

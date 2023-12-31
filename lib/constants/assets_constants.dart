@@ -90,5 +90,7 @@ class AssetsConstant {
   static const String megaDeals1 = "assets/mega_deals1.png";
   static const String megaDeals2 = "assets/mega_deals2.png";
   static const String megaDeals3 = "assets/mega_deals3.png";
+  static const String brandLogo = "assets/brand_logo.png";
+  static const String notifications = "assets/notifications.png";
   static const String verticalBannner = "assets/vertical_bannner.png";
 }

@@ -10,6 +10,7 @@ import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
 import 'package:perfecto/pages/profile/my_address_page.dart';
 import 'package:perfecto/pages/profile/my_profile_page.dart';
 import 'package:perfecto/pages/profile/my_rating_review_page.dart';
+import 'package:perfecto/pages/profile/notification.dart';
 import 'package:perfecto/pages/profile/return_and_cancelation.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
@@ -159,7 +160,9 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {},
+                            function: () {
+                              Get.toNamed(NotificationScreen.routeName);
+                            },
                             image: AssetsConstant.notification,
                             title: 'Notifications',
                           ),
