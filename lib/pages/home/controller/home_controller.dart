@@ -30,6 +30,10 @@ class HomeController extends GetxController {
       'product': ['Anastasia Beverly Hills','Aaranyaa','Abena','Abelino','Aaranyaa']
     },
   ].obs;
+  List<String> generateAlphabets() {
+
+    return List<String>.generate(26, (index) => String.fromCharCode('A'.codeUnitAt(0) + index));
+  }
   List<Map<String, dynamic>> megadealsITem = [
     {
       'name': 'Maybelline New York Superstay Vi sdfsrgffg',

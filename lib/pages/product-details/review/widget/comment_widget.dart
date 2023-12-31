@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
+import 'package:perfecto/pages/product-details/review/review_page.dart';
 import 'package:perfecto/pages/product-details/review/verified_user_page.dart';
 
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -146,7 +148,9 @@ class CommentWidget extends StatelessWidget {
                     TextSpan(
                       text: '...Read More',
                       style: AppTheme.textStyleSemiBoldBlack14,
-                      onEnter: (event) {},
+                      onEnter: (event) {
+
+                      },
                     )
                   ])),
               Wrap(
@@ -160,11 +164,13 @@ class CommentWidget extends StatelessWidget {
                           .copyWith(right: 4),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(2),
-                          image: DecorationImage(
+                          /*image: DecorationImage(
                               image: AssetImage(
                                 AssetsConstant.megaDeals3,
                               ),
-                              fit: BoxFit.cover)),
+                              fit: BoxFit.cover)*/),
+                          child: CustomNetworkImage(networkImagePath: '', height: 48,
+                            width: 48,errorImagePath:  AssetsConstant.megaDeals3,fit: BoxFit.cover,borderRadius:4,isPreviewPageNeed: true),
                     ),
                   ),
                 ],

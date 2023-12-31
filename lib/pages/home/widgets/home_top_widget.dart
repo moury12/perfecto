@@ -46,12 +46,12 @@ class HomeTopWidget extends StatelessWidget {
                         },
                         child: Image.asset(
                           AssetsConstant.drawerIcon,
-                          height: 22,
+                          height: 25,
                         ),
                       )
                     : SizedBox.shrink(),
                 CustomSizedBox.space8W,
-                title ?? Image.asset(AssetsConstant.perfectoLogo, height: 18),
+                title ?? Image.asset(AssetsConstant.perfectoLogo, height: 20),
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
@@ -89,7 +89,7 @@ class HomeTopWidget extends StatelessWidget {
                       children: [
                         Image.asset(
                           AssetsConstant.cartIcon,
-                          height: 20,
+                          height: 25,
                         ),
                         Positioned(
                           top: 0,

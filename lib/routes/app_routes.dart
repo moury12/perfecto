@@ -18,7 +18,9 @@ import 'package:perfecto/pages/my-cart/cart_bindings.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/my-cart/wish_list_page.dart';
 import 'package:perfecto/pages/offer/binding/offer_binding.dart';
+import 'package:perfecto/pages/offer/offer_details_page.dart';
 import 'package:perfecto/pages/offer/offer_page.dart';
+import 'package:perfecto/pages/offer/offer_page_v1.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
 import 'package:perfecto/pages/outlets/outlet_details_page.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
@@ -77,6 +79,9 @@ class AppRoutes {
         GetPage(
             name: OfferScreen.routeName,
             page: () => const OfferScreen(),
+            binding: OfferBinding()),  GetPage(
+            name: OfferScreenNew.routeName,
+            page: () => const OfferScreenNew(),
             binding: OfferBinding()),
         GetPage(
             name: SaleScreen.routeName,
@@ -89,6 +94,9 @@ class AppRoutes {
         GetPage(
             name: OutletDetailsScreen.routeName,
             page: () => const OutletDetailsScreen(),
+            binding: OfferBinding()),GetPage(
+            name: OfferDetailsScreen.routeName,
+            page: () => const OfferDetailsScreen(),
             binding: OfferBinding()),
         GetPage(
             name: ProductDetailsScreen.routeName,

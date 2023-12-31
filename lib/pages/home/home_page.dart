@@ -11,6 +11,7 @@ import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 import 'package:perfecto/pages/offer/offer_page.dart';
+import 'package:perfecto/pages/offer/offer_page_v1.dart';
 import 'package:perfecto/pages/offer/sale_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -48,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                           controller.currentPage.value = index;
                           String data = controller.bannerContent[index];
                           return GestureDetector(
-                            onTap: () => Get.toNamed(OfferScreen.routeName),
+                            onTap: () => Get.toNamed(OfferScreenNew.routeName),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 0),
                               child: Image.network('',
@@ -81,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                   return index == 7
                       ? GestureDetector(
                           onTap: () {
-                            Get.toNamed(data['route']);
+                            Get.toNamed(OfferScreenNew.routeName);
                           },
                           child: Container(
                             decoration: BoxDecoration(

@@ -14,7 +14,8 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(backgroundColor: Colors.white,
+    return Drawer(
+      backgroundColor: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,6 +32,39 @@ class CustomDrawer extends StatelessWidget {
                   height: 18,
                 ),
                 const Spacer(),
+                InkWell(
+                  borderRadius: BorderRadius.circular(360),
+                  onTap: () {
+                    Get.toNamed(WishListScreen.routeName);
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Image.asset(
+                          AssetsConstant.favIcon,
+                          height: 25,
+                          color: Colors.black,
+                        ),
+                        Positioned(
+                          top:-2,
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(2.5),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.kDarkPrimaryColor),
+                            child:
+                                Text('12', style: AppTheme.textStyleBoldWhite8),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                CustomSizedBox.space8W,
                 const Icon(
                   CupertinoIcons.multiply,
                   size: 28,
@@ -47,9 +81,9 @@ class CustomDrawer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        Get.toNamed(WishListScreen.routeName);
-                      },
+                        onTap: () {
+                          Get.toNamed(WishListScreen.routeName);
+                        },
                         child: SaleTextWidget()),
                     SaleTextWidget(text: 'Puja Sale', color: Color(0xffD90068)),
                     SaleTextWidget(
@@ -59,10 +93,13 @@ class CustomDrawer extends StatelessWidget {
                     CustomSizedBox.space12H,
                     CustomDividerWidget(),
                     CustomSizedBox.space8H,
-                    GestureDetector(onTap: () {
-                      Get.toNamed(BrandScreen.routeName);
-                    },
-                      child: Container(width: double.infinity,color: Colors.transparent,
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(BrandScreen.routeName);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        color: Colors.transparent,
                         child: SaleTextWidget(
                           text: 'Brands',
                           color: Colors.black,
@@ -213,7 +250,9 @@ class DrawerMenuItemWidget extends StatelessWidget {
                               border: Border(
                                   left: BorderSide(
                                       width: 1,
-                                      color:index == 1 ?  AppColors.kPrimaryColor:Colors.transparent))),
+                                      color: index == 1
+                                          ? AppColors.kPrimaryColor
+                                          : Colors.transparent))),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
