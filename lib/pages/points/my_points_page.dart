@@ -16,7 +16,7 @@ class MyPointsScreen extends StatelessWidget {
       backgroundColor: AppColors.kBackgroundColor,
       body: Column(
         children: [
-          HomeTopWidget(
+          HomeTopWidget(isWalletPage: false,
             title: Row(
               children: [
                 GestureDetector(

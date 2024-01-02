@@ -24,7 +24,7 @@ class CartScreen extends StatelessWidget {
       return Scaffold(
         backgroundColor: AppColors.kBackgroundColor,
         body: Column(children: [
-          HomeTopWidget(
+          HomeTopWidget(isCartPage: true,
             title: Row(
               children: [
                 GestureDetector(

@@ -201,7 +201,7 @@ packages:
     source: hosted
     version: "4.1.3"
   image_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image_picker
       sha256: fc712337719239b0b6e41316aa133350b078fa39b6cbd706b61f3fd421b03c77

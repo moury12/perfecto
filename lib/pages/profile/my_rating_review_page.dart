@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
@@ -123,53 +124,7 @@ class MyRatingReviewScreen extends StatelessWidget {
                    ],
                  ),
                ),
-               // Padding(
-               //   padding:
-               //   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-               //   child: Row(
-               //     children: [
-               //       Container(
-               //         decoration: BoxDecoration(
-               //           color: AppColors.kPrimaryColor,
-               //           borderRadius: BorderRadius.circular(2),
-               //         ),
-               //         padding:
-               //         EdgeInsets.symmetric(vertical: 3, horizontal: 4),
-               //         child: Row(children: [
-               //           Text(
-               //             '5',
-               //             style: AppTheme.textStyleBoldWhite12,
-               //           ),
-               //           CustomSizedBox.space4W,
-               //           Icon(
-               //             Icons.star_rate_rounded,
-               //             color: Colors.white,
-               //             size: 16,
-               //           )
-               //         ]),
-               //       ),
-               //       CustomSizedBox.space8W,
-               //       Container(
-               //         color: Colors.black.withOpacity(.4),
-               //         height: 20,
-               //         width: .5,
-               //       ),
-               //       CustomSizedBox.space8W,
-               //       CustomNetworkImage(
-               //         networkImagePath: '',
-               //         errorImagePath: AssetsConstant.lipstickShade,
-               //         borderRadius: 2,
-               //         height: 21,
-               //         width: 21,
-               //       ),
-               //       CustomSizedBox.space8W,
-               //       Text(
-               //         'Nude Shade Color',
-               //         style: AppTheme.textStyleNormalFadeBlack14,
-               //       )
-               //     ],
-               //   ),
-               // ),
+
                Padding(
                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                  child: Column(
@@ -181,19 +136,39 @@ class MyRatingReviewScreen extends StatelessWidget {
                        style: AppTheme.textStyleBoldBlack14,
                      ),
                      CustomSizedBox.space4H,
-                     RichText(
-                         text: TextSpan(children: [
-                           TextSpan(
-                             text:
-                             'It feels light and weightless and has a matte finish This one with Avocado oil and hyalu',
-                             style: AppTheme.textStyleNormalFadeBlack14,
-                           ),
-                           TextSpan(
-                             text: '...Read More',
-                             style: AppTheme.textStyleSemiBoldBlack14,
-                             onEnter: (event) {},
-                           )
-                         ])),
+                     Obx(
+                 () {
+                         return RichText(
+                             text: TextSpan(children: [
+                               TextSpan(
+                                 text:
+                                 'It feels light and weightless and has a matte finish This one with Avocado oil and hyalu',
+                                 style: AppTheme.textStyleNormalFadeBlack14,
+                               ),
+                               ProductDetailsController.to.readMore.value?  TextSpan(
+                                    text:
+                                    'It feels light and weightless and has a matte finish This one with Avocado oil and hyalu',
+                                    style: AppTheme.textStyleNormalFadeBlack14,children: [TextSpan(
+                                 text: ' Read Less',
+                                 style: AppTheme.textStyleSemiBoldBlack14,
+                                 recognizer: TapGestureRecognizer()..onTap=() {
+
+                                   ProductDetailsController.to.readMore.value=!ProductDetailsController.to.readMore.value;
+
+                                 },
+                               )]
+                                    ):  TextSpan(
+                                 text: '...Read More',
+                                 style: AppTheme.textStyleSemiBoldBlack14,
+                                 recognizer: TapGestureRecognizer()..onTap=() {
+
+                                   ProductDetailsController.to.readMore.value=!ProductDetailsController.to.readMore.value;
+
+                                 },
+                               )
+                             ]));
+                       }
+                     ),
                      Wrap(
                        children: [
                          ...List.generate(

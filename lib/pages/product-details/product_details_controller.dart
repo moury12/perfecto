@@ -1,5 +1,7 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 
 class ProductDetailsController extends GetxController
@@ -10,6 +12,23 @@ class ProductDetailsController extends GetxController
   RxBool isFavourite = false.obs;
   RxBool isAvaiableShade = true.obs;
   RxBool isHelpfull = false.obs;
+  RxBool readMore = false.obs;
+  RxInt rating = 0.obs;
+  RxList imageList =[].obs;
+  RxString captureImage=''.obs;
+  void selectedImage() async{
+    final List<XFile>selectedImages=await ImagePicker().pickMultiImage();
+    if (selectedImages.isNotEmpty) {
+      imageList.addAll(selectedImages.map((e) => e.path));
+    }
+
+  }  void selectedImageCamera() async{
+    final XFile? selectedImages=await ImagePicker().pickImage(source: ImageSource.camera);
+    if (selectedImages!=null) {
+      captureImage.value=selectedImages.path;
+    }
+
+  }
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);

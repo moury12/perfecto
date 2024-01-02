@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,8 +17,11 @@ import 'package:perfecto/theme/theme_data.dart';
 class CommentWidget extends StatelessWidget {
   final int index;
   final bool isHelpful;
+  final bool readMore;
+  final Function()? function;
+  final bool fromProductDetails;
   const CommentWidget({
-    super.key, required this.index,  this.isHelpful=true,
+    super.key, required this.index,  this.isHelpful=true,  this.fromProductDetails=false,  this.readMore=false, this.function,
   });
 
   @override
@@ -145,11 +149,20 @@ class CommentWidget extends StatelessWidget {
                       'It feels light and weightless and has a matte finish This one with Avocado oil and hyalu',
                       style: AppTheme.textStyleNormalFadeBlack14,
                     ),
-                    TextSpan(
+                     readMore?  TextSpan(
+                         text:
+                         'It feels light and weightless and has a matte finish This one with Avocado oil and hyalu',
+                         style: AppTheme.textStyleNormalFadeBlack14,children: [TextSpan(
+                       text: ' Read Less',
+                       style: AppTheme.textStyleSemiBoldBlack14,
+                       recognizer: TapGestureRecognizer()..onTap =function,
+                     )]
+                     ):     TextSpan(
                       text: '...Read More',
                       style: AppTheme.textStyleSemiBoldBlack14,
-                      onEnter: (event) {
-
+                    recognizer: TapGestureRecognizer()
+                      ..onTap =function?? () {
+                          Get.toNamed(ReviewScreen.routeName);
                       },
                     )
                   ])),

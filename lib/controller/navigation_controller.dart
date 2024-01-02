@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/utils/global.dart';
@@ -19,7 +21,7 @@ class NavigationController extends GetxController {
   void changeTabIndex(int index) {
     selectedIndex.value = index;
   }
-
+RxBool openSearchSuggestion =true.obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
   RxBool isSearchFieldNotEmpty = false.obs;
 

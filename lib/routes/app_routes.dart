@@ -32,6 +32,7 @@ import 'package:perfecto/pages/product-details/product_image_preview.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
 import 'package:perfecto/pages/product-details/review/verified_user_page.dart';
+import 'package:perfecto/pages/product-details/review/write_review_page.dart';
 import 'package:perfecto/pages/profile/controller/profile_binding.dart';
 import 'package:perfecto/pages/profile/edit_my_address_page.dart';
 import 'package:perfecto/pages/profile/edit_password_page.dart';
@@ -55,11 +56,14 @@ import '../pages/offer/sale_page.dart';
 class AppRoutes {
   static routes() => [
         GetPage(
-            name: MainHomeScreen.routeName, page: () => const MainHomeScreen()),
+          name: MainHomeScreen.routeName,
+          page: () => const MainHomeScreen(),
+        ),
         GetPage(
-            name: HomeScreen.routeName,
-            page: () => const HomeScreen(),
-            binding: HomeBinding()),
+          name: HomeScreen.routeName,
+          page: () => const HomeScreen(),
+          // binding: HomeBinding()
+        ),
         GetPage(
           name: CategoryScreen.routeName,
           page: () => const CategoryScreen(),
@@ -79,7 +83,8 @@ class AppRoutes {
         GetPage(
             name: OfferScreen.routeName,
             page: () => const OfferScreen(),
-            binding: OfferBinding()),  GetPage(
+            binding: OfferBinding()),
+        GetPage(
             name: OfferScreenNew.routeName,
             page: () => const OfferScreenNew(),
             binding: OfferBinding()),
@@ -94,7 +99,8 @@ class AppRoutes {
         GetPage(
             name: OutletDetailsScreen.routeName,
             page: () => const OutletDetailsScreen(),
-            binding: OfferBinding()),GetPage(
+            binding: OfferBinding()),
+        GetPage(
             name: OfferDetailsScreen.routeName,
             page: () => const OfferDetailsScreen(),
             binding: OfferBinding()),
@@ -121,6 +127,10 @@ class AppRoutes {
         GetPage(
             name: ReviewScreen.routeName,
             page: () => const ReviewScreen(),
+            binding: ProductDetailsBinding()),
+        GetPage(
+            name: WriteReviewScreen.routeName,
+            page: () => const WriteReviewScreen(),
             binding: ProductDetailsBinding()),
         GetPage(
             name: CartScreen.routeName,
@@ -171,9 +181,9 @@ class AppRoutes {
           page: () => const ForgetPasswordScreen(),
         ),
         GetPage(
-            name: BrandScreen.routeName,
-            page: () => const BrandScreen(),
-            binding: HomeBinding()),
+          name: BrandScreen.routeName,
+          page: () => const BrandScreen(),
+        ),
         GetPage(
             name: MyAddressScreen.routeName,
             page: () => const MyAddressScreen(),
@@ -205,7 +215,8 @@ class AppRoutes {
         GetPage(
             name: ReturnAndCancelScreen.routeName,
             page: () => const ReturnAndCancelScreen(),
-            binding: ProfileBinding()), GetPage(
+            binding: ProfileBinding()),
+        GetPage(
             name: NotificationScreen.routeName,
             page: () => const NotificationScreen(),
             binding: ProfileBinding()),

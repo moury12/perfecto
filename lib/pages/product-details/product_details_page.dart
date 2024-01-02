@@ -15,6 +15,7 @@ import 'package:perfecto/pages/product-details/product_image_preview.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
 import 'package:perfecto/pages/product-details/review/widget/comment_widget.dart';
+import 'package:perfecto/pages/product-details/review/write_review_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -514,15 +515,20 @@ Get.toNamed(ProductImagePreview.routeName);
                         ],
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black, width: 1),
-                            borderRadius: BorderRadius.circular(4)),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        child: const Text(
-                          'Write Review',
-                          style: AppTheme.textStyleBoldBlack14,
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(WriteReviewScreen.routeName);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black, width: 1),
+                              borderRadius: BorderRadius.circular(4)),
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          child: const Text(
+                            'Write Review',
+                            style: AppTheme.textStyleBoldBlack14,
+                          ),
                         ),
                       ),
                     ],
@@ -555,7 +561,7 @@ Get.toNamed(ProductImagePreview.routeName);
                   ),
                 ),
                 const TitleTextWidget(tileText: 'Most Useful Review'),
-               CommentWidget(index: 1,isHelpful: false,),
+               CommentWidget(index: 1,isHelpful: false,readMore: false),
                 CustomSizedBox.space12H,
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),

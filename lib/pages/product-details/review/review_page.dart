@@ -147,7 +147,13 @@ class ReviewScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-    ...List.generate(10, (index) =>CommentWidget(index: index,),),
+    ...List.generate(10, (index) =>Obx(
+     () {
+        return CommentWidget(index: index,readMore: ProductDetailsController.to.readMore.value,function: () {
+         ProductDetailsController.to.readMore.value=!ProductDetailsController.to.readMore.value;
+        },);
+      }
+    ),),
                 CustomSizedBox.space12H,
               ],
             ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:perfecto/constants/assets_constants.dart';
-import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
@@ -26,14 +24,13 @@ class SearchScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Color(0xffF9F9F9),
-        drawer: CustomDrawer(),
+        backgroundColor: const Color(0xffF9F9F9),
+        drawer: const CustomDrawer(),
         body: Obx(() {
           return Column(
             children: [
-              HomeTopWidget(
+              const HomeTopWidget(
                 isSearchpage: true,
-
               ),
               NavigationController.to.isSearchFieldNotEmpty.value
                   ? Expanded(
@@ -45,10 +42,17 @@ class SearchScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           shrinkWrap: true,
                           primary: false,
-                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
-                          itemCount: CategoryController.to.categoryWiseITem.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  mainAxisExtent: 380,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12),
+                          itemCount:
+                              CategoryController.to.categoryWiseITem.length,
                           itemBuilder: (context, index) {
-                            final data = CategoryController.to.categoryWiseITem[index];
+                            final data =
+                                CategoryController.to.categoryWiseITem[index];
                             return SingleCategoryProductWidget(
                               name: data['name'],
                               rating: data['rating'],
@@ -68,12 +72,13 @@ class SearchScreen extends StatelessWidget {
                               onTap: () {
                                 print(data['isFavourite']);
                                 data['isFavourite'] = !data['isFavourite'];
-                                CategoryController.to.categoryWiseITem[index] = data;
+                                CategoryController.to.categoryWiseITem[index] =
+                                    data;
                               },
                             );
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 60,
                         )
                       ],
@@ -82,11 +87,12 @@ class SearchScreen extends StatelessWidget {
                       child: ListView(
                       padding: EdgeInsets.zero,
                       children: [
-                        TitleTextWidget(tileText: 'Trending Searches'),
+                        const TitleTextWidget(tileText: 'Trending Searches'),
                         ...List.generate(
                             5,
                             (index) => Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 8),
                                   child: Row(
                                     children: [
                                       Image.asset(
@@ -94,7 +100,7 @@ class SearchScreen extends StatelessWidget {
                                         height: 16,
                                       ),
                                       CustomSizedBox.space8W,
-                                      Text(
+                                      const Text(
                                         'Lakme Absolute Lipstick',
                                         style: AppTheme.textStyleNormalBlack14,
                                       )
@@ -102,7 +108,7 @@ class SearchScreen extends StatelessWidget {
                                   ),
                                 )),
                         CustomSizedBox.space16H,
-                        BestSellerListViewBuilder()
+                        const BestSellerListViewBuilder()
                       ],
                     ))
             ],

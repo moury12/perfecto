@@ -7,5 +7,6 @@ class ProfileBinding extends Bindings {
   @override
   void dependencies() {
     Get.put<ProfileController>(ProfileController(), );
+    Get.put<ProductDetailsController>(ProductDetailsController(), );
   }
 }
