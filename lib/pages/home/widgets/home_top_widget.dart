@@ -49,13 +49,14 @@ class HomeTopWidget extends StatelessWidget {
           ),
           Row(
             children: [
+              CustomSizedBox.space16W,
               title == null
                   ? GestureDetector(
                       onTap: () {
                         Scaffold.of(context).openDrawer();
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 16),
                         child: Image.asset(
                           AssetsConstant.drawerIcon,
                           height: 25,

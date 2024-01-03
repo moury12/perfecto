@@ -65,9 +65,12 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 CustomSizedBox.space8W,
-                const Icon(
-                  CupertinoIcons.multiply,
-                  size: 28,
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Icon(
+                    CupertinoIcons.multiply,
+                    size: 28,
+                  ),
                 )
               ],
             ),

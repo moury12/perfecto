@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -121,7 +123,7 @@ class CartWidget extends StatelessWidget {
               ),
 Spacer(),
             CustomButton(label: 'Move to Cart',width: 150,marginVertical: 0,marginHorizontal: 0,onPressed: () {
-
+Get.toNamed(CartScreen.routeName);
             },)
             ],
           ):    Row(

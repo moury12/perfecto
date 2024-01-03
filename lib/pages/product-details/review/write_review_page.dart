@@ -195,14 +195,14 @@ class WriteReviewScreen extends StatelessWidget {
                     ),
                     CustomSizedBox.space12H,
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
                       child: Obx(
                       () {
-                          return Wrap(children: [...List.generate(ProductDetailsController.to.imageList.length, (index) => Padding(
-                            padding: const EdgeInsets.all(4.0),
+                          return ProductDetailsController.to.imageList.isEmpty&&ProductDetailsController.to.captureImage.value.isEmpty?SizedBox.shrink():Wrap(children: [...List.generate(ProductDetailsController.to.imageList.length, (index) => Padding(
+                            padding: const EdgeInsets.all(4.0).copyWith(top: 0),
                             child: Image.file(File(ProductDetailsController.to.imageList[index]),height: 80,width: 80,fit: BoxFit.cover,),
                           )),Padding(
-                            padding: const EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.all(4.0).copyWith(top: 0),
                             child: Image.file(File(ProductDetailsController.to.captureImage.value),height: 80,width: 80,fit: BoxFit.cover,),
                           )
                           ],);
