@@ -104,31 +104,34 @@ class HomeTopWidget extends StatelessWidget {
                       onTap: () {
                         Get.toNamed(WishListScreen.routeName);
                       },
-                      child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 16).copyWith(left: 0),
+                        child: Container(
 
-                        height: 30,
-                        width: 30,
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Image.asset(
-                              AssetsConstant.favIcon,
-                              height: 25,
-                              color: Colors.black,
-                            ),
-                            Positioned(
-                              top: -2,
-                              right: 0,
-                              child: Container(
-                                padding: EdgeInsets.all(2.5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.kDarkPrimaryColor),
-                                child: Text('12',
-                                    style: AppTheme.textStyleBoldWhite8),
+                          height: 30,
+                          width: 30,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Image.asset(
+                                AssetsConstant.favIcon,
+                                height: 25,
+                                color: Colors.black,
                               ),
-                            )
-                          ],
+                              Positioned(
+                                top: -2,
+                                right: 0,
+                                child: Container(
+                                  padding: EdgeInsets.all(2.5),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.kDarkPrimaryColor),
+                                  child: Text('12',
+                                      style: AppTheme.textStyleBoldWhite8),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     )
@@ -137,29 +140,32 @@ class HomeTopWidget extends StatelessWidget {
                       onTap: () {
                         Get.toNamed(CartScreen.routeName);
                       },
-                      child: Container(
-                        height: 30,
-                        width: 30,
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Image.asset(
-                              AssetsConstant.cartIcon,
-                              height: 25,
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 2,
-                              child: Container(
-                                padding: EdgeInsets.all(2.5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.kDarkPrimaryColor),
-                                child: Text('12',
-                                    style: AppTheme.textStyleBoldWhite8),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 16).copyWith(left: 0),
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Image.asset(
+                                AssetsConstant.cartIcon,
+                                height: 25,
                               ),
-                            )
-                          ],
+                              Positioned(
+                                top: 0,
+                                right: 2,
+                                child: Container(
+                                  padding: EdgeInsets.all(2.5),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.kDarkPrimaryColor),
+                                  child: Text('12',
+                                      style: AppTheme.textStyleBoldWhite8),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     )
