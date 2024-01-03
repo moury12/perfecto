@@ -135,7 +135,7 @@ class HomeScreen extends StatelessWidget {
                           ));
                 },
               ),
-              Padding(
+       /*       Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                   child: Container(
@@ -154,7 +154,7 @@ class HomeScreen extends StatelessWidget {
                       fit: BoxFit.fill,
                       borderRadius: 10,
                     ),
-                  )),
+                  )),*/
               const TitleTextWidget(tileText: 'Deals You Cannot Miss'),
               GridView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -169,7 +169,7 @@ class HomeScreen extends StatelessWidget {
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => Get.toNamed(SaleScreen.routeName),
+                    onTap: () => Get.toNamed(OfferScreenNew.routeName),
                     child: Container(
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
@@ -193,7 +193,10 @@ class HomeScreen extends StatelessWidget {
               ),
               CustomSizedBox.space8H,
               const TitleTextWidget(tileText: 'Top Brands & Offers'),
-              ...List.generate(5, (index) => const TopBrandsOfferListWidget()),
+              ...List.generate(5, (index) => GestureDetector( onTap: () {
+                Get.toNamed(SaleScreen.routeName);
+              },
+                  child: const TopBrandsOfferListWidget())),
               const TitleTextWidget(tileText: 'Mega Deals'),
               GridItemWidget(
                 size: size,
@@ -230,7 +233,10 @@ class HomeScreen extends StatelessWidget {
                   size: size,
                   img: AssetsConstant.superOfferBackground),
               const TitleTextWidget(tileText: 'Segments You Can’t Miss'),
-              const SegmentGridWidget(),
+              GestureDetector(onTap: () {
+                Get.toNamed(SaleScreen.routeName);
+              },
+                  child: const SegmentGridWidget()),
               CustomSizedBox.space16H,
               BestSellerListViewBuilder(),
               const TitleTextWidget(tileText: 'Shop By Concern'),
