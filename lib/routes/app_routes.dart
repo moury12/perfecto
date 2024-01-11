@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:perfecto/bindings/auth_binding.dart';
 import 'package:perfecto/bindings/navigation_binding.dart';
 import 'package:perfecto/pages/auth/forget_password_page.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
@@ -171,6 +172,7 @@ class AppRoutes {
         GetPage(
           name: LoginScreen.routeName,
           page: () => const LoginScreen(),
+       binding: AuthBinding()
         ),
         GetPage(
           name: RegistrationScreen.routeName,
