@@ -6,6 +6,7 @@ import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
@@ -63,7 +64,7 @@ class HomeTopWidget extends StatelessWidget {
                         ),
                       ),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               CustomSizedBox.space8W,
               title ?? Image.asset(AssetsConstant.perfectoLogo, height: 20),
               const Spacer(),
@@ -97,7 +98,7 @@ class HomeTopWidget extends StatelessWidget {
                         ),
                       ),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               CustomSizedBox.space16W,
               isCartPage
                   ? InkWell(
@@ -123,11 +124,11 @@ class HomeTopWidget extends StatelessWidget {
                                 top: -2,
                                 right: 0,
                                 child: Container(
-                                  padding: EdgeInsets.all(2.5),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(2.5),
+                                  decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: AppColors.kDarkPrimaryColor),
-                                  child: Text('12',
+                                  child: const Text('12',
                                       style: AppTheme.textStyleBoldWhite8),
                                 ),
                               )
@@ -157,11 +158,11 @@ class HomeTopWidget extends StatelessWidget {
                                 top: 0,
                                 right: 2,
                                 child: Container(
-                                  padding: EdgeInsets.all(2.5),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(2.5),
+                                  decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: AppColors.kDarkPrimaryColor),
-                                  child: Text('12',
+                                  child: const Text('12',
                                       style: AppTheme.textStyleBoldWhite8),
                                 ),
                               )
@@ -204,14 +205,14 @@ class HomeTopWidget extends StatelessWidget {
                           NavigationController.to.isSearchFieldNotEmpty.value =
                               value.isNotEmpty;
                         },
-                        prefixWidget: Icon(
+                        prefixWidget: const Icon(
                           Icons.search_rounded,
                           color: Colors.grey,
                         ),
                         marginVertical: 8,
                         marginBottom: 16,
                       )
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
               ),
               if (isSearchpage)
                 Obx(
@@ -230,9 +231,9 @@ class HomeTopWidget extends StatelessWidget {
                                                     .withOpacity(.10),
                                                 blurRadius: 10)
                                           ]),
-                                      padding: EdgeInsets.all(16),
+                                      padding: const EdgeInsets.all(16),
                                       margin:
-                                          EdgeInsets.symmetric(horizontal: 16),
+                                          const EdgeInsets.symmetric(horizontal: 16),
                                       child: Column(
                                         children: [
                                           ...List.generate(
@@ -241,7 +242,7 @@ class HomeTopWidget extends StatelessWidget {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          Icon(
+                                                          const Icon(
                                                             Icons
                                                                 .search_rounded,
                                                             color:
@@ -262,9 +263,9 @@ class HomeTopWidget extends StatelessWidget {
                                                                   .to
                                                                   .update();
                                                             },
-                                                            child: Padding(
+                                                            child: const Padding(
                                                               padding:
-                                                                  const EdgeInsets
+                                                                  EdgeInsets
                                                                       .symmetric(
                                                                       vertical:
                                                                           8.0),
@@ -275,8 +276,8 @@ class HomeTopWidget extends StatelessWidget {
                                                               ),
                                                             ),
                                                           ),
-                                                          Spacer(),
-                                                          Icon(
+                                                          const Spacer(),
+                                                          const Icon(
                                                             Icons
                                                                 .arrow_forward_ios,
                                                             color:
@@ -285,7 +286,7 @@ class HomeTopWidget extends StatelessWidget {
                                                           )
                                                         ],
                                                       ),
-                                                      Divider(
+                                                      const Divider(
                                                         thickness: 1,
                                                         color:
                                                             Color(0xffECECEC),
@@ -298,74 +299,71 @@ class HomeTopWidget extends StatelessWidget {
                                   : Padding(
                                       padding: const EdgeInsets.symmetric(
                                               horizontal: 16.0, vertical: 0)
-                                          .copyWith(bottom: 0),
+                                          .copyWith(bottom: 12),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          GestureDetector(
-                                            child: Container(
-                                              padding: EdgeInsets.all(12),
-                                              alignment: Alignment.center,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.2,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                  color: Color(0xffEEFAFF)),
-                                              child: Row(
-                                                children: [
-                                                  Image.asset(
-                                                    AssetsConstant.filter,
-                                                    height: 16,
-                                                  ),
-                                                  CustomSizedBox.space8W,
-                                                  Text(
-                                                    'FILTER',
-                                                    style: AppTheme
-                                                        .textStyleBoldPrimary12,
-                                                  )
-                                                ],
-                                                mainAxisSize: MainAxisSize.min,
+                                          Expanded(
+                                            child: GestureDetector(
+                                              child: Container(
+                                                padding: const EdgeInsets.all(12),
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(6),
+                                                    color: const Color(0xffEEFAFF)),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Image.asset(
+                                                      AssetsConstant.filter,
+                                                      height: 16,
+                                                    ),
+                                                    CustomSizedBox.space8W,
+                                                    const Text(
+                                                      'FILTER',
+                                                      style: AppTheme
+                                                          .textStyleBoldPrimary12,
+                                                    )
+                                                  ],
+                                                ),
                                               ),
+                                              onTap: () {
+                                                _showBottomSheetFilter(context);
+                                              },
                                             ),
-                                            onTap: () {
-                                              _showBottomSheetFilter(context);
-                                            },
                                           ),
-                                          GestureDetector(
-                                            child: Container(
-                                              padding: EdgeInsets.all(12),
-                                              alignment: Alignment.center,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.2,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                  color: Color(0xffEEFAFF)),
-                                              child: Row(
-                                                children: [
-                                                  Image.asset(
-                                                    AssetsConstant.sort,
-                                                    height: 16,
-                                                  ),
-                                                  CustomSizedBox.space8W,
-                                                  Text(
-                                                    'SORT',
-                                                    style: AppTheme
-                                                        .textStyleBoldPrimary12,
-                                                  )
-                                                ],
-                                                mainAxisSize: MainAxisSize.min,
+                                          CustomSizedBox.space8W,
+                                          Expanded(
+                                            child: GestureDetector(
+                                              child: Container(
+                                                padding: const EdgeInsets.all(12),
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(6),
+                                                    color: const Color(0xffEEFAFF)),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Image.asset(
+                                                      AssetsConstant.sort,
+                                                      height: 16,
+                                                    ),
+                                                    CustomSizedBox.space8W,
+                                                    const Text(
+                                                      'SORT',
+                                                      style: AppTheme
+                                                          .textStyleBoldPrimary12,
+                                                    )
+                                                  ],
+                                                ),
                                               ),
+                                              onTap: () {
+                                                _showBottomSheetSort(context);
+                                              },
                                             ),
-                                            onTap: () {
-                                              _showBottomSheetSort(context);
-                                            },
                                           ),
                                         ],
                                       ),
@@ -373,7 +371,7 @@ class HomeTopWidget extends StatelessWidget {
                             ],
                           ),
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                 ),
             ],
           ),
@@ -387,12 +385,13 @@ class HomeTopWidget extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
+
       useSafeArea: true,
       builder: (BuildContext context) {
         return Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            Container(
+            Container(decoration: const BoxDecoration(color: Colors.white,borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -400,19 +399,19 @@ class HomeTopWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0).copyWith(bottom: 12),
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           'Popular Brands',
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(
+                          child: const Icon(
                             CupertinoIcons.multiply,
                             color: Colors.black54,
                             size: 25,
@@ -421,130 +420,139 @@ class HomeTopWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: Color(0xffECECEC),
                     thickness: 1.5,
                     height: 1.5,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        color: AppColors.klightAccentColor,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ...List.generate(
-                                1,
-                                (index) => Obx(() {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          NavigationController
-                                                  .to.checked2.value =
-                                              !NavigationController
-                                                  .to.checked2.value;
-                                        },
-                                        child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.5,
-                                            decoration: BoxDecoration(
-                                                color: NavigationController
-                                                        .to.checked2.value
-                                                    ? AppColors.kAccentColor
-                                                    : Colors.transparent,
-                                                border: Border(
-                                                    right: BorderSide(
-                                                        color: NavigationController
-                                                                .to
-                                                                .checked2
-                                                                .value
-                                                            ? AppColors
-                                                                .kPrimaryColor
-                                                            : Colors
-                                                                .transparent,
-                                                        width: 2))),
-                                            padding: EdgeInsets.all(16),
-                                            child: Flexible(
-                                              child: Text(
+                    children: [ 
+                      
+                      Expanded(
+                        child: Container(
+                        
+                          color: AppColors.klightAccentColor,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ...List.generate(
+                                  5,
+                                  (index) => Obx(() {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            NavigationController
+                                                    .to.checked2.value =
+                                                !NavigationController
+                                                    .to.checked2.value;
+                                          },
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                  color: NavigationController
+                                                          .to.checked2.value
+                                                      ? AppColors.kAccentColor
+                                                      : Colors.transparent,
+                                                  border: Border(
+                                                      right: BorderSide(
+                                                          color: NavigationController
+                                                                  .to
+                                                                  .checked2
+                                                                  .value
+                                                              ? AppColors
+                                                                  .kPrimaryColor
+                                                              : Colors
+                                                                  .transparent,
+                                                          width: 2))),
+                                              padding: const EdgeInsets.all(16),
+                                              child: const Text(
                                                 'Brands',
                                                 style: AppTheme
                                                     .textStyleMediumCustomBlack12,
-                                              ),
-                                            )),
-                                      );
-                                    }))
-                          ],
+                                              )),
+                                        );
+                                      }))
+                            ],
+                          ),
                         ),
                       ),
-                      Column(
-                        children: [
-                          ...List.generate(
-                            1,
-                            (index) => Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        NavigationController.to.checked.value =
-                                            !NavigationController
-                                                .to.checked.value;
-                                      },
-                                      child: CustomCheckboxWidget()),
-                                  CustomSizedBox.space12W,
-                                  Text(
-                                    'Pressed Powder (3134)',
-                                    style:
-                                        AppTheme.textStyleMediumCustomBlack12,
-                                  )
-                                ],
+                      Expanded(
+                        child: Column(
+                          children: [
+                            ...List.generate(
+                              10,
+                              (index) => Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          NavigationController.to.checked.value =
+                                              !NavigationController
+                                                  .to.checked.value;
+                                        },
+                                        child: const CustomCheckboxWidget()),
+                                    CustomSizedBox.space12W,
+                                    const Text(
+                                      'Pressed Powder (3134)',
+                                      style:
+                                          AppTheme.textStyleMediumCustomBlack12,
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   )
                 ],
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(15))),
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomButton(
-                    marginVertical: 0,
-                    marginHorizontal: 0,
-                    onPressed: () {},
-                    primary: Colors.transparent,
-                    borderColor: Colors.grey,
-                    isBorder: true,
-                    borderWidth: 1,
-                    boxShadowColor: Colors.transparent,
-                    elevation: 0,
-                    label: 'Reset',
-                    labelColor: Colors.grey,
-                    width: MediaQuery.of(context).size.width / 2.25,
+                  Expanded(
+                    child: CustomButton(
+                      marginVertical: 0,
+                      marginHorizontal: 0,
+                      onPressed: () {
+                        NavigationController
+                            .to.checked2.value=false;NavigationController
+                            .to.checked.value=false;
+                      },
+                      primary: Colors.white,
+                      borderColor: Colors.grey,
+                      isBorder: true,
+                      borderWidth: 1,
+                      boxShadowColor: Colors.transparent,
+                      elevation: 0,
+                      label: 'Reset',
+                      labelColor: Colors.grey,
+                      width: MediaQuery.of(context).size.width / 2.25,
+                    ),
                   ),
-                  CustomButton(
-                    marginVertical: 0,
-                    marginHorizontal: 0,
-                    onPressed: () {},
-                    boxShadowColor: Colors.transparent,
-                    label: 'Apply',
-                    width: MediaQuery.of(context).size.width / 2.25,
+                  CustomSizedBox.space8W,
+                  Expanded(
+                    child: CustomButton(
+                      marginVertical: 0,
+                      marginHorizontal: 0,
+                      onPressed: () {},
+                      boxShadowColor: Colors.transparent,
+                      label: 'Apply',
+                      width: MediaQuery.of(context).size.width / 2.25,
+                    ),
                   )
                 ],
               ),
@@ -570,19 +578,19 @@ class HomeTopWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(18.0),
                 child: Row(
                   children: [
-                    Text(
+                    const Text(
                       'Sort By',
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(
+                      child: const Icon(
                         CupertinoIcons.multiply,
                         color: Colors.black54,
                         size: 25,
@@ -591,7 +599,7 @@ class HomeTopWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Color(0xffECECEC),
                 thickness: 1.5,
                 height: 1.5,
@@ -604,6 +612,7 @@ class HomeTopWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           GestureDetector(onTap: () {
                             NavigationController.to.checked.value =
@@ -612,34 +621,33 @@ class HomeTopWidget extends StatelessWidget {
                             return Container(
                               height: 18,
                               width: 18,
-                              margin: EdgeInsets.only(bottom: 16),
+                              margin: const EdgeInsets.only(bottom: 16),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: NavigationController.to.checked.value
                                       ? AppColors.kPrimaryColor
-                                      : Color(0xffE7E7E7),
+                                      : const Color(0xffE7E7E7),
                                   border: Border.all(
                                       width: 0.5,
                                       color: AppColors.kPrimaryColor)),
                               alignment: Alignment.center,
                               child: NavigationController.to.checked.value
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.check_rounded,
                                       color: Colors.white,
                                       size: 15,
                                     )
-                                  : SizedBox.shrink(),
+                                  : const SizedBox.shrink(),
                             );
                           })),
                           CustomSizedBox.space12W,
-                          Text(
+                          const Text(
                             'Relevance',
                             style: AppTheme.textStyleMediumCustomBlack12,
                           )
                         ],
-                        crossAxisAlignment: CrossAxisAlignment.start,
                       ),
-                      Divider(
+                      const Divider(
                         color: Color(0xffF3F3F3),
                         thickness: 1,
                         height: 1,
@@ -676,16 +684,16 @@ class CustomCheckboxWidget extends StatelessWidget {
                 radioButton ? BorderRadius.zero : BorderRadius.circular(2),
             color: NavigationController.to.checked.value
                 ? AppColors.kPrimaryColor
-                : Color(0xffE7E7E7),
+                : const Color(0xffE7E7E7),
             border: Border.all(width: 0.5, color: AppColors.kPrimaryColor)),
         alignment: Alignment.center,
         child: NavigationController.to.checked.value
-            ? Icon(
+            ? const Icon(
                 Icons.check_rounded,
                 color: Colors.white,
                 size: 15,
               )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
       );
     });
   }
@@ -708,14 +716,19 @@ class PrimaryAcceantListViewItemWidget extends StatelessWidget {
           Row(
             children: [
               TitleTextWidget(tileText: title ?? 'Personal Care'),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'See All',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.kPrimaryColor,
+              const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'See All',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.kPrimaryColor,
+                    ),
                   ),
                 ),
               )

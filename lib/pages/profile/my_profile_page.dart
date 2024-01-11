@@ -68,11 +68,11 @@ class MyProfileScreen extends StatelessWidget {
                           onPressed: () {
                             Get.toNamed(EditProfileScreen.routeName);
                           },
-                          primary: Colors.transparent,
+                          primary: Colors.white,
                           borderColor: Colors.grey,
                           isBorder: true,
                           borderWidth: 1,
-                          boxShadowColor: Colors.transparent,
+                          boxShadowColor: Colors.white,
                           elevation: 0,
                           prefixImage: AssetsConstant.edit,
                           prefixImageHeight: 18,
@@ -190,7 +190,7 @@ class MyProfileScreen extends StatelessWidget {
                           onPressed: () {
                             Get.toNamed(EditPasswordScreen.routeName);
                           },
-                          primary: Colors.transparent,
+                          primary: Colors.white,
                           borderColor: Colors.grey,
                           isBorder: true,
                           borderWidth: 1,

@@ -664,31 +664,33 @@ Get.toNamed(ProductImagePreview.routeName);
       case 0:
         return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                          image: AssetImage(AssetsConstant.banner2),
-                          fit: BoxFit.fitWidth)),
+            child:
+                Stack(alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: const DecorationImage(
+                              image: AssetImage(AssetsConstant.banner2),
+                              fit: BoxFit.fitWidth)),
+
+                    ), Container(width: double.infinity,height: 9,decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.white,blurRadius: 60,spreadRadius: 50)]),),
+                  ],
                 ),
-                Positioned(
+                /*Positioned(
                     bottom: MediaQuery.of(context).size.width > 600 ? 28 : 16,
                     left: 0,
                     right: 0,
                     child: ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                             bottom: Radius.circular(
-                                /*MediaQuery.of(context).size.width>600?20:*/ 10)),
+                                *//*MediaQuery.of(context).size.width>600?20:*//* 10)),
                         child: Image.asset(
                           AssetsConstant.shade,
                           color: const Color(0xffBABABA).withOpacity(.8),
-                        ))),
-              ],
-            ));
+                        ))),*/
+             );
       case 1:
         return Padding(
           padding: const EdgeInsets.all(16.0),

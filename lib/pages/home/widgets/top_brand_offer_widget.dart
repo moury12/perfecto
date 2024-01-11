@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
@@ -132,9 +133,11 @@ class BestSellerListViewBuilder extends StatelessWidget {
               const TitleTextWidget(tileText: 'Bestseller'),
               Spacer(),
               InkWell(
-                onTap: () {
-                  Get.toNamed(SaleScreen.routeName);
-                },
+
+                  onTap: () {
+                    Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                  },
+
                 child: Padding(
                   padding:
                   const EdgeInsets.symmetric(horizontal: 16.0),

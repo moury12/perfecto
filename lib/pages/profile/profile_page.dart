@@ -37,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
                     image: DecorationImage(
                         image: AssetImage(
                           AssetsConstant.profileBackground,
-                        ),
+                        ),fit: BoxFit.fitWidth,
                         alignment: Alignment.topCenter)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

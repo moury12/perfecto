@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
+import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -215,25 +217,32 @@ class SingleCategoryProductWidget extends StatelessWidget {
                             ? AppColors.kDarkPrimaryColor
                             : AppColors.kPrimaryColor,
                         width: 140,
-                        onPressed: () {
-                        Get.to(ProductShadeScreen(isSelectSize: isShadeSwatch?false:true,));
-                        },
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          isStacked
-              ? isBestSeller
-                  ? Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: Color(0xffD4F3FF),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(4)),
+                        onPressed:buttonText=='ADD TO BAG'? (){
+                          var snackBar = SnackBar(content: Text('Add to Cart successfully'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+
+
+    }:isOutofStock?(){}: () {
+                          Get.to(ProductShadeScreen(isSelectSize: isShadeSwatch?false:true,));
+                          },
+                          ),
+                          ],
+                          ),
+                          )
+                          ],
+                          ),
+                          ),
+                          isStacked
+                          ? isBestSeller
+                          ? Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                          color: Color(0xffD4F3FF),
+                          borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomRight: Radius
+                        .circular(4)),
                       ),
                       child: const Text(
                         'Bestseller',

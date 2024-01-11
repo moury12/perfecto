@@ -107,8 +107,7 @@ class HomeScreen extends StatelessWidget {
                       : GestureDetector(
                           onTap: () {
                             if (data['route'] == OutletScreen.routeName) {
-                              globalLogger
-                                  .d(data['route'] == OutletScreen.routeName);
+
                               NavigationController.to.changeTabIndex(5);
                               NavigationController.to.update();
                             }

@@ -416,7 +416,8 @@ class MyOrderDetailsScreen extends StatelessWidget {
                     ],
                   );
                 }),
-              )
+              ),
+              CustomSizedBox.space12H,
             ],
           ))
         ],

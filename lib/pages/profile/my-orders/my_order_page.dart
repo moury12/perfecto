@@ -40,8 +40,8 @@ class MyOrdersScreen extends StatelessWidget {
           ),
           isSearchInclude: false,
         ),
-        CustomSizedBox.space8H,
-        Expanded(child: ListView.builder(padding: EdgeInsets.zero,
+
+        Expanded(child: ListView.builder(padding: EdgeInsets.symmetric(vertical: 8),
           itemBuilder: (context, index) => OrderWidget(),
           itemCount: 5,
          ))

@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Image.asset('assets/auth.png'),
-            ),
+            ),CustomSizedBox.space16H,
              Text(
               'Sign in with Email & Password',
               style: AppTheme.textStyleSemiBoldBlack16,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
+import 'package:mh_core/widgets/dropdown/custom_dropdown.dart';
 import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
@@ -69,19 +70,15 @@ class CheckoutScreen extends StatelessWidget {
                       labelText: 'Email (Optional)',
                       focusColor: Colors.black,
                     ),
+TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
+  fillColor: AppColors.kborderColor,
+  hintText:'Select your district' ,
 
-                    CustomTextField(
-                      marginVertical: 6,
-                      hintText: 'Select your district',
-                      labelText: 'District / State',
-                      isRequired: true,
-                      fillColor: AppColors.kborderColor,
-                      suffixIcon: Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        size: 20,
-                      ),
-                      focusColor: Colors.black,
-                    ),
+  title:'District / State' ,
+  rightIconBgColor: Colors.transparent,
+
+),
+
                     CustomTextField(
                       marginVertical: 6,
                       hintText: 'Enter your city name',
@@ -388,9 +385,12 @@ class CheckoutScreen extends StatelessWidget {
                           (index) => Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Li...',
+                                      'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Li...'*2,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                       style: AppTheme.textStyleMediumBlack14,
                                     ),
                                     CustomSizedBox.space8H,

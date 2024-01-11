@@ -40,10 +40,10 @@ class ReturnAndCancelScreen extends StatelessWidget {
             ),
             isSearchInclude: false,
           ),
-          CustomSizedBox.space12H,
+
           Expanded(
               child: ListView.builder(
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.symmetric(vertical: 8 ),
             itemBuilder: (context, index) => OrderWidget(
               status: Column(
                 children: [
