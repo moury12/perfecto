@@ -4,8 +4,12 @@ import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/drawer_controller.dart';
+import 'package:perfecto/pages/auth/return_cancelation_page.dart';
+import 'package:perfecto/pages/auth/terms_condition_page.dart';
+import 'package:perfecto/pages/blog/blog_page.dart';
 import 'package:perfecto/pages/home/brand_page.dart';
 import 'package:perfecto/pages/my-cart/wish_list_page.dart';
+import 'package:perfecto/pages/profile/return_and_cancelation.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -49,7 +53,7 @@ class CustomDrawer extends StatelessWidget {
                           color: Colors.black,
                         ),
                         Positioned(
-                          top:-2,
+                          top: -2,
                           right: 0,
                           child: Container(
                             padding: EdgeInsets.all(2.5),
@@ -105,6 +109,22 @@ class CustomDrawer extends StatelessWidget {
                         color: Colors.transparent,
                         child: SaleTextWidget(
                           text: 'Brands',
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    CustomSizedBox.space8H,
+                    CustomDividerWidget(),
+                    CustomSizedBox.space8H,
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(BlogScreen.routeName);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        color: Colors.transparent,
+                        child: SaleTextWidget(
+                          text: 'Beauty Advice',
                           color: Colors.black,
                         ),
                       ),
@@ -183,16 +203,24 @@ class CustomDrawer extends StatelessWidget {
                     CustomSizedBox.space8H,
                     CustomDividerWidget(),
                     CustomSizedBox.space8H,
-                    SaleTextWidget(
-                      text: 'Terms & Conditions',
-                      color: Colors.black,
+                    GestureDetector(
+                    onTap: () {
+                      Get.toNamed(TermsConditionScreen.routeName);
+                    },                      child: SaleTextWidget(
+                        text: 'Terms & Conditions',
+                        color: Colors.black,
+                      ),
                     ),
                     CustomSizedBox.space8H,
                     CustomDividerWidget(),
                     CustomSizedBox.space8H,
-                    SaleTextWidget(
-                      text: 'Return & Refund Policy',
-                      color: Colors.black,
+                    GestureDetector( onTap: () {
+                      Get.toNamed(RefundCancelationScreen.routeName);
+                    },
+                      child: SaleTextWidget(
+                        text: 'Return & Refund Policy',
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
@@ -243,25 +271,52 @@ class DrawerMenuItemWidget extends StatelessWidget {
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ...List.generate(6, (index) {
+                      ...List.generate(CustomDrawerController.to.subCategory.length, (index) {
                         final text =
                             CustomDrawerController.to.subCategory[index];
                         return Container(
                           width: double.infinity,
-                          decoration: BoxDecoration(
+                          /*decoration: BoxDecoration(
                               color: index == 1 ? AppColors.kAccentColor : null,
                               border: Border(
                                   left: BorderSide(
                                       width: 1,
                                       color: index == 1
                                           ? AppColors.kPrimaryColor
-                                          : Colors.transparent))),
+                                          : Colors.transparent)))*/
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
-                            child: Text(
-                              text,
-                              style: AppTheme.textStyleMediumFadeBlack16,
+                            child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+
+                                  child: Text(
+                                    text,
+                                    style: AppTheme.textStyleMediumFadeBlack16,
+                                  ),
+                                  onTap: () {
+                                    CustomDrawerController.to.isExpanded2.value=!CustomDrawerController.to.isExpanded2.value;
+                                  },
+                                ),
+                                CustomDrawerController.to.isExpanded2.value
+                                    ?  Column(children: [...List.generate(CustomDrawerController.to.childCategory.length, (index) {
+                                final text =
+                                CustomDrawerController.to.childCategory[index];
+                                return Container(
+                                  width: double.infinity,
+
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    child: Text(
+                                      text,
+                                      style: AppTheme.textStyleMediumFadeBlack16,
+                                    ),
+                                  ),
+                                );
+                              })],):SizedBox.shrink()
+                              ],
                             ),
                           ),
                         );

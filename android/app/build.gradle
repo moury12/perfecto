@@ -26,6 +26,9 @@ android {
     namespace "com.example.perfecto"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
+    defaultConfig {
+        multiDexEnabled true
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

@@ -38,7 +38,8 @@ dependencies:
   get: ^4.6.6
   image_picker: ^1.0.5
   get_storage: ^2.1.1
-
+  mh_videoplayer:
+    path: ../mh_videoplayer
   mh_core:
 #    path: ../mh_core
       git:

@@ -4,6 +4,10 @@ import 'package:perfecto/bindings/navigation_binding.dart';
 import 'package:perfecto/pages/auth/forget_password_page.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/auth/registration_page.dart';
+import 'package:perfecto/pages/auth/return_cancelation_page.dart';
+import 'package:perfecto/pages/auth/terms_condition_page.dart';
+import 'package:perfecto/pages/blog/blog_details_page.dart';
+import 'package:perfecto/pages/blog/blog_page.dart';
 import 'package:perfecto/pages/category/category_page.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/chat/chat_binding.dart';
@@ -185,6 +189,18 @@ class AppRoutes {
         GetPage(
           name: BrandScreen.routeName,
           page: () => const BrandScreen(),
+        ),GetPage(
+          name: TermsConditionScreen.routeName,
+          page: () => const TermsConditionScreen(),
+        ),GetPage(
+          name: RefundCancelationScreen.routeName,
+          page: () => const RefundCancelationScreen(),
+        ),GetPage(
+          name: BlogScreen.routeName,
+          page: () => const BlogScreen(),
+        ),GetPage(
+          name: BlogDetailsScreen.routeName,
+          page: () => const BlogDetailsScreen(),
         ),
         GetPage(
             name: MyAddressScreen.routeName,
