@@ -8,7 +8,7 @@ import 'package:perfecto/theme/theme_data.dart';
 
 
 class RefundCancelationScreen extends StatelessWidget {
-  static const String routeName='/return_cancel';
+  static const String routeName='/return_policy';
   const RefundCancelationScreen({super.key});
 
   @override

@@ -170,7 +170,7 @@ class HomeScreen extends StatelessWidget {
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => Get.toNamed(OfferScreenNew.routeName),
+                    onTap: () => Get.toNamed(OfferDetailsScreen.routeName),
                     child: Container(
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
@@ -198,7 +198,7 @@ class HomeScreen extends StatelessWidget {
                   5,
                   (index) => GestureDetector(
                       onTap: () {
-                        Get.toNamed(SaleScreen.routeName);
+                        Get.toNamed(OfferDetailsScreen.routeName);
                       },
                       child: const TopBrandsOfferListWidget())),
               const TitleTextWidget(tileText: 'Mega Deals'),
@@ -237,11 +237,7 @@ class HomeScreen extends StatelessWidget {
                   size: size,
                   img: AssetsConstant.superOfferBackground),
               const TitleTextWidget(tileText: 'Segments You Can’t Miss'),
-              GestureDetector(
-                  onTap: () {
-                    Get.toNamed(SaleScreen.routeName);
-                  },
-                  child: const SegmentGridWidget()),
+              const SegmentGridWidget(),
               CustomSizedBox.space16H,
               BestSellerListViewBuilder(),
               const TitleTextWidget(tileText: 'Shop By Concern'),
@@ -351,11 +347,11 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
               ),
-              TitleTextWidget(tileText: 'Just For You'),
+             /* TitleTextWidget(tileText: 'Just For You'),
               GridItemWidget(
                   data: HomeController.to.megadealsITem,
                   size: size,
-                  img: AssetsConstant.justForUBackground),
+                  img: AssetsConstant.justForUBackground),*/
               PrimaryAcceantListViewItemWidget(),
               GreetingCardWidget(),
             ],
