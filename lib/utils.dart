@@ -1,3 +1,3 @@
-enum navigation {
-home, category , chat, account
-}
+enum NavigationType { home, category, chat, account }
+
+enum LogInType { email, phone, verifyOTP, google, facebook }

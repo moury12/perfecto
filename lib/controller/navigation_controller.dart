@@ -3,7 +3,9 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/main.dart';
+import 'package:perfecto/pages/auth/login_page.dart';
 
 import '../DB/database_helper.dart';
 import '../constants/assets_constants.dart';
@@ -21,33 +23,27 @@ class NavigationController extends GetxController {
     {'title': 'Account', 'icon': AssetsConstant.navIcon4},
   ].obs;
   void changeTabIndex(int index) {
-    selectedIndex.value = index;
-    if (index == 3) {
-      _insert();
-    }
-    if (index == 2) {
-      _delete('5');
+    if ((index == 2 || index == 3) && !AuthController.to.isLogin.value) {
+      loginRoute(index);
+    } else {
+      selectedIndex.value = index;
     }
   }
 
-  void _insert() async {
-    // row to insert
-    Map<String, dynamic> row = {
-      DatabaseHelper.userId: '5',
-      DatabaseHelper.isLogIn: 0,
-      DatabaseHelper.updatedAt: DateTime.now().millisecondsSinceEpoch,
-      DatabaseHelper.createdAt: DateTime.now().millisecondsSinceEpoch
-    };
-    final id = await dbHelper.insert(row);
-    globalLogger.d('inserted row id: $id');
+  void loginRoute(int index) {
+    AuthController.to.unAuthenticateIndex(index);
+    Get.toNamed(LoginScreen.routeName);
   }
 
-  void _delete(dynamic userId) async {
-    // Assuming that the number of rows is the id for the last row.
-    // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.userId, userId);
-    globalLogger.d('deleted $rowsDeleted row(s): User $userId');
-  }
+  // RxBool isLogin() {
+  //   final dbHelper = DatabaseHelper();
+  //   final user = dbHelper.getUser();
+  //   if (user != null) {
+  //     return true.obs;
+  //   } else {
+  //     return false.obs;
+  //   }
+  // }
 
   RxBool openSearchSuggestion = true.obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;

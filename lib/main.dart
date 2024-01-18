@@ -34,6 +34,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: snackbarKey,
       title: 'Perfecto',
       theme: ThemeData.light(),
       getPages: AppRoutes.routes(),
