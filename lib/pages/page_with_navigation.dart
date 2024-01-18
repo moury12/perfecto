@@ -20,24 +20,24 @@ class MainHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     final NavigationController controller = NavigationController.to;
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       backgroundColor: AppColors.kBackgroundColor,
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: WillPopScope(
         onWillPop: () async {
           if (controller.selectedIndex.value == 0) {
-            if (_scaffoldKey.currentState!.isDrawerOpen) {
-              _scaffoldKey.currentState!.closeDrawer();
+            if (scaffoldKey.currentState!.isDrawerOpen) {
+              scaffoldKey.currentState!.closeDrawer();
               return false;
             }
             openDialog(context);
           } else {
-            if (_scaffoldKey.currentState!.isDrawerOpen) {
-              _scaffoldKey.currentState!.closeDrawer();
+            if (scaffoldKey.currentState!.isDrawerOpen) {
+              scaffoldKey.currentState!.closeDrawer();
               return false;
             }
             controller.selectedIndex.value = 0;
@@ -112,7 +112,7 @@ class MainHomeScreen extends StatelessWidget {
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width / 2,
-                child: Text(
+                child: const Text(
                   'Are you sure to exit app?',
                   style: AppTheme.textStyleMediumBlack12,
                 ),
