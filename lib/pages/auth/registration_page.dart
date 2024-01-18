@@ -122,26 +122,27 @@ class RegistrationScreen extends StatelessWidget {
             ),
             CustomSizedBox.space20H,
             CustomTextField(
+              errorMessage: AuthController.to.errorEmail!.value,
               focusNode: AuthController.to.emailFocusNode,
               onChanged: (value) {
-                if (value.isNotEmpty && value.length >= 3) {
+                if (value.isNotEmpty && value.isEmail) {
                   AuthController.to.errorEmail = null;
 
                 } else {
                   if (value.isEmpty) {
                     AuthController.to.errorEmail!.value = 'Enter a email address';
                   } else if (!value.isEmail) {
-                    AuthController.to.errorEmail!.value = 'Enter minimum 3 character of your name!';
+                    AuthController.to.errorEmail!.value = 'Enter a valid email address!';
                   }
                 }
               },
               onSubmitted: (p0) {
-                if (AuthController.to.firstNameController.text.isEmpty) {
-                  AuthController.to.errorName!.value = 'Enter A name';
-                } else if (AuthController.to.firstNameController.text.length < 3) {
-                  AuthController.to.errorName!.value = 'Enter minimum 3 character of your name!';
+                if (AuthController.to.emailController.text.isEmpty) {
+                  AuthController.to.errorEmail!.value = 'Enter an email address';
+                } else if (AuthController.to.emailController.text.isEmail) {
+                  AuthController.to.errorEmail!.value = 'Enter a valid email address!';
                 } else {
-                  AuthController.to.firstNameFocusNode.unfocus();
+                  AuthController.to.emailFocusNode.unfocus();
                 }
               },
               controller: AuthController.to.emailController,
@@ -157,14 +158,16 @@ class RegistrationScreen extends StatelessWidget {
               ),
             ),
             CustomTextField(
-              focusNode: AuthController.to.firstNameFocusNode,
+              focusNode: AuthController.to.phoneFocusNode,
+              errorMessage: AuthController.to.errorPhone!.value,
+              keyboardType: TextInputType.phone,
               onChanged: (value) {
-                if (value.isNotEmpty && value.length >= 3) {
-                  AuthController.to.errorName = null;
+                if (value.isNotEmpty && value.isPhoneNumber) {
+                  AuthController.to.errorPhone = null;
 
                 } else {
                   if (value.isEmpty) {
-                    AuthController.to.errorName!.value = 'Enter a name';
+                    AuthController.to.errorPhone!.value = 'Enter a phone number';
                   } else if (value.length < 3) {
                     AuthController.to.errorName!.value = 'Enter minimum 3 character of your name!';
                   }
