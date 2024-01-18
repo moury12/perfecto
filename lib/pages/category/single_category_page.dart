@@ -10,7 +10,7 @@ import '../../drawer/custom_drawer.dart';
 import 'widgets/single_category_product_widget.dart';
 
 class SingleCatergoryWiseScreen extends StatelessWidget {
-  static const String routeName = '/singleCategory';
+  static const String routeName = '/singleCategory_Product';
   const SingleCatergoryWiseScreen({super.key});
 
   @override
@@ -23,7 +23,7 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            HomeTopWidget(),
+            HomeTopWidget(isneedFilter: true),
             Expanded(
                 child: Center(
               child: ListView(

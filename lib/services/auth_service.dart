@@ -7,8 +7,22 @@ class AuthService{
    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.url}register', httpMethod: HttpMethod.multipartFilePost,noNeedAuthToken: true,allInfoField: body);
    globalLogger.d(response, 'Register');
    if(response['status']!=null&& response['status']){
-     showSnackBar(msg:errorMessageJson(response['message']));
+     return response['message'];
+
+   }else if (response['status'] != null && !response['status']) {
+     ServiceAPI.showAlert(errorMessageJson(response['message']));
    }
    return false;
+ }
+ static Future<dynamic> loginCall(dynamic body) async{
+   final response = await ServiceAPI.genericCall(
+       url: '${ServiceAPI.apiUrl}login', httpMethod: HttpMethod.multipartFilePost, noNeedAuthToken: true, isLoadingEnable: true, allInfoField: body);
+   globalLogger.d(response, "Login Route");
+   if (response['status'] != null && response['status']) {
+     return response['data'];
+   } else if (response['status'] != null && !response['status']) {
+     ServiceAPI.showAlert(errorMessageJson(response['message']));
+   }
+   return {};
  }
 }

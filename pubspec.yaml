@@ -40,6 +40,8 @@ dependencies:
   sqflite: ^2.3.0
   path_provider: ^2.0.2
   path: ^1.8.0
+  mh_videoplayer:
+    path: ../mh_videoplayer
   mh_core:
     path: ../mh_core
 #      git:

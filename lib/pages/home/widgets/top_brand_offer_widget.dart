@@ -190,30 +190,37 @@ maxCrossAxisExtent: 200,          mainAxisExtent: 200,
       ),
       itemCount: 8,
       itemBuilder: (context, index) {
-        return Container(
+        return GestureDetector(
+          onTap: () {
 
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              Get.toNamed(SingleCatergoryWiseScreen.routeName);
 
-              image: DecorationImage(image: AssetImage(blueBackground??AssetsConstant.blueBackground),fit: BoxFit.fitWidth)),
-          child:
-          Stack(alignment: Alignment.center,
-            children: [
-              img??  Image.network(networkImg??'',errorBuilder: (context, error, stackTrace) {
-                return Image.asset(AssetsConstant.megaDealsForeground,fit: BoxFit.fitHeight,height: 180,alignment: Alignment.center,);
-              },
-                  alignment: Alignment.center),
-              Positioned(bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Image.asset('assets/blue_background1.png',)),
-              widgetinBlueShade?? Positioned(bottom: 10,
-                  left: 0,
-                  right: 0,
-                  child: Text('Lipstick',style: AppTheme.textStyleBoldWhite20,textAlign: TextAlign.center,))
-            ],
+          },
+          child: Container(
+
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+
+                image: DecorationImage(image: AssetImage(blueBackground??AssetsConstant.blueBackground),fit: BoxFit.fitWidth)),
+            child:
+            Stack(alignment: Alignment.center,
+              children: [
+                img??  Image.network(networkImg??'',errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(AssetsConstant.megaDealsForeground,fit: BoxFit.fitHeight,height: 180,alignment: Alignment.center,);
+                },
+                    alignment: Alignment.center),
+                Positioned(bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Image.asset('assets/blue_background1.png',)),
+                widgetinBlueShade?? Positioned(bottom: 10,
+                    left: 0,
+                    right: 0,
+                    child: Text('Lipstick',style: AppTheme.textStyleBoldWhite20,textAlign: TextAlign.center,))
+              ],
+            ),
+
           ),
-
         );
       },
     );

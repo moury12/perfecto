@@ -41,6 +41,10 @@ class AppTheme {
   static const textStyleMediumBlack10 = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.w500,
+  );  static const textStyleMediumFadeBlack10 = TextStyle(
+    fontSize: 10,
+    color: Colors.black54,
+    fontWeight: FontWeight.w500,
   );
   static const textStyleMediumWhite10 = TextStyle(
     fontSize: 10,

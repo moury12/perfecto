@@ -83,56 +83,56 @@ class OfferDetailsScreen extends StatelessWidget {
                    TitleTextWidget(tileText: 'Lipstick'),Spacer(),   GestureDetector(onTap: () {
                      Get.toNamed(SingleCatergoryWiseScreen.routeName);
                    },
-                     child: Padding(
-                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                       child: Text(
-                         'See All',
-                         style: TextStyle(
-                           fontSize: 12,
-                           color: AppColors.kPrimaryColor,
+                     child: GestureDetector(
+                       onTap: () {
+                         Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                       },
+                       child: Padding(
+                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                         child: Text(
+                           'See All',
+                           style: TextStyle(
+                             fontSize: 12,
+                             color: AppColors.kPrimaryColor,
+                           ),
                          ),
                        ),
                      ),
                    )
                  ],
                ),
-               SizedBox(height: 380,
-                 child: Obx(
-                    () {
-                     return ListView.builder(
-                       scrollDirection: Axis.horizontal,
-                       padding: EdgeInsets.symmetric(horizontal: 8),
-                       itemBuilder: (context, index) {  final data = CategoryController.to.categoryWiseITem[index];
-                       return Padding(
-                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                         child: SingleCategoryProductWidget(
-                           name: data['name'],
-                           rating: data['rating'],
-                           img: data['img'],
-                           price: data['price'],
-                           buttonText: data['buttonText'],
-                           previousPrice: data['previousPrice'],
-                           isBestSeller: data['isBestSeller'],
-                           isStacked: data['isStacked'],
-                           isBuy1Get1: data['isbuy1Get1'],
-                           isDiscount: data['isDiscount'],
-                           isFavourite: data['isFavourite'],
-                           isFeatured: data['isFeatured'],
-                           isOnSale: data['isOnSale'],
-                           isOutofStock: data['isOutofStock'],
-                           isShadeSwatch: data['shade'],
-                           onTap: () {
-                             print(data['isFavourite']);
-                             data['isFavourite'] = !data['isFavourite'];
-                             CategoryController.to.categoryWiseITem[index] = data;
-                           },
-                         ),
+               GridView.builder(
+                     padding: const EdgeInsets.symmetric(horizontal: 16),
+                     shrinkWrap: true,
+                     primary: false,
+                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                     itemCount: 4,
+                     itemBuilder: (context, index) {
+                       final data = CategoryController.to.categoryWiseITem[index];
+                       return SingleCategoryProductWidget(
+                         name: data['name'],
+                         rating: data['rating'],
+                         img: data['img'],
+                         price: data['price'],
+                         buttonText: data['buttonText'],
+                         previousPrice: data['previousPrice'],
+                         isBestSeller: data['isBestSeller'],
+                         isStacked: data['isStacked'],
+                         isBuy1Get1: data['isbuy1Get1'],
+                         isDiscount: data['isDiscount'],
+                         isFavourite: data['isFavourite'],
+                         isFeatured: data['isFeatured'],
+                         isOnSale: data['isOnSale'],
+                         isOutofStock: data['isOutofStock'],
+                         isShadeSwatch: data['shade'],
+                         onTap: () {
+                           print(data['isFavourite']);
+                           data['isFavourite'] = !data['isFavourite'];
+                           CategoryController.to.categoryWiseITem[index] = data;
+                         },
                        );
-                       },                    itemCount: CategoryController.to.categoryWiseITem.length,
-                     );
-                   }
-                 ),
-               )],))
+                     },
+                   )],))
             ],
           ))
         ],

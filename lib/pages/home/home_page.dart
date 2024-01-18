@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_videoplayer/widgets/video-player-widget/video_player_widget.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
@@ -10,6 +11,7 @@ import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
+import 'package:perfecto/pages/offer/offer_details_page.dart';
 import 'package:perfecto/pages/offer/offer_page.dart';
 import 'package:perfecto/pages/offer/offer_page_v1.dart';
 import 'package:perfecto/pages/offer/sale_page.dart';
@@ -49,7 +51,8 @@ class HomeScreen extends StatelessWidget {
                           controller.currentPage.value = index;
                           String data = controller.bannerContent[index];
                           return GestureDetector(
-                            onTap: () => Get.toNamed(OfferScreenNew.routeName),
+                            onTap: () =>
+                                Get.toNamed(OfferDetailsScreen.routeName),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 0),
                               child: Image.network('',
@@ -107,7 +110,6 @@ class HomeScreen extends StatelessWidget {
                       : GestureDetector(
                           onTap: () {
                             if (data['route'] == OutletScreen.routeName) {
-
                               NavigationController.to.changeTabIndex(5);
                               NavigationController.to.update();
                             }
@@ -134,7 +136,7 @@ class HomeScreen extends StatelessWidget {
                           ));
                 },
               ),
-       /*       Padding(
+              /*       Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                   child: Container(
@@ -168,7 +170,7 @@ class HomeScreen extends StatelessWidget {
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => Get.toNamed(OfferScreenNew.routeName),
+                    onTap: () => Get.toNamed(OfferDetailsScreen.routeName),
                     child: Container(
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
@@ -192,10 +194,13 @@ class HomeScreen extends StatelessWidget {
               ),
               CustomSizedBox.space8H,
               const TitleTextWidget(tileText: 'Top Brands & Offers'),
-              ...List.generate(5, (index) => GestureDetector( onTap: () {
-                Get.toNamed(SaleScreen.routeName);
-              },
-                  child: const TopBrandsOfferListWidget())),
+              ...List.generate(
+                  5,
+                  (index) => GestureDetector(
+                      onTap: () {
+                        Get.toNamed(OfferDetailsScreen.routeName);
+                      },
+                      child: const TopBrandsOfferListWidget())),
               const TitleTextWidget(tileText: 'Mega Deals'),
               GridItemWidget(
                 size: size,
@@ -232,10 +237,7 @@ class HomeScreen extends StatelessWidget {
                   size: size,
                   img: AssetsConstant.superOfferBackground),
               const TitleTextWidget(tileText: 'Segments You Can’t Miss'),
-              GestureDetector(onTap: () {
-                Get.toNamed(SaleScreen.routeName);
-              },
-                  child: const SegmentGridWidget()),
+              const SegmentGridWidget(),
               CustomSizedBox.space16H,
               BestSellerListViewBuilder(),
               const TitleTextWidget(tileText: 'Shop By Concern'),
@@ -290,39 +292,72 @@ class HomeScreen extends StatelessWidget {
                     mainAxisSpacing: 8),
                 itemCount: 8,
                 itemBuilder: (context, index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            color: AppColors.kPrimaryColor, width: 2.5),
-                        image: DecorationImage(
-                            image: AssetImage(AssetsConstant.slider1),
-                            fit: BoxFit.fill)),
-                    child: Image.asset(
-                      AssetsConstant.playButton,
-                      height: 22,
-                      width: 22,
+                  return GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                          titlePadding: EdgeInsets.zero,
+                          contentPadding: EdgeInsets.zero,
+                          children: [
+                            /*Container(
+                                width: Get.width,
+                                height: 200,
+                                color: Colors.white,
+                                child: Center(
+                                  child: Text('Check'),*--*
+                                ))*/
+                            SizedBox(
+                              width:Get.width*.9,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: VideoPlayerWidgetV2(
+                                        videoList: [
+                                          'https://www.youtube.com/watch?v=gJLVTKhTnog'
+                                        ],
+                                          width:Get.width*.8,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              color: AppColors.kPrimaryColor, width: 2.5),
+                          image: DecorationImage(
+                              image: AssetImage(AssetsConstant.slider1),
+                              fit: BoxFit.fill)),
+                      child: Image.asset(
+                        AssetsConstant.playButton,
+                        height: 22,
+                        width: 22,
+                      ),
                     ),
                   );
                 },
               ),
-              TitleTextWidget(tileText: 'Just For You'),
+             /* TitleTextWidget(tileText: 'Just For You'),
               GridItemWidget(
                   data: HomeController.to.megadealsITem,
                   size: size,
-                  img: AssetsConstant.justForUBackground),
+                  img: AssetsConstant.justForUBackground),*/
               PrimaryAcceantListViewItemWidget(),
               GreetingCardWidget(),
-
             ],
           ),
         ),
-
       ],
     );
   }
 }
-
-
-

@@ -25,7 +25,9 @@ class HomeTopWidget extends StatelessWidget {
   final bool isCartPage;
   final bool isWalletPage;
   final bool isSearchpage;
+  final bool isneedFilter;
   final Widget? title;
+
   final TextEditingController? controller;
   const HomeTopWidget(
       {super.key,
@@ -34,7 +36,7 @@ class HomeTopWidget extends StatelessWidget {
       this.title,
       this.isSearchpage = false,
       this.isCartPage = false,
-      this.isWalletPage = true});
+      this.isWalletPage = true,  this.isneedFilter=false});
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +222,7 @@ class HomeTopWidget extends StatelessWidget {
                       ? SingleChildScrollView(
                           child: Column(
                             children: [
-                              // NavigationController.to.searchController.value.text != "Lakme Absolute Lipstick"?
+
                               NavigationController.to.openSearchSuggestion.value
                                   ? Container(
                                       decoration: BoxDecoration(
@@ -373,6 +375,81 @@ class HomeTopWidget extends StatelessWidget {
                         )
                       : const SizedBox.shrink(),
                 ),
+              if(isneedFilter)
+                Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 0)
+                            .copyWith(bottom: 12),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(6),
+                                      color: const Color(0xffEEFAFF)),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        AssetsConstant.filter,
+                                        height: 16,
+                                      ),
+                                      CustomSizedBox.space8W,
+                                      const Text(
+                                        'FILTER',
+                                        style: AppTheme
+                                            .textStyleBoldPrimary12,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {
+                                  _showBottomSheetFilter(context);
+                                },
+                              ),
+                            ),
+                            CustomSizedBox.space8W,
+                            Expanded(
+                              child: GestureDetector(
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(6),
+                                      color: const Color(0xffEEFAFF)),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        AssetsConstant.sort,
+                                        height: 16,
+                                      ),
+                                      CustomSizedBox.space8W,
+                                      const Text(
+                                        'SORT',
+                                        style: AppTheme
+                                            .textStyleBoldPrimary12,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {
+                                  _showBottomSheetSort(context);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+
+
             ],
           ),
         ],
@@ -570,95 +647,93 @@ class HomeTopWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       useSafeArea: true,
       builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Row(
-                  children: [
-                    const Text(
-                      'Sort By',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                      ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Row(
+                children: [
+                  const Text(
+                    'Sort By',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
                     ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        CupertinoIcons.multiply,
-                        color: Colors.black54,
-                        size: 25,
-                      ),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      CupertinoIcons.multiply,
+                      color: Colors.black54,
+                      size: 25,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const Divider(
+              color: Color(0xffECECEC),
+              thickness: 1.5,
+              height: 1.5,
+            ),
+            ...List.generate(
+              3,
+              (index) => Padding(
+                padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(onTap: () {
+                          NavigationController.to.checked.value =
+                              !NavigationController.to.checked.value;
+                        }, child: Obx(() {
+                          return Container(
+                            height: 18,
+                            width: 18,
+                            margin: const EdgeInsets.only(bottom: 16),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: NavigationController.to.checked.value
+                                    ? AppColors.kPrimaryColor
+                                    : const Color(0xffE7E7E7),
+                                border: Border.all(
+                                    width: 0.5,
+                                    color: AppColors.kPrimaryColor)),
+                            alignment: Alignment.center,
+                            child: NavigationController.to.checked.value
+                                ? const Icon(
+                                    Icons.check_rounded,
+                                    color: Colors.white,
+                                    size: 15,
+                                  )
+                                : const SizedBox.shrink(),
+                          );
+                        })),
+                        CustomSizedBox.space12W,
+                        const Text(
+                          'Relevance',
+                          style: AppTheme.textStyleMediumCustomBlack12,
+                        )
+                      ],
+                    ),
+                    const Divider(
+                      color: Color(0xffF3F3F3),
+                      thickness: 1,
+                      height: 1,
                     )
                   ],
                 ),
               ),
-              const Divider(
-                color: Color(0xffECECEC),
-                thickness: 1.5,
-                height: 1.5,
-              ),
-              ...List.generate(
-                3,
-                (index) => Padding(
-                  padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(onTap: () {
-                            NavigationController.to.checked.value =
-                                !NavigationController.to.checked.value;
-                          }, child: Obx(() {
-                            return Container(
-                              height: 18,
-                              width: 18,
-                              margin: const EdgeInsets.only(bottom: 16),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: NavigationController.to.checked.value
-                                      ? AppColors.kPrimaryColor
-                                      : const Color(0xffE7E7E7),
-                                  border: Border.all(
-                                      width: 0.5,
-                                      color: AppColors.kPrimaryColor)),
-                              alignment: Alignment.center,
-                              child: NavigationController.to.checked.value
-                                  ? const Icon(
-                                      Icons.check_rounded,
-                                      color: Colors.white,
-                                      size: 15,
-                                    )
-                                  : const SizedBox.shrink(),
-                            );
-                          })),
-                          CustomSizedBox.space12W,
-                          const Text(
-                            'Relevance',
-                            style: AppTheme.textStyleMediumCustomBlack12,
-                          )
-                        ],
-                      ),
-                      const Divider(
-                        color: Color(0xffF3F3F3),
-                        thickness: 1,
-                        height: 1,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              CustomSizedBox.space16H
-            ],
-          ),
+            ),
+            CustomSizedBox.space16H
+          ],
         );
       },
     );

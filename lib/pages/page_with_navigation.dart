@@ -20,14 +20,28 @@ class MainHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
     final NavigationController controller = NavigationController.to;
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: AppColors.kBackgroundColor,
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: WillPopScope(
-        onWillPop: () async{
-          openDialog(context);
-
+        onWillPop: () async {
+          if (controller.selectedIndex.value == 0) {
+            if (scaffoldKey.currentState!.isDrawerOpen) {
+              scaffoldKey.currentState!.closeDrawer();
+              return false;
+            }
+            openDialog(context);
+          } else {
+            if (scaffoldKey.currentState!.isDrawerOpen) {
+              scaffoldKey.currentState!.closeDrawer();
+              return false;
+            }
+            controller.selectedIndex.value = 0;
+          }
           return Future.value(false);
         },
         child: Obx(
@@ -83,62 +97,65 @@ class MainHomeScreen extends StatelessWidget {
     );
   }
 
-  Future<void> openDialog(BuildContext context) async{ switch (await showDialog(
-  context: context,
-  builder: (context) {
-  return SimpleDialog(surfaceTintColor: Colors.white,
-  clipBehavior: Clip.hardEdge,
-  titlePadding: EdgeInsets.zero,
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-  children: [
-  Padding(
-  padding: const EdgeInsets.all(16.0),
-  child: Container(
-  alignment: Alignment.center,
-  width: MediaQuery.of(context).size.width / 2,
-  child: Text(
-  'Are you sure to exit app?',
-  style: AppTheme.textStyleMediumBlack12,
-  ),
-  ),
-  ),
-  Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-  CustomButton(
-  onPressed: () {
-  Navigator.pop(context, 0);
-  },
-  width: MediaQuery.of(context).size.width / 6,
-  labelColor: AppColors.kPrimaryColor,
-  boxShadowColor: Colors.transparent,
-  isBorder: true,
-  borderColor: AppColors.kPrimaryColor,
-  primary: Colors.white,
-  marginVertical: 6,
-  marginHorizontal: 0,
-  borderRadiusAll: 22,
-  label: 'Cancel'),
-  CustomButton(
-  onPressed: () {
-  Navigator.pop(context, 1);
-  },
-  width: MediaQuery.of(context).size.width / 6,
-  marginVertical: 6,
-  marginHorizontal: 6,
-  borderRadiusAll: 22,
-  label: 'Exit')
-  ],
-  )
-  ],
-  );
-  },
+  Future<void> openDialog(BuildContext context) async {
+    switch (await showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          surfaceTintColor: Colors.white,
+          clipBehavior: Clip.hardEdge,
+          titlePadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width / 2,
+                child: const Text(
+                  'Are you sure to exit app?',
+                  style: AppTheme.textStyleMediumBlack12,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomButton(
+                    onPressed: () {
+                      Navigator.pop(context, 0);
+                    },
+                    width: MediaQuery.of(context).size.width / 6,
+                    labelColor: AppColors.kPrimaryColor,
+                    boxShadowColor: Colors.transparent,
+                    isBorder: true,
+                    borderColor: AppColors.kPrimaryColor,
+                    primary: Colors.white,
+                    marginVertical: 6,
+                    marginHorizontal: 0,
+                    borderRadiusAll: 22,
+                    label: 'Cancel'),
+                CustomButton(
+                    onPressed: () {
+                      Navigator.pop(context, 1);
+                    },
+                    width: MediaQuery.of(context).size.width / 6,
+                    marginVertical: 6,
+                    marginHorizontal: 6,
+                    borderRadiusAll: 22,
+                    label: 'Exit')
+              ],
+            )
+          ],
+        );
+      },
     )) {
-    case 0:
-    break;
-    case 1:
-    exit(0);
-    }}
+      case 0:
+        break;
+      case 1:
+        exit(0);
+    }
+  }
 }
 
 class NavWidget extends StatelessWidget {

@@ -100,11 +100,20 @@ class ChatScreen extends StatelessWidget {
         Expanded(
           child: Obx(() {
             return messageController.messages.isEmpty
-                ? Center(
-                    child: Image.asset(
-                    AssetsConstant.messageDefault,
-                    height: 82,
-                  ))
+                ? GestureDetector(    onTap: () {
+              final newMessage = Message(
+                  sender: AssetsConstant.foregrond,
+                  content: 'Hi',
+                  timestamp: DateTime.now(),
+                  isReceived: false);
+              messageController.addMessage(newMessage);
+            },
+                  child: Center(
+                      child: Image.asset(
+                      AssetsConstant.messageDefault,
+                      height: 82,
+                    )),
+                )
                 : ListView.builder(
                     reverse: true,
                     padding: EdgeInsets.zero,
