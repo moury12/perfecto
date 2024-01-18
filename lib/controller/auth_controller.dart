@@ -105,14 +105,14 @@ class AuthController extends GetxController {
       DatabaseHelper.updatedAt: DateTime.now().millisecondsSinceEpoch,
       DatabaseHelper.createdAt: DateTime.now().millisecondsSinceEpoch
     };
-    final id = await dbHelper.insert(row);
+    final id = await dbHelper.insert(DatabaseHelper.loginTable, row);
     globalLogger.d('inserted row id: $id');
   }
 
   void _delete(dynamic userId) async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.userId, userId);
+    final rowsDeleted = await dbHelper.delete(DatabaseHelper.userId, DatabaseHelper.loginTable, userId);
     globalLogger.d('deleted $rowsDeleted row(s): User $userId');
   }
 }
