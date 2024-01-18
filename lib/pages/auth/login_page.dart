@@ -15,8 +15,14 @@ import '../../utils.dart';
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
   const LoginScreen({super.key});
-  _login({String? email, String? phone, String? password, required LogInType type}) {
-    final data = AuthController.to.loginRequest(email: email, phone: phone, password: password, type: type);
+  _login(
+      {String? email,
+      String? phone,
+      String? password,
+      String? otp,
+      required LogInType type}) {
+    final data = AuthController.to.loginRequest(
+        email: email, phone: phone, password: password, type: type, otp: otp);
   }
 
   @override
@@ -45,18 +51,27 @@ class LoginScreen extends StatelessWidget {
               CustomSizedBox.space32H,
               Obx(() {
                 return Text(
-                  AuthController.to.isOtp.value ? 'Enter Otp' : 'Sign in with a phone Number',
+                  AuthController.to.isOtp.value
+                      ? 'Enter Otp'
+                      : 'Sign in with a phone Number',
                   style: AppTheme.textStyleSemiBoldBlack16,
                 );
               }),
               Obx(() {
                 return CustomTextField(
-                  hintText: AuthController.to.isOtp.value ? 'OTP Code' : 'Phone Numbar',
+                  hintText: AuthController.to.isOtp.value
+                      ? 'OTP Code'
+                      : 'Phone Number',
+                  controller: AuthController.to.isOtp.value
+                      ? AuthController.to.otpController
+                      : AuthController.to.phoneController,
                   enableBorderColor: AppColors.kPrimaryColor,
                   prefixWidget: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Image.asset(
-                      AuthController.to.isOtp.value ? 'assets/otp.png' : AssetsConstant.phoneLogin,
+                      AuthController.to.isOtp.value
+                          ? 'assets/otp.png'
+                          : AssetsConstant.phoneLogin,
                       height: 20,
                     ),
                   ),
@@ -65,7 +80,16 @@ class LoginScreen extends StatelessWidget {
               CustomButton(
                 label: 'Login',
                 onPressed: () {
-                  AuthController.to.isOtp.value = !AuthController.to.isOtp.value;
+                  if (!AuthController.to.isOtp.value) {
+                    _login(
+                        type: LogInType.phone,
+                        phone: AuthController.to.phoneController.text);
+                    AuthController.to.isOtp.value=true;
+                  } else {
+                    _login(
+                        type: LogInType.verifyOTP,
+                        otp: AuthController.to.otpController.text);
+                  }
                 },
                 marginVertical: 16,
               ),
@@ -82,6 +106,7 @@ class LoginScreen extends StatelessWidget {
               CustomTextField(
                 hintText: 'Username of Email',
                 enableBorderColor: AppColors.kPrimaryColor,
+                controller: AuthController.to.emailController,
                 prefixWidget: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Image.asset(
@@ -92,6 +117,7 @@ class LoginScreen extends StatelessWidget {
               ),
               CustomTextField(
                 hintText: 'Password',
+                controller: AuthController.to.passwordController,
                 enableBorderColor: AppColors.kPrimaryColor,
                 isPassword: true,
                 prefixWidget: Padding(
@@ -111,15 +137,20 @@ class LoginScreen extends StatelessWidget {
                         Obx(() {
                           return GestureDetector(
                             onTap: () {
-                              AuthController.to.isRemember.value = !AuthController.to.isRemember.value;
+                              AuthController.to.isRemember.value =
+                                  !AuthController.to.isRemember.value;
                             },
                             child: Container(
                               height: 18,
                               width: 18,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(2),
-                                  color: AuthController.to.isRemember.value ? AppColors.kPrimaryColor : const Color(0xffE7E7E7),
-                                  border: Border.all(width: 0.5, color: AppColors.kPrimaryColor)),
+                                  color: AuthController.to.isRemember.value
+                                      ? AppColors.kPrimaryColor
+                                      : const Color(0xffE7E7E7),
+                                  border: Border.all(
+                                      width: 0.5,
+                                      color: AppColors.kPrimaryColor)),
                               alignment: Alignment.center,
                               child: AuthController.to.isRemember.value
                                   ? const Icon(
@@ -155,7 +186,10 @@ class LoginScreen extends StatelessWidget {
                 label: 'Login',
                 marginVertical: 20,
                 onPressed: () {
-                  _login(email: 'maruf1@gmail.com', password: '123456789', type: LogInType.email);
+                  _login(
+                      email: AuthController.to.emailController.text,
+                      password: AuthController.to.passwordController.text,
+                      type: LogInType.email);
                 },
               ),
               GestureDetector(

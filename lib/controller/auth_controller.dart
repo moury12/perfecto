@@ -19,11 +19,12 @@ class AuthController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
-  RxString? errorEmail;
-  RxString? errorPhone;
-  RxString? errorPassword;
-  RxString? errorREPassword;
-  RxString? errorName;
+  TextEditingController otpController = TextEditingController();
+  Rx<String?> errorEmail = null.obs;
+  Rx<String?> errorPhone = null.obs;
+  Rx<String?> errorPassword = null.obs;
+  Rx<String?> errorREPassword = null.obs;
+  Rx<String?> errorName = null.obs;
   final FocusNode firstNameFocusNode = FocusNode();
   final FocusNode lastNameFocusNode = FocusNode();
   final FocusNode emailFocusNode = FocusNode();
@@ -39,11 +40,14 @@ class AuthController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    isLoggedIn.value = await dbHelper.getSingleItemAll(tableName: DatabaseHelper.loginTable, whereKey: DatabaseHelper.isLogIn, whereValue: 1) != {};
+    final loginUser = await dbHelper.getSingleItemAll(
+        tableName: DatabaseHelper.loginTable,
+        whereKey: DatabaseHelper.isLogIn,
+        whereValue: 1);
+    globalLogger.d(loginUser);
+    isLoggedIn.value = loginUser.isNotEmpty;
     if (isLoggedIn.value) {
-      final user =
-          await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
-      ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
+      ServiceAPI.setAuthToken(loginUser[DatabaseHelper.accessToken]);
       // globalLogger.d(user, user.runtimeType);
     }
     super.onInit();
@@ -57,6 +61,7 @@ class AuthController extends GetxController {
     phoneController.dispose();
     passwordController.dispose();
     passwordConfirmController.dispose();
+    otpController.dispose();
     super.onClose();
   }
 
@@ -68,13 +73,16 @@ class AuthController extends GetxController {
     Get.offAllNamed(MainHomeScreen.routeName);
   }
 
-  Future<bool> registerRequest(String name, String email, String phone, String password) async {
+  Future<bool> registerRequest(String fName, String lName, String email,
+      String phone, String password, String cPassword) async {
     registerEmail(email);
     final isCreated = await AuthService.registerCall({
-      "name": name,
+      "f_name": fName,
+      "l_name": lName,
       "phone": phone,
       "email": email,
       "password": password,
+      "c_password": cPassword,
     });
     if (isCreated) {
       showSnackBar(
@@ -86,7 +94,12 @@ class AuthController extends GetxController {
     return isCreated;
   }
 
-  Future<bool> loginRequest({String? email, String? phone, String? password, String? otp, required LogInType type}) async {
+  Future<bool> loginRequest(
+      {String? email,
+      String? phone,
+      String? password,
+      String? otp,
+      required LogInType type}) async {
     dynamic body = {};
     if (type == LogInType.email) {
       body = {
@@ -115,7 +128,7 @@ class AuthController extends GetxController {
       showSnackBar(
         msg: 'Login successfully!',
       );
-      NavigationController.to.selectedIndex.value = unAuthenticateIndex.value;
+      unAuthenticateIndex.value  = NavigationController.to.selectedIndex.value;
       unAuthenticateIndex.value = -1;
       Get.back();
       // afterLogin(isCreated);
@@ -139,7 +152,8 @@ class AuthController extends GetxController {
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken, DatabaseHelper.loginTable, ServiceAPI.getToken);
+    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken,
+        DatabaseHelper.loginTable, ServiceAPI.getToken);
     globalLogger.d('deleted $rowsDeleted row(s): User ${ServiceAPI.getToken}');
   }
 }
