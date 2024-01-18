@@ -169,17 +169,17 @@ class RegistrationScreen extends StatelessWidget {
                   if (value.isEmpty) {
                     AuthController.to.errorPhone!.value = 'Enter a phone number';
                   } else if (value.length < 3) {
-                    AuthController.to.errorName!.value = 'Enter minimum 3 character of your name!';
+                    AuthController.to.errorPhone!.value = 'Enter a valid phone number!';
                   }
                 }
               },
               onSubmitted: (p0) {
-                if (AuthController.to.firstNameController.text.isEmpty) {
-                  AuthController.to.errorName!.value = 'Enter A name';
-                } else if (AuthController.to.firstNameController.text.length < 3) {
-                  AuthController.to.errorName!.value = 'Enter minimum 3 character of your name!';
+                if (AuthController.to.phoneController.text.isEmpty) {
+                  AuthController.to.errorPhone!.value = 'Enter A name';
+                } else if (AuthController.to.phoneController.text.length < 3) {
+                  AuthController.to.errorPhone!.value = 'Enter a valid phone number!';
                 } else {
-                  AuthController.to.firstNameFocusNode.unfocus();
+                  AuthController.to.phoneFocusNode.unfocus();
                 }
               },
               controller: AuthController.to.phoneController,
@@ -195,26 +195,26 @@ class RegistrationScreen extends StatelessWidget {
               ),
             ),
             CustomTextField(
-              focusNode: AuthController.to.firstNameFocusNode,
+              focusNode: AuthController.to.passwordFocusNode,
               onChanged: (value) {
-                if (value.isNotEmpty && value.length >= 3) {
-                  AuthController.to.errorName = null;
+                if (value.isNotEmpty && value.length >= 8) {
+                  AuthController.to.errorPassword = null;
 
                 } else {
                   if (value.isEmpty) {
-                    AuthController.to.errorName!.value = 'Enter a name';
-                  } else if (value.length < 3) {
-                    AuthController.to.errorName!.value = 'Enter minimum 3 character of your name!';
+                    AuthController.to.errorPassword!.value = 'Enter a Password';
+                  } else if (value.length < 8) {
+                    AuthController.to.errorPassword!.value = 'Enter 8 Character Password!';
                   }
                 }
               },
               onSubmitted: (p0) {
-                if (AuthController.to.firstNameController.text.isEmpty) {
-                  AuthController.to.errorName!.value = 'Enter A name';
-                } else if (AuthController.to.firstNameController.text.length < 3) {
-                  AuthController.to.errorName!.value = 'Enter minimum 3 character of your name!';
+                if (AuthController.to.passwordController.text.isEmpty) {
+                  AuthController.to.errorPassword!.value = 'Enter a Password';
+                } else if (AuthController.to.passwordController.text.length < 8) {
+                  AuthController.to.errorPassword!.value = 'Enter 8 Character Password!';
                 } else {
-                  AuthController.to.firstNameFocusNode.unfocus();
+                  AuthController.to.passwordFocusNode.unfocus();
                 }
               },
               controller: AuthController.to.passwordController,
@@ -231,26 +231,26 @@ class RegistrationScreen extends StatelessWidget {
               ),
             ),
             CustomTextField(
-              focusNode: AuthController.to.firstNameFocusNode,
+              focusNode: AuthController.to.confirmPasswordFocusNode,
               onChanged: (value) {
-                if (value.isNotEmpty && value.length >= 3) {
-                  AuthController.to.errorName = null;
+                if (value.isNotEmpty && value.length >= 8) {
+                  AuthController.to.errorREPassword = null;
 
                 } else {
                   if (value.isEmpty) {
-                    AuthController.to.errorName!.value = 'Enter a name';
-                  } else if (value.length < 3) {
-                    AuthController.to.errorName!.value = 'Enter minimum 3 character of your name!';
+                    AuthController.to.errorREPassword!.value = 'Enter a Password';
+                  } else if ( AuthController.to.passwordController.text!=value ) {
+                    AuthController.to.errorREPassword!.value = 'Passwords did not match!';
                   }
                 }
               },
               onSubmitted: (p0) {
-                if (AuthController.to.firstNameController.text.isEmpty) {
-                  AuthController.to.errorName!.value = 'Enter A name';
-                } else if (AuthController.to.firstNameController.text.length < 3) {
-                  AuthController.to.errorName!.value = 'Enter minimum 3 character of your name!';
+                if (AuthController.to.passwordConfirmController.text.isEmpty) {
+                  AuthController.to.errorREPassword!.value = 'Enter a Password';
+                } else if (AuthController.to.passwordConfirmController.text.length!=AuthController.to.passwordController.text.length) {
+                  AuthController.to.errorREPassword!.value = 'Passwords did not match!';
                 } else {
-                  AuthController.to.firstNameFocusNode.unfocus();
+                  AuthController.to.confirmPasswordFocusNode.unfocus();
                 }
               },
               controller: AuthController.to.passwordConfirmController,
