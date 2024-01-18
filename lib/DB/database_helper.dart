@@ -38,7 +38,7 @@ class DatabaseHelper {
             $accessToken TEXT,
             $userId VARCHAR(10),
             $userEmail VARCHAR(50),
-            $userMobile VARCHAR(10),
+            $userMobile VARCHAR(20),
             $isLogIn INTEGER NOT NULL,
             $updatedAt DATETIME NOT NULL,
             $createdAt DATETIME NOT NULL
@@ -78,6 +78,18 @@ class DatabaseHelper {
       where: '$keyName = ?',
       whereArgs: [id],
     );
+  }
+
+  Future<dynamic> getSingleItemAll({required String tableName, required String whereKey, required dynamic whereValue}) async {
+    String sql = 'SELECT * FROM $tableName WHERE $whereKey =?';
+    var dbQuery = await _db.rawQuery(sql, [whereValue]);
+    return dbQuery.isEmpty ? {} : dbQuery.first;
+  }
+
+  Future<dynamic> getSingleItemSpecific({required String tableName, required List<String> selectedItem, required String whereKey, required dynamic whereValue}) async {
+    String sql = 'SELECT ${selectedItem.toString().replaceAll('[', '').replaceAll(']', '')} FROM $tableName WHERE $whereKey =?';
+    var dbQuery = await _db.rawQuery(sql, [whereValue]);
+    return dbQuery.isEmpty ? {} : dbQuery.first;
   }
 
   // Deletes the row specified by the id. The number of affected rows is

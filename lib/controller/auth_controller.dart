@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/services/auth_service.dart';
 
 import '../DB/database_helper.dart';
@@ -30,9 +32,22 @@ class AuthController extends GetxController {
   final FocusNode confirmPasswordFocusNode = FocusNode();
   RxBool isRemember = false.obs;
   RxBool isOtp = false.obs;
-  RxBool isLogin = false.obs;
   RxString registerEmail = ''.obs;
   RxInt unAuthenticateIndex = (-1).obs;
+
+  RxBool isLoggedIn = false.obs;
+
+  @override
+  Future<void> onInit() async {
+    isLoggedIn.value = await dbHelper.getSingleItemAll(tableName: DatabaseHelper.loginTable, whereKey: DatabaseHelper.isLogIn, whereValue: 1) != {};
+    if (isLoggedIn.value) {
+      final user =
+          await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
+      ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
+      // globalLogger.d(user, user.runtimeType);
+    }
+    super.onInit();
+  }
 
   @override
   void onClose() {
@@ -43,6 +58,14 @@ class AuthController extends GetxController {
     passwordController.dispose();
     passwordConfirmController.dispose();
     super.onClose();
+  }
+
+  logoutFunc() {
+    _delete();
+    ServiceAPI.setAuthToken('');
+    isLoggedIn.value = false;
+    NavigationController.to.selectedIndex.value = 0;
+    Get.offAllNamed(MainHomeScreen.routeName);
   }
 
   Future<bool> registerRequest(String name, String email, String phone, String password) async {
@@ -86,6 +109,9 @@ class AuthController extends GetxController {
     final token = isCreated['token'];
     globalLogger.d(token, 'Token');
     if (type != LogInType.phone && isCreated.isNotEmpty) {
+      ServiceAPI.setAuthToken(token);
+      _insert(accessToken: token, phone: isCreated['phone'] ?? '');
+      isLoggedIn.value = true;
       showSnackBar(
         msg: 'Login successfully!',
       );
@@ -94,14 +120,15 @@ class AuthController extends GetxController {
       Get.back();
       // afterLogin(isCreated);
     }
-    return isCreated;
+    return isCreated.isNotEmpty;
   }
 
-  void _insert() async {
+  void _insert({String? phone, required String accessToken}) async {
     // row to insert
     Map<String, dynamic> row = {
-      DatabaseHelper.userId: '5',
-      DatabaseHelper.isLogIn: 0,
+      DatabaseHelper.userMobile: phone ?? '',
+      DatabaseHelper.accessToken: accessToken,
+      DatabaseHelper.isLogIn: 1,
       DatabaseHelper.updatedAt: DateTime.now().millisecondsSinceEpoch,
       DatabaseHelper.createdAt: DateTime.now().millisecondsSinceEpoch
     };
@@ -109,10 +136,10 @@ class AuthController extends GetxController {
     globalLogger.d('inserted row id: $id');
   }
 
-  void _delete(dynamic userId) async {
+  void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.userId, DatabaseHelper.loginTable, userId);
-    globalLogger.d('deleted $rowsDeleted row(s): User $userId');
+    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken, DatabaseHelper.loginTable, ServiceAPI.getToken);
+    globalLogger.d('deleted $rowsDeleted row(s): User ${ServiceAPI.getToken}');
   }
 }

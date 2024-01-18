@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/points/my_points_page.dart';
@@ -37,7 +38,8 @@ class ProfileScreen extends StatelessWidget {
                     image: DecorationImage(
                         image: AssetImage(
                           AssetsConstant.profileBackground,
-                        ),fit: BoxFit.fitWidth,
+                        ),
+                        fit: BoxFit.fitWidth,
                         alignment: Alignment.topCenter)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -47,7 +49,6 @@ class ProfileScreen extends StatelessWidget {
                     CustomNetworkImage(
                       networkImagePath: '',
                       errorImagePath: 'assets/dummy_profile.png',
-                  
                     ),
                     CustomSizedBox.space8H,
                     Text(
@@ -64,9 +65,7 @@ class ProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(4),
                       width: 100,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Color(0xffD4F3FF),
-                          borderRadius: BorderRadius.circular(4)),
+                      decoration: BoxDecoration(color: Color(0xffD4F3FF), borderRadius: BorderRadius.circular(4)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -76,29 +75,17 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           CustomSizedBox.space4W,
                           RichText(
-                              text: const TextSpan(text: '', children: [
-                            TextSpan(
-                                text: '0',
-                                style: AppTheme.textStyleBoldBlack12),
-                            TextSpan(
-                                text: ' Points',
-                                style: AppTheme.textStyleNormalBlack12)
-                          ])),
+                              text: const TextSpan(
+                                  text: '',
+                                  children: [TextSpan(text: '0', style: AppTheme.textStyleBoldBlack12), TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)])),
                         ],
                       ),
                     ),
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       width: double.infinity,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)
-                          ],
-                          borderRadius: BorderRadius.circular(8)),
+                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)], borderRadius: BorderRadius.circular(8)),
                       child: Column(
                         children: [
                           ProfileItemWidget(
@@ -138,7 +125,9 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {Get.toNamed(ReturnAndCancelScreen.routeName);},
+                            function: () {
+                              Get.toNamed(ReturnAndCancelScreen.routeName);
+                            },
                             image: AssetsConstant.returnCancel,
                             title: 'Returns & Cancel',
                           ),
@@ -185,7 +174,8 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           ProfileItemWidget(
                             function: () {
-                              Get.toNamed(LoginScreen.routeName);
+                              // Get.toNamed(LoginScreen.routeName);
+                              AuthController.to.logoutFunc();
                             },
                             image: AssetsConstant.logout,
                             title: 'Logout',
@@ -196,7 +186,6 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         )

@@ -23,7 +23,7 @@ class NavigationController extends GetxController {
     {'title': 'Account', 'icon': AssetsConstant.navIcon4},
   ].obs;
   void changeTabIndex(int index) {
-    if ((index == 2 || index == 3) && !AuthController.to.isLogin.value) {
+    if ((index == 2 || index == 3) && !AuthController.to.isLoggedIn.value) {
       loginRoute(index);
     } else {
       selectedIndex.value = index;
