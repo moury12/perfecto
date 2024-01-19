@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/pages/auth/change_password_page.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/services/auth_service.dart';
 
@@ -16,11 +18,22 @@ class AuthController extends GetxController {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController emailLoginController = TextEditingController();
+  TextEditingController emailControllerForgetPass = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController phoneLoginController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordLoginController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
+  TextEditingController changePasswordController = TextEditingController();
+  TextEditingController changePasswordConfirmController =
+  TextEditingController();
   TextEditingController otpController = TextEditingController();
   Rx<String?> errorEmail = null.obs;
+  Rx<String?> errorLoginEmail=''.obs;
+  Rx<String?> errorLoginPass=''.obs ;
+  Rx<String?> errorLoginPhone = ''.obs;
+  Rx<String?> errorLoginOtp = ''.obs;
   Rx<String?> errorPhone = null.obs;
   Rx<String?> errorPassword = null.obs;
   Rx<String?> errorREPassword = null.obs;
@@ -28,11 +41,16 @@ class AuthController extends GetxController {
   final FocusNode firstNameFocusNode = FocusNode();
   final FocusNode lastNameFocusNode = FocusNode();
   final FocusNode emailFocusNode = FocusNode();
+  final FocusNode emailLoginFocusNode = FocusNode();
   final FocusNode phoneFocusNode = FocusNode();
+  final FocusNode phoneLoginFocusNode = FocusNode();
+  final FocusNode otpLoginFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode passwordLoginFocusNode = FocusNode();
   final FocusNode confirmPasswordFocusNode = FocusNode();
   RxBool isRemember = false.obs;
   RxBool isOtp = false.obs;
+  RxBool isVerifyEmail = false.obs;
   RxString registerEmail = ''.obs;
   RxInt unAuthenticateIndex = (-1).obs;
 
@@ -47,7 +65,13 @@ class AuthController extends GetxController {
     globalLogger.d(loginUser);
     isLoggedIn.value = loginUser.isNotEmpty;
     if (isLoggedIn.value) {
-      ServiceAPI.setAuthToken(loginUser[DatabaseHelper.accessToken]);
+      final user = await dbHelper.getSingleItemSpecific(
+          tableName: DatabaseHelper.loginTable,
+          selectedItem: [DatabaseHelper.accessToken],
+          whereKey: DatabaseHelper.isLogIn,
+          whereValue: 1);
+
+      ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
       // globalLogger.d(user, user.runtimeType);
     }
     super.onInit();
@@ -58,10 +82,16 @@ class AuthController extends GetxController {
     firstNameController.dispose();
     lastNameController.dispose();
     emailController.dispose();
+    emailLoginController.dispose();
+    emailControllerForgetPass.dispose();
     phoneController.dispose();
+    phoneLoginController.dispose();
+    passwordLoginController.dispose();
     passwordController.dispose();
     passwordConfirmController.dispose();
     otpController.dispose();
+    changePasswordController.dispose();
+    changePasswordConfirmController.dispose();
     super.onClose();
   }
 
@@ -128,10 +158,12 @@ class AuthController extends GetxController {
       showSnackBar(
         msg: 'Login successfully!',
       );
-      unAuthenticateIndex.value  = NavigationController.to.selectedIndex.value;
+      unAuthenticateIndex.value = NavigationController.to.selectedIndex.value;
       unAuthenticateIndex.value = -1;
       Get.back();
       // afterLogin(isCreated);
+    } else if (type == LogInType.phone && isCreated.isNotEmpty) {
+      globalLogger.d(isCreated['otp']);
     }
     return isCreated.isNotEmpty;
   }
@@ -149,11 +181,61 @@ class AuthController extends GetxController {
     globalLogger.d('inserted row id: $id');
   }
 
+  Future<void> forgetPassword(String email, [bool isResend = false]) async {
+    registerEmail(email);
+    final verifyEmail = await AuthService.forgetPassword({"email": email});
+    if (verifyEmail.isNotEmpty) {
+      showSnackBar(msg: 'Use OTP to Change Password.');
+      globalLogger.d(verifyEmail['otp']);
+      isVerifyEmail = !isResend ? true.obs : false.obs;
+    }
+  }
+
+  Future<void> verifyEmailForgetPassword(String otp) async {
+    bool verifyEmail = await AuthService.verifyEmail(
+        {"email": registerEmail.value, "otp": otp});
+    if (verifyEmail) {
+      showSnackBar(msg: '"Otp verify successfully."');
+      Get.offAndToNamed(ChangePasswordScreen.routeName);
+    }
+  }
+  Future<void> changePassword(
+
+      String password,
+      String cPassword,
+      ) async {
+    // getProgressDialog('Verify and Changing Password');
+    bool isVerified = await AuthService.changePassword({
+      "email": registerEmail.value,
+
+      "new_password": password,
+      "c_password": cPassword,
+    });
+    if (isVerified) {
+      showSnackBar(msg: 'New password reset successfully!');
+       Get.offAllNamed(LoginScreen.routeName);
+    }
+  }
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
     final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken,
         DatabaseHelper.loginTable, ServiceAPI.getToken);
     globalLogger.d('deleted $rowsDeleted row(s): User ${ServiceAPI.getToken}');
+  }
+
+  Future<void> logout() async {
+    showSnackBar(
+        msg: 'Loging out..',
+        actionLabel: '',
+        actionLabelColor: Colors.transparent);
+    final logingOut = await AuthService.logoutCall(
+      forceLogout: () {
+        logoutFunc();
+      },
+    );
+    if (logingOut) {
+      logoutFunc();
+    }
   }
 }

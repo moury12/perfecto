@@ -175,7 +175,8 @@ class ProfileScreen extends StatelessWidget {
                           ProfileItemWidget(
                             function: () {
                               // Get.toNamed(LoginScreen.routeName);
-                              AuthController.to.logoutFunc();
+                              AuthController.to.logout();
+
                             },
                             image: AssetsConstant.logout,
                             title: 'Logout',

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:perfecto/bindings/auth_binding.dart';
-import 'package:perfecto/bindings/navigation_binding.dart';
+import 'package:perfecto/pages/auth/change_password_page.dart';
 import 'package:perfecto/pages/auth/forget_password_page.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/auth/registration_page.dart';
@@ -13,9 +13,7 @@ import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/chat/chat_binding.dart';
 import 'package:perfecto/pages/chat/chat_page.dart';
 import 'package:perfecto/pages/checkout-page/checkout_bindings.dart';
-import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
 import 'package:perfecto/pages/checkout-page/checkout_page.dart';
-import 'package:perfecto/pages/home/bindings/home_binding.dart';
 import 'package:perfecto/pages/home/brand_page.dart';
 import 'package:perfecto/pages/home/home_page.dart';
 import 'package:perfecto/pages/my-cart/apply_cuppon_reward.dart';
@@ -89,6 +87,10 @@ class AppRoutes {
             name: OfferScreen.routeName,
             page: () => const OfferScreen(),
             binding: OfferBinding()),
+        GetPage(
+            name: ChangePasswordScreen.routeName,
+            page: () => const ChangePasswordScreen(),
+            binding: AuthBinding()),
         GetPage(
             name: OfferScreenNew.routeName,
             page: () => const OfferScreenNew(),
@@ -174,10 +176,9 @@ class AppRoutes {
           page: () => const EditProfileScreen(),
         ),
         GetPage(
-          name: LoginScreen.routeName,
-          page: () => const LoginScreen(),
-       binding: AuthBinding()
-        ),
+            name: LoginScreen.routeName,
+            page: () => const LoginScreen(),
+            binding: AuthBinding()),
         GetPage(
           name: RegistrationScreen.routeName,
           page: () => const RegistrationScreen(),
@@ -189,16 +190,20 @@ class AppRoutes {
         GetPage(
           name: BrandScreen.routeName,
           page: () => const BrandScreen(),
-        ),GetPage(
+        ),
+        GetPage(
           name: TermsConditionScreen.routeName,
           page: () => const TermsConditionScreen(),
-        ),GetPage(
+        ),
+        GetPage(
           name: RefundCancelationScreen.routeName,
           page: () => const RefundCancelationScreen(),
-        ),GetPage(
+        ),
+        GetPage(
           name: BlogScreen.routeName,
           page: () => const BlogScreen(),
-        ),GetPage(
+        ),
+        GetPage(
           name: BlogDetailsScreen.routeName,
           page: () => const BlogDetailsScreen(),
         ),
