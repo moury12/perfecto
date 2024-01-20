@@ -201,24 +201,24 @@ class LoginScreen extends StatelessWidget {
                   enableBorderColor: AppColors.kPrimaryColor,
                   controller: AuthController.to.emailLoginController,
                   onChanged: (value) {
-                    if (value.isNotEmpty /*&&value.isEmail*/) {
+                    if (value.isNotEmpty &&value.isEmail) {
                       AuthController.to.errorLoginEmail.value = '';
                     } else if (value.isEmpty) {
                       AuthController.to.errorLoginEmail.value =
                           'Enter an email';
-                    } /*else if(!value.isEmail){
+                    } else if(!value.isEmail){
                         AuthController.to.errorLoginEmail.value='Enter an '
                             'valid email';
-                      }*/
+                      }
                   },
                   onSubmitted: (p0) {
                     if (AuthController.to.emailLoginController.text.isEmpty) {
                       AuthController.to.errorLoginEmail.value =
                           'Enter an email';
-                    } /*else if (!AuthController.to.emailLoginController.text.isEmail) {
+                    } else if (!AuthController.to.emailLoginController.text.isEmail) {
                         AuthController.to.errorLoginEmail.value = 'Enter an '
                             'valid email';
-                      } */
+                      }
                     else {
                       AuthController.to.emailLoginFocusNode.unfocus();
                     }
@@ -334,7 +334,9 @@ class LoginScreen extends StatelessWidget {
                   label: 'Login',
                   marginVertical: 20,
                   onPressed: () {
-                    if (AuthController.to.emailLoginController.text.isNotEmpty &&
+                    if (AuthController.to.emailLoginController.text
+                        .isNotEmpty &&AuthController.to.emailLoginController
+                        .text.isEmail&&
                         AuthController.to.passwordLoginController.text.length >= 8 &&
                         AuthController.to.passwordLoginController.text.isNotEmpty) {
                       _login(
@@ -357,10 +359,10 @@ class LoginScreen extends StatelessWidget {
                       if (AuthController.to.emailLoginController.text.isEmpty) {
                         AuthController.to.errorLoginEmail.value =
                             'Enter an email';
-                      } /*else if (!AuthController.to.emailLoginController.text.isEmail) {
+                      } else if (!AuthController.to.emailLoginController.text.isEmail) {
                         AuthController.to.errorLoginEmail.value = 'Enter an '
                             'valid email';
-                      } */
+                      }
                     }
                   },
                 ),

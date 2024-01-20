@@ -23,31 +23,41 @@ class AuthController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController phoneLoginController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordForChangeController = TextEditingController();
   TextEditingController passwordLoginController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
-  TextEditingController changePasswordController = TextEditingController();
-  TextEditingController changePasswordConfirmController =
-  TextEditingController();
+  TextEditingController passwordForChangeConfirmController =
+      TextEditingController();
+
   TextEditingController otpController = TextEditingController();
-  Rx<String?> errorEmail = null.obs;
-  Rx<String?> errorLoginEmail=''.obs;
-  Rx<String?> errorLoginPass=''.obs ;
+  TextEditingController otpForgetPassController = TextEditingController();
+  Rx<String?> errorEmail = ''.obs;
+  Rx<String?> errorForgetPassEmail = ''.obs;
+  Rx<String?> errorLoginEmail = ''.obs;
+  Rx<String?> errorLoginPass = ''.obs;
   Rx<String?> errorLoginPhone = ''.obs;
   Rx<String?> errorLoginOtp = ''.obs;
-  Rx<String?> errorPhone = null.obs;
-  Rx<String?> errorPassword = null.obs;
-  Rx<String?> errorREPassword = null.obs;
-  Rx<String?> errorName = null.obs;
+  Rx<String?> errorForgetPassOtp = ''.obs;
+  Rx<String?> errorPhone = ''.obs;
+  Rx<String?> errorPassword = ''.obs;
+  Rx<String?> errorForChangePassword = ''.obs;
+  Rx<String?> errorREPassword = ''.obs;
+  Rx<String?> errorForChangeREPassword = ''.obs;
+  Rx<String?> errorName = ''.obs;
   final FocusNode firstNameFocusNode = FocusNode();
   final FocusNode lastNameFocusNode = FocusNode();
   final FocusNode emailFocusNode = FocusNode();
+  final FocusNode emailForgetPassFocusNode = FocusNode();
   final FocusNode emailLoginFocusNode = FocusNode();
   final FocusNode phoneFocusNode = FocusNode();
   final FocusNode phoneLoginFocusNode = FocusNode();
   final FocusNode otpLoginFocusNode = FocusNode();
+  final FocusNode otpForgetPassFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode passwordForChangeFocusNode = FocusNode();
   final FocusNode passwordLoginFocusNode = FocusNode();
   final FocusNode confirmPasswordFocusNode = FocusNode();
+  final FocusNode confirmPasswordForChangeFocusNode = FocusNode();
   RxBool isRemember = false.obs;
   RxBool isOtp = false.obs;
   RxBool isVerifyEmail = false.obs;
@@ -80,18 +90,20 @@ class AuthController extends GetxController {
   @override
   void onClose() {
     firstNameController.dispose();
+    otpForgetPassController.dispose();
     lastNameController.dispose();
     emailController.dispose();
     emailLoginController.dispose();
     emailControllerForgetPass.dispose();
     phoneController.dispose();
+    passwordForChangeConfirmController.dispose();
+    passwordForChangeController.dispose();
     phoneLoginController.dispose();
     passwordLoginController.dispose();
     passwordController.dispose();
     passwordConfirmController.dispose();
     otpController.dispose();
-    changePasswordController.dispose();
-    changePasswordConfirmController.dispose();
+
     super.onClose();
   }
 
@@ -199,23 +211,23 @@ class AuthController extends GetxController {
       Get.offAndToNamed(ChangePasswordScreen.routeName);
     }
   }
-  Future<void> changePassword(
 
-      String password,
-      String cPassword,
-      ) async {
+  Future<void> changePassword(
+    String password,
+    String cPassword,
+  ) async {
     // getProgressDialog('Verify and Changing Password');
     bool isVerified = await AuthService.changePassword({
       "email": registerEmail.value,
-
       "new_password": password,
       "c_password": cPassword,
     });
     if (isVerified) {
       showSnackBar(msg: 'New password reset successfully!');
-       Get.offAllNamed(LoginScreen.routeName);
+      Get.offAllNamed(LoginScreen.routeName);
     }
   }
+
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();

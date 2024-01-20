@@ -54,6 +54,36 @@ class ForgetPasswordScreen extends StatelessWidget {
                   ),
                 ),
                 CustomTextField(
+focusNode: AuthController.to.emailForgetPassFocusNode,
+                  errorMessage: AuthController.to.errorForgetPassEmail.value!
+                      .isEmpty?null:AuthController.to.errorForgetPassEmail.value,
+                  onChanged: (value) {
+                    if(value.isNotEmpty&&value.isEmail){
+                      AuthController.to.errorForgetPassEmail.value='';
+                    }
+                    else{
+                      if(value.isEmpty){
+                        AuthController.to.errorForgetPassEmail.value='Enter '
+                            'an email';
+                      }if(!value.isEmail){
+                        AuthController.to.errorForgetPassEmail.value='Enter '
+                            'a valid email';
+                      }
+                    }
+                  },
+                  onSubmitted: (p0) {
+                    if(AuthController.to.emailControllerForgetPass.text.isEmpty){
+                      AuthController.to.errorForgetPassEmail.value='Enter '
+                          'an email';
+                    }else if(!AuthController.to.emailControllerForgetPass
+                      .text.isEmail){
+                      AuthController.to.errorForgetPassEmail.value='Enter '
+                          'a valid email';
+                    }
+                    else{
+                      AuthController.to.emailForgetPassFocusNode.unfocus();
+                    }
+                  },
                   controller: AuthController.to.emailControllerForgetPass,
                   hintText: 'Enter Your email',
                   focusColor: AppColors.kPrimaryColor,
@@ -69,9 +99,27 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
                 AuthController.to.isVerifyEmail.value
                     ? CustomTextField(
+                  errorMessage: AuthController.to.errorForgetPassOtp.value!
+                      .isEmpty?null:AuthController.to.errorForgetPassOtp.value,
+                        focusNode:AuthController.to.otpForgetPassFocusNode ,
+                        onChanged: (value) {
+                          if(value.isNotEmpty){
+                            AuthController.to.errorForgetPassOtp.value='';
+                          }else{
+                            AuthController.to.errorForgetPassOtp.value='Enter'
+                                ' otp';
+                          }
+                        },
+                  onSubmitted: (p0) {
+                    if(AuthController.to.otpForgetPassController.text.isEmpty){
+                      AuthController.to.errorForgetPassOtp.value='Enter otp';
+                    }else{
+                      AuthController.to.otpForgetPassFocusNode.unfocus();
+                    }
+                  },
                         hintText: 'OTP Code',
                         focusColor: AppColors.kPrimaryColor,
-                        controller: AuthController.to.otpController,
+                        controller: AuthController.to.otpForgetPassController,
                         enableBorderColor: AppColors.kPrimaryColor,
                         prefixWidget: Padding(
                           padding: const EdgeInsets.all(12.0),
@@ -86,17 +134,50 @@ class ForgetPasswordScreen extends StatelessWidget {
                   label: 'Send reset instructions',
                   marginVertical: 20,
                   onPressed: () {
+
                     if(!AuthController.to.isVerifyEmail.value){
+                      if(AuthController.to.emailControllerForgetPass
+                          .text.isEmail&&AuthController.to
+                          .emailControllerForgetPass.text
+                          .isNotEmpty){
                     AuthController.to
                         .forgetPassword(AuthController.to.emailControllerForgetPass
                         .text);
                     // AuthController.to.emailControllerForgetPass.clear();
-                    AuthController.to.isVerifyEmail.value=true;
+                    AuthController.to.isVerifyEmail.value=true;}
+                      else{
+                        if(AuthController.to.emailControllerForgetPass.text.isEmpty){
+                          AuthController.to.errorForgetPassEmail.value='Enter '
+                              'an email';
+                        } if(!AuthController.to.emailControllerForgetPass
+                            .text.isEmail){
+                          AuthController.to.errorForgetPassEmail.value='Enter '
+                              'a valid email';
+                        }
+                      }
                     }
                     else{
-AuthController.to.verifyEmailForgetPassword(AuthController.to.otpController.text);
+                      if(AuthController.to.emailControllerForgetPass
+                          .text.isEmail&&AuthController.to
+                          .emailControllerForgetPass.text
+                          .isNotEmpty&&AuthController.to.otpForgetPassController
+                          .text.isNotEmpty){
+AuthController.to.verifyEmailForgetPassword(AuthController.to.otpForgetPassController.text);
 AuthController.to.emailControllerForgetPass.clear();
-AuthController.to.otpController.clear();
+AuthController.to.otpForgetPassController.clear();}
+                      else{
+                        if(AuthController.to.emailControllerForgetPass.text.isEmpty){
+                          AuthController.to.errorForgetPassEmail.value='Enter '
+                              'an email';
+                        } if(!AuthController.to.emailControllerForgetPass
+                            .text.isEmail){
+                          AuthController.to.errorForgetPassEmail.value='Enter '
+                              'a valid email';
+                        }
+                        if(AuthController.to.otpForgetPassController.text.isEmpty){
+                          AuthController.to.errorForgetPassOtp.value='Enter otp';
+                        }
+                      }
                     }
                   },
                 ),

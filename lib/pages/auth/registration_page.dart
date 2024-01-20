@@ -47,14 +47,13 @@ class RegistrationScreen extends StatelessWidget {
               CustomSizedBox.space20H,
               CustomTextField(
                 hintText: 'First name',
-                errorMessage: AuthController.to.errorName.value,
+                errorMessage: AuthController.to.errorName.value!.isEmpty?null:AuthController.to.errorName.value,
                 controller: AuthController.to.firstNameController,
                 enableBorderColor: AppColors.kPrimaryColor,
                 focusNode: AuthController.to.firstNameFocusNode,
                 onChanged: (value) {
                   if (value.isNotEmpty && value.length >= 3) {
-                    AuthController.to.errorName.value = null;
-                    AuthController.to.firstNameFocusNode.unfocus();
+                    AuthController.to.errorName.value = '';
                   } else {
                     if (value.isEmpty) {
                       AuthController.to.errorName.value = 'Enter a name';
@@ -126,11 +125,11 @@ class RegistrationScreen extends StatelessWidget {
               ),
               CustomSizedBox.space20H,
               CustomTextField(
-                errorMessage: AuthController.to.errorEmail.value,
+                errorMessage: AuthController.to.errorEmail.value!.isEmpty?null:AuthController.to.errorEmail.value,
                 focusNode: AuthController.to.emailFocusNode,
                 onChanged: (value) {
                   if (value.isNotEmpty && value.isEmail) {
-                    AuthController.to.errorEmail.value = null;
+                    AuthController.to.errorEmail.value = '';
                   } else {
                     if (value.isEmpty) {
                       AuthController.to.errorEmail.value =
@@ -145,7 +144,7 @@ class RegistrationScreen extends StatelessWidget {
                   if (AuthController.to.emailController.text.isEmpty) {
                     AuthController.to.errorEmail.value =
                     'Enter an email address';
-                  } else if (AuthController.to.emailController.text.isEmail) {
+                  } else if (!AuthController.to.emailController.text.isEmail) {
                     AuthController.to.errorEmail.value =
                     'Enter a valid email address!';
                   } else {
@@ -166,11 +165,11 @@ class RegistrationScreen extends StatelessWidget {
               ),
               CustomTextField(
                 focusNode: AuthController.to.phoneFocusNode,
-                errorMessage: AuthController.to.errorPhone.value,
+                errorMessage: AuthController.to.errorPhone.value!.isEmpty?null:AuthController.to.errorPhone.value,
                 keyboardType: TextInputType.phone,
                 onChanged: (value) {
                   if (value.isNotEmpty && value.isPhoneNumber) {
-                    AuthController.to.errorPhone.value = null;
+                    AuthController.to.errorPhone.value = '';
                   } else {
                     if (value.isEmpty) {
                       AuthController.to.errorPhone.value =
@@ -205,11 +204,12 @@ class RegistrationScreen extends StatelessWidget {
                 ),
               ),
               CustomTextField(
-                errorMessage:AuthController.to.errorPassword.value ,
+                errorMessage:AuthController.to.errorPassword.value!
+                    .isEmpty?null: AuthController.to.errorPassword.value,
                 focusNode: AuthController.to.passwordFocusNode,
                 onChanged: (value) {
                   if (value.isNotEmpty && value.length >= 8) {
-                    AuthController.to.errorPassword.value = null;
+                    AuthController.to.errorPassword.value = '';
                   } else {
                     if (value.isEmpty) {
                       AuthController.to.errorPassword.value =
@@ -246,9 +246,12 @@ class RegistrationScreen extends StatelessWidget {
               ),
               CustomTextField(
                 focusNode: AuthController.to.confirmPasswordFocusNode,
-                errorMessage:  AuthController.to.errorREPassword.value,
+                errorMessage:  AuthController.to.errorREPassword.value!
+                    .isEmpty?null:AuthController.to.errorREPassword.value,
                 onChanged: (value) {
-                  if (value.isNotEmpty && value.length >= 8) {
+                  if (value.isNotEmpty && value.length >= 8&&AuthController
+                      .to.passwordController.text ==
+                      value) {
                     AuthController.to.errorREPassword.value='';
                   } else {
                     if (value.isEmpty) {
@@ -322,6 +325,10 @@ class RegistrationScreen extends StatelessWidget {
                     if (AuthController.to.firstNameController.text.isEmpty) {
                       AuthController.to.errorName.value = 'Enter A name';
                     }
+                     if (!AuthController.to.emailController.text.isEmail) {
+                      AuthController.to.errorEmail.value =
+                      'Enter a valid email address!';
+                    }
                     if (AuthController.to.firstNameController.text.length <
                         3) {
                       AuthController.to.errorName.value =
@@ -331,10 +338,10 @@ class RegistrationScreen extends StatelessWidget {
                       AuthController.to.errorEmail.value =
                       'Enter an email address';
                     }
-                    if (AuthController.to.emailController.text.isEmail) {
+                   /* if (AuthController.to.emailController.text.isEmail) {
                       AuthController.to.errorEmail.value =
                       'Enter a valid email address!';
-                    }
+                    }*/
                     if (AuthController.to.phoneController.text.isEmpty) {
                       AuthController.to.errorPhone.value = 'Enter A Phone number';
                     }
