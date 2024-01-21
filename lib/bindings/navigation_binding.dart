@@ -6,6 +6,7 @@ import 'package:perfecto/drawer/drawer_controller.dart';
 import 'package:perfecto/pages/chat/chat_controller.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 
+import '../controller/user_controller.dart';
 import '../pages/home/controller/home_controller.dart';
 
 class NavigationBinding extends Bindings {
@@ -19,6 +20,10 @@ class NavigationBinding extends Bindings {
       NavigationController(),
       permanent: true,
     );
+   /* Get.put<UserController>(
+      UserController(),
+      permanent: true,
+    );*/
 
     Get.put<HomeController>(
       HomeController(),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
-import 'package:perfecto/pages/auth/login_page.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/points/my_points_page.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
@@ -23,9 +24,10 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
-        HomeTopWidget(
+        const HomeTopWidget(
           isSearchInclude: false,
         ),
         Expanded(
@@ -34,8 +36,8 @@ class ProfileScreen extends StatelessWidget {
             children: [
               Container(
                 clipBehavior: Clip.none,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
+                decoration: const BoxDecoration(
+                    image: const DecorationImage(
                         image: AssetImage(
                           AssetsConstant.profileBackground,
                         ),
@@ -46,26 +48,38 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomSizedBox.space24H,
-                    CustomNetworkImage(
-                      networkImagePath: '',
-                      errorImagePath: 'assets/dummy_profile.png',
-                    ),
+                     Obx(
+                       () {
+                         return CustomNetworkImage(
+                          networkImagePath: '${ServiceAPI.url}${UserController.to.userInfo.value.avatar}',
+                          errorImagePath: 'assets/dummy_profile.png',
+                                             );
+                       }
+                     ),
                     CustomSizedBox.space8H,
-                    Text(
-                      'User 1234',
-                      style: AppTheme.textStyleBoldWhite14,
+                    Obx(
+                       () {
+                        return  Text(
+                         UserController.to.userInfo.value.name?? 'Anonymous User',
+                          style: AppTheme.textStyleBoldWhite14,
+                        );
+                      }
                     ),
                     CustomSizedBox.space4H,
-                    Text(
-                      '0187565656565',
-                      style: AppTheme.textStyleSemiBoldWhite12,
+                    Obx(
+                       () {
+                        return  Text(
+                          UserController.to.userInfo.value.phone?? '-',
+                          style: AppTheme.textStyleSemiBoldWhite12,
+                        );
+                      }
                     ),
                     CustomSizedBox.space4H,
                     Container(
                       padding: const EdgeInsets.all(4),
                       width: 100,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(color: Color(0xffD4F3FF), borderRadius: BorderRadius.circular(4)),
+                      decoration: BoxDecoration(color: const Color(0xffD4F3FF), borderRadius: BorderRadius.circular(4)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -82,10 +96,10 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       width: double.infinity,
-                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)], borderRadius: BorderRadius.circular(8)),
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(color: Colors.white, boxShadow: [const BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)], borderRadius: BorderRadius.circular(8)),
                       child: Column(
                         children: [
                           ProfileItemWidget(
@@ -95,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
                             image: 'assets/user_icon.png',
                             title: 'My Profile',
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -107,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.wallet,
                             title: 'My Wallet',
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -119,7 +133,7 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.ordersIcon,
                             title: 'My Orders',
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -131,7 +145,7 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.returnCancel,
                             title: 'Returns & Cancel',
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -143,7 +157,7 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.ratingReview,
                             title: 'My Ratings & Reviews',
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -155,7 +169,7 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.notification,
                             title: 'Notifications',
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -167,7 +181,7 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.myAddress,
                             title: 'My Addresses',
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,

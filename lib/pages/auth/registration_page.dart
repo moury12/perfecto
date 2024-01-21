@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
@@ -312,6 +313,7 @@ class RegistrationScreen extends StatelessWidget {
                         AuthController.to.passwordController.text,
                         AuthController.to.passwordConfirmController.text);
                     if (isCreated) {
+                      showSnackBar(msg: 'User register successfully.');
                       AuthController.to.firstNameController.text = '';
                       AuthController.to.lastNameController.text = '';
                       AuthController.to.emailController.text = '';

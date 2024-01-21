@@ -24,6 +24,7 @@ class ChangePasswordScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
               children: [
                  CustomTextField(
+                   isPassword:true,
                   marginVertical: 6,
                   hintText: 'Enter New Password',
                   labelText: 'New Password',
@@ -60,7 +61,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 ),
 
                  CustomTextField(
-
+isPassword:true,
                    focusNode: AuthController.to.confirmPasswordFocusNode,
                    errorMessage:  AuthController.to.errorForChangeREPassword.value!
                        .isEmpty?null:AuthController.to.errorForChangeREPassword.value,
@@ -87,8 +88,8 @@ class ChangePasswordScreen extends StatelessWidget {
                          .to.passwordForChangeConfirmController.text.isEmpty) {
                        AuthController.to.errorForChangeREPassword.value =
                        'Enter a Password';
-                     } else if (AuthController.to.passwordForChangeConfirmController.text !=
-                         AuthController.to.passwordForChangeController
+                     } else if (AuthController.to.passwordForChangeController.text !=
+                         AuthController.to.passwordForChangeConfirmController
                              .text) {
                        AuthController.to.errorForChangeREPassword.value =
                        'Passwords did not match!';

@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/user_controller.dart';
+
 import 'package:perfecto/pages/auth/change_password_page.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/services/auth_service.dart';
-
 import '../DB/database_helper.dart';
 import '../main.dart';
 import '../pages/auth/login_page.dart';
 import '../utils.dart';
 import 'navigation_controller.dart';
-
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
   TextEditingController firstNameController = TextEditingController();
@@ -82,6 +82,10 @@ class AuthController extends GetxController {
           whereValue: 1);
 
       ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
+      globalLogger.d(user[DatabaseHelper.accessToken],'token');
+      Get.put<UserController>(
+        UserController(),permanent: true
+      );
       // globalLogger.d(user, user.runtimeType);
     }
     super.onInit();
@@ -204,9 +208,13 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyEmailForgetPassword(String otp) async {
-    bool verifyEmail = await AuthService.verifyEmail(
+    final verifyEmail = await AuthService.verifyEmail(
         {"email": registerEmail.value, "otp": otp});
-    if (verifyEmail) {
+    if (verifyEmail.isNotEmpty) {
+      final token = verifyEmail['token'];
+      globalLogger.d(token, 'Token');
+      ServiceAPI.setAuthToken(token);
+      _insert(accessToken: token);
       showSnackBar(msg: '"Otp verify successfully."');
       Get.offAndToNamed(ChangePasswordScreen.routeName);
     }
@@ -216,6 +224,7 @@ class AuthController extends GetxController {
     String password,
     String cPassword,
   ) async {
+    globalLogger.d(registerEmail.value,'email');
     // getProgressDialog('Verify and Changing Password');
     bool isVerified = await AuthService.changePassword({
       "email": registerEmail.value,

@@ -16,7 +16,7 @@ class AuthService {
     globalLogger.d(response, 'Register');
     if (response['status'] != null && response['status']) {
       showSnackBar(
-        msg: errorMessageJson(response['message']),
+        msg: response['message'],
       );
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
@@ -42,7 +42,7 @@ class AuthService {
     return {};
   }
 
-  static Future<bool> verifyEmail(dynamic body) async {
+  static Future<dynamic> verifyEmail(dynamic body) async {
     final response = await ServiceAPI.genericCall(
         url: '${ServiceAPI.apiUrl}verify_email',
         httpMethod: HttpMethod.multipartFilePost,
@@ -53,18 +53,18 @@ class AuthService {
     globalLogger.d(response, "Verify Email Route");
 
     if (response['status'] != null && response['status']) {
-      return true;
+      return response['data'];
     } else if (response['status'] != null && !response['status']) {
       ServiceAPI.showAlert(response['message']);
     }
-    return false;
+    return {};
   }
 
   static Future<bool> changePassword(dynamic body) async {
     final response = await ServiceAPI.genericCall(
         url: '${ServiceAPI.apiUrl}change_password',
         httpMethod: HttpMethod.multipartFilePost,
-        noNeedAuthToken: true,
+        noNeedAuthToken: false,
         allInfoField: body);
     globalLogger.d(response, "change password");
 

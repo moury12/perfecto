@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/profile/edit_password_page.dart';
 import 'package:perfecto/pages/profile/edit_profile_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -16,6 +17,7 @@ class MyProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller =Get.put(UserController());
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
       body: SingleChildScrollView(
@@ -100,9 +102,13 @@ class MyProfileScreen extends StatelessWidget {
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
                         CustomSizedBox.space4H,
-                        Text(
-                          'User3444',
-                          style: AppTheme.textStyleBoldBlack14,
+                        Obx(
+                           () {
+                            return Text(
+                            controller.userInfo.value.name??  'Anonymous User',
+                              style: AppTheme.textStyleBoldBlack14,
+                            );
+                          }
                         ),
                         CustomSizedBox.space4H,
                         Divider(
@@ -124,9 +130,13 @@ class MyProfileScreen extends StatelessWidget {
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
                         CustomSizedBox.space4H,
-                        Text(
-                          'sohanahmed@gmail.com',
-                          style: AppTheme.textStyleBoldBlack14,
+                        Obx(
+                          () {
+                            return Text(
+                              controller.userInfo.value.email?? '-',
+                              style: AppTheme.textStyleBoldBlack14,
+                            );
+                          }
                         ),
                         CustomSizedBox.space4H,
                         Divider(
@@ -148,9 +158,13 @@ class MyProfileScreen extends StatelessWidget {
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
                         CustomSizedBox.space4H,
-                        Text(
-                          '+880 1434521465',
-                          style: AppTheme.textStyleBoldBlack14,
+                        Obx(
+                        () {
+                            return Text(
+                              controller.userInfo.value.phone??  '-',
+                              style: AppTheme.textStyleBoldBlack14,
+                            );
+                          }
                         ),
                         CustomSizedBox.space4H,
                         Divider(
