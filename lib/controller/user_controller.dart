@@ -45,7 +45,7 @@ class UserController extends GetxController {
   @override
   void onReady() async {
     await getUserInfoCall();
-    await getAreaData();
+    await getDistrictData();
     await getAddressCall();
     nameController.text = getUserInfo.name ?? '-';
     emailController.text = userInfo.value.email ?? '-';
@@ -73,8 +73,7 @@ class UserController extends GetxController {
     addressList.value = await UserService.userAddressCall();
   }
 
-  Future<bool> updateUser(
-      String name, String email, String phone, File avatar) async {
+  Future<bool> updateUser(String name, String email, String phone, File avatar) async {
     final isUpdated = await UserService.updateProfile({
       "name": name,
       "email": email,
@@ -89,16 +88,19 @@ class UserController extends GetxController {
     return isUpdated;
   }
 
+  Future<void> getDistrictData() async {
+    final data = await UserService.getDistrictData();
+    districtList.value = data;
+  }
+
   Future<void> getAreaData() async {
     final data = await UserService.getAreaData();
-    districtList.value = data[DataType.district]! as List<DistrictModel>;
-    areaList.value = data[DataType.area]! as List<CityModel>;
+    areaList.value = data;
   }
 
   Future<void> pickImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       pickedImage.value = File(pickedFile.path);

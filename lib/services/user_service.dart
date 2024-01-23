@@ -30,22 +30,15 @@ class UserService {
     return false;
   }
 
-  static Future<Map<DataType, List<dynamic>>> getAreaData() async {
+  static Future<List<DistrictModel>> getDistrictData() async {
     List<DistrictModel> dislist = [];
-    List<CityModel> areaList = [];
     final response = await ServiceAPI.genericCall(
       url: '${ServiceAPI.apiUrl}district',
       httpMethod: HttpMethod.get,
       noNeedAuthToken: false,
     );
-    final response2 = await ServiceAPI.genericCall(
-      url: '${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}' /*${dislist.map((e) => e.id)}*/,
-      httpMethod: HttpMethod.get,
-      noNeedAuthToken: false,
-    );
+
     globalLogger.d(response, "Get District Route");
-    globalLogger.d(response2, "Get Area Route");
-    globalLogger.d('${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}', "Get Area Route");
     // Get.back();
     if (response['status'] != null && response['status']) {
       response['data']['Districts'].forEach((dis) {
@@ -54,17 +47,25 @@ class UserService {
     } else if (response['status'] != null && !response['status']) {
       ServiceAPI.showAlert(response['message']);
     }
-    if (response2['status'] != null && response2['status']) {
-      response2['data']['Cities'].forEach((course) {
+    return dislist;
+  }
+
+  static Future<List<CityModel>> getAreaData() async {
+    List<CityModel> areaList = [];
+    final response = await ServiceAPI.genericCall(
+      url: '${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}' /*${dislist.map((e) => e.id)}*/,
+      httpMethod: HttpMethod.get,
+      noNeedAuthToken: false,
+    );
+    globalLogger.d(response, "Get Area Route");
+    if (response['status'] != null && response['status']) {
+      response['data']['Cities'].forEach((course) {
         areaList.add(CityModel.fromJson(course));
       });
-    } else if (response2['status'] != null && !response2['status']) {
-      ServiceAPI.showAlert(response2['message']);
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
     }
-    return {
-      DataType.district: dislist,
-      DataType.area: areaList,
-    };
+    return areaList;
   }
 
   static Future<List<AddressModel>> userAddressCall() async {
