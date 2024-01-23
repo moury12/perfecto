@@ -1,4 +1,4 @@
-package com.example.perfecto
+package com.perfecto.application
 
 import io.flutter.embedding.android.FlutterActivity
 

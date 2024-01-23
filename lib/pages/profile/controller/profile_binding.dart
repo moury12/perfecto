@@ -10,9 +10,6 @@ class ProfileBinding extends Bindings {
     Get.put<ProfileController>(
       ProfileController(),
     );
-    // Get.put<UserController>(
-    //   UserController(),
-    // );
 
     Get.put<ProductDetailsController>(
       ProductDetailsController(),
