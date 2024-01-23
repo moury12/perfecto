@@ -5,11 +5,11 @@ import 'package:perfecto/models/address_model.dart';
 import '../models/user_model.dart';
 import '../utils.dart';
 
-class UserService{
-  static Future<UserModel> userProfileCall() async{
-    UserModel userModel =UserModel();
+class UserService {
+  static Future<UserModel> userProfileCall() async {
+    UserModel userModel = UserModel();
     final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}profile', httpMethod: HttpMethod.get);
-    globalLogger.d(response,"Profile route");
+    globalLogger.d(response, "Profile route");
     if (response['status'] != null && response['status']) {
       userModel = UserModel.fromJson(response['data']);
     } else if (response['status'] != null && !response['status']) {
@@ -17,8 +17,9 @@ class UserService{
     }
     return userModel;
   }
-  static Future<bool> updateProfile (dynamic body)async{
-    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}edit', httpMethod: HttpMethod.multipartFilePost,allInfoField: body,isLoadingEnable: true);
+
+  static Future<bool> updateProfile(dynamic body) async {
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}edit', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
     globalLogger.d(response, "Profile Update Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
@@ -27,6 +28,7 @@ class UserService{
     }
     return false;
   }
+
   static Future<Map<DataType, List<dynamic>>> getAreaData() async {
     List<DistrictModel> dislist = [];
     List<CityModel> areaList = [];
@@ -36,7 +38,7 @@ class UserService{
       noNeedAuthToken: false,
     );
     final response2 = await ServiceAPI.genericCall(
-      url: '${ServiceAPI.apiUrl}city?district_id=1/*${dislist.map((e) => e.id)}*/',
+      url: '${ServiceAPI.apiUrl}city?district_id=1' /*${dislist.map((e) => e.id)}*/,
       httpMethod: HttpMethod.get,
       noNeedAuthToken: false,
     );
@@ -63,10 +65,10 @@ class UserService{
     };
   }
 
-  static Future<List<AddressModel>> userAddressCall() async{
-   List<AddressModel> addressModel =[];
+  static Future<List<AddressModel>> userAddressCall() async {
+    List<AddressModel> addressModel = [];
     final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}get_address', httpMethod: HttpMethod.get);
-    globalLogger.d(response,"AddressModel route");
+    globalLogger.d(response, "AddressModel route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
         addressModel.add(AddressModel.fromJson(dis));

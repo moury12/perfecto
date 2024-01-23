@@ -13,6 +13,7 @@ import '../main.dart';
 import '../pages/auth/login_page.dart';
 import '../utils.dart';
 import 'navigation_controller.dart';
+
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
   TextEditingController firstNameController = TextEditingController();
@@ -26,8 +27,7 @@ class AuthController extends GetxController {
   TextEditingController passwordForChangeController = TextEditingController();
   TextEditingController passwordLoginController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
-  TextEditingController passwordForChangeConfirmController =
-      TextEditingController();
+  TextEditingController passwordForChangeConfirmController = TextEditingController();
 
   TextEditingController otpController = TextEditingController();
   TextEditingController otpForgetPassController = TextEditingController();
@@ -68,24 +68,16 @@ class AuthController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    final loginUser = await dbHelper.getSingleItemAll(
-        tableName: DatabaseHelper.loginTable,
-        whereKey: DatabaseHelper.isLogIn,
-        whereValue: 1);
+    final loginUser = await dbHelper.getSingleItemAll(tableName: DatabaseHelper.loginTable, whereKey: DatabaseHelper.isLogIn, whereValue: 1);
     globalLogger.d(loginUser);
     isLoggedIn.value = loginUser.isNotEmpty;
     if (isLoggedIn.value) {
-      final user = await dbHelper.getSingleItemSpecific(
-          tableName: DatabaseHelper.loginTable,
-          selectedItem: [DatabaseHelper.accessToken],
-          whereKey: DatabaseHelper.isLogIn,
-          whereValue: 1);
+      final user =
+          await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
 
       ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
-      globalLogger.d(user[DatabaseHelper.accessToken],'token');
-      Get.put<UserController>(
-        UserController(),permanent: true
-      );
+      globalLogger.d(user[DatabaseHelper.accessToken], 'token');
+      Get.put<UserController>(UserController(), permanent: true);
       UserController.to.getUserInfoCall();
       // globalLogger.d(user, user.runtimeType);
     }
@@ -120,8 +112,7 @@ class AuthController extends GetxController {
     Get.offAllNamed(MainHomeScreen.routeName);
   }
 
-  Future<bool> registerRequest(String fName, String lName, String email,
-      String phone, String password, String cPassword) async {
+  Future<bool> registerRequest(String fName, String lName, String email, String phone, String password, String cPassword) async {
     registerEmail(email);
     final isCreated = await AuthService.registerCall({
       "f_name": fName,
@@ -135,18 +126,13 @@ class AuthController extends GetxController {
       showSnackBar(
         msg: 'Your Account created successfully!',
       );
-      Get.offAllNamed(LoginScreen.routeName);
+      Get.back();
       // afterLogin(isCreated);
     }
     return isCreated;
   }
 
-  Future<bool> loginRequest(
-      {String? email,
-      String? phone,
-      String? password,
-      String? otp,
-      required LogInType type}) async {
+  Future<bool> loginRequest({String? email, String? phone, String? password, String? otp, required LogInType type}) async {
     dynamic body = {};
     if (type == LogInType.email) {
       body = {
@@ -209,8 +195,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyEmailForgetPassword(String otp) async {
-    final verifyEmail = await AuthService.verifyEmail(
-        {"email": registerEmail.value, "otp": otp});
+    final verifyEmail = await AuthService.verifyEmail({"email": registerEmail.value, "otp": otp});
     if (verifyEmail.isNotEmpty) {
       final token = verifyEmail['token'];
       globalLogger.d(token, 'Token');
@@ -225,7 +210,7 @@ class AuthController extends GetxController {
     String password,
     String cPassword,
   ) async {
-    globalLogger.d(registerEmail.value,'email');
+    globalLogger.d(registerEmail.value, 'email');
     // getProgressDialog('Verify and Changing Password');
     bool isVerified = await AuthService.changePassword({
       "email": registerEmail.value,
@@ -241,16 +226,12 @@ class AuthController extends GetxController {
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken,
-        DatabaseHelper.loginTable, ServiceAPI.getToken);
+    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken, DatabaseHelper.loginTable, ServiceAPI.getToken);
     globalLogger.d('deleted $rowsDeleted row(s): User ${ServiceAPI.getToken}');
   }
 
   Future<void> logout() async {
-    showSnackBar(
-        msg: 'Loging out..',
-        actionLabel: '',
-        actionLabelColor: Colors.transparent);
+    showSnackBar(msg: 'Loging out..', actionLabel: '', actionLabelColor: Colors.transparent);
     final logingOut = await AuthService.logoutCall(
       forceLogout: () {
         logoutFunc();
