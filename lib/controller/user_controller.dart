@@ -61,6 +61,7 @@ class UserController extends GetxController {
 
   Future<void> getUserInfoCall() async {
     userInfo.value = await UserService.userProfileCall();
+    update();
   }
 
   Future<bool> updateUser(String name, String email, String phone, File avatar) async {

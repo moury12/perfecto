@@ -30,6 +30,28 @@ class UserService {
     return false;
   }
 
+  static Future<bool> addNewAddress(dynamic body) async {
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}add_address', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d(response, "add address Route");
+    if (response['status'] != null && response['status']) {
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  static Future<bool> deleteAddress(dynamic body) async {
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}delete_address/2', httpMethod: HttpMethod.del, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d(response, "delete address Route");
+    if (response['status'] != null && response['status']) {
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
   static Future<List<DistrictModel>> getDistrictData() async {
     List<DistrictModel> dislist = [];
     final response = await ServiceAPI.genericCall(
