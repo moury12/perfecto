@@ -1,5 +1,6 @@
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/address_model.dart';
 
 import '../models/user_model.dart';
@@ -38,12 +39,13 @@ class UserService {
       noNeedAuthToken: false,
     );
     final response2 = await ServiceAPI.genericCall(
-      url: '${ServiceAPI.apiUrl}city?district_id=1' /*${dislist.map((e) => e.id)}*/,
+      url: '${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}' /*${dislist.map((e) => e.id)}*/,
       httpMethod: HttpMethod.get,
       noNeedAuthToken: false,
     );
     globalLogger.d(response, "Get District Route");
     globalLogger.d(response2, "Get Area Route");
+    globalLogger.d('${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}', "Get Area Route");
     // Get.back();
     if (response['status'] != null && response['status']) {
       response['data']['Districts'].forEach((dis) {

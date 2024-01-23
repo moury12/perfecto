@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/dropdown/custom_dropdown.dart';
 import 'package:mh_core/widgets/textfield/custom_textfield.dart';
@@ -153,6 +154,7 @@ class AddNewAddressScreen extends StatelessWidget {
                           type: DropdownListType.object,
                           onChange: (v){
                             UserController.to.selectedDistrict.value=v;
+                            globalLogger.d(UserController.to.selectedDistrict.value);
                           },
                           fillColor: AppColors.kborderColor,
                           hintText:'Select your district' ,
@@ -164,7 +166,13 @@ class AddNewAddressScreen extends StatelessWidget {
                       }
                   ),Obx(
                           () {
-                        return TitleDropdown(dwItems: UserController.to.areaList,
+                        return TitleDropdown(dwItems: UserController.to.areaList
+                            .where((p0) => UserController
+                            .to.selectedDistrict.value!.isNotEmpty
+                            ? p0.id ==
+                            UserController.to.selectedDistrict.value
+                            : true)
+                            .toList(),
                           dwValue: UserController.to.selectedArea.value!.isEmpty?null:UserController.to.selectedArea.value,
                           type: DropdownListType.object,
                           onChange: (v){
@@ -201,7 +209,7 @@ class AddNewAddressScreen extends StatelessWidget {
                     },
                     onSubmitted: (p0) {
                       if (UserController.to.addressAddNewAddressController.text.isEmpty) {
-                        UserController.to.errorAddNewAddress.value = 'Enter A name';
+                        UserController.to.errorAddNewAddress.value = 'Enter An address';
                       } else if (UserController.to.addressAddNewAddressController.text.length <
                           3) {
                         UserController.to.errorAddNewAddress.value =
@@ -254,7 +262,37 @@ class AddNewAddressScreen extends StatelessWidget {
                       ],
                     ),
                   ), CustomButton(label: 'Save',onPressed: () {
-// if()
+ if(UserController.to.nameAddNewAddressController.text.length >=
+     3&&UserController.to.nameAddNewAddressController.text.isNotEmpty&&UserController.to.phoneAddNewAddressController.text.isPhoneNumber&&UserController.to.phoneAddNewAddressController.text.isNotEmpty&&UserController.to.addressAddNewAddressController.text.length>=
+     3&&UserController.to.nameAddNewAddressController.text.isNotEmpty&&UserController.to.selectedArea.value!.isNotEmpty&&UserController.to.selectedDistrict.value!.isNotEmpty){
+
+ }else{
+   if (UserController.to.addressAddNewAddressController.text.isEmpty) {
+     UserController.to.errorAddNewAddress.value = 'Enter An address';
+   }  if (UserController.to.addressAddNewAddressController.text.length <
+       3) {
+     UserController.to.errorAddNewAddress.value =
+     'Enter minimum 3 character of your Address!';
+   }
+   if (UserController.to.nameAddNewAddressController.text.isEmpty) {
+     UserController.to.errorAddNewName.value = 'Enter A name';
+   }  if (UserController.to.nameAddNewAddressController.text.length <
+       3) {
+     UserController.to.errorAddNewName.value =
+     'Enter minimum 3 character of your name!';
+   }
+   if (UserController.to.phoneAddNewAddressController.text.isEmpty) {
+     UserController.to.errorAddNewPhone.value = 'Enter A phone number';
+   }  if (!UserController.to.phoneAddNewAddressController.text.isPhoneNumber) {
+     UserController.to.errorAddNewPhone.value =
+     'Enter a valid phone number!';
+   }
+   if(UserController.to.selectedDistrict.value!.isEmpty){
+     showSnackBar(msg: 'Please select a District');
+   }if(UserController.to.selectedArea.value!.isEmpty){
+     showSnackBar(msg: 'Please select an Area');
+   }
+ }
                   },marginVertical: 12,),
                 ],
               ),
