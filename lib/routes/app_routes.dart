@@ -40,6 +40,7 @@ import 'package:perfecto/pages/profile/controller/profile_binding.dart';
 import 'package:perfecto/pages/profile/edit_my_address_page.dart';
 import 'package:perfecto/pages/profile/edit_password_page.dart';
 import 'package:perfecto/pages/profile/edit_profile_page.dart';
+import 'package:perfecto/pages/profile/my-orders/add_new_address.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_details_page.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
 import 'package:perfecto/pages/profile/my-orders/return_page.dart';
@@ -210,6 +211,9 @@ class AppRoutes {
         GetPage(
             name: MyAddressScreen.routeName,
             page: () => const MyAddressScreen(),
+            binding: ProfileBinding()), GetPage(
+            name: AddNewAddressScreen.routeName,
+            page: () => const AddNewAddressScreen(),
             binding: ProfileBinding()),
         GetPage(
             name: MyRatingReviewScreen.routeName,

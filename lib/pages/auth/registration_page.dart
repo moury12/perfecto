@@ -184,8 +184,7 @@ class RegistrationScreen extends StatelessWidget {
                 onSubmitted: (p0) {
                   if (AuthController.to.phoneController.text.isEmpty) {
                     AuthController.to.errorPhone.value = 'Enter A phone number';
-                  } else if (AuthController.to.phoneController.text.length <
-                      3) {
+                  } else if (!AuthController.to.phoneController.text.isPhoneNumber) {
                     AuthController.to.errorPhone.value =
                     'Enter a valid phone number!';
                   } else {

@@ -86,6 +86,7 @@ class AuthController extends GetxController {
       Get.put<UserController>(
         UserController(),permanent: true
       );
+      UserController.to.getUserInfoCall();
       // globalLogger.d(user, user.runtimeType);
     }
     super.onInit();

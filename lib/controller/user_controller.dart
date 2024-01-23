@@ -22,9 +22,17 @@ class UserController extends GetxController {
   TextEditingController emailEditAddressController = TextEditingController();
   TextEditingController phoneEditAddressController = TextEditingController();
   TextEditingController addressEditAddressController = TextEditingController();
+  TextEditingController nameAddNewAddressController = TextEditingController();
+  TextEditingController emailAddNewAddressController = TextEditingController();
+  TextEditingController phoneAddNewAddressController = TextEditingController();
+  TextEditingController addressAddNewAddressController = TextEditingController();
   Rx<String?> errorName = ''.obs;
   Rx<String?> errorEmail = ''.obs;
   Rx<String?> errorPhone = ''.obs;
+  Rx<String?> errorAddNewName = ''.obs;
+  Rx<String?> errorAddNewEmail = ''.obs;
+  Rx<String?> errorAddNewPhone = ''.obs;
+  Rx<String?> errorAddNewAddress = ''.obs;
   FocusNode nameFocusNode = FocusNode();
   FocusNode emailFocusNode = FocusNode();
   FocusNode phoneFocusNode = FocusNode();
@@ -50,6 +58,10 @@ class UserController extends GetxController {
     nameController.dispose();
     emailController.dispose();
     phoneController.dispose();
+    nameAddNewAddressController.dispose();
+    emailAddNewAddressController.dispose();
+    phoneAddNewAddressController.dispose();
+    addressAddNewAddressController.dispose();
     super.onReady();
   }
 

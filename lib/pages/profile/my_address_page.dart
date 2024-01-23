@@ -7,6 +7,7 @@ import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/profile/controller/profile_controller.dart';
 import 'package:perfecto/pages/profile/edit_my_address_page.dart';
+import 'package:perfecto/pages/profile/my-orders/add_new_address.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -50,7 +51,7 @@ class MyAddressScreen extends StatelessWidget {
                 },
                 child: Obx(
                 () {
-                    return UserController.to.addressList.isEmpty?Center(child:Text('There is no address')): ListView.builder(
+                    return UserController.to.addressList.isEmpty?const Center(child:Text('There is no address')): ListView.builder(
                                 padding: EdgeInsets.zero,
                                itemCount:UserController.to.addressList.length,
                                itemBuilder: (context, index) {
@@ -251,7 +252,9 @@ class MyAddressScreen extends StatelessWidget {
       bottomNavigationBar: CustomButton(
         label: 'Add New Address',
         marginHorizontal: 16,
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(AddNewAddressScreen.routeName);
+        },
         marginVertical: 16,
       ),
     );
