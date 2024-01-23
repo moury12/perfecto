@@ -25,13 +25,11 @@ class ProfileController extends GetxController {
   RxList<Process> Returnprocesses = [
     Process(name: '1', isComplete: true, topic: 'Return Started'),
     Process(name: '2', isComplete: false, topic: 'Drop off the item(s)'),
-    Process(
-        name: '3', isComplete: false, topic: 'Item(s) received by Perfecto'),
+    Process(name: '3', isComplete: false, topic: 'Item(s) received by Perfecto'),
     Process(name: '4', isComplete: false, topic: 'Refund Sent'),
   ].obs;
   addStepAtIndex1() {
-    processes.insert(2,
-        Process(name: '3', isComplete: false, topic: 'Cancellation Requested'));
+    processes.insert(2, Process(name: '3', isComplete: false, topic: 'Cancellation Requested'));
     processes[1].isComplete = true;
     currentStep.value = 2;
     // Set the current step to the newly added step

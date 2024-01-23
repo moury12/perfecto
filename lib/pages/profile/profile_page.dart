@@ -24,7 +24,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         const HomeTopWidget(
@@ -48,32 +47,26 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomSizedBox.space24H,
-                     Obx(
-                       () {
-                         return CustomNetworkImage(
-                          networkImagePath: '${ServiceAPI.url}${UserController.to.userInfo.value.avatar}',
-                          errorImagePath: 'assets/dummy_profile.png',
-                                             );
-                       }
-                     ),
+                    Obx(() {
+                      return CustomNetworkImage(
+                        networkImagePath: '${ServiceAPI.url}${UserController.to.userInfo.value.avatar}',
+                        errorImagePath: 'assets/dummy_profile.png',
+                      );
+                    }),
                     CustomSizedBox.space8H,
-                    Obx(
-                       () {
-                        return  Text(
-                         UserController.to.userInfo.value.name?? 'Anonymous User',
-                          style: AppTheme.textStyleBoldWhite14,
-                        );
-                      }
-                    ),
+                    Obx(() {
+                      return Text(
+                        UserController.to.userInfo.value.name ?? 'Anonymous User',
+                        style: AppTheme.textStyleBoldWhite14,
+                      );
+                    }),
                     CustomSizedBox.space4H,
-                    Obx(
-                       () {
-                        return  Text(
-                          UserController.to.userInfo.value.phone?? '-',
-                          style: AppTheme.textStyleSemiBoldWhite12,
-                        );
-                      }
-                    ),
+                    Obx(() {
+                      return Text(
+                        UserController.to.userInfo.value.phone ?? '-',
+                        style: AppTheme.textStyleSemiBoldWhite12,
+                      );
+                    }),
                     CustomSizedBox.space4H,
                     Container(
                       padding: const EdgeInsets.all(4),
@@ -99,7 +92,8 @@ class ProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       width: double.infinity,
                       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(color: Colors.white, boxShadow: [const BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)], borderRadius: BorderRadius.circular(8)),
+                      decoration:
+                          BoxDecoration(color: Colors.white, boxShadow: [const BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)], borderRadius: BorderRadius.circular(8)),
                       child: Column(
                         children: [
                           ProfileItemWidget(
@@ -119,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                               Get.toNamed(MyPointsScreen.routeName);
                             },
                             image: AssetsConstant.wallet,
-                            title: 'My Wallet',
+                            title: 'My Point',
                           ),
                           const Divider(
                             thickness: 1,
@@ -190,7 +184,6 @@ class ProfileScreen extends StatelessWidget {
                             function: () {
                               // Get.toNamed(LoginScreen.routeName);
                               AuthController.to.logout();
-
                             },
                             image: AssetsConstant.logout,
                             title: 'Logout',

@@ -50,10 +50,10 @@ class UserService {
     return dislist;
   }
 
-  static Future<List<CityModel>> getAreaData() async {
+  static Future<List<CityModel>> getAreaData(String districtId) async {
     List<CityModel> areaList = [];
     final response = await ServiceAPI.genericCall(
-      url: '${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}' /*${dislist.map((e) => e.id)}*/,
+      url: '${ServiceAPI.apiUrl}city?district_id=$districtId' /*${dislist.map((e) => e.id)}*/,
       httpMethod: HttpMethod.get,
       noNeedAuthToken: false,
     );
@@ -73,7 +73,7 @@ class UserService {
     final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}get_address', httpMethod: HttpMethod.get);
     globalLogger.d(response, "AddressModel route");
     if (response['status'] != null && response['status']) {
-      response['data'].forEach((dis) {
+      response['data']['Addresses'].forEach((dis) {
         addressModel.add(AddressModel.fromJson(dis));
       });
     } else if (response['status'] != null && !response['status']) {

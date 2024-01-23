@@ -37,16 +37,10 @@ class UserController extends GetxController {
   FocusNode emailFocusNode = FocusNode();
   FocusNode phoneFocusNode = FocusNode();
   Rx<File> pickedImage = File('').obs;
-  Rx<String?> selectedDistrict = ''.obs;
-  Rx<String?> selectedArea = ''.obs;
-  RxList<DistrictModel> districtList = <DistrictModel>[].obs;
-  RxList<CityModel> areaList = <CityModel>[].obs;
-  RxList<AddressModel> addressList = <AddressModel>[].obs;
+
   @override
   void onReady() async {
     await getUserInfoCall();
-    await getDistrictData();
-    await getAddressCall();
     nameController.text = getUserInfo.name ?? '-';
     emailController.text = userInfo.value.email ?? '-';
     phoneController.text = userInfo.value.phone ?? '';
@@ -69,10 +63,6 @@ class UserController extends GetxController {
     userInfo.value = await UserService.userProfileCall();
   }
 
-  Future<void> getAddressCall() async {
-    addressList.value = await UserService.userAddressCall();
-  }
-
   Future<bool> updateUser(String name, String email, String phone, File avatar) async {
     final isUpdated = await UserService.updateProfile({
       "name": name,
@@ -86,16 +76,6 @@ class UserController extends GetxController {
       await getUserInfoCall();
     }
     return isUpdated;
-  }
-
-  Future<void> getDistrictData() async {
-    final data = await UserService.getDistrictData();
-    districtList.value = data;
-  }
-
-  Future<void> getAreaData() async {
-    final data = await UserService.getAreaData();
-    areaList.value = data;
   }
 
   Future<void> pickImage() async {
