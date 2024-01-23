@@ -38,8 +38,13 @@ dependencies:
   get: ^4.6.6
   image_picker: ^1.0.5
   sqflite: ^2.3.0
+  intl: ^0.19.0
+  intl:^0:
+    18:
+      1:
   path_provider: ^2.0.2
   path: ^1.8.0
+  flutter_html:
   mh_videoplayer:
     path: ../mh_videoplayer
   mh_core:

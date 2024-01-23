@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/pages/blog/blog_details_page.dart';
 import 'package:perfecto/pages/blog/widget/blog_widget.dart';
+import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
@@ -44,13 +46,14 @@ class BlogScreen extends StatelessWidget {
           Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 16,vertical: 12),
-            itemCount: 10,
+            itemCount: HomeApiController.to.blogList.length,
             itemBuilder: (context, index) {
+                  final blog=HomeApiController.to.blogList[index];
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(BlogDetailsScreen.routeName);
                 },
-                  child: SingleBlogWidget());
+                  child: SingleBlogWidget(blogModel: blog,));
             },
           ))
         ],

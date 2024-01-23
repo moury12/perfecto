@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 
 import 'package:perfecto/pages/auth/change_password_page.dart';
@@ -78,6 +79,7 @@ class AuthController extends GetxController {
       ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
       globalLogger.d(user[DatabaseHelper.accessToken], 'token');
       Get.put<UserController>(UserController(), permanent: true);
+      Get.put<HomeApiController>(HomeApiController(), permanent: true);
       UserController.to.getUserInfoCall();
       // globalLogger.d(user, user.runtimeType);
     }
@@ -158,11 +160,13 @@ class AuthController extends GetxController {
       ServiceAPI.setAuthToken(token);
       _insert(accessToken: token, phone: isCreated['phone'] ?? '');
       isLoggedIn.value = true;
+
       showSnackBar(
         msg: 'Login successfully!',
       );
       unAuthenticateIndex.value = NavigationController.to.selectedIndex.value;
       unAuthenticateIndex.value = -1;
+      UserController.to.getUserInfoCall();
       Get.back();
       // afterLogin(isCreated);
     } else if (type == LogInType.phone && isCreated.isNotEmpty) {

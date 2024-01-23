@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:mh_core/services/api_service.dart';
+import 'package:mh_core/utils/string_utils.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
 class SingleBlogWidget extends StatelessWidget {
+  final BlogModel blogModel;
   const SingleBlogWidget({
     super.key,
+    required this.blogModel,
   });
 
   @override
@@ -20,7 +27,7 @@ class SingleBlogWidget extends StatelessWidget {
       child: Column(
         children: [
           CustomNetworkImage(
-            networkImagePath: '',
+            networkImagePath: '${ServiceAPI.url}${blogModel.image}',
             errorImagePath: 'assets/blog.png',
             border: NetworkImageBorder.Rectangle,
             fit: BoxFit.fitWidth,
@@ -33,19 +40,48 @@ class SingleBlogWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'jun 16, 2023',
+                  DateFormat.yMMMd()
+                      .format(DateTime.parse(blogModel.createdAt ?? '-')),
                   style: AppTheme.textStyleMediumBlack12,
                 ),
-                CustomSizedBox.space16H,
-                Text(
-                  'Perfume de toilette, scented, or perfumes?',
-                  style: AppTheme.textStyleSemiBoldBlack14,
+                Html(
+                  data: findAndRemove(
+                          blogModel.description!
+                              .replaceAll('</iframe>', '')
+                              .replaceAll('<br>', '')
+                              .replaceAll('</br>', ''),
+                          '<iframe',
+                          '>')
+                      .replaceAll('<img', '<img style= "width: 100px" ')
+                      .replaceAll('width="240" height="360" ',
+                          'style= "width: 100px; height: 0px" '),
+                  style: {
+                    'body': Style(
+                      margin: Margins.symmetric(horizontal: 0, vertical: 0),
+                      //  fontSize: FontSize(14),
+                      // lineHeight: LineHeight.number(1),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    'p': Style(
+                      fontSize: FontSize(10),
+                      // lineHeight: LineHeight.number(1),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    'span': Style(
+                      // margin: Margins.symmetric(horizontal: 10, vertical: 0),
+                      // fontSize: FontSize(14),
+                      lineHeight: LineHeight.number(1),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  },
                 ),
-                CustomSizedBox.space8H,
-                Text(
-                  'Use makeup devoid of toxins to nourish your skin. With the irresistible offers of cosmetics free of toxins for your skin.',
-                  style: AppTheme.textStyleMediumBlack10,
-                ),
+                // Text(
+                //   blogModel.description??'-',
+                //   style: AppTheme.textStyleMediumBlack10,
+                // ),
                 Divider(
                   height: 35,
                   color: AppColors.kborderColor,

@@ -9,7 +9,8 @@ import '../utils.dart';
 class UserService {
   static Future<UserModel> userProfileCall() async {
     UserModel userModel = UserModel();
-    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}profile', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}profile', httpMethod: HttpMethod.get);
     globalLogger.d(response, "Profile route");
     if (response['status'] != null && response['status']) {
       userModel = UserModel.fromJson(response['data']);
@@ -20,8 +21,40 @@ class UserService {
   }
 
   static Future<bool> updateProfile(dynamic body) async {
-    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}edit', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}edit',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: body,
+        isLoadingEnable: true);
     globalLogger.d(response, "Profile Update Route");
+    if (response['status'] != null && response['status']) {
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  static Future<bool> addNewAddress(dynamic body) async {
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}add_address',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: body,
+        isLoadingEnable: true);
+    globalLogger.d(response, "add address Route");
+    if (response['status'] != null && response['status']) {
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }  static Future<bool>deleteAddress(dynamic body) async {
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}delete_address/2',
+        httpMethod: HttpMethod.del,
+        allInfoField: body,
+        isLoadingEnable: true);
+    globalLogger.d(response, "delete address Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
@@ -39,13 +72,16 @@ class UserService {
       noNeedAuthToken: false,
     );
     final response2 = await ServiceAPI.genericCall(
-      url: '${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}' /*${dislist.map((e) => e.id)}*/,
+      url:
+          '${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}' /*${dislist.map((e) => e.id)}*/,
       httpMethod: HttpMethod.get,
       noNeedAuthToken: false,
     );
     globalLogger.d(response, "Get District Route");
     globalLogger.d(response2, "Get Area Route");
-    globalLogger.d('${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}', "Get Area Route");
+    globalLogger.d(
+        '${ServiceAPI.apiUrl}city?district_id=${UserController.to.selectedDistrict.value}',
+        "Get Area Route");
     // Get.back();
     if (response['status'] != null && response['status']) {
       response['data']['Districts'].forEach((dis) {
@@ -69,7 +105,8 @@ class UserService {
 
   static Future<List<AddressModel>> userAddressCall() async {
     List<AddressModel> addressModel = [];
-    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}get_address', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}get_address', httpMethod: HttpMethod.get);
     globalLogger.d(response, "AddressModel route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
