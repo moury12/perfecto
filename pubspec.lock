@@ -483,11 +483,9 @@ packages:
   mh_core:
     dependency: "direct main"
     description:
-      path: "."
-      ref: alpha
-      resolved-ref: c2871efda364a68aba9c58512cb0834bc295a2c4
-      url: "https://github.com/mh-sarkar/mh-core.git"
-    source: git
+      path: "../mh_core"
+      relative: true
+    source: path
     version: "0.0.1"
   mh_videoplayer:
     dependency: "direct main"

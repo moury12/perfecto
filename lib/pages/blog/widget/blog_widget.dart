@@ -27,7 +27,7 @@ class SingleBlogWidget extends StatelessWidget {
       child: Column(
         children: [
           const CustomNetworkImage(
-            networkImagePath: 'images/blogs/1706009804891774.jpg',
+            networkImagePath: '/images/blogs/1706009804891774.jpg',
             errorImagePath: 'assets/blog.png',
             border: NetworkImageBorder.Rectangle,
             fit: BoxFit.fitWidth,
@@ -40,26 +40,17 @@ class SingleBlogWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  DateFormat.yMMMd()
-                      .format(DateTime.parse(blogModel.createdAt ?? '-')),
+                  DateFormat.yMMMd().format(DateTime.parse(blogModel.createdAt ?? '-')),
                   style: AppTheme.textStyleMediumBlack12,
                 ),
                 Html(
-                  data: findAndRemove(
-                          blogModel.description!
-                              .replaceAll('</iframe>', '')
-                              .replaceAll('<br>', '')
-                              .replaceAll('</br>', ''),
-                          '<iframe',
-                          '>')
+                  data: findAndRemove(blogModel.description!.replaceAll('</iframe>', '').replaceAll('<br>', '').replaceAll('</br>', ''), '<iframe', '>')
                       .replaceAll('<img', '<img style= "width: 100px" ')
-                      .replaceAll('width="240" height="360" ',
-                          'style= "width: 100px; height: 0px" '),
+                      .replaceAll('width="240" height="360" ', 'style= "width: 100px; height: 0px" '),
                   style: {
                     'body': Style(
                       margin: Margins.symmetric(horizontal: 0, vertical: 0),
                       fontSize: FontSize(10),
-
                       maxLines: 4,
                       textOverflow: TextOverflow.ellipsis,
                       color: Colors.black,
@@ -90,14 +81,8 @@ class SingleBlogWidget extends StatelessWidget {
                   thickness: 1,
                 ),
                 RichText(
-                  text: const TextSpan(
-                      text: 'Posted by ',
-                      style: AppTheme.textStyleNormalBlack12,
-                      children: [
-                        TextSpan(
-                            text: 'Perfecto',
-                            style: AppTheme.textStyleSemiBoldBlack12)
-                      ]),
+                  text:
+                      const TextSpan(text: 'Posted by ', style: AppTheme.textStyleNormalBlack12, children: [TextSpan(text: 'Perfecto', style: AppTheme.textStyleSemiBoldBlack12)]),
                 ),
                 CustomSizedBox.space12H
               ],
