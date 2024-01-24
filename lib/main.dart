@@ -21,8 +21,8 @@ void main() async {
   await dbHelper.init();
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
-  ServiceAPI.domain("https://perfecto.fixican.com/");
-   // ServiceAPI.domain("http://192.168.1.245:88/");
+  // ServiceAPI.domain("https://perfecto.fixican.com/");
+  ServiceAPI.domain("http://192.168.1.245:88/");
   ServiceAPI.extraSlag("api/");
   CustomColor.setPrimaryColor(AppColors.kPrimaryColor);
   runApp(const MyApp());

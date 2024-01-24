@@ -6,6 +6,7 @@ import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/auth/forget_password_page.dart';
 import 'package:perfecto/pages/auth/registration_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -16,8 +17,8 @@ import '../../utils.dart';
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
   const LoginScreen({super.key});
-  _login({String? email, String? phone, String? password, String? otp, required LogInType type}) {
-    final data = AuthController.to.loginRequest(email: email, phone: phone, password: password, type: type, otp: otp);
+  _login({String? email, String? phone, String? googleId, String? name, String? password, String? otp, required LogInType type}) {
+    final data = AuthController.to.loginRequest(email: email, phone: phone, password: password, type: type, otp: otp, googleId: googleId, name: name);
   }
 
   @override
@@ -121,6 +122,7 @@ class LoginScreen extends StatelessWidget {
                     if (!AuthController.to.isOtp.value) {
                       if (AuthController.to.phoneLoginController.text.isNotEmpty && AuthController.to.phoneLoginController.text.length >= 11) {
                         _login(type: LogInType.phone, phone: AuthController.to.phoneLoginController.text);
+
                         AuthController.to.isOtp.value = true;
                         showSnackBar(
                           msg: 'Use OTP to Login.',
@@ -340,7 +342,11 @@ class LoginScreen extends StatelessWidget {
                 CustomButton(
                   label: 'Continue with Google',
                   primary: Colors.white,
-                  onPressed: () {},
+                  onPressed: () async {
+                    final googleId = await AuthController.to.googleSignIn();
+                    globalLogger.d(googleId.toString());
+                    _login(email: googleId!.email, googleId: googleId.id, name: googleId.displayName, type: LogInType.google);
+                  },
                   isBorder: true,
                   borderColor: Colors.grey,
                   labelColor: Colors.black,

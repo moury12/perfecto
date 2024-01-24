@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
@@ -66,7 +67,7 @@ class AuthController extends GetxController {
   RxInt unAuthenticateIndex = (-1).obs;
 
   RxBool isLoggedIn = false.obs;
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   @override
   Future<void> onInit() async {
     final loginUser = await dbHelper.getSingleItemAll(tableName: DatabaseHelper.loginTable, whereKey: DatabaseHelper.isLogIn, whereValue: 1);
@@ -109,6 +110,7 @@ class AuthController extends GetxController {
   logoutFunc() {
     _delete();
     ServiceAPI.setAuthToken('');
+    _googleSignIn.signOut();
     isLoggedIn.value = false;
     NavigationController.to.selectedIndex.value = 0;
     Get.offAllNamed(MainHomeScreen.routeName);
@@ -134,7 +136,7 @@ class AuthController extends GetxController {
     return isCreated;
   }
 
-  Future<bool> loginRequest({String? email, String? phone, String? password, String? otp, required LogInType type}) async {
+  Future<bool> loginRequest({String? email, String? phone, String? password, String? otp, String? name, String? googleId, required LogInType type}) async {
     dynamic body = {};
     if (type == LogInType.email) {
       body = {
@@ -152,6 +154,12 @@ class AuthController extends GetxController {
         "phone": registerEmail.value,
         "otp": otp!,
       };
+    } else if (type == LogInType.google) {
+      body = {
+        "email": email!,
+        "google_id": googleId!,
+        "name": name!,
+      };
     }
     final isCreated = await AuthService.loginCall(body, type: type);
     final token = isCreated['token'];
@@ -166,7 +174,8 @@ class AuthController extends GetxController {
       );
       unAuthenticateIndex.value = NavigationController.to.selectedIndex.value;
       unAuthenticateIndex.value = -1;
-      UserController.to.getUserInfoCall();
+
+      Get.put<UserController>(UserController(), permanent: true);
       Get.back();
       // afterLogin(isCreated);
     } else if (type == LogInType.phone && isCreated.isNotEmpty) {
@@ -224,6 +233,15 @@ class AuthController extends GetxController {
     if (isVerified) {
       showSnackBar(msg: 'New password reset successfully!');
       Get.offAllNamed(LoginScreen.routeName);
+    }
+  }
+
+  Future<GoogleSignInAccount?> googleSignIn() async {
+    try {
+      return await _googleSignIn.signIn();
+    } catch (error) {
+      print('Error during Google Sign In: $error');
+      return null;
     }
   }
 
