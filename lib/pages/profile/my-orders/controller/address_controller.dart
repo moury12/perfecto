@@ -32,7 +32,7 @@ class AddressController extends GetxController {
   List<CityModel> get areaList => _areaList.value;
   RxList<DistrictModel> get districtList => _districtList;
   RxList<AddressModel> get addressList => _addressList;
-
+  RxBool isAddNew = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -47,7 +47,18 @@ class AddressController extends GetxController {
     addressController.text = addressModel.address ?? '';
     selectedDistrict.value = addressModel.districtId ?? '';
     selectedArea.value = addressModel.cityId ?? '';
-    // sameAddress.value = addressModel.isDefault ?? false;
+    sameAddress.value = addressModel.status == '1' ? true : false;
+  }
+
+  clearAddress() {
+    nameController.clear();
+    emailController.clear();
+    phoneController.clear();
+    addressController.clear();
+    selectedDistrict.value = '';
+    selectedArea.value = '';
+    sameAddress.value = false;
+    isAddNew.value=true;
   }
 
   Future<void> getAddressCall() async {
@@ -65,5 +76,48 @@ class AddressController extends GetxController {
     final areas = await UserService.getAreaData(districtId);
     _areaList.assignAll(areas);
     update();
+  }
+
+  Future<bool> addAddressRequest(String name, String phone, String email,
+      String districtId, String cityId, String address, String status) async {
+    final isCreated = await UserService.addNewAddress({
+      "name": name,
+      "phone": phone,
+      "email": email,
+      "district_id": districtId,
+      "city_id": cityId,
+      "address": address,
+      "status": status,
+    });
+    if (isCreated) {
+      showSnackBar(
+        msg: 'Address Added successfully.',
+      );
+      Get.back();
+      getAddressCall();
+      // afterLogin(isCreated);
+    }
+    return isCreated;
+  }
+  Future<bool> updateAddressRequest(String name, String phone, String email,
+      String districtId, String cityId, String address, String status,String addressId) async {
+    final isCreated = await UserService.updateAddress({
+      "name": name,
+      "phone": phone,
+      "district_id": districtId,
+      "city_id": cityId,
+      "address": address,
+      "status": status,
+      "email": email,
+    },addressId);
+    if (isCreated) {
+      showSnackBar(
+        msg: 'Address Updated successfully.',
+      );
+      Get.back();
+      getAddressCall();
+      // afterLogin(isCreated);
+    }
+    return isCreated;
   }
 }

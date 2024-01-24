@@ -14,6 +14,7 @@ class DatabaseHelper {
   static const userEmail = 'user_email';
   static const userMobile = 'user_mobile';
   static const isLogIn = 'is_login';
+  static const signInType = 'sign_in_type';
   static const updatedAt = 'updated_at';
   static const createdAt = 'created_at';
 
@@ -40,6 +41,7 @@ class DatabaseHelper {
             $userEmail VARCHAR(50),
             $userMobile VARCHAR(20),
             $isLogIn INTEGER NOT NULL,
+            $signInType VARCHAR(20),
             $updatedAt DATETIME NOT NULL,
             $createdAt DATETIME NOT NULL
           )

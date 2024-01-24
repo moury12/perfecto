@@ -48,9 +48,9 @@ dependencies:
     path: ../mh_videoplayer
   mh_core:
 #    path: ../mh_core
-      git:
-        url: https://github.com/mh-sarkar/mh-core.git
-        ref: alpha
+    git:
+      url: https://github.com/mh-sarkar/mh-core.git
+      ref: alpha
 
 
 dev_dependencies:

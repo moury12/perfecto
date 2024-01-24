@@ -28,6 +28,16 @@ class UserService {
       ServiceAPI.showAlert(response['message']);
     }
     return false;
+  }static Future<bool> updateAddress(dynamic body,String addressId) async {
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}edit_address/$addressId', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d('${ServiceAPI.apiUrl}edit_address/$addressId','fgkgfjkgdn');
+    globalLogger.d(response, "Address Update Route");
+    if (response['status'] != null && response['status']) {
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
   }
 
   static Future<bool> addNewAddress(dynamic body) async {
@@ -63,7 +73,7 @@ class UserService {
     globalLogger.d(response, "Get District Route");
     // Get.back();
     if (response['status'] != null && response['status']) {
-      response['data']['Districts'].forEach((dis) {
+      response['data']['districts'].forEach((dis) {
         dislist.add(DistrictModel.fromJson(dis));
       });
     } else if (response['status'] != null && !response['status']) {
@@ -81,7 +91,7 @@ class UserService {
     );
     globalLogger.d(response, "Get Area Route");
     if (response['status'] != null && response['status']) {
-      response['data']['Cities'].forEach((course) {
+      response['data']['cities'].forEach((course) {
         areaList.add(CityModel.fromJson(course));
       });
     } else if (response['status'] != null && !response['status']) {
@@ -95,7 +105,7 @@ class UserService {
     final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}get_address', httpMethod: HttpMethod.get);
     globalLogger.d(response, "AddressModel route");
     if (response['status'] != null && response['status']) {
-      response['data']['Addresses'].forEach((dis) {
+      response['data'].forEach((dis) {
         addressModel.add(AddressModel.fromJson(dis));
       });
     } else if (response['status'] != null && !response['status']) {

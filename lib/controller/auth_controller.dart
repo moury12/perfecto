@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mh_core/services/api_service.dart';
@@ -29,7 +30,8 @@ class AuthController extends GetxController {
   TextEditingController passwordForChangeController = TextEditingController();
   TextEditingController passwordLoginController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
-  TextEditingController passwordForChangeConfirmController = TextEditingController();
+  TextEditingController passwordForChangeConfirmController =
+      TextEditingController();
 
   TextEditingController otpController = TextEditingController();
   TextEditingController otpForgetPassController = TextEditingController();
@@ -68,14 +70,21 @@ class AuthController extends GetxController {
 
   RxBool isLoggedIn = false.obs;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  LogInType? currentLoginType;
   @override
   Future<void> onInit() async {
-    final loginUser = await dbHelper.getSingleItemAll(tableName: DatabaseHelper.loginTable, whereKey: DatabaseHelper.isLogIn, whereValue: 1);
+    final loginUser = await dbHelper.getSingleItemAll(
+        tableName: DatabaseHelper.loginTable,
+        whereKey: DatabaseHelper.isLogIn,
+        whereValue: 1);
     globalLogger.d(loginUser);
     isLoggedIn.value = loginUser.isNotEmpty;
     if (isLoggedIn.value) {
-      final user =
-          await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
+      final user = await dbHelper.getSingleItemSpecific(
+          tableName: DatabaseHelper.loginTable,
+          selectedItem: [DatabaseHelper.accessToken],
+          whereKey: DatabaseHelper.isLogIn,
+          whereValue: 1);
 
       ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
       globalLogger.d(user[DatabaseHelper.accessToken], 'token');
@@ -110,13 +119,16 @@ class AuthController extends GetxController {
   logoutFunc() {
     _delete();
     ServiceAPI.setAuthToken('');
-    _googleSignIn.signOut();
+    if (currentLoginType == LogInType.google) {
+      _googleSignIn.signOut();
+    }
     isLoggedIn.value = false;
     NavigationController.to.selectedIndex.value = 0;
     Get.offAllNamed(MainHomeScreen.routeName);
   }
 
-  Future<bool> registerRequest(String fName, String lName, String email, String phone, String password, String cPassword) async {
+  Future<bool> registerRequest(String fName, String lName, String email,
+      String phone, String password, String cPassword) async {
     registerEmail(email);
     final isCreated = await AuthService.registerCall({
       "f_name": fName,
@@ -136,7 +148,14 @@ class AuthController extends GetxController {
     return isCreated;
   }
 
-  Future<bool> loginRequest({String? email, String? phone, String? password, String? otp, String? name, String? googleId, required LogInType type}) async {
+  Future<bool> loginRequest(
+      {String? email,
+      String? phone,
+      String? password,
+      String? otp,
+      String? name,
+      String? googleId,
+      required LogInType type}) async {
     dynamic body = {};
     if (type == LogInType.email) {
       body = {
@@ -166,7 +185,11 @@ class AuthController extends GetxController {
     globalLogger.d(token, 'Token');
     if (type != LogInType.phone && isCreated.isNotEmpty) {
       ServiceAPI.setAuthToken(token);
-      _insert(accessToken: token, phone: isCreated['phone'] ?? '');
+      currentLoginType = type;
+      _insert(
+          accessToken: token,
+          phone: isCreated['phone'] ?? '',
+          loginType: type.name);
       isLoggedIn.value = true;
 
       showSnackBar(
@@ -184,17 +207,19 @@ class AuthController extends GetxController {
     return isCreated.isNotEmpty;
   }
 
-  void _insert({String? phone, required String accessToken}) async {
+  void _insert(
+      {String? phone, required String accessToken, String? loginType}) async {
     // row to insert
     Map<String, dynamic> row = {
       DatabaseHelper.userMobile: phone ?? '',
       DatabaseHelper.accessToken: accessToken,
       DatabaseHelper.isLogIn: 1,
+      DatabaseHelper.signInType: loginType,
       DatabaseHelper.updatedAt: DateTime.now().millisecondsSinceEpoch,
       DatabaseHelper.createdAt: DateTime.now().millisecondsSinceEpoch
     };
     final id = await dbHelper.insert(DatabaseHelper.loginTable, row);
-    globalLogger.d('inserted row id: $id');
+    globalLogger.d('inserted row id: $id $loginType');
   }
 
   Future<void> forgetPassword(String email, [bool isResend = false]) async {
@@ -208,7 +233,8 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyEmailForgetPassword(String otp) async {
-    final verifyEmail = await AuthService.verifyEmail({"email": registerEmail.value, "otp": otp});
+    final verifyEmail = await AuthService.verifyEmail(
+        {"email": registerEmail.value, "otp": otp});
     if (verifyEmail.isNotEmpty) {
       final token = verifyEmail['token'];
       globalLogger.d(token, 'Token');
@@ -244,16 +270,61 @@ class AuthController extends GetxController {
       return null;
     }
   }
+  Map<String, dynamic>? _userData;
+  AccessToken? _accessToken;
+  bool _checking = true;
+  Future<void> loginWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
 
+    // loginBehavior is only supported for Android devices, for ios it will be ignored
+    // final result = await FacebookAuth.instance.login(
+    //   permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
+    //   loginBehavior: LoginBehavior
+    //       .DIALOG_ONLY, // (only android) show an authentication dialog instead of redirecting to facebook app
+    // );
+
+    if (result.status == LoginStatus.success) {
+      _accessToken = result.accessToken;
+
+      // get the user data
+      // by default we get the userId, email,name and picture
+      final userData = await FacebookAuth.instance.getUserData();
+      // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+      _userData = userData;
+    } else {
+      print(result.status);
+      print(result.message);
+    }
+
+
+  }
+  // Future<void> loginWithFacebook() async {
+  //   try {
+  //     final LoginResult result = await FacebookAuth.instance.login();
+  //     if (result.status == LoginStatus.success) {
+  //       final userData = await FacebookAuth.instance.getUserData();
+  //       // userData contains information about the logged-in user
+  //       print(userData);
+  //     } else {
+  //       print('Facebook login failed.');
+  //     }
+  //   } catch (e) {
+  //     print('Error during Facebook login: $e');
+  //   }
+  // }
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken, DatabaseHelper.loginTable, ServiceAPI.getToken);
+    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken,
+        DatabaseHelper.loginTable, ServiceAPI.getToken);
     globalLogger.d('deleted $rowsDeleted row(s): User ${ServiceAPI.getToken}');
   }
 
   Future<void> logout() async {
-    showSnackBar(msg: 'Loging out..', actionLabel: '', actionLabelColor: Colors.transparent);
+    showSnackBar(
+        msg: 'Loging out..',
+        actionLabel: '',
+        actionLabelColor: Colors.transparent);
     final logingOut = await AuthService.logoutCall(
       forceLogout: () {
         logoutFunc();

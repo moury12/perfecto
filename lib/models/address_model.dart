@@ -58,6 +58,7 @@ class CityModel {
 }
 
 class AddressModel {
+  String? id;
   String? name;
   String? phone;
   String? email;
@@ -68,9 +69,10 @@ class AddressModel {
   String? cityName;
   String? status;
 
-  AddressModel({this.name, this.phone, this.email, this.address, this.districtId, this.districtName, this.cityId, this.cityName, this.status});
+  AddressModel({this.id,this.name, this.phone, this.email, this.address, this.districtId, this.districtName, this.cityId, this.cityName, this.status});
 
   AddressModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
     name = json['name'].toString() == 'null' ? '' : json['name'].toString();
     phone = json['phone'].toString() == 'null' ? '' : json['phone'].toString();
     email = json['email'].toString() == 'null' ? '' : json['email'].toString();
@@ -84,6 +86,7 @@ class AddressModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['name'] = name;
     data['phone'] = phone;
     data['email'] = email;

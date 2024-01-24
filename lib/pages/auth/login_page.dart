@@ -334,7 +334,9 @@ class LoginScreen extends StatelessWidget {
                 CustomButton(
                   label: 'Continue with Facebook',
                   primary: const Color(0xff3C579B),
-                  onPressed: () {},
+                  onPressed: () {
+                    AuthController.to.loginWithFacebook();
+                  },
                   marginVertical: 12,
                   prefixImage: AssetsConstant.facebook,
                   prefixImageHeight: 20,

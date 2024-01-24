@@ -68,8 +68,8 @@ class MyAddressScreen extends GetView<AddressController> {
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
                                     children: [
-                                      const Text(
-                                        'Address',
+                                       Text(
+                                        'Address${address.id}',
                                         style: AppTheme.textStyleSemiBoldBlack16,
                                       ),
                                       const Spacer(),
@@ -78,8 +78,9 @@ class MyAddressScreen extends GetView<AddressController> {
                                         marginHorizontal: 0,
                                         onPressed: () {
                                           final controller = Get.put(AddressController());
+                                          controller.getAreaData(controller.selectedDistrict.value);
                                           controller.editAddress(address);
-                                          Get.to(const AddNewAddressScreen());
+                                          Get.to( AddNewAddressScreen(addressModel: address,));
                                         },
                                         primary: Colors.white,
                                         borderColor: Colors.grey,
@@ -240,6 +241,8 @@ class MyAddressScreen extends GetView<AddressController> {
         label: 'Add New Address',
         marginHorizontal: 16,
         onPressed: () {
+          final controller = Get.put(AddressController());
+          controller.clearAddress();
           Get.toNamed(AddNewAddressScreen.routeName);
         },
         marginVertical: 16,
