@@ -8,10 +8,12 @@ class HomeApiController extends GetxController{
   void onInit() async {
     await blogListCall();
     await termsConditionCall();
+
     super.onInit();
   }
   static HomeApiController get to => Get.find();
   RxList<BlogModel> blogList = <BlogModel>[].obs;
+  Rx<SingleBlogModel> singleBlogList = SingleBlogModel().obs;
   Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;
   Future<void> termsConditionCall() async {
     termsConditionInfo.value = await HomeService.termsConditionCall();
@@ -19,5 +21,7 @@ class HomeApiController extends GetxController{
   }
   Future<void> blogListCall() async{
     blogList.value= await HomeService.blogCall();
+  }  Future<void> singleBlogListCall(String? blogId) async{
+    singleBlogList.value= await HomeService.singleBlogCall(blogId);
   }
 }

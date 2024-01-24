@@ -22,12 +22,12 @@ class SingleBlogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(color: Colors.white),
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
-          CustomNetworkImage(
-            networkImagePath: '${ServiceAPI.url}${blogModel.image}',
+          const CustomNetworkImage(
+            networkImagePath: 'images/blogs/1706009804891774.jpg',
             errorImagePath: 'assets/blog.png',
             border: NetworkImageBorder.Rectangle,
             fit: BoxFit.fitWidth,
@@ -58,10 +58,12 @@ class SingleBlogWidget extends StatelessWidget {
                   style: {
                     'body': Style(
                       margin: Margins.symmetric(horizontal: 0, vertical: 0),
-                      //  fontSize: FontSize(14),
-                      // lineHeight: LineHeight.number(1),
+                      fontSize: FontSize(10),
+
+                      maxLines: 4,
+                      textOverflow: TextOverflow.ellipsis,
                       color: Colors.black,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                     'p': Style(
                       fontSize: FontSize(10),
@@ -82,13 +84,13 @@ class SingleBlogWidget extends StatelessWidget {
                 //   blogModel.description??'-',
                 //   style: AppTheme.textStyleMediumBlack10,
                 // ),
-                Divider(
+                const Divider(
                   height: 35,
                   color: AppColors.kborderColor,
                   thickness: 1,
                 ),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                       text: 'Posted by ',
                       style: AppTheme.textStyleNormalBlack12,
                       children: [

@@ -18,7 +18,11 @@ final dbHelper = DatabaseHelper();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dbHelper.init();
+  try {
+    await dbHelper.init();
+  } catch (e) {
+    globalLogger.e(e);
+  }
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
   // ServiceAPI.domain("https://perfecto.fixican.com/");
