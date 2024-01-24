@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = HomeController.to;
-    globalLogger.d(MediaQuery.of(context).size);
+    // globalLogger.d(MediaQuery.of(context).size);
     Size size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -41,6 +41,8 @@ dependencies:
   intl: ^0.18.0
   path_provider: ^2.0.2
   path: ^1.8.0
+  google_sign_in: ^6.2.1
+  flutter_facebook_auth: ^6.0.4
   flutter_html:
   mh_videoplayer:
     path: ../mh_videoplayer

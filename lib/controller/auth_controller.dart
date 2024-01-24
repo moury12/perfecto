@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
@@ -28,7 +29,8 @@ class AuthController extends GetxController {
   TextEditingController passwordForChangeController = TextEditingController();
   TextEditingController passwordLoginController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
-  TextEditingController passwordForChangeConfirmController = TextEditingController();
+  TextEditingController passwordForChangeConfirmController =
+      TextEditingController();
 
   TextEditingController otpController = TextEditingController();
   TextEditingController otpForgetPassController = TextEditingController();
@@ -66,15 +68,21 @@ class AuthController extends GetxController {
   RxInt unAuthenticateIndex = (-1).obs;
 
   RxBool isLoggedIn = false.obs;
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   @override
   Future<void> onInit() async {
-    final loginUser = await dbHelper.getSingleItemAll(tableName: DatabaseHelper.loginTable, whereKey: DatabaseHelper.isLogIn, whereValue: 1);
+    final loginUser = await dbHelper.getSingleItemAll(
+        tableName: DatabaseHelper.loginTable,
+        whereKey: DatabaseHelper.isLogIn,
+        whereValue: 1);
     globalLogger.d(loginUser);
     isLoggedIn.value = loginUser.isNotEmpty;
     if (isLoggedIn.value) {
-      final user =
-          await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
+      final user = await dbHelper.getSingleItemSpecific(
+          tableName: DatabaseHelper.loginTable,
+          selectedItem: [DatabaseHelper.accessToken],
+          whereKey: DatabaseHelper.isLogIn,
+          whereValue: 1);
 
       ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
       globalLogger.d(user[DatabaseHelper.accessToken], 'token');
@@ -114,7 +122,8 @@ class AuthController extends GetxController {
     Get.offAllNamed(MainHomeScreen.routeName);
   }
 
-  Future<bool> registerRequest(String fName, String lName, String email, String phone, String password, String cPassword) async {
+  Future<bool> registerRequest(String fName, String lName, String email,
+      String phone, String password, String cPassword) async {
     registerEmail(email);
     final isCreated = await AuthService.registerCall({
       "f_name": fName,
@@ -134,7 +143,14 @@ class AuthController extends GetxController {
     return isCreated;
   }
 
-  Future<bool> loginRequest({String? email, String? phone, String? password, String? otp, required LogInType type}) async {
+  Future<bool> loginRequest(
+      {String? email,
+      String? phone,
+      String? password,
+      String? otp,
+      String? name,
+      String? googleId,
+      required LogInType type}) async {
     dynamic body = {};
     if (type == LogInType.email) {
       body = {
@@ -151,6 +167,13 @@ class AuthController extends GetxController {
       body = {
         "phone": registerEmail.value,
         "otp": otp!,
+      };
+    }else if (type == LogInType.google) {
+      body = {
+        "email": email,
+        "google_id": googleId,
+        "name": name,
+
       };
     }
     final isCreated = await AuthService.loginCall(body, type: type);
@@ -199,7 +222,8 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyEmailForgetPassword(String otp) async {
-    final verifyEmail = await AuthService.verifyEmail({"email": registerEmail.value, "otp": otp});
+    final verifyEmail = await AuthService.verifyEmail(
+        {"email": registerEmail.value, "otp": otp});
     if (verifyEmail.isNotEmpty) {
       final token = verifyEmail['token'];
       globalLogger.d(token, 'Token');
@@ -227,15 +251,30 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<GoogleSignInAccount?> googleSignIn() async {
+    try {
+      return await _googleSignIn.signIn();
+    } catch (error) {
+      print('Error during Google Sign In: $error');
+      return null;
+    }
+  }
+
+
+
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken, DatabaseHelper.loginTable, ServiceAPI.getToken);
+    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken,
+        DatabaseHelper.loginTable, ServiceAPI.getToken);
     globalLogger.d('deleted $rowsDeleted row(s): User ${ServiceAPI.getToken}');
   }
 
   Future<void> logout() async {
-    showSnackBar(msg: 'Loging out..', actionLabel: '', actionLabelColor: Colors.transparent);
+    showSnackBar(
+        msg: 'Loging out..',
+        actionLabel: '',
+        actionLabelColor: Colors.transparent);
     final logingOut = await AuthService.logoutCall(
       forceLogout: () {
         logoutFunc();

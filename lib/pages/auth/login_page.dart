@@ -6,6 +6,7 @@ import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/auth/forget_password_page.dart';
 import 'package:perfecto/pages/auth/registration_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -19,11 +20,19 @@ class LoginScreen extends StatelessWidget {
   _login(
       {String? email,
       String? phone,
+      String? googleId,
+      String? name,
       String? password,
       String? otp,
       required LogInType type}) {
     final data = AuthController.to.loginRequest(
-        email: email, phone: phone, password: password, type: type, otp: otp);
+        email: email,
+        phone: phone,
+        password: password,
+        type: type,
+        otp: otp,
+        googleId: googleId,
+        name: name);
   }
 
   @override
@@ -62,62 +71,60 @@ class LoginScreen extends StatelessWidget {
                 Obx(() {
                   return CustomTextField(
                     keyboardType: TextInputType.phone,
-                    focusNode:AuthController.to.isOtp.value
-                        ? AuthController.to.otpLoginFocusNode:AuthController
-                      .to.phoneLoginFocusNode ,
-                    errorMessage:AuthController.to.isOtp.value
-                        ? AuthController.to.errorLoginOtp.value!
-                        .isEmpty?null:AuthController.to.errorLoginOtp.value:
-                    AuthController.to.errorLoginPhone.value!
-                        .isEmpty?null:AuthController.to.errorLoginPhone.value,
+                    focusNode: AuthController.to.isOtp.value
+                        ? AuthController.to.otpLoginFocusNode
+                        : AuthController.to.phoneLoginFocusNode,
+                    errorMessage: AuthController.to.isOtp.value
+                        ? AuthController.to.errorLoginOtp.value!.isEmpty
+                            ? null
+                            : AuthController.to.errorLoginOtp.value
+                        : AuthController.to.errorLoginPhone.value!.isEmpty
+                            ? null
+                            : AuthController.to.errorLoginPhone.value,
                     onChanged: (value) {
-
-                      if(AuthController.to.isOtp.value){
-                        if(value.isNotEmpty){
-                          AuthController.to.errorLoginOtp.value='';
+                      if (AuthController.to.isOtp.value) {
+                        if (value.isNotEmpty) {
+                          AuthController.to.errorLoginOtp.value = '';
                         }
-                        if(value.isEmpty){
-                          AuthController.to.errorLoginOtp.value='Enter otp';
+                        if (value.isEmpty) {
+                          AuthController.to.errorLoginOtp.value = 'Enter otp';
                         }
-                      }else{
-                        if(value.isNotEmpty&&value.length>=11){
-                          AuthController.to.errorLoginPhone.value='';
+                      } else {
+                        if (value.isNotEmpty && value.length >= 11) {
+                          AuthController.to.errorLoginPhone.value = '';
                         }
-                        if(value.isEmpty){
-                          AuthController.to.errorLoginOtp.value='Enter a phone '
+                        if (value.isEmpty) {
+                          AuthController.to.errorLoginOtp.value =
+                              'Enter a phone '
                               'number';
-                        }
-                        else if(value
-                            .length<11){
-                          AuthController.to.errorLoginPhone.value='Enter a '
+                        } else if (value.length < 11) {
+                          AuthController.to.errorLoginPhone.value = 'Enter a '
                               'valid phone number';
                         }
                       }
                     },
                     onSubmitted: (p0) {
-                      if(AuthController.to.isOtp.value){
-                        if(AuthController.to.otpController.text.isEmpty){
-                          AuthController.to.errorLoginOtp.value='Enter otp';
-                        }
-                        else{
+                      if (AuthController.to.isOtp.value) {
+                        if (AuthController.to.otpController.text.isEmpty) {
+                          AuthController.to.errorLoginOtp.value = 'Enter otp';
+                        } else {
                           AuthController.to.otpLoginFocusNode.unfocus();
                         }
-                      }else{
-                        if(AuthController.to.phoneLoginController.text.isEmpty){
-                          AuthController.to.errorLoginPhone.value='Enter a '
+                      } else {
+                        if (AuthController
+                            .to.phoneLoginController.text.isEmpty) {
+                          AuthController.to.errorLoginPhone.value = 'Enter a '
                               'phone number';
-                        }else if(AuthController.to.phoneLoginController.text
-                            .length<11){
-                          AuthController.to.errorLoginPhone.value='Enter a '
+                        } else if (AuthController
+                                .to.phoneLoginController.text.length <
+                            11) {
+                          AuthController.to.errorLoginPhone.value = 'Enter a '
                               'valid'
                               ' phone number';
-                        }
-                        else{
-                          AuthController
-                              .to.phoneLoginFocusNode.unfocus();
+                        } else {
+                          AuthController.to.phoneLoginFocusNode.unfocus();
                         }
                       }
-
                     },
                     hintText: AuthController.to.isOtp.value
                         ? 'OTP Code'
@@ -141,43 +148,44 @@ class LoginScreen extends StatelessWidget {
                   label: 'Login',
                   onPressed: () {
                     if (!AuthController.to.isOtp.value) {
-                      if(AuthController.to.phoneLoginController.text
-                          .isNotEmpty&&AuthController.to.phoneLoginController
-                          .text
-                          .length>=11){
-                      _login(
-                          type: LogInType.phone,
-                          phone: AuthController.to.phoneLoginController.text);
-                      AuthController.to.isOtp.value = true;
-                      showSnackBar(
-                        msg: 'Use OTP to Login.',
-                      );}
-                      else{
-                        if(AuthController.to.phoneLoginController.text.isEmpty){
-                          AuthController.to.errorLoginPhone.value='Enter a '
+                      if (AuthController
+                              .to.phoneLoginController.text.isNotEmpty &&
+                          AuthController.to.phoneLoginController.text.length >=
+                              11) {
+                        _login(
+                            type: LogInType.phone,
+                            phone: AuthController.to.phoneLoginController.text);
+                        AuthController.to.isOtp.value = true;
+                        showSnackBar(
+                          msg: 'Use OTP to Login.',
+                        );
+                      } else {
+                        if (AuthController
+                            .to.phoneLoginController.text.isEmpty) {
+                          AuthController.to.errorLoginPhone.value = 'Enter a '
                               'phone number';
-                        } if(AuthController.to.phoneLoginController.text
-                            .length<11){
-                          AuthController.to.errorLoginPhone.value='Enter a '
+                        }
+                        if (AuthController.to.phoneLoginController.text.length <
+                            11) {
+                          AuthController.to.errorLoginPhone.value = 'Enter a '
                               'valid'
                               ' phone number';
                         }
                       }
                     } else {
-                      if(AuthController.to.otpController.text.isNotEmpty){
-                      _login(
-                          type: LogInType.verifyOTP,
-                          otp: AuthController.to.otpController.text);
+                      if (AuthController.to.otpController.text.isNotEmpty) {
+                        _login(
+                            type: LogInType.verifyOTP,
+                            otp: AuthController.to.otpController.text);
 
-                      AuthController.to.isOtp.value = false;
-                      AuthController.to.otpController.text = '';
-                      AuthController.to.phoneLoginController.text = '';}
-                      else{
-                        if(AuthController.to.otpController.text.isEmpty){
-                          AuthController.to.errorLoginOtp.value='Enter otp';
+                        AuthController.to.isOtp.value = false;
+                        AuthController.to.otpController.text = '';
+                        AuthController.to.phoneLoginController.text = '';
+                      } else {
+                        if (AuthController.to.otpController.text.isEmpty) {
+                          AuthController.to.errorLoginOtp.value = 'Enter otp';
                         }
                       }
-
                     }
                   },
                   marginVertical: 16,
@@ -201,25 +209,25 @@ class LoginScreen extends StatelessWidget {
                   enableBorderColor: AppColors.kPrimaryColor,
                   controller: AuthController.to.emailLoginController,
                   onChanged: (value) {
-                    if (value.isNotEmpty &&value.isEmail) {
+                    if (value.isNotEmpty && value.isEmail) {
                       AuthController.to.errorLoginEmail.value = '';
                     } else if (value.isEmpty) {
                       AuthController.to.errorLoginEmail.value =
                           'Enter an email';
-                    } else if(!value.isEmail){
-                        AuthController.to.errorLoginEmail.value='Enter an '
-                            'valid email';
-                      }
+                    } else if (!value.isEmail) {
+                      AuthController.to.errorLoginEmail.value = 'Enter an '
+                          'valid email';
+                    }
                   },
                   onSubmitted: (p0) {
                     if (AuthController.to.emailLoginController.text.isEmpty) {
                       AuthController.to.errorLoginEmail.value =
                           'Enter an email';
-                    } else if (!AuthController.to.emailLoginController.text.isEmail) {
-                        AuthController.to.errorLoginEmail.value = 'Enter an '
-                            'valid email';
-                      }
-                    else {
+                    } else if (!AuthController
+                        .to.emailLoginController.text.isEmail) {
+                      AuthController.to.errorLoginEmail.value = 'Enter an '
+                          'valid email';
+                    } else {
                       AuthController.to.emailLoginFocusNode.unfocus();
                     }
                   },
@@ -252,7 +260,8 @@ class LoginScreen extends StatelessWidget {
                     }
                   },
                   onSubmitted: (p0) {
-                    if (AuthController.to.passwordLoginController.text.isEmpty) {
+                    if (AuthController
+                        .to.passwordLoginController.text.isEmpty) {
                       AuthController.to.errorLoginPass.value =
                           'Enter a password';
                     } else if (AuthController
@@ -334,23 +343,28 @@ class LoginScreen extends StatelessWidget {
                   label: 'Login',
                   marginVertical: 20,
                   onPressed: () {
-                    if (AuthController.to.emailLoginController.text
-                        .isNotEmpty &&AuthController.to.emailLoginController
-                        .text.isEmail&&
-                        AuthController.to.passwordLoginController.text.length >= 8 &&
-                        AuthController.to.passwordLoginController.text.isNotEmpty) {
+                    if (AuthController
+                            .to.emailLoginController.text.isNotEmpty &&
+                        AuthController.to.emailLoginController.text.isEmail &&
+                        AuthController.to.passwordLoginController.text.length >=
+                            8 &&
+                        AuthController
+                            .to.passwordLoginController.text.isNotEmpty) {
                       _login(
                           email: AuthController.to.emailLoginController.text,
-                          password: AuthController.to.passwordLoginController.text,
+                          password:
+                              AuthController.to.passwordLoginController.text,
                           type: LogInType.email);
                       AuthController.to.emailLoginController.clear();
                       AuthController.to.passwordLoginController.clear();
                     } else {
-                      if (AuthController.to.passwordLoginController.text.isEmpty) {
+                      if (AuthController
+                          .to.passwordLoginController.text.isEmpty) {
                         AuthController.to.errorLoginPass.value =
                             'Enter a password';
                       }
-                      if (AuthController.to.passwordLoginController.text.length <
+                      if (AuthController
+                              .to.passwordLoginController.text.length <
                           8) {
                         AuthController.to.errorLoginPass.value =
                             'Enter at least 8'
@@ -359,7 +373,8 @@ class LoginScreen extends StatelessWidget {
                       if (AuthController.to.emailLoginController.text.isEmpty) {
                         AuthController.to.errorLoginEmail.value =
                             'Enter an email';
-                      } else if (!AuthController.to.emailLoginController.text.isEmail) {
+                      } else if (!AuthController
+                          .to.emailLoginController.text.isEmail) {
                         AuthController.to.errorLoginEmail.value = 'Enter an '
                             'valid email';
                       }
@@ -394,9 +409,18 @@ class LoginScreen extends StatelessWidget {
                   prefixImageHeight: 20,
                 ),
                 CustomButton(
-                  label: 'Continue with Facebook',
+                  label: 'Continue with Google',
                   primary: Colors.white,
-                  onPressed: () {},
+                  onPressed: () async {
+                    final googleId = await AuthController.to.googleSignIn();
+                    globalLogger.d(googleId!.email);
+                    _login(
+                        email: googleId!.email,
+                        googleId: googleId.id,
+                        name: googleId.displayName,
+                        type: LogInType.google);
+                    showSnackBar(msg: 'User login successfully.');
+                  },
                   isBorder: true,
                   borderColor: Colors.grey,
                   labelColor: Colors.black,
