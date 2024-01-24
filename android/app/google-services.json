@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1042984089947-soq90pkr3jkqbh7uc1b9r95dqm7hq7jj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.perfecto.application",
+            "certificate_hash": "d9909e401fd2097d903c12b7e4170d9ab0224d13"
+          }
+        },
+        {
           "client_id": "1042984089947-1ml5p14cih7c3h407uek49dndu3pevns.apps.googleusercontent.com",
           "client_type": 3
         }
