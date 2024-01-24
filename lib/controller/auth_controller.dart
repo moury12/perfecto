@@ -81,24 +81,18 @@ class AuthController extends GetxController {
   LogInType? currentLoginType;
   @override
   Future<void> onInit() async {
-    final loginUser = await dbHelper.getSingleItemAll(
-        tableName: DatabaseHelper.loginTable,
-        whereKey: DatabaseHelper.isLogIn,
-        whereValue: 1);
+    final loginUser = await dbHelper.getSingleItemAll(tableName: DatabaseHelper.loginTable, whereKey: DatabaseHelper.isLogIn, whereValue: 1);
     globalLogger.d(loginUser);
     isLoggedIn.value = loginUser.isNotEmpty;
     if (isLoggedIn.value) {
-      final user = await dbHelper.getSingleItemSpecific(
-          tableName: DatabaseHelper.loginTable,
-          selectedItem: [DatabaseHelper.accessToken],
-          whereKey: DatabaseHelper.isLogIn,
-          whereValue: 1);
+      final user =
+          await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
 
       ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
       globalLogger.d(user[DatabaseHelper.accessToken], 'token');
       Get.put<UserController>(UserController(), permanent: true);
       Get.put<HomeApiController>(HomeApiController(), permanent: true);
-      UserController.to.getUserInfoCall();
+      // UserController.to.getUserInfoCall();
       // globalLogger.d(user, user.runtimeType);
     }
     super.onInit();
@@ -138,8 +132,7 @@ class AuthController extends GetxController {
     Get.offAllNamed(MainHomeScreen.routeName);
   }
 
-  Future<bool> registerRequest(String fName, String lName, String email,
-      String phone, String password, String cPassword) async {
+  Future<bool> registerRequest(String fName, String lName, String email, String phone, String password, String cPassword) async {
     registerEmail(email);
     final isCreated = await AuthService.registerCall({
       "f_name": fName,
@@ -159,15 +152,7 @@ class AuthController extends GetxController {
     return isCreated;
   }
 
-  Future<bool> loginRequest(
-      {String? email,
-      String? phone,
-      String? password,
-      String? otp,
-      String? name,
-      String? googleId,
-      String? avatar,
-      required LogInType type}) async {
+  Future<bool> loginRequest({String? email, String? phone, String? password, String? otp, String? name, String? googleId, String? avatar, required LogInType type}) async {
     dynamic body = {};
     if (type == LogInType.email) {
       body = {
@@ -186,12 +171,7 @@ class AuthController extends GetxController {
         "otp": otp!,
       };
     } else if (type == LogInType.google) {
-      body = {
-        "email": email!,
-        "google_id": googleId!,
-        "name": name!,
-        "avatar":avatar!
-      };
+      body = {"email": email!, "google_id": googleId!, "name": name!, "avatar": avatar!};
     }
     final isCreated = await AuthService.loginCall(body, type: type);
     final token = isCreated['token'];
@@ -199,10 +179,7 @@ class AuthController extends GetxController {
     if (type != LogInType.phone && isCreated.isNotEmpty) {
       ServiceAPI.setAuthToken(token);
       currentLoginType = type;
-      _insert(
-          accessToken: token,
-          phone: isCreated['phone'] ?? '',
-          loginType: type.name);
+      _insert(accessToken: token, phone: isCreated['phone'] ?? '', loginType: type.name);
       isLoggedIn.value = true;
 
       showSnackBar(
@@ -221,8 +198,7 @@ class AuthController extends GetxController {
     return isCreated.isNotEmpty;
   }
 
-  void _insert(
-      {String? phone, required String accessToken, String? loginType}) async {
+  void _insert({String? phone, required String accessToken, String? loginType}) async {
     // row to insert
     Map<String, dynamic> row = {
       DatabaseHelper.userMobile: phone ?? '',
@@ -247,8 +223,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyEmailForgetPassword(String otp) async {
-    final verifyEmail = await AuthService.verifyEmail(
-        {"email": registerEmail.value, "otp": otp});
+    final verifyEmail = await AuthService.verifyEmail({"email": registerEmail.value, "otp": otp});
     if (verifyEmail.isNotEmpty) {
       final token = verifyEmail['token'];
       globalLogger.d(token, 'Token');
@@ -284,6 +259,7 @@ class AuthController extends GetxController {
       return null;
     }
   }
+
   Map<String, dynamic>? _userData;
   AccessToken? _accessToken;
   bool _checking = true;
@@ -309,9 +285,8 @@ class AuthController extends GetxController {
       print(result.status);
       print(result.message);
     }
-
-
   }
+
   // Future<void> loginWithFacebook() async {
   //   try {
   //     final LoginResult result = await FacebookAuth.instance.login();
@@ -329,16 +304,12 @@ class AuthController extends GetxController {
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken,
-        DatabaseHelper.loginTable, ServiceAPI.getToken);
+    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken, DatabaseHelper.loginTable, ServiceAPI.getToken);
     globalLogger.d('deleted $rowsDeleted row(s): User ${ServiceAPI.getToken}');
   }
 
   Future<void> logout() async {
-    showSnackBar(
-        msg: 'Loging out..',
-        actionLabel: '',
-        actionLabelColor: Colors.transparent);
+    showSnackBar(msg: 'Loging out..', actionLabel: '', actionLabelColor: Colors.transparent);
     final logingOut = await AuthService.logoutCall(
       forceLogout: () {
         logoutFunc();

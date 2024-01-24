@@ -25,8 +25,7 @@ class UserController extends GetxController {
   TextEditingController nameAddNewAddressController = TextEditingController();
   TextEditingController emailAddNewAddressController = TextEditingController();
   TextEditingController phoneAddNewAddressController = TextEditingController();
-  TextEditingController addressAddNewAddressController =
-      TextEditingController();
+  TextEditingController addressAddNewAddressController = TextEditingController();
   Rx<String?> errorName = ''.obs;
   Rx<String?> errorEmail = ''.obs;
   Rx<String?> errorPhone = ''.obs;
@@ -38,19 +37,21 @@ class UserController extends GetxController {
   FocusNode emailFocusNode = FocusNode();
   FocusNode phoneFocusNode = FocusNode();
   Rx<File> pickedImage = File('').obs;
-RxString image=''.obs;
-  @override
-  void onReady() async {
-    await getUserInfoCall();
+  RxString image = ''.obs;
 
-    super.onReady();
+  @override
+  Future<void> onInit() async {
+    await getUserInfoCall();
+    super.onInit();
   }
-editController(UserModel userModel){
-  nameController.text = userModel.name??'';
-  emailController.text = userModel.email??'';
-  phoneController.text = userModel.phone??'';
-  image.value=userModel.avatar??'';
-}
+
+  editController(UserModel userModel) {
+    nameController.text = userModel.name ?? '';
+    emailController.text = userModel.email ?? '';
+    phoneController.text = userModel.phone ?? '';
+    image.value = userModel.avatar ?? '';
+  }
+
   @override
   void onClose() async {
     nameController.dispose();
@@ -68,8 +69,7 @@ editController(UserModel userModel){
     update();
   }
 
-  Future<bool> updateUser(
-      String name, String email, String phone, File avatar) async {
+  Future<bool> updateUser(String name, String email, String phone, File avatar) async {
     final isUpdated = await UserService.updateProfile({
       "name": name,
       "email": email,
@@ -86,27 +86,25 @@ editController(UserModel userModel){
 
   Future<void> pickImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       pickedImage.value = File(pickedFile.path);
     }
   }
-  Future<void> editPassword(
-      String oldPassword,
-      String password,
-      String cPassword,
-      ) async {
 
+  Future<void> editPassword(
+    String oldPassword,
+    String password,
+    String cPassword,
+  ) async {
     bool isVerified = await UserService.editPassword({
-      "old_password":oldPassword,
+      "old_password": oldPassword,
       "new_password": password,
       "c_password": cPassword,
     });
     if (isVerified) {
-     Get.back();
-
+      Get.back();
     }
   }
 }
