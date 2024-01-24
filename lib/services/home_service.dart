@@ -19,37 +19,36 @@ class HomeService {
     return blogList;
   }
 
-  static Future<List<BlogModel>> singleBlogCall() async {
-    List<BlogModel> blogList = [];
+  static Future<SingleBlogModel> singleBlogCall(String? blogId) async {
+    SingleBlogModel singleBlog = SingleBlogModel();
+
     final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}blogs/1/get-comment',
+        url: '${ServiceAPI.apiUrl}blogs/$blogId',
         httpMethod: HttpMethod.get);
     globalLogger.d(response, "Single blog route");
     if (response['status'] != null && response['status']) {
-      response['data'].forEach((dis) {
-        blogList.add(BlogModel.fromJson(dis));
-      });
+      singleBlog = SingleBlogModel.fromJson(response['data']);
     } else if (response['status'] != null && !response['status']) {
       ServiceAPI.showAlert(response['message']);
     }
-    return blogList;
+    return singleBlog;
   }
 
-  static Future<List<BlogCommentModel>> blogCommentCall() async {
-    List<BlogCommentModel> blogComentList = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}blogs/1/get-comment',
-        httpMethod: HttpMethod.get);
-    globalLogger.d(response, "blog route");
-    if (response['status'] != null && response['status']) {
-      response['data'].forEach((dis) {
-        blogComentList.add(BlogCommentModel.fromJson(dis));
-      });
-    } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
-    }
-    return blogComentList;
-  }
+  // static Future<List<BlogCommentModel>> blogCommentCall() async {
+  //   List<BlogCommentModel> blogComentList = [];
+  //   final response = await ServiceAPI.genericCall(
+  //       url: '${ServiceAPI.apiUrl}blogs/1/get-comment',
+  //       httpMethod: HttpMethod.get);
+  //   globalLogger.d(response, "blog route");
+  //   if (response['status'] != null && response['status']) {
+  //     response['data'].forEach((dis) {
+  //       blogComentList.add(BlogCommentModel.fromJson(dis));
+  //     });
+  //   } else if (response['status'] != null && !response['status']) {
+  //     ServiceAPI.showAlert(response['message']);
+  //   }
+  //   return blogComentList;
+  // }
 
   static Future<bool> addBlogComment(dynamic body) async {
     final response = await ServiceAPI.genericCall(

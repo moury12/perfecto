@@ -485,7 +485,7 @@ packages:
     description:
       path: "."
       ref: alpha
-      resolved-ref: f33c0a44edf667ede70591d290b0fed7d209bcae
+      resolved-ref: c2871efda364a68aba9c58512cb0834bc295a2c4
       url: "https://github.com/mh-sarkar/mh-core.git"
     source: git
     version: "0.0.1"

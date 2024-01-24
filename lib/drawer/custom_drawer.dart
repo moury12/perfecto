@@ -39,6 +39,7 @@ class CustomDrawer extends StatelessWidget {
                 InkWell(
                   borderRadius: BorderRadius.circular(360),
                   onTap: () {
+                    Navigator.pop(context);
                     Get.toNamed(WishListScreen.routeName);
                   },
                   child: Container(
@@ -89,6 +90,7 @@ class CustomDrawer extends StatelessWidget {
                   children: [
                     GestureDetector(
                         onTap: () {
+                          Navigator.pop(context);
                           Get.toNamed(WishListScreen.routeName);
                         },
                         child: SaleTextWidget()),
@@ -102,6 +104,7 @@ class CustomDrawer extends StatelessWidget {
                     CustomSizedBox.space8H,
                     GestureDetector(
                       onTap: () {
+                        Navigator.pop(context);
                         Get.toNamed(BrandScreen.routeName);
                       },
                       child: Container(
@@ -118,6 +121,7 @@ class CustomDrawer extends StatelessWidget {
                     CustomSizedBox.space8H,
                     GestureDetector(
                       onTap: () {
+                        Navigator.pop(context);
                         Get.toNamed(BlogScreen.routeName);
                       },
                       child: Container(
@@ -143,6 +147,7 @@ class CustomDrawer extends StatelessWidget {
                         children: [
                           DrawerMenuItemWidget(
                             onTap: () {
+                              Navigator.pop(context);
                               CustomDrawerController.to.isExpanded.value =
                                   !CustomDrawerController.to.isExpanded.value;
                             },
@@ -150,6 +155,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           DrawerMenuItemWidget(
                             onTap: () {
+                              Navigator.pop(context);
                               CustomDrawerController.to.isExpanded.value =
                                   !CustomDrawerController.to.isExpanded.value;
                             },
@@ -157,6 +163,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           DrawerMenuItemWidget(
                             onTap: () {
+                              Navigator.pop(context);
                               CustomDrawerController.to.isExpanded.value =
                                   !CustomDrawerController.to.isExpanded.value;
                             },
@@ -164,6 +171,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           DrawerMenuItemWidget(
                             onTap: () {
+                              Navigator.pop(context);
                               CustomDrawerController.to.isExpanded.value =
                                   !CustomDrawerController.to.isExpanded.value;
                             },
@@ -171,6 +179,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           DrawerMenuItemWidget(
                             onTap: () {
+                              Navigator.pop(context);
                               CustomDrawerController.to.isExpanded.value =
                                   !CustomDrawerController.to.isExpanded.value;
                             },
@@ -178,6 +187,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           DrawerMenuItemWidget(
                             onTap: () {
+                              Navigator.pop(context);
                               CustomDrawerController.to.isExpanded.value =
                                   !CustomDrawerController.to.isExpanded.value;
                             },
@@ -185,6 +195,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           DrawerMenuItemWidget(
                             onTap: () {
+                              Navigator.pop(context);
                               CustomDrawerController.to.isExpanded.value =
                                   !CustomDrawerController.to.isExpanded.value;
                             },
@@ -192,6 +203,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           DrawerMenuItemWidget(
                             onTap: () {
+                              Navigator.pop(context);
                               CustomDrawerController.to.isExpanded.value =
                                   !CustomDrawerController.to.isExpanded.value;
                             },
@@ -205,6 +217,7 @@ class CustomDrawer extends StatelessWidget {
                     CustomSizedBox.space8H,
                     GestureDetector(
                     onTap: () {
+                      Navigator.pop(context);
                       Get.toNamed(TermsConditionScreen.routeName);
                     },                      child: SaleTextWidget(
                         text: 'Terms & Conditions',
@@ -215,6 +228,7 @@ class CustomDrawer extends StatelessWidget {
                     CustomDividerWidget(),
                     CustomSizedBox.space8H,
                     GestureDetector( onTap: () {
+                      Navigator.pop(context);
                       Get.toNamed(RefundCancelationScreen.routeName);
                     },
                       child: SaleTextWidget(
@@ -296,6 +310,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                     style: AppTheme.textStyleMediumFadeBlack16,
                                   ),
                                   onTap: () {
+                                    Navigator.pop(context);
                                     CustomDrawerController.to.isExpanded2.value=!CustomDrawerController.to.isExpanded2.value;
                                   },
                                 ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/services/api_service.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
@@ -44,18 +46,29 @@ class BlogScreen extends StatelessWidget {
             isSearchInclude: false,
           ),
           Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16,vertical: 12),
-            itemCount: HomeApiController.to.blogList.length,
-            itemBuilder: (context, index) {
-                  final blog=HomeApiController.to.blogList[index];
-              return GestureDetector(
-                onTap: () {
-                  Get.toNamed(BlogDetailsScreen.routeName);
-                },
-                  child: SingleBlogWidget(blogModel: blog,));
-            },
-          ))
+              child: Obx(
+                () {
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      HomeApiController.to.blogListCall();
+                    },
+                    child:  ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+                                itemCount: HomeApiController.to.blogList.length,
+                                itemBuilder: (context, index) {
+                        final blog=HomeApiController.to.blogList[index];
+                    return GestureDetector(
+                      onTap: () async{
+
+                        await HomeApiController.to.singleBlogListCall(blog.id);
+                        Get.toNamed(BlogDetailsScreen.routeName);
+                      },
+                        child: SingleBlogWidget(blogModel: blog,));
+                                },
+                              ),
+                  );
+                }
+              ))
         ],
       ),
     );
