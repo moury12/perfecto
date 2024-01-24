@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/profile/edit_password_page.dart';
 import 'package:perfecto/pages/profile/edit_profile_page.dart';
@@ -68,7 +69,8 @@ class MyProfileScreen extends StatelessWidget {
                           marginVertical: 0,
                           marginHorizontal: 0,
                           onPressed: () {
-                            Get.toNamed(EditProfileScreen.routeName);
+                            UserController.to.editController( controller.userInfo.value);
+                            Get.to(EditProfileScreen(userModel: controller.userInfo.value,));
                           },
                           primary: Colors.white,
                           borderColor: Colors.grey,

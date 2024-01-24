@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                     CustomSizedBox.space24H,
                     Obx(() {
                       return CustomNetworkImage(
-                        networkImagePath: '${ServiceAPI.url}${UserController.to.userInfo.value.avatar}',
+                        networkImagePath: '${UserController.to.userInfo.value.avatar}',
                         errorImagePath: 'assets/dummy_profile.png',
                       );
                     }),

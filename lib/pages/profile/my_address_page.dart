@@ -69,7 +69,7 @@ class MyAddressScreen extends GetView<AddressController> {
                                   child: Row(
                                     children: [
                                        Text(
-                                        'Address${address.id}',
+                                        'Address',
                                         style: AppTheme.textStyleSemiBoldBlack16,
                                       ),
                                       const Spacer(),
@@ -99,7 +99,9 @@ class MyAddressScreen extends GetView<AddressController> {
                                       CustomButton(
                                         marginVertical: 0,
                                         marginHorizontal: 0,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          controller.deleteAddress(address.id);
+                                        },
                                         primary: Colors.white,
                                         borderColor: Colors.grey,
                                         isBorder: true,

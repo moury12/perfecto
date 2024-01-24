@@ -77,7 +77,17 @@ class AddressController extends GetxController {
     _areaList.assignAll(areas);
     update();
   }
+Future<bool> deleteAddress(String addressId) async{
+    final isDeleted = await UserService.deleteAddress(addressId);
+    if(isDeleted){
+      showSnackBar(
+        msg: 'Address Deleted successfully.',
+      );
 
+      getAddressCall();
+    }
+    return isDeleted;
+}
   Future<bool> addAddressRequest(String name, String phone, String email,
       String districtId, String cityId, String address, String status) async {
     final isCreated = await UserService.addNewAddress({

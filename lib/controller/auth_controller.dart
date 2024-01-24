@@ -27,11 +27,13 @@ class AuthController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController phoneLoginController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordOldController = TextEditingController();
   TextEditingController passwordForChangeController = TextEditingController();
+  TextEditingController passwordForNewController = TextEditingController();
   TextEditingController passwordLoginController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
-  TextEditingController passwordForChangeConfirmController =
-      TextEditingController();
+  TextEditingController passwordForChangeConfirmController = TextEditingController();
+  TextEditingController passwordForNewConfirmController = TextEditingController();
 
   TextEditingController otpController = TextEditingController();
   TextEditingController otpForgetPassController = TextEditingController();
@@ -44,9 +46,12 @@ class AuthController extends GetxController {
   Rx<String?> errorForgetPassOtp = ''.obs;
   Rx<String?> errorPhone = ''.obs;
   Rx<String?> errorPassword = ''.obs;
+  Rx<String?> errorOldPassword = ''.obs;
   Rx<String?> errorForChangePassword = ''.obs;
+  Rx<String?> errorForNewPassword = ''.obs;
   Rx<String?> errorREPassword = ''.obs;
   Rx<String?> errorForChangeREPassword = ''.obs;
+  Rx<String?> errorForNewREPassword = ''.obs;
   Rx<String?> errorName = ''.obs;
   final FocusNode firstNameFocusNode = FocusNode();
   final FocusNode lastNameFocusNode = FocusNode();
@@ -58,10 +63,13 @@ class AuthController extends GetxController {
   final FocusNode otpLoginFocusNode = FocusNode();
   final FocusNode otpForgetPassFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode passwordOldFocusNode = FocusNode();
   final FocusNode passwordForChangeFocusNode = FocusNode();
+  final FocusNode passwordForNewFocusNode = FocusNode();
   final FocusNode passwordLoginFocusNode = FocusNode();
   final FocusNode confirmPasswordFocusNode = FocusNode();
   final FocusNode confirmPasswordForChangeFocusNode = FocusNode();
+  final FocusNode confirmPasswordForNewFocusNode = FocusNode();
   RxBool isRemember = false.obs;
   RxBool isOtp = false.obs;
   RxBool isVerifyEmail = false.obs;
@@ -106,10 +114,13 @@ class AuthController extends GetxController {
     emailControllerForgetPass.dispose();
     phoneController.dispose();
     passwordForChangeConfirmController.dispose();
+    passwordForNewConfirmController.dispose();
     passwordForChangeController.dispose();
+    passwordForNewController.dispose();
     phoneLoginController.dispose();
     passwordLoginController.dispose();
     passwordController.dispose();
+    passwordOldController.dispose();
     passwordConfirmController.dispose();
     otpController.dispose();
 
@@ -155,6 +166,7 @@ class AuthController extends GetxController {
       String? otp,
       String? name,
       String? googleId,
+      String? avatar,
       required LogInType type}) async {
     dynamic body = {};
     if (type == LogInType.email) {
@@ -178,6 +190,7 @@ class AuthController extends GetxController {
         "email": email!,
         "google_id": googleId!,
         "name": name!,
+        "avatar":avatar!
       };
     }
     final isCreated = await AuthService.loginCall(body, type: type);
@@ -199,6 +212,7 @@ class AuthController extends GetxController {
       unAuthenticateIndex.value = -1;
 
       Get.put<UserController>(UserController(), permanent: true);
+      // UserController.to.getUserInfoCall();
       Get.back();
       // afterLogin(isCreated);
     } else if (type == LogInType.phone && isCreated.isNotEmpty) {

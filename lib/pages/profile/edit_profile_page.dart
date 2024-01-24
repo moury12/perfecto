@@ -9,6 +9,7 @@ import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/checkout-page/checkout_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -16,7 +17,8 @@ import 'package:perfecto/theme/theme_data.dart';
 
 class EditProfileScreen extends StatelessWidget {
   static const String routeName = '/edit_profile';
-  const EditProfileScreen({super.key});
+  final UserModel? userModel;
+  const EditProfileScreen({super.key, this.userModel});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,7 @@ class EditProfileScreen extends StatelessWidget {
                     : CustomNetworkImage(
                         height: 120,
                         width: 120,
-                        networkImagePath: '',
+                        networkImagePath: UserController.to.image.value,
                         errorImagePath: 'assets/dummy_profile.png',
                       ),
               );

@@ -17,8 +17,8 @@ import '../../utils.dart';
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
   const LoginScreen({super.key});
-  _login({String? email, String? phone, String? googleId, String? name, String? password, String? otp, required LogInType type}) {
-    final data = AuthController.to.loginRequest(email: email, phone: phone, password: password, type: type, otp: otp, googleId: googleId, name: name);
+  _login({String? email,String? avatar, String? phone, String? googleId, String? name, String? password, String? otp, required LogInType type}) {
+    final data = AuthController.to.loginRequest(email: email, phone: phone, password: password, type: type, otp: otp, googleId: googleId, name: name,avatar: avatar);
   }
 
   @override
@@ -347,7 +347,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () async {
                     final googleId = await AuthController.to.googleSignIn();
                     globalLogger.d(googleId.toString());
-                    _login(email: googleId!.email, googleId: googleId.id, name: googleId.displayName, type: LogInType.google);
+                    _login(email: googleId!.email, googleId: googleId.id, name: googleId.displayName, type: LogInType.google,avatar: googleId.photoUrl);
                   },
                   isBorder: true,
                   borderColor: Colors.grey,
