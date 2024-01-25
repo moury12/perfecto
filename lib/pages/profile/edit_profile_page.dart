@@ -54,14 +54,14 @@ class EditProfileScreen extends StatelessWidget {
             child: Obx(() {
               return GestureDetector(
                 onTap: () {
-                  if (UserController.to.pickedImage.value.path.isEmpty) {
+                  if (UserController.to.pickedImagePath.value.isEmpty) {
                     UserController.to.pickImage();
                   } else {}
                 },
-                child: UserController.to.pickedImage.value.path.isNotEmpty
+                child: UserController.to.pickedImagePath.value.isNotEmpty
                     ? ClipOval(
                         child: Image.file(
-                          UserController.to.pickedImage.value ,
+                          File(UserController.to.pickedImagePath.value),
                           height: 120,
                           width: 120,
                           fit: BoxFit.cover,
@@ -82,78 +82,65 @@ class EditProfileScreen extends StatelessWidget {
             children: [
               CheckoutWidget(
                 title: 'Edit Personal Details',
-                widget: Obx(
-                   () {
-                    return Column(
-                      children: [
-                        CustomTextField(
-                          marginVertical: 6,
-                          hintText: 'Enter your full name',
-                          labelText: 'Full Name',
-                          focusNode: UserController.to.nameFocusNode,
-                          controller: UserController.to.nameController,
-                          errorMessage: UserController.to.errorName.value!.isEmpty
-                              ? null
-                              : UserController.to.errorName.value,
-                          focusColor: Colors.black,
-                        ),
-                        CustomTextField(
-                          marginVertical: 6,
-                          hintText: 'Enter your email',
-                          labelText: 'Email Address',
-                          focusNode: UserController.to.emailFocusNode,
-                          controller: UserController.to.emailController,
-                          errorMessage: UserController.to.errorEmail.value!.isEmpty
-                              ? null
-                              : UserController.to.errorEmail.value,
-                          focusColor: Colors.black,
-                        ),
-                        CustomTextField(
-                          marginVertical: 6,
-                          hintText: 'Enter your phone',
-                          labelText: 'Phone Number',
-                          focusNode: UserController.to.phoneFocusNode,
-                          controller: UserController.to.phoneController,
-                          errorMessage: UserController.to.errorPhone.value!.isEmpty
-                              ? null
-                              : UserController.to.errorPhone.value,
-                          focusColor: Colors.black,
-                        ),
-                        CustomButton(
-                          label: 'Save',
-                          onPressed: () {
-                            if (UserController.to.nameController.text.isNotEmpty &&
-                                UserController.to.emailController.text.isNotEmpty &&
-                                UserController.to.phoneController.text.isNotEmpty &&
-                                UserController
-                                    .to.phoneController.text.isPhoneNumber) {
-                              UserController.to.updateUser(
-                                  UserController.to.nameController.text,
-                                  UserController.to.emailController.text,
-                                  UserController.to.phoneController.text,
-                                  UserController.to.pickedImage.value );
-
+                widget: Obx(() {
+                  return Column(
+                    children: [
+                      CustomTextField(
+                        marginVertical: 6,
+                        hintText: 'Enter your full name',
+                        labelText: 'Full Name',
+                        focusNode: UserController.to.nameFocusNode,
+                        controller: UserController.to.nameController,
+                        errorMessage: UserController.to.errorName.value!.isEmpty ? null : UserController.to.errorName.value,
+                        focusColor: Colors.black,
+                      ),
+                      CustomTextField(
+                        marginVertical: 6,
+                        hintText: 'Enter your email',
+                        labelText: 'Email Address',
+                        focusNode: UserController.to.emailFocusNode,
+                        controller: UserController.to.emailController,
+                        errorMessage: UserController.to.errorEmail.value!.isEmpty ? null : UserController.to.errorEmail.value,
+                        focusColor: Colors.black,
+                      ),
+                      CustomTextField(
+                        marginVertical: 6,
+                        hintText: 'Enter your phone',
+                        labelText: 'Phone Number',
+                        focusNode: UserController.to.phoneFocusNode,
+                        controller: UserController.to.phoneController,
+                        errorMessage: UserController.to.errorPhone.value!.isEmpty ? null : UserController.to.errorPhone.value,
+                        focusColor: Colors.black,
+                      ),
+                      CustomButton(
+                        label: 'Save',
+                        onPressed: () {
+                          if (UserController.to.nameController.text.isNotEmpty &&
+                              UserController.to.emailController.text.isNotEmpty &&
+                              UserController.to.phoneController.text.isNotEmpty &&
+                              UserController.to.phoneController.text.isPhoneNumber) {
+                            UserController.to.updateUser(UserController.to.nameController.text, UserController.to.emailController.text, UserController.to.phoneController.text);
+                          } else {
+                            if (UserController.to.nameController.text.isEmpty) {
+                              UserController.to.errorName.value = 'Name is Required';
                             }
-                            else{
-                              if(UserController.to.nameController.text.isEmpty){
-                                UserController.to.errorName.value='Name is Required';
-                              }if( UserController.to.emailController.text.isEmpty){
-                                UserController.to.errorEmail.value='Email is Required';
-                              }if( UserController.to.phoneController.text.isEmpty){
-                                UserController.to.errorPhone.value='Phone is Required';
-                              }if( !UserController
-                                  .to.phoneController.text.isPhoneNumber){
-                                UserController.to.errorPhone.value='provide valid phone number';
-                              }
+                            if (UserController.to.emailController.text.isEmpty) {
+                              UserController.to.errorEmail.value = 'Email is Required';
                             }
-                          },
-                          marginVertical: 12,
-                        ),
-                        CustomSizedBox.space12H,
-                      ],
-                    );
-                  }
-                ),
+                            if (UserController.to.phoneController.text.isEmpty) {
+                              UserController.to.errorPhone.value = 'Phone is Required';
+                            }
+                            if (!UserController.to.phoneController.text.isPhoneNumber) {
+                              UserController.to.errorPhone.value = 'provide valid phone number';
+                            }
+                          }
+                        },
+                        marginVertical: 12,
+                      ),
+                      CustomSizedBox.space12H,
+                    ],
+                  );
+                }),
               ),
             ],
           ))

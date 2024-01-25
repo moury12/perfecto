@@ -123,6 +123,7 @@ class AuthController extends GetxController {
 
   logoutFunc() {
     _delete();
+    Get.delete<UserController>(force: true);
     ServiceAPI.setAuthToken('');
     if (currentLoginType == LogInType.google) {
       _googleSignIn.signOut();
@@ -171,7 +172,12 @@ class AuthController extends GetxController {
         "otp": otp!,
       };
     } else if (type == LogInType.google) {
-      body = {"email": email!, "google_id": googleId!, "name": name!, "avatar": avatar!};
+      body = {
+        "email": email!,
+        "google_id": googleId!,
+        "name": name!,
+        "avatar": avatar!,
+      };
     }
     final isCreated = await AuthService.loginCall(body, type: type);
     final token = isCreated['token'];

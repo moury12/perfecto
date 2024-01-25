@@ -36,7 +36,7 @@ class UserController extends GetxController {
   FocusNode nameFocusNode = FocusNode();
   FocusNode emailFocusNode = FocusNode();
   FocusNode phoneFocusNode = FocusNode();
-  Rx<File> pickedImage = File('').obs;
+  RxString pickedImagePath = ''.obs;
   RxString image = ''.obs;
 
   @override
@@ -69,15 +69,23 @@ class UserController extends GetxController {
     update();
   }
 
-  Future<bool> updateUser(String name, String email, String phone, File avatar) async {
+  Future<bool> updateUser(String name, String email, String phone) async {
+    final List<Map<String, dynamic>> imageList = [];
+    if (UserController.to.pickedImagePath.value.isNotEmpty) {
+      imageList.add({
+        "key": "avatar",
+        "value": UserController.to.pickedImagePath.value,
+      });
+    }
+
     final isUpdated = await UserService.updateProfile({
       "name": name,
       "email": email,
       "phone": phone,
-      "avatar": avatar,
-    });
+    }, imageList);
     if (isUpdated) {
       Get.back();
+      pickedImagePath.value = '';
       showSnackBar(msg: 'Profile Updated Successfully');
       await getUserInfoCall();
     }
@@ -89,7 +97,7 @@ class UserController extends GetxController {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      pickedImage.value = File(pickedFile.path);
+      pickedImagePath.value = pickedFile.path;
     }
   }
 
