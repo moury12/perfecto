@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  azlistview:
+    dependency: "direct main"
+    description:
+      name: azlistview
+      sha256: "93e865f11777a271b439f0d6b00799c0797e9daeec2e082a2e01373809c4b90d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -483,9 +491,11 @@ packages:
   mh_core:
     dependency: "direct main"
     description:
-      path: "../mh_core"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "087334d137495286882dd6eae8a478658c715ff9"
+      url: "https://github.com/mh-sarkar/mh-core.git"
+    source: git
     version: "0.0.1"
   mh_videoplayer:
     dependency: "direct main"
@@ -622,6 +632,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.4"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "9566352ab9ba05794ee6c8864f154afba5d36c5637d0e3e32c615ba4ceb92772"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.3"
   sky_engine:
     dependency: transitive
     description: flutter

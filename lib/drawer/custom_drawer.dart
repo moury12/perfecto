@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/drawer/drawer_controller.dart';
+import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/pages/auth/return_cancelation_page.dart';
 import 'package:perfecto/pages/auth/terms_condition_page.dart';
 import 'package:perfecto/pages/blog/blog_page.dart';
@@ -57,12 +60,12 @@ class CustomDrawer extends StatelessWidget {
                           top: -2,
                           right: 0,
                           child: Container(
-                            padding: EdgeInsets.all(2.5),
-                            decoration: BoxDecoration(
+                            padding: const EdgeInsets.all(2.5),
+                            decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: AppColors.kDarkPrimaryColor),
                             child:
-                                Text('12', style: AppTheme.textStyleBoldWhite8),
+                                const Text('12', style: AppTheme.textStyleBoldWhite8),
                           ),
                         )
                       ],
@@ -84,7 +87,7 @@ class CustomDrawer extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -93,14 +96,14 @@ class CustomDrawer extends StatelessWidget {
                           Navigator.pop(context);
                           Get.toNamed(WishListScreen.routeName);
                         },
-                        child: SaleTextWidget()),
-                    SaleTextWidget(text: 'Puja Sale', color: Color(0xffD90068)),
-                    SaleTextWidget(
+                        child: const SaleTextWidget()),
+                    const SaleTextWidget(text: 'Puja Sale', color: Color(0xffD90068)),
+                    const SaleTextWidget(
                         text: 'Buy 1 Get 1', color: Color(0xff9747FF)),
-                    SaleTextWidget(
+                    const SaleTextWidget(
                         text: 'Clearance Sale', color: Color(0xff129CED)),
                     CustomSizedBox.space12H,
-                    CustomDividerWidget(),
+                    const CustomDividerWidget(),
                     CustomSizedBox.space8H,
                     GestureDetector(
                       onTap: () {
@@ -110,14 +113,14 @@ class CustomDrawer extends StatelessWidget {
                       child: Container(
                         width: double.infinity,
                         color: Colors.transparent,
-                        child: SaleTextWidget(
+                        child: const SaleTextWidget(
                           text: 'Brands',
                           color: Colors.black,
                         ),
                       ),
                     ),
                     CustomSizedBox.space8H,
-                    CustomDividerWidget(),
+                    const CustomDividerWidget(),
                     CustomSizedBox.space8H,
                     GestureDetector(
                       onTap: () {
@@ -127,111 +130,143 @@ class CustomDrawer extends StatelessWidget {
                       child: Container(
                         width: double.infinity,
                         color: Colors.transparent,
-                        child: SaleTextWidget(
+                        child: const SaleTextWidget(
                           text: 'Beauty Advice',
                           color: Colors.black,
                         ),
                       ),
                     ),
                     CustomSizedBox.space8H,
-                    CustomDividerWidget(),
+                    const CustomDividerWidget(),
                     CustomSizedBox.space8H,
-                    SaleTextWidget(
+                    const SaleTextWidget(
                       text: 'Category',
                       color: Colors.black,
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
-                      child: Column(
-                        children: [
-                          DrawerMenuItemWidget(
-                            onTap: () {
-                              Navigator.pop(context);
-                              CustomDrawerController.to.isExpanded.value =
-                                  !CustomDrawerController.to.isExpanded.value;
-                            },
-                            title: 'Makeup',
-                          ),
-                          DrawerMenuItemWidget(
-                            onTap: () {
-                              Navigator.pop(context);
-                              CustomDrawerController.to.isExpanded.value =
-                                  !CustomDrawerController.to.isExpanded.value;
-                            },
-                            title: 'Skin',
-                          ),
-                          DrawerMenuItemWidget(
-                            onTap: () {
-                              Navigator.pop(context);
-                              CustomDrawerController.to.isExpanded.value =
-                                  !CustomDrawerController.to.isExpanded.value;
-                            },
-                            title: 'Hair',
-                          ),
-                          DrawerMenuItemWidget(
-                            onTap: () {
-                              Navigator.pop(context);
-                              CustomDrawerController.to.isExpanded.value =
-                                  !CustomDrawerController.to.isExpanded.value;
-                            },
-                            title: 'Appliances',
-                          ),
-                          DrawerMenuItemWidget(
-                            onTap: () {
-                              Navigator.pop(context);
-                              CustomDrawerController.to.isExpanded.value =
-                                  !CustomDrawerController.to.isExpanded.value;
-                            },
-                            title: 'Personal Care',
-                          ),
-                          DrawerMenuItemWidget(
-                            onTap: () {
-                              Navigator.pop(context);
-                              CustomDrawerController.to.isExpanded.value =
-                                  !CustomDrawerController.to.isExpanded.value;
-                            },
-                            title: 'Natural',
-                          ),
-                          DrawerMenuItemWidget(
-                            onTap: () {
-                              Navigator.pop(context);
-                              CustomDrawerController.to.isExpanded.value =
-                                  !CustomDrawerController.to.isExpanded.value;
-                            },
-                            title: 'Mom & Wellness',
-                          ),
-                          DrawerMenuItemWidget(
-                            onTap: () {
-                              Navigator.pop(context);
-                              CustomDrawerController.to.isExpanded.value =
-                                  !CustomDrawerController.to.isExpanded.value;
-                            },
-                            title: 'Men',
-                          ),
-                        ],
+                          const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
+                      child: Obx(
+                      () {
+                          return Column(
+                            children: [
+                              ...List.generate(HomeApiController.to.categoryList.length, (index) {
+                                final category =HomeApiController.to.categoryList[index];
+
+                                return
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                category.name??'',
+                                                style: AppTheme.textStyleMediumFadeBlack16,
+                                              ),
+                                              const Spacer(),
+                                              Icon(
+                                                Icons.add,
+                                                color: Colors.black.withOpacity(.7),
+                                                size: 25,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          globalLogger.d(category.subcategory!.map((e) => e.parentId));
+                                         CustomDrawerController.to.isExpanded.value= category.subcategory!.where((element) => element.parentId==category.id).isEmpty;
+
+
+                                        },
+                                      ),  CustomDrawerController.to.isExpanded.value
+                                          ? Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ...List.generate(category.subcategory!.length, (index) {
+                                            final subCate =
+                                            category.subcategory![index];
+                                            return Container(
+                                              width: double.infinity,
+                                              /*decoration: BoxDecoration(
+                              color: index == 1 ? AppColors.kAccentColor : null,
+                              border: Border(
+                                  left: BorderSide(
+                                      width: 1,
+                                      color: index == 1
+                                          ? AppColors.kPrimaryColor
+                                          : Colors.transparent)))*/
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 16, vertical: 8),
+                                                child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    GestureDetector(
+
+                                                      child: Text(
+                                                        subCate.name??'',
+                                                        style: AppTheme.textStyleMediumFadeBlack16,
+                                                      ),
+                                                      onTap: () {
+
+                                                        CustomDrawerController.to.isExpanded2.value=!CustomDrawerController.to.isExpanded2.value;
+                                                      },
+                                                    ),
+                                                    CustomDrawerController.to.isExpanded2.value
+                                                        ?  Column(children: [...List.generate(CustomDrawerController.to.childCategory.length, (index) {
+                                                      final text =
+                                                      CustomDrawerController.to.childCategory[index];
+                                                      return Container(
+                                                        width: double.infinity,
+
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 16, vertical: 8),
+                                                          child: Text(
+                                                            text,
+                                                            style: AppTheme.textStyleMediumFadeBlack16,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    })],):const SizedBox.shrink()
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          })
+                                        ],
+                                      )
+                                          : const SizedBox.shrink()
+                                    ],
+                                  );
+                              })
+                            ],
+                          );
+                        }
                       ),
                     ),
                     CustomSizedBox.space8H,
-                    CustomDividerWidget(),
+                    const CustomDividerWidget(),
                     CustomSizedBox.space8H,
                     GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                       Get.toNamed(TermsConditionScreen.routeName);
-                    },                      child: SaleTextWidget(
+                    },                      child: const SaleTextWidget(
                         text: 'Terms & Conditions',
                         color: Colors.black,
                       ),
                     ),
                     CustomSizedBox.space8H,
-                    CustomDividerWidget(),
+                    const CustomDividerWidget(),
                     CustomSizedBox.space8H,
                     GestureDetector( onTap: () {
                       Navigator.pop(context);
                       Get.toNamed(RefundCancelationScreen.routeName);
                     },
-                      child: SaleTextWidget(
+                      child: const SaleTextWidget(
                         text: 'Return & Refund Policy',
                         color: Colors.black,
                       ),
@@ -249,11 +284,13 @@ class CustomDrawer extends StatelessWidget {
 
 class DrawerMenuItemWidget extends StatelessWidget {
   final String title;
+  final CategoryModel categoryModel;
+  final Widget? widget;
   final Function() onTap;
   const DrawerMenuItemWidget({
     super.key,
     required this.title,
-    required this.onTap,
+    required this.onTap,  this.widget, required this.categoryModel,
   });
 
   @override
@@ -280,14 +317,14 @@ class DrawerMenuItemWidget extends StatelessWidget {
                   )
                 ],
               ),
-            ),
+            ),widget??const SizedBox.shrink(),
             CustomDrawerController.to.isExpanded.value
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ...List.generate(CustomDrawerController.to.subCategory.length, (index) {
-                        final text =
-                            CustomDrawerController.to.subCategory[index];
+                      ...List.generate(categoryModel.subcategory!.length, (index) {
+                        final subCate =
+                        categoryModel.subcategory![index];
                         return Container(
                           width: double.infinity,
                           /*decoration: BoxDecoration(
@@ -306,11 +343,11 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                 GestureDetector(
 
                                   child: Text(
-                                    text,
+                                    subCate.name??'',
                                     style: AppTheme.textStyleMediumFadeBlack16,
                                   ),
                                   onTap: () {
-                                    Navigator.pop(context);
+
                                     CustomDrawerController.to.isExpanded2.value=!CustomDrawerController.to.isExpanded2.value;
                                   },
                                 ),
@@ -330,7 +367,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                     ),
                                   ),
                                 );
-                              })],):SizedBox.shrink()
+                              })],):const SizedBox.shrink()
                               ],
                             ),
                           ),
