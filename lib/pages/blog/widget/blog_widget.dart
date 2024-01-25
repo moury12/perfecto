@@ -26,8 +26,8 @@ class SingleBlogWidget extends StatelessWidget {
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
-          const CustomNetworkImage(
-            networkImagePath: '/images/blogs/1706009804891774.jpg',
+          CustomNetworkImage(
+            networkImagePath: blogModel.image!,
             errorImagePath: 'assets/blog.png',
             border: NetworkImageBorder.Rectangle,
             fit: BoxFit.fitWidth,

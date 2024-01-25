@@ -16,9 +16,12 @@ import '../../../models/address_model.dart';
 
 class AddNewAddressScreen extends StatelessWidget {
   static const String routeName = '/add_address';
-  const AddNewAddressScreen({super.key, this.addressModel});
+  const AddNewAddressScreen({
+    super.key,
+    /* this.addressModel*/
+  });
 
-  final AddressModel? addressModel;
+  // final AddressModel? addressModel;
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +68,7 @@ class AddNewAddressScreen extends StatelessWidget {
                         labelText: 'Full Name',
                         isRequired: true,
                         focusColor: Colors.black,
-                        errorMessage: controller.errorName.value!.isEmpty
-                            ? null
-                            : controller.errorName.value,
+                        errorMessage: controller.errorName.value!.isEmpty ? null : controller.errorName.value,
                         controller: controller.nameController,
                         onChanged: (value) {
                           if (value.isNotEmpty && value.length >= 3) {
@@ -76,18 +77,15 @@ class AddNewAddressScreen extends StatelessWidget {
                             if (value.isEmpty) {
                               controller.errorName.value = 'Enter a name';
                             } else if (value.length < 3) {
-                              controller.errorName.value =
-                                  'Enter minimum 3 character of your name!';
+                              controller.errorName.value = 'Enter minimum 3 character of your name!';
                             }
                           }
                         },
                         onSubmitted: (p0) {
                           if (controller.nameController.text.isEmpty) {
                             controller.errorName.value = 'Enter A name';
-                          } else if (controller.nameController.text.length <
-                              3) {
-                            controller.errorName.value =
-                                'Enter minimum 3 character of your name!';
+                          } else if (controller.nameController.text.length < 3) {
+                            controller.errorName.value = 'Enter minimum 3 character of your name!';
                           }
                         },
                       ),
@@ -97,31 +95,24 @@ class AddNewAddressScreen extends StatelessWidget {
                         labelText: 'Phone',
                         isRequired: true,
                         focusColor: Colors.black,
-                        errorMessage: controller.errorPhone.value!.isEmpty
-                            ? null
-                            : controller.errorPhone.value,
+                        errorMessage: controller.errorPhone.value!.isEmpty ? null : controller.errorPhone.value,
                         keyboardType: TextInputType.phone,
                         onChanged: (value) {
                           if (value.isNotEmpty && value.isPhoneNumber) {
                             controller.errorPhone.value = '';
                           } else {
                             if (value.isEmpty) {
-                              controller.errorPhone.value =
-                                  'Enter a phone number';
+                              controller.errorPhone.value = 'Enter a phone number';
                             } else if (value.length < 3) {
-                              controller.errorPhone.value =
-                                  'Enter a valid phone number!';
+                              controller.errorPhone.value = 'Enter a valid phone number!';
                             }
                           }
                         },
                         onSubmitted: (p0) {
                           if (controller.phoneController.text.isEmpty) {
-                            controller.errorPhone.value =
-                                'Enter A phone number';
-                          } else if (!controller
-                              .phoneController.text.isPhoneNumber) {
-                            controller.errorPhone.value =
-                                'Enter a valid phone number!';
+                            controller.errorPhone.value = 'Enter A phone number';
+                          } else if (!controller.phoneController.text.isPhoneNumber) {
+                            controller.errorPhone.value = 'Enter a valid phone number!';
                           }
                         },
                         controller: controller.phoneController,
@@ -162,9 +153,7 @@ class AddNewAddressScreen extends StatelessWidget {
                       Obx(() {
                         return TitleDropdown(
                           dwItems: controller.districtList,
-                          dwValue: controller.selectedDistrict.value!.isEmpty
-                              ? null
-                              : controller.selectedDistrict.value,
+                          dwValue: controller.selectedDistrict.value!.isEmpty ? null : controller.selectedDistrict.value,
                           type: DropdownListType.object,
                           onChange: (v) async {
                             if (controller.selectedDistrict.value != v) {
@@ -186,9 +175,7 @@ class AddNewAddressScreen extends StatelessWidget {
                         // final _areas = controller.areaList.isNotEmpty ? controller.areaList : [];
                         return TitleDropdown(
                           dwItems: controller.areaList,
-                          dwValue: controller.selectedArea.value!.isEmpty
-                              ? null
-                              : controller.selectedArea.value,
+                          dwValue: controller.selectedArea.value!.isEmpty ? null : controller.selectedArea.value,
                           type: DropdownListType.object,
                           onChange: (v) {
                             controller.selectedArea.value = v;
@@ -207,9 +194,7 @@ class AddNewAddressScreen extends StatelessWidget {
                         labelText: 'Address',
                         isRequired: true,
                         focusColor: Colors.black,
-                        errorMessage: controller.errorAddress.value!.isEmpty
-                            ? null
-                            : controller.errorAddress.value,
+                        errorMessage: controller.errorAddress.value!.isEmpty ? null : controller.errorAddress.value,
                         controller: controller.addressController,
                         onChanged: (value) {
                           if (value.isNotEmpty && value.length >= 3) {
@@ -218,46 +203,35 @@ class AddNewAddressScreen extends StatelessWidget {
                             if (value.isEmpty) {
                               controller.errorAddress.value = 'Enter a name';
                             } else if (value.length < 3) {
-                              controller.errorAddress.value =
-                                  'Enter minimum 3 character of your name!';
+                              controller.errorAddress.value = 'Enter minimum 3 character of your name!';
                             }
                           }
                         },
                         onSubmitted: (p0) {
                           if (controller.addressController.text.isEmpty) {
                             controller.errorAddress.value = 'Enter An address';
-                          } else if (controller.addressController.text.length <
-                              3) {
-                            controller.errorAddress.value =
-                                'Enter minimum 3 character of your Address!';
+                          } else if (controller.addressController.text.length < 3) {
+                            controller.errorAddress.value = 'Enter minimum 3 character of your Address!';
                           }
                         },
                       ),
                       CustomSizedBox.space8H,
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0)
-                            .copyWith(bottom: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(bottom: 16),
                         child: Row(
                           children: [
                             Obx(() {
                               return GestureDetector(
                                 onTap: () {
-                                  controller.sameAddress.value =
-                                      !controller.sameAddress.value;
+                                  controller.sameAddress.value = !controller.sameAddress.value;
                                 },
                                 child: Container(
                                   height: 18,
                                   width: 18,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(2),
-                                      color: controller.sameAddress.value
-                                          ? AppColors.kPrimaryColor
-                                          : Colors.white,
-                                      border: Border.all(
-                                          width: 0.5,
-                                          color: controller.sameAddress.value
-                                              ? AppColors.kDarkPrimaryColor
-                                              : Colors.black.withOpacity(.25))),
+                                      color: controller.sameAddress.value ? AppColors.kPrimaryColor : Colors.white,
+                                      border: Border.all(width: 0.5, color: controller.sameAddress.value ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
                                   alignment: Alignment.center,
                                   child: controller.sameAddress.value
                                       ? const Icon(
@@ -290,50 +264,38 @@ class AddNewAddressScreen extends StatelessWidget {
                               controller.selectedArea.value.isNotEmpty &&
                               controller.selectedDistrict.value.isNotEmpty) {
                             if (controller.isAddNew.value) {
-                              controller.addAddressRequest(
-                                  controller.nameController.text,
-                                  controller.phoneController.text,
-                                  controller.emailController.text,
-                                  controller.selectedDistrict.value,
-                                  controller.selectedArea.value,
-                                  controller.addressController.text,
-                                  controller.sameAddress.value ? '1' : '0');
+                              controller.addAddressRequest(controller.nameController.text, controller.phoneController.text, controller.emailController.text,
+                                  controller.selectedDistrict.value, controller.selectedArea.value, controller.addressController.text, controller.sameAddress.value ? '1' : '0');
                               globalLogger.d('Add new Address');
                             } else {
-
                               controller.updateAddressRequest(
-                                  controller.nameController.text,
-                                  controller.phoneController.text,
-                                  controller.emailController.text,
-                                  controller.selectedDistrict.value,
-                                  controller.selectedArea.value,
-                                  controller.addressController.text,
-                                  controller.sameAddress.value ? '1' : '0',
-                                  addressModel!.id ?? '');
+                                  name: controller.nameController.text,
+                                  phone: controller.phoneController.text,
+                                  email: controller.emailController.text,
+                                  districtId: controller.selectedDistrict.value,
+                                  cityId: controller.selectedArea.value,
+                                  address: controller.addressController.text,
+                                  status: controller.sameAddress.value ? '1' : '0',
+                                  addressId: controller.address.value.id!);
                             }
                           } else {
                             if (controller.addressController.text.isEmpty) {
-                              controller.errorAddress.value =
-                                  'Enter An address';
+                              controller.errorAddress.value = 'Enter An address';
                             }
                             if (controller.addressController.text.length < 3) {
-                              controller.errorAddress.value =
-                                  'Enter minimum 3 character of your !';
+                              controller.errorAddress.value = 'Enter minimum 3 character of your !';
                             }
                             if (controller.nameController.text.isEmpty) {
                               controller.errorName.value = 'Enter A name';
                             }
                             if (controller.nameController.text.length < 3) {
-                              controller.errorName.value =
-                                  'Enter minimum 3 character of your name!';
+                              controller.errorName.value = 'Enter minimum 3 character of your name!';
                             }
                             if (controller.phoneController.text.isEmpty) {
-                              controller.errorPhone.value =
-                                  'Enter A phone number';
+                              controller.errorPhone.value = 'Enter A phone number';
                             }
                             if (controller.phoneController.text.length < 11) {
-                              controller.errorPhone.value =
-                                  'Enter a valid phone number!';
+                              controller.errorPhone.value = 'Enter a valid phone number!';
                             }
                             if (controller.selectedDistrict.value!.isEmpty) {
                               showSnackBar(msg: 'Please select a District');

@@ -13,6 +13,7 @@ class AddressController extends GetxController {
   final selectedDistrict = ''.obs;
   final selectedArea = ''.obs;
   final sameAddress = false.obs;
+  final address = AddressModel().obs;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -41,6 +42,7 @@ class AddressController extends GetxController {
   }
 
   editAddress(AddressModel addressModel) {
+    address.value = addressModel;
     nameController.text = addressModel.name ?? '-';
     emailController.text = addressModel.email ?? '-';
     phoneController.text = addressModel.phone ?? '';
@@ -48,6 +50,7 @@ class AddressController extends GetxController {
     selectedDistrict.value = addressModel.districtId ?? '';
     selectedArea.value = addressModel.cityId ?? '';
     sameAddress.value = addressModel.status == '1' ? true : false;
+    getAreaData(selectedDistrict.value);
   }
 
   clearAddress() {
@@ -58,7 +61,7 @@ class AddressController extends GetxController {
     selectedDistrict.value = '';
     selectedArea.value = '';
     sameAddress.value = false;
-    isAddNew.value=true;
+    isAddNew.value = true;
   }
 
   Future<void> getAddressCall() async {
@@ -77,9 +80,10 @@ class AddressController extends GetxController {
     _areaList.assignAll(areas);
     update();
   }
-Future<bool> deleteAddress(String addressId) async{
+
+  Future<bool> deleteAddress(String addressId) async {
     final isDeleted = await UserService.deleteAddress(addressId);
-    if(isDeleted){
+    if (isDeleted) {
       showSnackBar(
         msg: 'Address Deleted successfully.',
       );
@@ -87,9 +91,9 @@ Future<bool> deleteAddress(String addressId) async{
       getAddressCall();
     }
     return isDeleted;
-}
-  Future<bool> addAddressRequest(String name, String phone, String email,
-      String districtId, String cityId, String address, String status) async {
+  }
+
+  Future<bool> addAddressRequest(String name, String phone, String email, String districtId, String cityId, String address, String status) async {
     final isCreated = await UserService.addNewAddress({
       "name": name,
       "phone": phone,
@@ -109,22 +113,29 @@ Future<bool> deleteAddress(String addressId) async{
     }
     return isCreated;
   }
-  Future<bool> updateAddressRequest(String name, String phone, String email,
-      String districtId, String cityId, String address, String status,String addressId) async {
+
+  Future<bool> updateAddressRequest(
+      {String? name, String? phone, String? email, String? districtId, String? cityId, String? address, String? status, String? addressId, bool fromEdit = true}) async {
     final isCreated = await UserService.updateAddress({
-      "name": name,
-      "phone": phone,
-      "district_id": districtId,
-      "city_id": cityId,
-      "address": address,
-      "status": status,
-      "email": email,
-    },addressId);
+      if (name != null) "name": name!,
+      if (phone != null) "phone": phone!,
+      if (districtId != null) "district_id": districtId!,
+      if (cityId != null) "city_id": cityId!,
+      if (address != null) "address": address!,
+      if (status != null) "status": status!,
+      if (email != null) "email": email!,
+    }, addressId!);
     if (isCreated) {
-      showSnackBar(
-        msg: 'Address Updated successfully.',
-      );
-      Get.back();
+      if (fromEdit) {
+        showSnackBar(
+          msg: 'Address Updated successfully.',
+        );
+        Get.back();
+      } else {
+        showSnackBar(
+          msg: 'Default Address Set successfully.',
+        );
+      }
       getAddressCall();
       // afterLogin(isCreated);
     }

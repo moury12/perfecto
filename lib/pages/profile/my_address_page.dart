@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
@@ -68,7 +69,7 @@ class MyAddressScreen extends GetView<AddressController> {
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
                                     children: [
-                                       Text(
+                                      Text(
                                         'Address',
                                         style: AppTheme.textStyleSemiBoldBlack16,
                                       ),
@@ -78,9 +79,8 @@ class MyAddressScreen extends GetView<AddressController> {
                                         marginHorizontal: 0,
                                         onPressed: () {
                                           final controller = Get.put(AddressController());
-                                          controller.getAreaData(controller.selectedDistrict.value);
                                           controller.editAddress(address);
-                                          Get.to( AddNewAddressScreen(addressModel: address,));
+                                          Get.to(const AddNewAddressScreen());
                                         },
                                         primary: Colors.white,
                                         borderColor: Colors.grey,
@@ -199,9 +199,19 @@ class MyAddressScreen extends GetView<AddressController> {
                                       GestureDetector(
                                         onTap: () {
                                           if (address.status == '1') {
-                                            address.status = '0';
+                                            showSnackBar(msg: 'Please Check Another Address to Set as Default');
                                           } else {
-                                            address.status = '1';
+                                            controller.updateAddressRequest(
+                                              name: address.name,
+                                              phone: address.phone,
+                                              email: address.email,
+                                              districtId: address.districtId,
+                                              cityId: address.cityId,
+                                              address: address.address,
+                                              status: '1',
+                                              addressId: address.id!,
+                                              fromEdit: false,
+                                            );
                                           }
                                         },
                                         child: Container(
