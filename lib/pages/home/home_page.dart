@@ -129,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 Image.asset(
-                                  AssetsConstant.firstCategory1,
+                                  AssetsConstant.firstCategory4,
                                   height: 42,
                                 ),
                                 CustomSizedBox.space8H,
@@ -152,7 +152,7 @@ class HomeScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Image.asset(
-                                AssetsConstant.firstCategory1,
+                                AssetsConstant.firstCategory8,
                                 height: 42,
                               ),
                               CustomSizedBox.space8H,
