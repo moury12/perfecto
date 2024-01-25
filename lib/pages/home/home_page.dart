@@ -7,6 +7,7 @@ import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:mh_videoplayer/widgets/video-player-widget/video_player_widget.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
@@ -66,108 +67,135 @@ class HomeScreen extends StatelessWidget {
                         },
                       ))),
               CustomSizedBox.space8H,
-              Row(
-                children: [
-                  Expanded(
-                    child: GridView.builder(
-                      physics: const ScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12).copyWith(right: 8),
-                      shrinkWrap: true,
-                      primary: false,
-                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 100,
-                        mainAxisExtent: 90,
-
-                        // childAspectRatio: 1,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                      ),
-                      itemCount: controller.categoryItem.length,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> data = controller.categoryItem[index];
-                        return GestureDetector(
+              // Row(
+              //   children: [
+              // Expanded(
+              //   child: GridView.builder(
+              //     physics: const ScrollPhysics(),
+              //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12).copyWith(right: 8),
+              //     shrinkWrap: true,
+              //     primary: false,
+              //     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              //       maxCrossAxisExtent: 100,
+              //       mainAxisExtent: 90,
+              //
+              //       // childAspectRatio: 1,
+              //       crossAxisSpacing: 8,
+              //       mainAxisSpacing: 8,
+              //     ),
+              //     itemCount: HomeApiController.to.categoryList.length,
+              //     itemBuilder: (context, index) {
+              //       final cat = HomeApiController.to.categoryList[index];
+              //       return GestureDetector(
+              //           onTap: () {
+              //             Get.toNamed(SingleCatergoryWiseScreen.routeName);
+              //           },
+              //           child: Container(
+              //             decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+              //             padding: const EdgeInsets.all(12),
+              //             child: Column(
+              //               children: [
+              //                 Image.asset(
+              //                   AssetsConstant.firstCategory1,
+              //                   height: 42,
+              //                 ),
+              //                 CustomSizedBox.space8H,
+              //                 Text(
+              //                   cat.name!,
+              //                   style: AppTheme.textStyleNormalWhite10,
+              //                 )
+              //               ],
+              //             ),
+              //           ));
+              //     },
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Obx(() {
+                  return Wrap(
+                    children: HomeApiController.to.categoryList
+                            .map((cat) => GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                                },
+                                child: Container(
+                                  height: 90,
+                                  width: size.height > size.width ? size.width * .21 : size.height * .21,
+                                  margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                  decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(
+                                    children: [
+                                      Image.asset(
+                                        AssetsConstant.firstCategory1,
+                                        height: 42,
+                                      ),
+                                      CustomSizedBox.space8H,
+                                      Text(
+                                        cat.name!,
+                                        style: AppTheme.textStyleNormalWhite10,
+                                      )
+                                    ],
+                                  ),
+                                )))
+                            .toList() +
+                        [
+                          GestureDetector(
+                              onTap: () {
+                                Get.toNamed(OutletScreen.routeName);
+                              },
+                              child: Container(
+                                height: 90,
+                                width: size.height > size.width ? size.width * .21 : size.height * .21,
+                                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      AssetsConstant.firstCategory4,
+                                      height: 42,
+                                    ),
+                                    CustomSizedBox.space8H,
+                                    const Text(
+                                      'Outlet',
+                                      style: AppTheme.textStyleNormalWhite10,
+                                    )
+                                  ],
+                                ),
+                              )),
+                          GestureDetector(
                             onTap: () {
-                              if (data['route'] == OutletScreen.routeName) {
-                                NavigationController.to.changeTabIndex(5);
-                                NavigationController.to.update();
-                              }
-                              Get.toNamed(data['route']);
+                              Get.toNamed(OfferScreenNew.routeName);
                             },
                             child: Container(
-                              decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                              height: 90,
+                              width: size.height > size.width ? size.width * .21 : size.height * .21,
+                              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                               padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(color: AppColors.kPrimaryColor, borderRadius: BorderRadius.circular(10)),
                               child: Column(
                                 children: [
                                   Image.asset(
-                                    data['img'],
+                                    AssetsConstant.firstCategory8,
                                     height: 42,
                                   ),
                                   CustomSizedBox.space8H,
-                                  Text(
-                                    data['name'],
-                                    style: AppTheme.textStyleNormalWhite10,
+                                  const Text(
+                                    "Offer",
+                                    style: AppTheme.textStyleNormalBlack10,
                                   )
                                 ],
                               ),
-                            ));
-                      },
-                    ),
-                  ),
-                  Wrap(
-                    alignment: WrapAlignment.start,
-                    direction: MediaQuery.of(context).orientation == Orientation.portrait || size.height > size.width ? Axis.vertical : Axis.horizontal,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            Get.toNamed(OutletScreen.routeName);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
-                            padding: const EdgeInsets.all(12),
-                            width: 90,
-                            margin: EdgeInsets.only(right: 16, bottom: MediaQuery.of(context).orientation == Orientation.portrait || size.height > size.width ? 8 : 0),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  AssetsConstant.firstCategory1,
-                                  height: 42,
-                                ),
-                                CustomSizedBox.space8H,
-                                const Text(
-                                  'Outlet',
-                                  style: AppTheme.textStyleNormalWhite10,
-                                )
-                              ],
                             ),
-                          )),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(OfferScreenNew.routeName);
-                        },
-                        child: Container(
-                          width: 90,
-                          margin: const EdgeInsets.only(right: 16),
-                          decoration: BoxDecoration(color: AppColors.kPrimaryColor, borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                AssetsConstant.firstCategory1,
-                                height: 42,
-                              ),
-                              CustomSizedBox.space8H,
-                              const Text(
-                                "Offer",
-                                style: AppTheme.textStyleNormalBlack10,
-                              )
-                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+                        ],
+                  );
+                }),
               ),
+              //   ],
+              // ),
               // GridView.builder(
               //   physics: const ScrollPhysics(),
               //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

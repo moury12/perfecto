@@ -106,9 +106,9 @@ class HomeController extends GetxController {
     {'name': 'Skin', 'img': AssetsConstant.firstCategory2, 'route': SingleCatergoryWiseScreen.routeName},
     {'name': 'Skin', 'img': AssetsConstant.firstCategory3, 'route': SingleCatergoryWiseScreen.routeName},
     // {'name': 'Skin', 'img': AssetsConstant.firstCategory4, 'route': OutletScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory5, 'route': SingleCatergoryWiseScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory6, 'route': SingleCatergoryWiseScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory7, 'route': SingleCatergoryWiseScreen.routeName},
+    // {'name': 'Skin', 'img': AssetsConstant.firstCategory5, 'route': SingleCatergoryWiseScreen.routeName},
+    // {'name': 'Skin', 'img': AssetsConstant.firstCategory6, 'route': SingleCatergoryWiseScreen.routeName},
+    // {'name': 'Skin', 'img': AssetsConstant.firstCategory7, 'route': SingleCatergoryWiseScreen.routeName},
     // {'name': 'Offers', 'img': AssetsConstant.firstCategory8, 'route': SingleCatergoryWiseScreen.routeName},
   ];
   Rx<PageController> pageController = PageController().obs;
