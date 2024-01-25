@@ -128,6 +128,9 @@ class AuthController extends GetxController {
     if (currentLoginType == LogInType.google) {
       _googleSignIn.signOut();
     }
+    if (currentLoginType == LogInType.facebook) {
+      FacebookAuth.instance.logOut();
+    }
     isLoggedIn.value = false;
     NavigationController.to.selectedIndex.value = 0;
     Get.offAllNamed(MainHomeScreen.routeName);
@@ -153,7 +156,8 @@ class AuthController extends GetxController {
     return isCreated;
   }
 
-  Future<bool> loginRequest({String? email, String? phone, String? password, String? otp, String? name, String? googleId, String? avatar, required LogInType type}) async {
+  Future<bool> loginRequest(
+      {String? email, String? phone, String? password, String? otp, String? name, String? googleId, String? fbId, String? avatar, required LogInType type}) async {
     dynamic body = {};
     if (type == LogInType.email) {
       body = {
@@ -175,6 +179,13 @@ class AuthController extends GetxController {
       body = {
         "email": email!,
         "google_id": googleId!,
+        "name": name!,
+        "avatar": avatar!,
+      };
+    } else if (type == LogInType.facebook) {
+      body = {
+        "email": email!,
+        "fb_id": fbId!,
         "name": name!,
         "avatar": avatar!,
       };
@@ -266,12 +277,13 @@ class AuthController extends GetxController {
     }
   }
 
-  Map<String, dynamic>? _userData;
-  AccessToken? _accessToken;
+  Map<String, dynamic>? userData;
+  AccessToken? accessToken;
   bool _checking = true;
-  Future<void> loginWithFacebook() async {
-    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
-
+  Future<bool> loginWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login(
+      permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
+    ); // by default we request the email and the public profile
     // loginBehavior is only supported for Android devices, for ios it will be ignored
     // final result = await FacebookAuth.instance.login(
     //   permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
@@ -280,17 +292,20 @@ class AuthController extends GetxController {
     // );
 
     if (result.status == LoginStatus.success) {
-      _accessToken = result.accessToken;
+      accessToken = result.accessToken;
 
       // get the user data
       // by default we get the userId, email,name and picture
-      final userData = await FacebookAuth.instance.getUserData();
+      final userDataTemp = await FacebookAuth.instance.getUserData();
       // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
-      _userData = userData;
+      userData = userDataTemp;
+      globalLogger.d(userData, 'userData');
+      return true;
     } else {
       print(result.status);
       print(result.message);
     }
+    return false;
   }
 
   // Future<void> loginWithFacebook() async {

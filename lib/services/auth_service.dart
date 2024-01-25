@@ -7,11 +7,7 @@ import 'package:perfecto/utils.dart';
 
 class AuthService {
   static Future<bool> registerCall(dynamic body) async {
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}register',
-        httpMethod: HttpMethod.multipartFilePost,
-        noNeedAuthToken: true,
-        allInfoField: body);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}register', httpMethod: HttpMethod.multipartFilePost, noNeedAuthToken: true, allInfoField: body);
     globalLogger.d('${ServiceAPI.url}api/register', 'Register');
     globalLogger.d(response, 'Register');
     if (response['status'] != null && response['status']) {
@@ -61,11 +57,7 @@ class AuthService {
   }
 
   static Future<bool> changePassword(dynamic body) async {
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}change_password',
-        httpMethod: HttpMethod.multipartFilePost,
-        noNeedAuthToken: false,
-        allInfoField: body);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}change_password', httpMethod: HttpMethod.multipartFilePost, noNeedAuthToken: false, allInfoField: body);
     globalLogger.d(response, "change password");
 
     if (response['status'] != null && response['status']) {
@@ -78,8 +70,7 @@ class AuthService {
     return false;
   }
 
-  static Future<dynamic> loginCall(dynamic body,
-      {required LogInType type}) async {
+  static Future<dynamic> loginCall(dynamic body, {required LogInType type}) async {
     final response = await ServiceAPI.genericCall(
       url:
           '${ServiceAPI.apiUrl}${type == LogInType.email ? "login" : type == LogInType.phone ? "otp_login" : type == LogInType.google ? "login/google" : type == LogInType.facebook ? "login/facebook" : type == LogInType.verifyOTP ? "verify_otp" : ''}',

@@ -17,8 +17,8 @@ import '../../utils.dart';
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
   const LoginScreen({super.key});
-  _login({String? email,String? avatar, String? phone, String? googleId, String? name, String? password, String? otp, required LogInType type}) {
-    final data = AuthController.to.loginRequest(email: email, phone: phone, password: password, type: type, otp: otp, googleId: googleId, name: name,avatar: avatar);
+  _login({String? email, String? avatar, String? phone, String? googleId, String? name, String? password, String? otp, String? fbId, required LogInType type}) {
+    final data = AuthController.to.loginRequest(email: email, phone: phone, password: password, type: type, otp: otp, googleId: googleId, fbId: fbId, name: name, avatar: avatar);
   }
 
   @override
@@ -334,8 +334,16 @@ class LoginScreen extends StatelessWidget {
                 CustomButton(
                   label: 'Continue with Facebook',
                   primary: const Color(0xff3C579B),
-                  onPressed: () {
-                    AuthController.to.loginWithFacebook();
+                  onPressed: () async {
+                    final isLogIn = await AuthController.to.loginWithFacebook();
+                    if (isLogIn) {
+                      _login(
+                          email: AuthController.to.userData!['email'],
+                          name: AuthController.to.userData!['name'],
+                          fbId: AuthController.to.userData!['id'],
+                          type: LogInType.facebook,
+                          avatar: AuthController.to.userData!['picture'] != null ? AuthController.to.userData!['picture']['data']['url'] : null);
+                    }
                   },
                   marginVertical: 12,
                   prefixImage: AssetsConstant.facebook,
@@ -347,7 +355,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () async {
                     final googleId = await AuthController.to.googleSignIn();
                     globalLogger.d(googleId.toString());
-                    _login(email: googleId!.email, googleId: googleId.id, name: googleId.displayName, type: LogInType.google,avatar: googleId.photoUrl);
+                    _login(email: googleId!.email, googleId: googleId.id, name: googleId.displayName, type: LogInType.google, avatar: googleId.photoUrl);
                   },
                   isBorder: true,
                   borderColor: Colors.grey,
