@@ -22,7 +22,8 @@ class BrandScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
       drawer: const CustomDrawer(),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const HomeTopWidget(),
           const TitleTextWidget(tileText: 'Popular Brands'),
@@ -37,18 +38,14 @@ class BrandScreen extends StatelessWidget {
               mainAxisExtent: 100,
             ),
             itemBuilder: (context, index) {
-              final popularBrand = HomeApiController.to.brandList
-                  .where((p0) => p0.isPopular == '1')
-                  .toList();
+              final popularBrand = HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').toList();
               final brand = popularBrand[index];
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(SingleCatergoryWiseScreen.routeName);
                 },
                 child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2),
-                        color: const Color(0xffF2F4F5)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(2), color: const Color(0xffF2F4F5)),
                     child: CustomNetworkImage(
                       networkImagePath: brand.image ?? '',
                       errorImagePath: AssetsConstant.brandLogo,
@@ -58,9 +55,7 @@ class BrandScreen extends StatelessWidget {
                     )),
               );
             },
-            itemCount: HomeApiController.to.brandList
-                .where((p0) => p0.isPopular == '1')
-                .length,
+            itemCount: HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').length,
           ),
           CustomSizedBox.space8H,
           const TitleTextWidget(tileText: 'All Brands'),
@@ -70,10 +65,10 @@ class BrandScreen extends StatelessWidget {
               itemCount: HomeApiController.to.brandList.length,
               itemBuilder: (context, index) {
                 final subData = HomeApiController.to.brandList[index];
-                return Container(
+                return SizedBox(
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical:12.0,horizontal: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                     child: Text(
                       subData.name ?? '',
                       style: AppTheme.textStyleMediumBlack14,

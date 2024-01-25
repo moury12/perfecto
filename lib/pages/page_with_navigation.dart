@@ -66,12 +66,9 @@ class MainHomeScreen extends StatelessWidget {
           height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(blurRadius: 12, color: Colors.black.withOpacity(.08))
-              ],
+              boxShadow: [BoxShadow(blurRadius: 12, color: Colors.black.withOpacity(.08))],
               color: Colors.white,
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(15))),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(15))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -175,9 +172,7 @@ class NavWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: isSelected ? const Color(0xffF0F4F5) : Colors.transparent),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: isSelected ? const Color(0xffF0F4F5) : Colors.transparent),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         child: Row(
           children: [
@@ -197,10 +192,7 @@ class NavWidget extends StatelessWidget {
                 isChat
                     ? const Text(
                         '(0)',
-                        style: TextStyle(
-                            color: AppColors.kPrimaryColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600),
+                        style: TextStyle(color: AppColors.kPrimaryColor, fontSize: 10, fontWeight: FontWeight.w600),
                       )
                     : const SizedBox.shrink(),
               ],
@@ -232,16 +224,11 @@ class PageWithNavigation extends StatelessWidget {
             return Material(
               child: Container(
                 height: 70,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 12, color: Colors.black.withOpacity(.08))
-                    ],
+                    boxShadow: [BoxShadow(blurRadius: 12, color: Colors.black.withOpacity(.08))],
                     color: Colors.white,
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(15))),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(15))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
