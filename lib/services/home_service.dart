@@ -1,6 +1,7 @@
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/blog_model.dart';
+import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 
 class HomeService {
@@ -17,6 +18,34 @@ class HomeService {
       ServiceAPI.showAlert(response['message']);
     }
     return blogList;
+  }
+  static Future<List<BrandModel>> brandCall() async {
+    List<BrandModel> brandList = [];
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}brand', httpMethod: HttpMethod.get);
+    globalLogger.d(response, "brand route");
+    if (response['status'] != null && response['status']) {
+      response['data'].forEach((dis) {
+        brandList.add(BrandModel.fromJson(dis));
+      });
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return brandList;
+  }
+  static Future<List<CategoryModel>> categoryCall() async {
+    List<CategoryModel> categoryList = [];
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}category', httpMethod: HttpMethod.get);
+    globalLogger.d(response, "category route");
+    if (response['status'] != null && response['status']) {
+      response['data'].forEach((dis) {
+        categoryList.add(CategoryModel.fromJson(dis));
+      });
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return categoryList;
   }
 
   static Future<SingleBlogModel> singleBlogCall(String? blogId) async {
