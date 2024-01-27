@@ -45,33 +45,30 @@ class BlogScreen extends StatelessWidget {
             ),
             isSearchInclude: false,
           ),
-          Expanded(
-              child: Obx(
-                () {
-                  return RefreshIndicator(
-                    onRefresh: () async {
-                      HomeApiController.to.blogListCall();
-                    },
-                    child:  ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 16,vertical: 12),
-                                itemCount: HomeApiController.to.blogList.length,
-                                itemBuilder: (context, index) {
-                        final blog=HomeApiController.to.blogList[index];
-                    return GestureDetector(
-                      onTap: () async{
-
-                         HomeApiController.to.singleBlogListCall(blog.id);
+          Expanded(child: Obx(() {
+            return RefreshIndicator(
+              onRefresh: () async {
+                HomeApiController.to.blogListCall();
+              },
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                itemCount: HomeApiController.to.blogList.length,
+                itemBuilder: (context, index) {
+                  final blog = HomeApiController.to.blogList[index];
+                  return GestureDetector(
+                      onTap: () async {
+                        await HomeApiController.to.singleBlogListCall(blog.id);
                         Get.toNamed(BlogDetailsScreen.routeName);
                       },
-                        child: SingleBlogWidget(blogModel: blog,));
-                                },
-                              ),
-                  );
-                }
-              ))
+                      child: SingleBlogWidget(
+                        blogModel: blog,
+                      ));
+                },
+              ),
+            );
+          }))
         ],
       ),
     );
   }
 }
-

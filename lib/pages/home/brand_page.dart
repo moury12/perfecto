@@ -31,6 +31,7 @@ class _BrandScreenState extends State<BrandScreen> {
       DeviceOrientation.portraitDown,
     ]);
   }
+
   @override
   void dispose() {
     SystemChrome.setPreferredOrientations([
@@ -41,9 +42,9 @@ class _BrandScreenState extends State<BrandScreen> {
     ]);
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
       drawer: const CustomDrawer(),
@@ -52,45 +53,59 @@ class _BrandScreenState extends State<BrandScreen> {
         children: [
           const HomeTopWidget(),
           const TitleTextWidget(tileText: 'Popular Brands'),
-          GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            shrinkWrap: true,
-            primary: false,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 1,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-            ),
-            itemBuilder: (context, index) {
-              final popularBrand = HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').toList();
-              final brand = popularBrand[index];
-              return GestureDetector(
-                onTap: () {
-                  Get.toNamed(SingleCatergoryWiseScreen.routeName);
-                },
-                child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(2), color: const Color(0xffF2F4F5)),
-                    child: CustomNetworkImage(
-                      networkImagePath: brand.image ?? '',
-                      errorImagePath: AssetsConstant.brandLogo,
-                      // height: 45,
-                      borderRadius: 0,
-                      fit: BoxFit.cover,
-                    )),
-              );
-            },
-            itemCount: HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').length > 6 ? 6 : HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').length,
-          ),
+          Obx(() => HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Text(
+                      "There is no popular brand right now",
+                      style: const TextStyle(fontSize: 10, color: Color(0xFF666666)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+              : GridView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  shrinkWrap: true,
+                  primary: false,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 1,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                  ),
+                  itemBuilder: (context, index) {
+                    final popularBrand = HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').toList();
+                    final brand = popularBrand[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(2), color: const Color(0xffF2F4F5)),
+                          child: CustomNetworkImage(
+                            networkImagePath: brand.image ?? '',
+                            errorImagePath: AssetsConstant.brandLogo,
+                            // height: 45,
+                            borderRadius: 0,
+                            fit: BoxFit.cover,
+                          )),
+                    );
+                  },
+                  itemCount:
+                      HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').length > 6 ? 6 : HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').length,
+                )),
           CustomSizedBox.space8H,
           const TitleTextWidget(tileText: 'All Brands'),
           Expanded(
             child: AzListView(
               data: HomeApiController.to.brandList,
-              indexBarItemHeight: 10,
+              indexBarItemHeight: 12,
+              indexBarMargin: EdgeInsets.zero,
               indexBarOptions: const IndexBarOptions(
                 indexHintAlignment: Alignment.centerRight,
                 indexHintDecoration: BoxDecoration(color: AppColors.kPrimaryColor, shape: BoxShape.circle),
+                textStyle: const TextStyle(fontSize: 10, color: Color(0xFF666666)),
                 needRebuild: true,
               ),
               itemCount: HomeApiController.to.brandList.length,
