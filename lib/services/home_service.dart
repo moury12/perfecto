@@ -222,28 +222,14 @@ class HomeService {
         url: '${ServiceAPI.apiUrl}blogs/$blogId', httpMethod: HttpMethod.get);
     globalLogger.d(response, "Single blog route");
     if (response['status'] != null && response['status']) {
-      singleBlog = SingleBlogModel.fromJson(response['data']);
+      singleBlog = SingleBlogModel.fromJson(response['data']['blog']);
     } else if (response['status'] != null && !response['status']) {
       ServiceAPI.showAlert(response['message']);
     }
     return singleBlog;
   }
 
-  // static Future<List<BlogCommentModel>> blogCommentCall() async {
-  //   List<BlogCommentModel> blogComentList = [];
-  //   final response = await ServiceAPI.genericCall(
-  //       url: '${ServiceAPI.apiUrl}blogs/1/get-comment',
-  //       httpMethod: HttpMethod.get);
-  //   globalLogger.d(response, "blog route");
-  //   if (response['status'] != null && response['status']) {
-  //     response['data'].forEach((dis) {
-  //       blogComentList.add(BlogCommentModel.fromJson(dis));
-  //     });
-  //   } else if (response['status'] != null && !response['status']) {
-  //     ServiceAPI.showAlert(response['message']);
-  //   }
-  //   return blogComentList;
-  // }
+
 
   static Future<bool> addBlogComment(dynamic body) async {
     final response = await ServiceAPI.genericCall(

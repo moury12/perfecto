@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
@@ -42,7 +43,7 @@ class HomeApiController extends GetxController {
   RxList<BlogModel> blogList = <BlogModel>[].obs;
   RxList<BrandModel> brandList = <BrandModel>[].obs;
   RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
-  Rx<SingleBlogModel> singleBlogList = SingleBlogModel().obs;
+  Rx<SingleBlogModel> singleBlog = SingleBlogModel().obs;
   Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;
 
   Future<void> termsConditionCall() async {
@@ -111,7 +112,8 @@ class HomeApiController extends GetxController {
   }
 
   Future<void> singleBlogListCall(String? blogId) async {
-    singleBlogList.value = await HomeService.singleBlogCall(blogId);
+    singleBlog.value = await HomeService.singleBlogCall(blogId);
+  globalLogger.d(singleBlog.value.title,'singleBlogList.value.title');
   }
 
   void _addSuspensionTag(List<BrandModel> list) {

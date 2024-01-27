@@ -62,6 +62,7 @@ class OfferDetailsScreen extends StatelessWidget {
                                 networkImagePath: '',
                                 errorImagePath: AssetsConstant.foregrond2,
                                 height: 60,
+                                fit: BoxFit.cover,
                                 width: 60,
                               ),
                             ),

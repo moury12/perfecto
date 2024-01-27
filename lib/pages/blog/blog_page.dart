@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/services/api_service.dart';
-import 'package:mh_core/utils/global.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/pages/blog/blog_details_page.dart';
 import 'package:perfecto/pages/blog/widget/blog_widget.dart';
-import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
@@ -36,7 +32,7 @@ class BlogScreen extends StatelessWidget {
                   },
                 ),
                 CustomSizedBox.space8W,
-                Text(
+                const Text(
                   'Beauty Advice',
                   style: AppTheme.textStyleSemiBoldBlack16,
                 ),
@@ -51,7 +47,7 @@ class BlogScreen extends StatelessWidget {
                 HomeApiController.to.blogListCall();
               },
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 itemCount: HomeApiController.to.blogList.length,
                 itemBuilder: (context, index) {
                   final blog = HomeApiController.to.blogList[index];

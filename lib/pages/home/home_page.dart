@@ -127,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(12),
                                   child: Column(
                                     children: [
-                                      CustomNetworkImage(networkImagePath: cat.image??'',height: 43,width: 42,errorImagePath: AssetsConstant.gridItem,
+                                      CustomNetworkImage(networkImagePath: cat.image??'',height: 43,width: 42,errorImagePath: AssetsConstant.firstCategory1,
                                         border: NetworkImageBorder.Rectangle,
                                       ),
                                       CustomSizedBox.space8H,

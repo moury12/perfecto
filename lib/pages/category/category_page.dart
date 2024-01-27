@@ -38,7 +38,7 @@ class CategoryScreen extends StatelessWidget {
                       children: [
                         Text(
                           HomeApiController.to.categoryList[index].name!,
-                          style: TextStyle(color: AppColors.kDarkPrimaryColor, fontSize: 27, fontWeight: FontWeight.w700),
+                          style: const TextStyle(color: AppColors.kDarkPrimaryColor, fontSize: 27, fontWeight: FontWeight.w700),
                         ),
                         const Spacer(),
                         Container(
@@ -58,12 +58,12 @@ class CategoryScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                HomeApiController.to.categoryList.isNotEmpty && HomeApiController.to.categoryList.length > 2 ? const GreetingCardWidget() : SizedBox.shrink(),
+                HomeApiController.to.categoryList.isNotEmpty && HomeApiController.to.categoryList.length > 2 ? const GreetingCardWidget() : const SizedBox.shrink(),
               ],
             ),
           ),
         ),
-        Obx(() => HomeApiController.to.categoryList.length <= 2 ? const GreetingCardWidget() : SizedBox.shrink()),
+        Obx(() => HomeApiController.to.categoryList.length <= 2 ? const GreetingCardWidget() : const SizedBox.shrink()),
       ],
     );
   }

@@ -49,7 +49,8 @@ class BlogDetailsScreen extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: [
               CustomNetworkImage(
-                networkImagePath: '${HomeApiController.to.singleBlogList.value.image}',
+                networkImagePath:
+                    '${HomeApiController.to.singleBlog.value.image}',
                 errorImagePath: 'assets/blog.png',
                 border: NetworkImageBorder.Rectangle,
                 fit: BoxFit.fitWidth,
@@ -57,7 +58,8 @@ class BlogDetailsScreen extends StatelessWidget {
                 height: 250,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -71,9 +73,13 @@ class BlogDetailsScreen extends StatelessWidget {
                         CustomSizedBox.space4W,
                         Obx(() {
                           return Text(
-                            HomeApiController.to.singleBlogList.value.createdAt!.isEmpty
+                            HomeApiController
+                                    .to.singleBlog.value.createdAt!.isEmpty
                                 ? '-'
-                                : DateFormat.yMMMd().format(DateTime.parse(HomeApiController.to.singleBlogList.value.createdAt ?? '-')),
+                                : DateFormat.yMMMd().format(DateTime.parse(
+                                    HomeApiController
+                                            .to.singleBlog.value.createdAt ??
+                                        '-')),
                             style: AppTheme.textStyleNormalFadeBlack12,
                           );
                         }),
@@ -89,7 +95,13 @@ class BlogDetailsScreen extends StatelessWidget {
                         CustomSizedBox.space4W,
                         RichText(
                           text: TextSpan(
-                              text: 'Posted by: ', style: AppTheme.textStyleNormalBlack12, children: [TextSpan(text: 'Perfecto', style: AppTheme.textStyleSemiBoldBlack12)]),
+                              text: 'Posted by: ',
+                              style: AppTheme.textStyleNormalBlack12,
+                              children: [
+                                TextSpan(
+                                    text: 'Perfecto',
+                                    style: AppTheme.textStyleSemiBoldBlack12)
+                              ]),
                         ),
                       ],
                     ),
@@ -105,23 +117,30 @@ class BlogDetailsScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8)
+                          .copyWith(bottom: 0),
                   child: Text(
-                    HomeApiController.to.singleBlogList.value.title ?? '',
+                    HomeApiController.to.singleBlog.value.title ?? '',
                     style: AppTheme.textStyleSemiBoldBlack14,
                   )),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
                 child: Html(
-                  data: findAndRemove(HomeApiController.to.singleBlogList.value.description!.replaceAll('<br>', '').replaceAll('</br>', ''), '<iframe', '>')
+                  data: findAndRemove(
+                          HomeApiController.to.singleBlog.value.description!
+                              .replaceAll('<br>', '')
+                              .replaceAll('</br>', ''),
+                          '<iframe',
+                          '>')
                       .replaceAll('<img', '<img style= "width: 100px" ')
-                      .replaceAll('width="240" height="360" ', 'style= "width: 100px; height: 0px" '),
+                      .replaceAll('width="240" height="360" ',
+                          'style= "width: 100px; height: 0px" '),
                   style: {
                     'body': Style(
                       margin: Margins.symmetric(horizontal: 0, vertical: 0),
                       fontSize: FontSize(10),
-                      maxLines: 4,
-                      textOverflow: TextOverflow.ellipsis,
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
                     ),
