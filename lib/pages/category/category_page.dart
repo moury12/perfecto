@@ -46,8 +46,9 @@ class CategoryScreen extends StatelessWidget {
                           width: 100,
                           decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground4))),
                           child: CustomNetworkImage(
-                            height: 50,
+                            height: 80,
                             width: 80,
+                            fit: BoxFit.contain,
                             networkImagePath: HomeApiController.to.categoryList[index].image!,
                             errorImagePath: AssetsConstant.foregrond3,
                             borderRadius: 0,

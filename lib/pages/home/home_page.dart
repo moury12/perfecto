@@ -120,16 +120,15 @@ class HomeScreen extends StatelessWidget {
                                   Get.toNamed(SingleCatergoryWiseScreen.routeName);
                                 },
                                 child: Container(
-                                  height: 90,
+                                  height: 92,
                                   width: size.height > size.width ? size.width * .21 : size.height * .21,
                                   margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                                   decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.all(12),
                                   child: Column(
                                     children: [
-                                      Image.asset(
-                                        AssetsConstant.firstCategory1,
-                                        height: 42,
+                                      CustomNetworkImage(networkImagePath: cat.image??'',height: 43,width: 42,errorImagePath: AssetsConstant.gridItem,
+                                        border: NetworkImageBorder.Rectangle,
                                       ),
                                       CustomSizedBox.space8H,
                                       Text(
