@@ -31,25 +31,21 @@ class BrandScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             shrinkWrap: true,
             primary: false,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 150,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 1,
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
-              mainAxisExtent: 100,
             ),
             itemBuilder: (context, index) {
-              final popularBrand = HomeApiController.to.brandList
-                  .where((p0) => p0.isPopular == '1')
-                  .toList();
+              final popularBrand = HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').toList();
               final brand = popularBrand[index];
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(SingleCatergoryWiseScreen.routeName);
                 },
                 child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2),
-                        color: const Color(0xffF2F4F5)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(2), color: const Color(0xffF2F4F5)),
                     child: CustomNetworkImage(
                       networkImagePath: brand.image ?? '',
                       errorImagePath: AssetsConstant.brandLogo,
@@ -59,21 +55,17 @@ class BrandScreen extends StatelessWidget {
                     )),
               );
             },
-            itemCount: HomeApiController.to.brandList
-                .where((p0) => p0.isPopular == '1')
-                .length,
+            itemCount: HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').length > 6 ? 6 : HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').length,
           ),
           CustomSizedBox.space8H,
           const TitleTextWidget(tileText: 'All Brands'),
           Expanded(
             child: AzListView(
               data: HomeApiController.to.brandList,
-
+              indexBarItemHeight: 10,
               indexBarOptions: const IndexBarOptions(
                 indexHintAlignment: Alignment.centerRight,
-                indexHintDecoration:BoxDecoration(
-                    color: AppColors.kPrimaryColor, shape: BoxShape.circle) ,
-
+                indexHintDecoration: BoxDecoration(color: AppColors.kPrimaryColor, shape: BoxShape.circle),
                 needRebuild: true,
               ),
               itemCount: HomeApiController.to.brandList.length,
@@ -81,17 +73,24 @@ class BrandScreen extends StatelessWidget {
                 final subData = HomeApiController.to.brandList[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      subData.susTag==null?SizedBox.shrink(): Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Text(subData.susTag??'',style: AppTheme.textStyleSemiBoldBlack16,),
-                      ),
+                      subData.susTag == null
+                          ? SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Text(
+                                subData.susTag ?? '',
+                                style: AppTheme.textStyleSemiBoldBlack16,
+                              ),
+                            ),
                       SizedBox(
                         width: double.infinity,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 8.0,),
+                            vertical: 8.0,
+                          ),
                           child: Text(
                             subData.name ?? '',
                             style: AppTheme.textStyleMediumBlack14,

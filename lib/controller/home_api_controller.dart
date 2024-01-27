@@ -8,6 +8,7 @@ import 'package:perfecto/services/home_service.dart';
 class HomeApiController extends GetxController {
   @override
   void onInit() async {
+    categoryListCall();
     await blogListCall();
     await preferenceListCall();
     await formulationListCall();
