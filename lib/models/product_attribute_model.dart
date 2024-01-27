@@ -128,4 +128,17 @@ class ProductAttributeModel {
     return data;
   }
 }
+class AttributeModel {
+  String? name;
+  List<ProductAttributeModel> attributes;
+  bool isSelected = false;
 
+  AttributeModel({
+    this.name,
+    required this.attributes,
+    this.isSelected = false,
+  });
+  void toggleSelected() {
+    isSelected = !isSelected; // Toggle isSelected
+  }
+}

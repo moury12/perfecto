@@ -6,6 +6,8 @@ import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
+import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
@@ -36,7 +38,8 @@ class HomeTopWidget extends StatelessWidget {
       this.title,
       this.isSearchpage = false,
       this.isCartPage = false,
-      this.isWalletPage = true,  this.isneedFilter=false});
+      this.isWalletPage = true,
+      this.isneedFilter = false});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,8 @@ class HomeTopWidget extends StatelessWidget {
                         Scaffold.of(context).openDrawer();
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 16),
                         child: Image.asset(
                           AssetsConstant.drawerIcon,
                           height: 25,
@@ -109,9 +113,10 @@ class HomeTopWidget extends StatelessWidget {
                         Get.toNamed(WishListScreen.routeName);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 16).copyWith(left: 0),
+                        padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 16)
+                            .copyWith(left: 0),
                         child: Container(
-
                           height: 30,
                           width: 30,
                           child: Stack(
@@ -145,7 +150,9 @@ class HomeTopWidget extends StatelessWidget {
                         Get.toNamed(CartScreen.routeName);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 16).copyWith(left: 0),
+                        padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 16)
+                            .copyWith(left: 0),
                         child: Container(
                           height: 30,
                           width: 30,
@@ -222,7 +229,6 @@ class HomeTopWidget extends StatelessWidget {
                       ? SingleChildScrollView(
                           child: Column(
                             children: [
-
                               NavigationController.to.openSearchSuggestion.value
                                   ? Container(
                                       decoration: BoxDecoration(
@@ -234,8 +240,8 @@ class HomeTopWidget extends StatelessWidget {
                                                 blurRadius: 10)
                                           ]),
                                       padding: const EdgeInsets.all(16),
-                                      margin:
-                                          const EdgeInsets.symmetric(horizontal: 16),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 16),
                                       child: Column(
                                         children: [
                                           ...List.generate(
@@ -265,10 +271,10 @@ class HomeTopWidget extends StatelessWidget {
                                                                   .to
                                                                   .update();
                                                             },
-                                                            child: const Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .symmetric(
+                                                            child:
+                                                                const Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
                                                                       vertical:
                                                                           8.0),
                                                               child: Text(
@@ -309,14 +315,18 @@ class HomeTopWidget extends StatelessWidget {
                                           Expanded(
                                             child: GestureDetector(
                                               child: Container(
-                                                padding: const EdgeInsets.all(12),
+                                                padding:
+                                                    const EdgeInsets.all(12),
                                                 alignment: Alignment.center,
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(6),
-                                                    color: const Color(0xffEEFAFF)),
+                                                        BorderRadius.circular(
+                                                            6),
+                                                    color: const Color(
+                                                        0xffEEFAFF)),
                                                 child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
                                                     Image.asset(
                                                       AssetsConstant.filter,
@@ -340,14 +350,18 @@ class HomeTopWidget extends StatelessWidget {
                                           Expanded(
                                             child: GestureDetector(
                                               child: Container(
-                                                padding: const EdgeInsets.all(12),
+                                                padding:
+                                                    const EdgeInsets.all(12),
                                                 alignment: Alignment.center,
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(6),
-                                                    color: const Color(0xffEEFAFF)),
+                                                        BorderRadius.circular(
+                                                            6),
+                                                    color: const Color(
+                                                        0xffEEFAFF)),
                                                 child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
                                                     Image.asset(
                                                       AssetsConstant.sort,
@@ -375,81 +389,74 @@ class HomeTopWidget extends StatelessWidget {
                         )
                       : const SizedBox.shrink(),
                 ),
-              if(isneedFilter)
+              if (isneedFilter)
                 Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 0)
-                            .copyWith(bottom: 12),
-                        child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: GestureDetector(
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(6),
-                                      color: const Color(0xffEEFAFF)),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Image.asset(
-                                        AssetsConstant.filter,
-                                        height: 16,
-                                      ),
-                                      CustomSizedBox.space8W,
-                                      const Text(
-                                        'FILTER',
-                                        style: AppTheme
-                                            .textStyleBoldPrimary12,
-                                      )
-                                    ],
-                                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0)
+                          .copyWith(bottom: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: const Color(0xffEEFAFF)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  AssetsConstant.filter,
+                                  height: 16,
                                 ),
-                                onTap: () {
-                                  _showBottomSheetFilter(context);
-                                },
-                              ),
+                                CustomSizedBox.space8W,
+                                const Text(
+                                  'FILTER',
+                                  style: AppTheme.textStyleBoldPrimary12,
+                                )
+                              ],
                             ),
-                            CustomSizedBox.space8W,
-                            Expanded(
-                              child: GestureDetector(
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(6),
-                                      color: const Color(0xffEEFAFF)),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Image.asset(
-                                        AssetsConstant.sort,
-                                        height: 16,
-                                      ),
-                                      CustomSizedBox.space8W,
-                                      const Text(
-                                        'SORT',
-                                        style: AppTheme
-                                            .textStyleBoldPrimary12,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  _showBottomSheetSort(context);
-                                },
-                              ),
-                            ),
-                          ],
+                          ),
+                          onTap: () {
+                            _showBottomSheetFilter(context);
+                          },
                         ),
-                      )
-
-
+                      ),
+                      CustomSizedBox.space8W,
+                      Expanded(
+                        child: GestureDetector(
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: const Color(0xffEEFAFF)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  AssetsConstant.sort,
+                                  height: 16,
+                                ),
+                                CustomSizedBox.space8W,
+                                const Text(
+                                  'SORT',
+                                  style: AppTheme.textStyleBoldPrimary12,
+                                )
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            _showBottomSheetSort(context);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                )
             ],
           ),
         ],
@@ -462,13 +469,16 @@ class HomeTopWidget extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-
       useSafeArea: true,
       builder: (BuildContext context) {
         return Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            Container(decoration: const BoxDecoration(color: Colors.white,borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+            Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(20))),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -504,84 +514,58 @@ class HomeTopWidget extends StatelessWidget {
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [ 
-                      
+                    children: [
                       Expanded(
                         child: Container(
-                        
                           color: AppColors.klightAccentColor,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ...List.generate(
-                                  5,
-                                  (index) => Obx(() {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            NavigationController
-                                                    .to.checked2.value =
-                                                !NavigationController
-                                                    .to.checked2.value;
-                                          },
-                                          child: Container(
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  color: NavigationController
-                                                          .to.checked2.value
-                                                      ? AppColors.kAccentColor
-                                                      : Colors.transparent,
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          color: NavigationController
-                                                                  .to
-                                                                  .checked2
-                                                                  .value
-                                                              ? AppColors
-                                                                  .kPrimaryColor
-                                                              : Colors
-                                                                  .transparent,
-                                                          width: 2))),
-                                              padding: const EdgeInsets.all(16),
-                                              child: const Text(
-                                                'Brands',
-                                                style: AppTheme
-                                                    .textStyleMediumCustomBlack12,
-                                              )),
-                                        );
-                                      }))
-                            ],
+                          child: Obx(
+                             ( ) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ...List.generate(
+                                      NavigationController.to.attributeList.length,
+                                      (index) {
+                                    final filter = NavigationController
+                                        .to.attributeList[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        for (var attribute in NavigationController.to.attributeList) {
+                                          attribute.isSelected = false;
+                                        }
+
+                                        filter.toggleSelected();
+                                      },
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              color: filter.isSelected
+                                                  ? AppColors.kAccentColor
+                                                  : Colors.transparent,
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: filter.isSelected
+                                                          ? AppColors
+                                                          .kPrimaryColor
+                                                          : Colors.transparent,
+                                                      width: 2))),
+                                          padding: const EdgeInsets.all(16),
+                                          child: Text(
+                                            filter.name ?? '',
+                                            style: AppTheme
+                                                .textStyleMediumCustomBlack12,
+                                          )),
+                                    );
+                                  })
+                                ],
+                              );
+                            }
                           ),
                         ),
                       ),
                       Expanded(
-                        child: Column(
-                          children: [
-                            ...List.generate(
-                              10,
-                              (index) => Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                        onTap: () {
-                                          NavigationController.to.checked.value =
-                                              !NavigationController
-                                                  .to.checked.value;
-                                        },
-                                        child: const CustomCheckboxWidget()),
-                                    CustomSizedBox.space12W,
-                                    const Text(
-                                      'Pressed Powder (3134)',
-                                      style:
-                                          AppTheme.textStyleMediumCustomBlack12,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                        child: FilterAttributeWidget(attributes: NavigationController.to.attributeList.value),
                       )
                     ],
                   ),
@@ -605,9 +589,8 @@ class HomeTopWidget extends StatelessWidget {
                       marginVertical: 0,
                       marginHorizontal: 0,
                       onPressed: () {
-                        NavigationController
-                            .to.checked2.value=false;NavigationController
-                            .to.checked.value=false;
+                        NavigationController.to.checked2.value = false;
+                        NavigationController.to.checked.value = false;
                       },
                       primary: Colors.white,
                       borderColor: Colors.grey,
@@ -736,6 +719,56 @@ class HomeTopWidget extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class FilterAttributeWidget extends StatelessWidget {
+  final List<AttributeModel> attributes;
+  const FilterAttributeWidget({
+    super.key,required this.attributes,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedAttributes = attributes
+        .where((attribute) => attribute.isSelected)
+        .toList();
+    return Column(
+      children: [
+        ...List.generate(
+          selectedAttributes.length,
+          (index){
+            final attribute = selectedAttributes[index];
+            return Column(children: [
+              ...List.generate(attribute.attributes.length, (index) {
+                final data =attribute.attributes[index];
+                final data1 =HomeApiController.to.categoryList[index];
+              return Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          NavigationController.to.checked.value =
+                          !NavigationController
+                              .to.checked.value;
+                        },
+                        child: const CustomCheckboxWidget()),
+                    CustomSizedBox.space12W,
+                     Text(
+                       index==0?data1.name??'': data.name??'',
+                      style:
+                      AppTheme.textStyleMediumCustomBlack12,
+                    )
+                  ],
+                ),
+              );
+              })
+            ],);
+          },
+        )
+      ],
     );
   }
 }
