@@ -42,8 +42,7 @@ class CustomDrawer extends StatelessWidget {
             ),
             CustomSizedBox.space12H,
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
               child: Row(
                 children: [
                   Image.asset(
@@ -73,11 +72,8 @@ class CustomDrawer extends StatelessWidget {
                             right: 0,
                             child: Container(
                               padding: const EdgeInsets.all(2.5),
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.kDarkPrimaryColor),
-                              child: const Text('12',
-                                  style: AppTheme.textStyleBoldWhite8),
+                              decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                              child: const Text('12', style: AppTheme.textStyleBoldWhite8),
                             ),
                           )
                         ],
@@ -107,8 +103,7 @@ class CustomDrawer extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -118,12 +113,9 @@ class CustomDrawer extends StatelessWidget {
                             Get.toNamed(WishListScreen.routeName);
                           },
                           child: const SaleTextWidget()),
-                      const SaleTextWidget(
-                          text: 'Puja Sale', color: Color(0xffD90068)),
-                      const SaleTextWidget(
-                          text: 'Buy 1 Get 1', color: Color(0xff9747FF)),
-                      const SaleTextWidget(
-                          text: 'Clearance Sale', color: Color(0xff129CED)),
+                      const SaleTextWidget(text: 'Puja Sale', color: Color(0xffD90068)),
+                      const SaleTextWidget(text: 'Buy 1 Get 1', color: Color(0xff9747FF)),
+                      const SaleTextWidget(text: 'Clearance Sale', color: Color(0xff129CED)),
                       CustomSizedBox.space12H,
                       const CustomDividerWidget(),
                       CustomSizedBox.space8H,
@@ -166,16 +158,12 @@ class CustomDrawer extends StatelessWidget {
                         color: Colors.black,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 0)
-                            .copyWith(right: 0),
+                        padding: const EdgeInsets.symmetric(vertical: 0).copyWith(right: 0),
                         child: Obx(() {
                           return Column(
                             children: [
-                              ...List.generate(
-                                  HomeApiController.to.categoryList.length,
-                                  (index) {
-                                final category =
-                                    HomeApiController.to.categoryList[index];
+                              ...List.generate(HomeApiController.to.categoryList.length, (index) {
+                                final category = HomeApiController.to.categoryList[index];
 
                                 return DrawerMenuItemWidget(
                                   title: category.name!,
@@ -295,8 +283,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...List.generate(categoryModel.subcategory!.length,
-                        (index) {
+                    ...List.generate(categoryModel.subcategory!.length, (index) {
                       final subCate = categoryModel.subcategory![index];
                       return SizedBox(
                         width: double.infinity,
@@ -323,20 +310,12 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                         ),
                                         height: 40,
                                         decoration: BoxDecoration(
-                                            color: AppColors.kPrimaryColor
-                                                .withOpacity(.1),
-                                            border: Border(
-                                                left: BorderSide(
-                                                    width: 1,
-                                                    color: index == 1
-                                                        ? AppColors
-                                                            .kPrimaryColor
-                                                        : Colors.transparent))),
+                                            color: AppColors.kPrimaryColor.withOpacity(.1),
+                                            border: Border(left: BorderSide(width: 1, color: index == 1 ? AppColors.kPrimaryColor : Colors.transparent))),
                                         alignment: Alignment.centerLeft,
                                         child: Text(
                                           subCate.name ?? '',
-                                          style: AppTheme
-                                              .textStyleMediumFadeBlack16,
+                                          style: AppTheme.textStyleMediumFadeBlack16,
                                         ),
                                       ),
                                     ),
@@ -344,28 +323,23 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                       onTap: () {
                                         globalLogger.d("subCategory Tap");
                                         if (subCate.subcategory!.isNotEmpty) {
-                                          subCate.isExpanded =
-                                              !subCate.isExpanded!;
-                                          HomeApiController.to.categoryList
-                                              .refresh();
+                                          subCate.isExpanded = !subCate.isExpanded!;
+                                          HomeApiController.to.categoryList.refresh();
                                         }
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: Colors.transparent,
                                           border: Border.all(
-                                            color: AppColors.kPrimaryColor
-                                                .withOpacity(.5),
+                                            color: AppColors.kPrimaryColor.withOpacity(.5),
+                                            width: 1,
                                           ),
                                         ),
-                                        height: 40,
+                                        height: 38,
                                         width: 40,
                                         child: Icon(
-                                          subCate.isExpanded!
-                                              ? Icons.remove
-                                              : Icons.add,
-                                          color: AppColors.kPrimaryColor
-                                              .withOpacity(.5),
+                                          subCate.isExpanded! ? Icons.remove : Icons.add,
+                                          color: AppColors.kPrimaryColor.withOpacity(.5),
                                           size: 17,
                                         ),
                                       ),
@@ -374,10 +348,8 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                 ),
                                 onTap: () {
                                   Navigator.pop(context);
-                                  Get.toNamed(
-                                      SingleCatergoryWiseScreen.routeName);
-                                  HomeApiController.to.categoryList
-                                      .forEach((element) {
+                                  Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                                  HomeApiController.to.categoryList.forEach((element) {
                                     element.isExpanded = false;
                                   });
                                 },
@@ -385,33 +357,23 @@ class DrawerMenuItemWidget extends StatelessWidget {
                               subCate.isExpanded!
                                   ? Column(
                                       children: [
-                                        ...List.generate(
-                                            subCate.subcategory!.length,
-                                            (index) {
-                                          final subCat =
-                                              subCate.subcategory![index];
+                                        ...List.generate(subCate.subcategory!.length, (index) {
+                                          final subCat = subCate.subcategory![index];
                                           return GestureDetector(
                                             onTap: () {
                                               Navigator.pop(context);
-                                              Get.toNamed(
-                                                  SingleCatergoryWiseScreen
-                                                      .routeName);
-                                              HomeApiController.to.categoryList
-                                                  .forEach((element) {
+                                              Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                                              HomeApiController.to.categoryList.forEach((element) {
                                                 element.isExpanded = false;
                                               });
                                             },
                                             child: SizedBox(
                                               width: double.infinity,
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 16,
-                                                        vertical: 8),
+                                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                                 child: Text(
                                                   subCat.name ?? '',
-                                                  style: AppTheme
-                                                      .textStyleMediumFadeBlack16,
+                                                  style: AppTheme.textStyleMediumFadeBlack16,
                                                 ),
                                               ),
                                             ),
@@ -428,8 +390,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
                   ],
                 )
               : const SizedBox.shrink(),
-          if (HomeApiController.to.categoryList.last != categoryModel)
-            const CustomDividerWidget(),
+          if (HomeApiController.to.categoryList.last != categoryModel) const CustomDividerWidget(),
         ],
       ),
     );
@@ -451,10 +412,7 @@ class SaleTextWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Text(
         text ?? 'Anniversary Sale',
-        style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-            color: color ?? const Color(0xff3734E2)),
+        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: color ?? const Color(0xff3734E2)),
       ),
     );
   }
