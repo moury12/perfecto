@@ -222,8 +222,9 @@ class CartScreen extends StatelessWidget {
                 ),
           CustomSizedBox.space8H,
         ]),
+
         bottomNavigationBar: !CartController.to.isbagEmpty.value
-            ? Container(
+            ? Container(margin: EdgeInsets.zero,
                 height: 100,
                 decoration: BoxDecoration(color: Colors.white, boxShadow: [
                   BoxShadow(color: Colors.black.withOpacity(.2),blurRadius: 4)

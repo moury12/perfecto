@@ -1,5 +1,6 @@
 import 'package:azlistview/azlistview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
@@ -13,12 +14,36 @@ import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
-class BrandScreen extends StatelessWidget {
+class BrandScreen extends StatefulWidget {
   const BrandScreen({super.key});
   static const String routeName = '/brand';
+
+  @override
+  State<BrandScreen> createState() => _BrandScreenState();
+}
+
+class _BrandScreenState extends State<BrandScreen> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    List<String> alphabets = HomeController.to.generateAlphabets();
+
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
       drawer: const CustomDrawer(),

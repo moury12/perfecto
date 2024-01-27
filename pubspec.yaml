@@ -44,14 +44,16 @@ dependencies:
   google_sign_in: ^6.2.1
   flutter_facebook_auth: ^6.0.4
   flutter_html:
-  azlistview:
-    path: ../azlistview-2.0.0
+  azlistview: ^2.0.0
+#    path: ../azlistview-2.0.0
   mh_videoplayer:
     path: ../mh_videoplayer
   mh_core:
-    path: ../mh_core
-#    git:
-#      url: https://github.com/mh-sarkar/mh-core.git
+#    path: ../mh_core
+    git:
+      url: https://github.com/mh-sarkar/mh-core.git
+      ref: alpha
+
 
 
 

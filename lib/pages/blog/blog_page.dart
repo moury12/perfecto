@@ -60,7 +60,7 @@ class BlogScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: () async{
 
-                        await HomeApiController.to.singleBlogListCall(blog.id);
+                         HomeApiController.to.singleBlogListCall(blog.id);
                         Get.toNamed(BlogDetailsScreen.routeName);
                       },
                         child: SingleBlogWidget(blogModel: blog,));

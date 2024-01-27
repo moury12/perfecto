@@ -1,7 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:mh_core/services/api_service.dart';
+import 'package:mh_core/utils/string_utils.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
@@ -46,7 +49,7 @@ class BlogDetailsScreen extends StatelessWidget {
           children: [
             CustomNetworkImage(
 
-              networkImagePath: '${ServiceAPI.url}${HomeApiController.to.singleBlogList.value.image}',
+              networkImagePath: '${HomeApiController.to.singleBlogList.value.image}',
               errorImagePath: AssetsConstant.banner2,
               border: NetworkImageBorder.Rectangle,
               fit: BoxFit.fitWidth,
@@ -60,10 +63,14 @@ class BlogDetailsScreen extends StatelessWidget {
                 children: [
                   Row(children: [Icon(Icons.date_range_rounded,color:Colors.black54,size: 15,),
                     CustomSizedBox.space4W,
-                    Text(
-                    'jun 16, 2023',
-                    style: AppTheme.textStyleNormalFadeBlack12,
-                  ),],), Row(children: [Icon(Icons.person_3_outlined,color:Colors.black54,size: 15,),
+                    Obx(
+                     () {
+                        return Text(HomeApiController.to.singleBlogList.value.createdAt!.isEmpty?'-':
+                          DateFormat.yMMMd().format(DateTime.parse(HomeApiController.to.singleBlogList.value.createdAt ?? '-')),
+                        style: AppTheme.textStyleNormalFadeBlack12,
+                                          );
+                      }
+                    ),],), Row(children: [Icon(Icons.person_3_outlined,color:Colors.black54,size: 15,),
                     CustomSizedBox.space4W,
                         RichText(
               text: TextSpan(
@@ -86,11 +93,37 @@ class BlogDetailsScreen extends StatelessWidget {
                 thickness: 1,
               ),
             ), Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
+              child: Text(HomeApiController.to.singleBlogList.value.title??'',style: AppTheme.textStyleSemiBoldBlack14,)),Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16),
-              child:Text('Perfume has an 8,000-year antiquity that began in ancient Mesopotamia and Egypt. The perfumes of those eras were extremely potent, yet they were primarily employed for religious events rather than cosmetics, which set them against modern fragrances. Despite the fact that Cleopatra owned her own perfume factory and left behind a recipe for a 16-ingredient scent known as "life," Its hard to describe it as a scent in the contemporary sense because its more of an oil and herb combo. The maximum amount of aromatic material allowed in modern fragrances was 30%; the remaining amount was an alcoholic solution. Dont be upset, though. If you dont need to make such grandiose appearances as the Egyptian queen did when he smells',style: AppTheme.textStyleMediumFadeBlack10,)
-            ),Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16),
-              child:Text('Perfume has an 8,000-year antiquity that began in ancient Mesopotamia and Egypt. The perfumes of those eras were extremely potent, yet they were primarily employed for religious events rather than cosmetics, which set them against modern fragrances. Despite the fact that Cleopatra owned her own perfume factory and left behind a recipe for a 16-ingredient scent known as "life," Its hard to describe it as a scent in the contemporary sense because its more of an oil and herb combo. The maximum amount of aromatic material allowed in modern fragrances was 30%; the remaining amount was an alcoholic solution. Dont be upset, though. If you dont need to make such grandiose appearances as the Egyptian queen did when he smells',style: AppTheme.textStyleMediumFadeBlack10,)
+              child:    Html(
+                data: findAndRemove(HomeApiController.to.singleBlogList.value.description!.replaceAll('</iframe>', '').replaceAll('<br>', '').replaceAll('</br>', ''), '<iframe', '>')
+                    .replaceAll('<img', '<img style= "width: 100px" ')
+                    .replaceAll('width="240" height="360" ', 'style= "width: 100px; height: 0px" '),
+                style: {
+                  'body': Style(
+                    margin: Margins.symmetric(horizontal: 0, vertical: 0),
+                    fontSize: FontSize(10),
+                    maxLines: 4,
+                    textOverflow: TextOverflow.ellipsis,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  'p': Style(
+                    fontSize: FontSize(10),
+                    // lineHeight: LineHeight.number(1),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  'span': Style(
+                    // margin: Margins.symmetric(horizontal: 10, vertical: 0),
+                    // fontSize: FontSize(14),
+                    lineHeight: LineHeight.number(1),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                },
+              ),
             ),
           ],))
       ],),

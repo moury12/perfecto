@@ -88,6 +88,8 @@ class CategoryModel {
     }
     return data;
   }
+
+
 }
 
 class ProductAttributeModel {
