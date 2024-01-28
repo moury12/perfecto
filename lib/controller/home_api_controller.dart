@@ -25,6 +25,9 @@ class HomeApiController extends GetxController {
     await packSizeListCall();
     await brandListCall();
     await termsConditionCall();
+    await privacyPolicyCall();
+    await returnRefundCall();
+    await colorListCall();
 
     NavigationController.to.attributeListCall();
 
@@ -32,6 +35,7 @@ class HomeApiController extends GetxController {
   }
 
   static HomeApiController get to => Get.find();
+  RxList<ProductAttributeModel> colorList = <ProductAttributeModel>[].obs;
   RxList<ProductAttributeModel> preferenceList = <ProductAttributeModel>[].obs;
   RxList<ProductAttributeModel> formulationList = <ProductAttributeModel>[].obs;
   RxList<ProductAttributeModel> finishList = <ProductAttributeModel>[].obs;
@@ -49,6 +53,15 @@ class HomeApiController extends GetxController {
 
   Rx<SingleBlogModel> singleBlog = SingleBlogModel().obs;
   Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;
+  Rx<TermsConditionModel> privacyPolicyInfo = TermsConditionModel().obs;
+  Rx<TermsConditionModel> returnRefundInfo = TermsConditionModel().obs;
+
+  Future<void> privacyPolicyCall() async {
+    privacyPolicyInfo.value = await HomeService.privacyPolicyCall();
+  }
+  Future<void> returnRefundCall() async {
+    returnRefundInfo.value = await HomeService.returnRefundCall();
+  }
 
   Future<void> termsConditionCall() async {
     termsConditionInfo.value = await HomeService.termsConditionCall();
@@ -60,6 +73,9 @@ class HomeApiController extends GetxController {
 
   Future<void> preferenceListCall() async {
     preferenceList.value = await HomeService.preferenceCall();
+  }
+  Future<void> colorListCall() async {
+    colorList.value = await HomeService.colorCall();
   }
 
   Future<void> formulationListCall() async {
@@ -130,4 +146,18 @@ class HomeApiController extends GetxController {
       }
     }
   }
+  // void updateAttributeAndLog(AttributeModel attribute) {
+  //   attribute.isSelected = !(attribute.isSelected ?? false);
+  //   NavigationController.to.update();
+  //   NavigationController.to.attributeList.refresh();
+  //   NavigationController.to.addAttribute.addAll({
+  //     '${attribute.name}': attribute.attributes
+  //         .where((element) => element.filtered == true)
+  //         .map((e) => e.id ?? '')
+  //         .toList(),
+  //   });
+  //
+  //   // Log the updated attribute list
+  //   globalLogger.d(NavigationController.to.attributeList.toJson(), 'kkkkkkk');
+  // }
 }

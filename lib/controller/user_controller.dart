@@ -1,14 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mh_core/utils/global.dart';
-import 'package:perfecto/models/address_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/services/user_service.dart';
-
-import '../utils.dart';
 
 class UserController extends GetxController {
   static UserController get to => Get.find();
@@ -25,7 +20,8 @@ class UserController extends GetxController {
   TextEditingController nameAddNewAddressController = TextEditingController();
   TextEditingController emailAddNewAddressController = TextEditingController();
   TextEditingController phoneAddNewAddressController = TextEditingController();
-  TextEditingController addressAddNewAddressController = TextEditingController();
+  TextEditingController addressAddNewAddressController =
+      TextEditingController();
   Rx<String?> errorName = ''.obs;
   Rx<String?> errorEmail = ''.obs;
   Rx<String?> errorPhone = ''.obs;
@@ -38,10 +34,13 @@ class UserController extends GetxController {
   FocusNode phoneFocusNode = FocusNode();
   RxString pickedImagePath = ''.obs;
   RxString image = ''.obs;
-
+  RxList<WishListModel> wishList = <WishListModel>[].obs;
+  RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
   @override
   Future<void> onInit() async {
     await getUserInfoCall();
+    await getReviewListCall();
+    await getWishListCall();
     super.onInit();
   }
 
@@ -62,6 +61,55 @@ class UserController extends GetxController {
     phoneAddNewAddressController.dispose();
     addressAddNewAddressController.dispose();
     super.onReady();
+  }
+
+  Future<bool> addWishListRequest(String productId) async {
+    final isCreated =
+        await UserService.addNewAddress({'product_id': productId});
+    if (isCreated) {
+      showSnackBar(
+        msg: 'Product save at wish List',
+      );
+      Get.back();
+      getWishListCall();
+      // afterLogin(isCreated);
+    }
+    return isCreated;
+  }
+
+  Future<bool> addReviewRequest(
+    String productId,
+    String orderId,
+    String title,
+    String comment,
+    String star,
+    List<String> images,
+  ) async {
+    final isCreated = await UserService.addNewAddress({
+      'product_id': productId,
+      'order_id': orderId,
+      'title': title,
+      'comment': comment,
+      'star': star,
+      'images': images
+    });
+    if (isCreated) {
+      showSnackBar(
+        msg: 'your review is added',
+      );
+      Get.back();
+      getReviewListCall();
+      // afterLogin(isCreated);
+    }
+    return isCreated;
+  }
+
+  Future<void> getWishListCall() async {
+    wishList.value = await UserService.userWishListCall();
+  }
+
+  Future<void> getReviewListCall() async {
+    reviewList.value = await UserService.userReviewListCall();
   }
 
   Future<void> getUserInfoCall() async {
@@ -93,8 +141,9 @@ class UserController extends GetxController {
   }
 
   Future<void> pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       pickedImagePath.value = pickedFile.path;

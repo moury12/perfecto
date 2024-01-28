@@ -5,19 +5,21 @@ class BrandModel with ISuspensionBean {
   String? name;
   String? image;
   String? status;
+  bool? isChecked= false;
   String? createdAt;
   String? updatedAt;
   String? isPopular;
   String? isTopBrand;
   String? susTag;
 
-  BrandModel({this.id, this.name, this.image, this.status, this.createdAt, this.updatedAt, this.isPopular, this.isTopBrand, this.susTag});
+  BrandModel({this.id, this.name, this.isChecked, this.image, this.status, this.createdAt, this.updatedAt, this.isPopular, this.isTopBrand, this.susTag});
 
   BrandModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
     name = json['name'].toString() == 'null' ? '' : json['name'].toString();
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
+    isChecked= false;
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     isPopular = json['is_popular'].toString() == 'null' ? '' : json['is_popular'].toString();
@@ -52,9 +54,10 @@ class CategoryModel {
   String? createdAt;
   String? updatedAt;
   bool? isExpanded = false;
+  bool? isChecked = false;
   List<CategoryModel>? subcategory;
 
-  CategoryModel({this.id, this.name, this.image, this.status, this.parentId, this.createdAt, this.updatedAt, this.isExpanded, this.subcategory});
+  CategoryModel({this.id, this.name, this.image, this.status, this.parentId, this.createdAt, this.updatedAt, this.isExpanded,this.isChecked, this.subcategory});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -65,6 +68,7 @@ class CategoryModel {
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     isExpanded = false;
+    isChecked = false;
     if (json['subcategory'] != null) {
       subcategory = <CategoryModel>[];
       json['subcategory'].forEach((v) {
@@ -97,6 +101,7 @@ class ProductAttributeModel {
   String? name;
   String? image;
   String? status;
+  bool? filtered;
   String? createdAt;
   String? updatedAt;
 
@@ -105,6 +110,7 @@ class ProductAttributeModel {
         this.name,
         this.image,
         this.status,
+        this.filtered =false,
         this.createdAt,
         this.updatedAt});
 
@@ -113,6 +119,7 @@ class ProductAttributeModel {
     name = json['name'].toString()=='null'?'':json['name'].toString();
     image = json['image'].toString()=='null'?'':json['image'].toString();
     status = json['status'].toString()=='null'?'':json['status'].toString();
+
     createdAt = json['created_at'].toString()=='null'?'':json['created_at'].toString();
     updatedAt = json['updated_at'].toString()=='null'?'':json['updated_at'].toString();
   }

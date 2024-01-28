@@ -17,9 +17,10 @@ class NavigationController extends GetxController {
   var selectedIndex = 0.obs;
   RxBool openSearchResult = false.obs;
   RxBool checked = false.obs;
-  RxBool checked2 = false.obs;
+  RxBool isReset = false.obs;
   RxList<AttributeModel> attributeList = <AttributeModel>[].obs;
 
+  RxMap<dynamic ,dynamic> addAttribute = {}.obs;
   RxList<dynamic> navList = [
     {'title': 'Home', 'icon': AssetsConstant.navIcon1},
     {'title': 'Category', 'icon': AssetsConstant.navIcon2},
@@ -39,15 +40,28 @@ class NavigationController extends GetxController {
     Get.toNamed(LoginScreen.routeName);
   }
 
-  // RxBool isLogin() {
-  //   final dbHelper = DatabaseHelper();
-  //   final user = dbHelper.getUser();
-  //   if (user != null) {
-  //     return true.obs;
-  //   } else {
-  //     return false.obs;
-  //   }
-  // }
+  void resetFilters() {
+    attributeList.forEach((attribute) {
+      attribute.isSelected = false;
+      attribute.attributes.forEach((attributes) {
+        attributes.filtered = false;
+      });
+    });
+
+    HomeApiController.to.categoryList.forEach((category) {
+      category.isExpanded = false;
+      category.subcategory?.forEach((subcategory) {
+        subcategory.isExpanded = false;
+        subcategory.subcategory?.forEach((child) {
+          child.isExpanded = false;
+        });
+      });
+    });
+    update();
+    attributeList.refresh();
+    HomeApiController.to.update();
+    HomeApiController.to.categoryList.refresh();
+  }
 
   RxBool openSearchSuggestion = true.obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
@@ -69,6 +83,10 @@ class NavigationController extends GetxController {
     attributeList.value = <AttributeModel>[
       AttributeModel(name: 'Category', attributes: [], isSelected: true),
       AttributeModel(
+        name: 'Brand',
+        attributes: [],
+      ),
+      AttributeModel(
         name: 'Price',
         attributes: [],
       ),
@@ -86,7 +104,7 @@ class NavigationController extends GetxController {
       ),
       AttributeModel(
         name: 'Color',
-        attributes: [],
+        attributes: HomeApiController.to.colorList,
       ),
       AttributeModel(
         name: 'Country Of Origin',
@@ -115,10 +133,6 @@ class NavigationController extends GetxController {
       AttributeModel(
         name: 'Skin Type',
         attributes: HomeApiController.to.skinTypeList,
-      ),
-      AttributeModel(
-        name: 'Skin Tone',
-        attributes: [],
       ),
       AttributeModel(
         name: 'Coverage',

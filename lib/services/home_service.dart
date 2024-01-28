@@ -34,6 +34,20 @@ class HomeService {
     }
     return preference;
   }
+  static Future<List<ProductAttributeModel>> colorCall() async {
+    List<ProductAttributeModel> color = [];
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}product/color', httpMethod: HttpMethod.get);
+    globalLogger.d(response, "product color");
+    if (response['status'] != null && response['status']) {
+      response['data'].forEach((dis) {
+        color.add(ProductAttributeModel.fromJson(dis));
+      });
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return color;
+  }
 
   static Future<List<ProductAttributeModel>> formulationCall() async {
     List<ProductAttributeModel> formulation = [];
@@ -257,5 +271,29 @@ class HomeService {
       ServiceAPI.showAlert(response['message']);
     }
     return termsModel;
+  }
+  static Future<TermsConditionModel> privacyPolicyCall() async {
+    TermsConditionModel privacyModel = TermsConditionModel();
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}privacypolicy', httpMethod: HttpMethod.get);
+    globalLogger.d(response, "privacy policy route");
+    if (response['status'] != null && response['status']) {
+      privacyModel = TermsConditionModel.fromJson(response['data']);
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return privacyModel;
+  }
+  static Future<TermsConditionModel> returnRefundCall() async {
+    TermsConditionModel returnModel = TermsConditionModel();
+    final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}returnrefund', httpMethod: HttpMethod.get);
+    globalLogger.d(response, "return refund route");
+    if (response['status'] != null && response['status']) {
+      returnModel = TermsConditionModel.fromJson(response['data']);
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return returnModel;
   }
 }
