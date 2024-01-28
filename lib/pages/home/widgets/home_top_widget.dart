@@ -44,9 +44,7 @@ class HomeTopWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08))]),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08))]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -62,8 +60,7 @@ class HomeTopWidget extends StatelessWidget {
                         Scaffold.of(context).openDrawer();
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
                         child: Image.asset(
                           AssetsConstant.drawerIcon,
                           height: 25,
@@ -81,9 +78,7 @@ class HomeTopWidget extends StatelessWidget {
                       },
                       child: Container(
                         padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            color: AppColors.kAccentColor,
-                            borderRadius: BorderRadius.circular(4)),
+                        decoration: BoxDecoration(color: AppColors.kAccentColor, borderRadius: BorderRadius.circular(4)),
                         child: Row(
                           children: [
                             Image.asset(
@@ -92,14 +87,9 @@ class HomeTopWidget extends StatelessWidget {
                             ),
                             CustomSizedBox.space4W,
                             RichText(
-                                text: const TextSpan(text: '', children: [
-                              TextSpan(
-                                  text: '0',
-                                  style: AppTheme.textStyleBoldBlack12),
-                              TextSpan(
-                                  text: ' Points',
-                                  style: AppTheme.textStyleNormalBlack12)
-                            ])),
+                                text: const TextSpan(
+                                    text: '',
+                                    children: [TextSpan(text: '0', style: AppTheme.textStyleBoldBlack12), TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)])),
                           ],
                         ),
                       ),
@@ -113,9 +103,7 @@ class HomeTopWidget extends StatelessWidget {
                         Get.toNamed(WishListScreen.routeName);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 16)
-                            .copyWith(left: 0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16).copyWith(left: 0),
                         child: Container(
                           height: 30,
                           width: 30,
@@ -132,11 +120,8 @@ class HomeTopWidget extends StatelessWidget {
                                 right: 0,
                                 child: Container(
                                   padding: const EdgeInsets.all(2.5),
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: AppColors.kDarkPrimaryColor),
-                                  child: const Text('12',
-                                      style: AppTheme.textStyleBoldWhite8),
+                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                  child: const Text('12', style: AppTheme.textStyleBoldWhite8),
                                 ),
                               )
                             ],
@@ -150,9 +135,7 @@ class HomeTopWidget extends StatelessWidget {
                         Get.toNamed(CartScreen.routeName);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 16)
-                            .copyWith(left: 0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16).copyWith(left: 0),
                         child: Container(
                           height: 30,
                           width: 30,
@@ -168,11 +151,8 @@ class HomeTopWidget extends StatelessWidget {
                                 right: 2,
                                 child: Container(
                                   padding: const EdgeInsets.all(2.5),
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: AppColors.kDarkPrimaryColor),
-                                  child: const Text('12',
-                                      style: AppTheme.textStyleBoldWhite8),
+                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                  child: const Text('12', style: AppTheme.textStyleBoldWhite8),
                                 ),
                               )
                             ],
@@ -192,27 +172,22 @@ class HomeTopWidget extends StatelessWidget {
                     ? CustomTextField(
                         height: 42,
                         isEnable: isSearchpage ? true : false,
-                        controller: controller ??
-                            NavigationController.to.searchController.value,
+                        controller: controller ?? NavigationController.to.searchController.value,
                         hintText: 'Search for products...',
                         focusColor: AppColors.kPrimaryColor,
                         enableBorderColor: AppColors.kPrimaryColor,
                         disableBorderColor: AppColors.kPrimaryColor,
                         onSubmitted: (p0) {
                           if (p0.isNotEmpty) {
-                            NavigationController.to.openSearchResult.value =
-                                true;
-                            NavigationController.to.openSearchSuggestion.value =
-                                false;
+                            NavigationController.to.openSearchResult.value = true;
+                            NavigationController.to.openSearchSuggestion.value = false;
                           }
                         },
                         onChanged: (value) {
                           // Get.toNamed(SearchScreen.routeName,arguments: 'searched');
                           globalLogger.d(value);
-                          NavigationController.to.searchController.value.text =
-                              value;
-                          NavigationController.to.isSearchFieldNotEmpty.value =
-                              value.isNotEmpty;
+                          NavigationController.to.searchController.value.text = value;
+                          NavigationController.to.isSearchFieldNotEmpty.value = value.isNotEmpty;
                         },
                         prefixWidget: const Icon(
                           Icons.search_rounded,
@@ -231,17 +206,9 @@ class HomeTopWidget extends StatelessWidget {
                             children: [
                               NavigationController.to.openSearchSuggestion.value
                                   ? Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(.10),
-                                                blurRadius: 10)
-                                          ]),
+                                      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.10), blurRadius: 10)]),
                                       padding: const EdgeInsets.all(16),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 16),
+                                      margin: const EdgeInsets.symmetric(horizontal: 16),
                                       child: Column(
                                         children: [
                                           ...List.generate(
@@ -251,53 +218,35 @@ class HomeTopWidget extends StatelessWidget {
                                                       Row(
                                                         children: [
                                                           const Icon(
-                                                            Icons
-                                                                .search_rounded,
-                                                            color:
-                                                                Colors.black45,
+                                                            Icons.search_rounded,
+                                                            color: Colors.black45,
                                                             size: 15,
                                                           ),
-                                                          CustomSizedBox
-                                                              .space8W,
+                                                          CustomSizedBox.space8W,
                                                           InkWell(
                                                             onTap: () {
-                                                              NavigationController
-                                                                      .to
-                                                                      .searchController
-                                                                      .value
-                                                                      .text =
-                                                                  "Lakme Absolute Lipstick";
-                                                              NavigationController
-                                                                  .to
-                                                                  .update();
+                                                              NavigationController.to.searchController.value.text = "Lakme Absolute Lipstick";
+                                                              NavigationController.to.update();
                                                             },
-                                                            child:
-                                                                const Padding(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      vertical:
-                                                                          8.0),
+                                                            child: const Padding(
+                                                              padding: EdgeInsets.symmetric(vertical: 8.0),
                                                               child: Text(
                                                                 'Lakme Absolute Lipstick',
-                                                                style: AppTheme
-                                                                    .textStyleMediumBlack14,
+                                                                style: AppTheme.textStyleMediumBlack14,
                                                               ),
                                                             ),
                                                           ),
                                                           const Spacer(),
                                                           const Icon(
-                                                            Icons
-                                                                .arrow_forward_ios,
-                                                            color:
-                                                                Colors.black45,
+                                                            Icons.arrow_forward_ios,
+                                                            color: Colors.black45,
                                                             size: 15,
                                                           )
                                                         ],
                                                       ),
                                                       const Divider(
                                                         thickness: 1,
-                                                        color:
-                                                            Color(0xffECECEC),
+                                                        color: Color(0xffECECEC),
                                                       )
                                                     ],
                                                   ))
@@ -305,28 +254,18 @@ class HomeTopWidget extends StatelessWidget {
                                       ),
                                     )
                                   : Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                              horizontal: 16.0, vertical: 0)
-                                          .copyWith(bottom: 12),
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0).copyWith(bottom: 12),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: GestureDetector(
                                               child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(12),
+                                                padding: const EdgeInsets.all(12),
                                                 alignment: Alignment.center,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6),
-                                                    color: const Color(
-                                                        0xffEEFAFF)),
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
                                                 child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
                                                     Image.asset(
                                                       AssetsConstant.filter,
@@ -335,8 +274,7 @@ class HomeTopWidget extends StatelessWidget {
                                                     CustomSizedBox.space8W,
                                                     const Text(
                                                       'FILTER',
-                                                      style: AppTheme
-                                                          .textStyleBoldPrimary12,
+                                                      style: AppTheme.textStyleBoldPrimary12,
                                                     )
                                                   ],
                                                 ),
@@ -350,18 +288,11 @@ class HomeTopWidget extends StatelessWidget {
                                           Expanded(
                                             child: GestureDetector(
                                               child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(12),
+                                                padding: const EdgeInsets.all(12),
                                                 alignment: Alignment.center,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6),
-                                                    color: const Color(
-                                                        0xffEEFAFF)),
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
                                                 child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
                                                     Image.asset(
                                                       AssetsConstant.sort,
@@ -370,8 +301,7 @@ class HomeTopWidget extends StatelessWidget {
                                                     CustomSizedBox.space8W,
                                                     const Text(
                                                       'SORT',
-                                                      style: AppTheme
-                                                          .textStyleBoldPrimary12,
+                                                      style: AppTheme.textStyleBoldPrimary12,
                                                     )
                                                   ],
                                                 ),
@@ -391,9 +321,7 @@ class HomeTopWidget extends StatelessWidget {
                 ),
               if (isneedFilter)
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0)
-                          .copyWith(bottom: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0).copyWith(bottom: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -402,9 +330,7 @@ class HomeTopWidget extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                color: const Color(0xffEEFAFF)),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -431,9 +357,7 @@ class HomeTopWidget extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                color: const Color(0xffEEFAFF)),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -476,10 +400,7 @@ class HomeTopWidget extends StatelessWidget {
           children: [
             SingleChildScrollView(
               child: Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20))),
+                decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
                 child: Column(
                   children: [
                     Padding(
@@ -512,63 +433,51 @@ class HomeTopWidget extends StatelessWidget {
                       thickness: 1.5,
                       height: 1.5,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            color: AppColors.klightAccentColor,
-                            child: Obx(() {
-                              return Column(
+                    Obx(() {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              color: AppColors.klightAccentColor,
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ...List.generate(
-                                      NavigationController
-                                          .to.attributeList.length, (index) {
-                                    final filter = NavigationController
-                                        .to.attributeList[index];
+                                  ...List.generate(NavigationController.to.attributeList.length, (index) {
+                                    final filter = NavigationController.to.attributeList[index];
                                     return GestureDetector(
                                       onTap: () {
-                                        for (var attribute in NavigationController
-                                            .to.attributeList) {
+                                        for (var attribute in NavigationController.to.attributeList) {
                                           attribute.isSelected = false;
                                         }
-              
+
                                         filter.toggleSelected();
+
+                                        NavigationController.to.update();
+                                        NavigationController.to.attributeList.refresh();
                                       },
                                       child: Container(
                                           width: double.infinity,
                                           decoration: BoxDecoration(
-                                              color: filter.isSelected
-                                                  ? AppColors.kAccentColor
-                                                  : Colors.transparent,
-                                              border: Border(
-                                                  right: BorderSide(
-                                                      color: filter.isSelected
-                                                          ? AppColors
-                                                              .kPrimaryColor
-                                                          : Colors.transparent,
-                                                      width: 2))),
+                                              color: filter.isSelected ? AppColors.kAccentColor : Colors.transparent,
+                                              border: Border(right: BorderSide(color: filter.isSelected ? AppColors.kPrimaryColor : Colors.transparent, width: 2))),
                                           padding: const EdgeInsets.all(16),
                                           child: Text(
                                             filter.name ?? '',
-                                            style: AppTheme
-                                                .textStyleMediumCustomBlack12,
+                                            style: AppTheme.textStyleMediumCustomBlack12,
                                           )),
                                     );
                                   })
                                 ],
-                              );
-                            }),
+                              ),
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: FilterAttributeWidget(
-                              attributes:
-                                  NavigationController.to.attributeList.value),
-                        )
-                      ],
-                    ),
+                          Expanded(
+                            child: FilterAttributeWidget(attributes: NavigationController.to.attributeList.value),
+                          )
+                        ],
+                      );
+                    }),
                     const SizedBox(
                       height: 80,
                     )
@@ -577,10 +486,7 @@ class HomeTopWidget extends StatelessWidget {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(15))),
+              decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
               padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -675,8 +581,7 @@ class HomeTopWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GestureDetector(onTap: () {
-                          NavigationController.to.checked.value =
-                              !NavigationController.to.checked.value;
+                          NavigationController.to.checked.value = !NavigationController.to.checked.value;
                         }, child: Obx(() {
                           return Container(
                             height: 18,
@@ -684,12 +589,8 @@ class HomeTopWidget extends StatelessWidget {
                             margin: const EdgeInsets.only(bottom: 16),
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: NavigationController.to.checked.value
-                                    ? AppColors.kPrimaryColor
-                                    : const Color(0xffE7E7E7),
-                                border: Border.all(
-                                    width: 0.5,
-                                    color: AppColors.kPrimaryColor)),
+                                color: NavigationController.to.checked.value ? AppColors.kPrimaryColor : const Color(0xffE7E7E7),
+                                border: Border.all(width: 0.5, color: AppColors.kPrimaryColor)),
                             alignment: Alignment.center,
                             child: NavigationController.to.checked.value
                                 ? const Icon(
@@ -733,8 +634,7 @@ class FilterAttributeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedAttributes =
-        attributes.where((attribute) => attribute.isSelected).toList();
+    final selectedAttributes = attributes.where((attribute) => attribute.isSelected).toList();
     return Column(
       children: [
         ...List.generate(
@@ -742,140 +642,102 @@ class FilterAttributeWidget extends StatelessWidget {
           (index) {
             final attribute = selectedAttributes[index];
 
-            return (attribute.name=="Category" )
-                ? Column(
-                    children: [
-                      ...List.generate(
-                        HomeApiController.to.categoryList.length,
-                        (index) {
-                          final category =
-                              HomeApiController.to.categoryList[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        category.isExpanded =
-                                            !category.isExpanded!;
-                                      },
-                                      child: const CustomCheckboxWidget(),
-                                    ),
-                                    CustomSizedBox.space12W,
-                                    Text(
-                                      category.name ?? '',
-                                      style:
-                                          AppTheme.textStyleMediumCustomBlack12,
-                                    )
-                                  ],
-                                ),
-                                (category.isExpanded! &&
-                                        category.subcategory!.isNotEmpty)
-                                    ? Column(
-                                        children: [
-                                          ...List.generate(
-                                            category.subcategory!.length,
-                                            (index) => Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0, left: 16),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          category
-                                                                  .subcategory![
-                                                                      index]
-                                                                  .isExpanded =
-                                                              !category
-                                                                  .subcategory![
-                                                                      index]
-                                                                  .isExpanded!;
-                                                        },
-                                                        child:
-                                                            const CustomCheckboxWidget(),
-                                                      ),
-                                                      CustomSizedBox.space12W,
-                                                      Text(
-                                                        category
-                                                                .subcategory![
-                                                                    index]
-                                                                .name ??
-                                                            '',
-                                                        style: AppTheme
-                                                            .textStyleMediumCustomBlack12,
-                                                      )
-                                                    ],
-                                                  ),
-                                                  (category.subcategory![index]
-                                                              .isExpanded! &&
-                                                          category
-                                                              .subcategory![
-                                                                  index]
-                                                              .subcategory!
-                                                              .isNotEmpty)
-                                                      ? Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 8.0,
-                                                                  left: 16),
-                                                          child: Column(
-                                                            children: [
-                                                              ...List.generate(
-                                                                  category
-                                                                      .subcategory![
-                                                                          index]
-                                                                      .subcategory!
-                                                                      .length,
-                                                                  (index) {
-                                                                final child = category
-                                                                    .subcategory![
-                                                                        index]
-                                                                    .subcategory![index];
-                                                                return Row(
-                                                                  children: [
-                                                                    GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        child.isExpanded =
-                                                                            !child.isExpanded!;
-                                                                      },
-                                                                      child:
-                                                                          const CustomCheckboxWidget(),
-                                                                    ),
-                                                                    CustomSizedBox
-                                                                        .space12W,
-                                                                    Text(
-                                                                      child.name ??
-                                                                          '',
-                                                                      style: AppTheme
-                                                                          .textStyleMediumCustomBlack12,
-                                                                    )
-                                                                  ],
-                                                                );
-                                                              })
-                                                            ],
-                                                          ),
-                                                        )
-                                                      : SizedBox.shrink()
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
+            return (attribute.name == "Category")
+                ? Obx(() {
+                    return Column(
+                      children: [
+                        ...List.generate(
+                          HomeApiController.to.categoryList.length,
+                          (index) {
+                            final category = HomeApiController.to.categoryList[index];
+                            return Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          category.isExpanded = !category.isExpanded!;
+
+                                          HomeApiController.to.update();
+                                          HomeApiController.to.categoryList.refresh();
+                                        },
+                                        child: const CustomCheckboxWidget(),
+                                      ),
+                                      CustomSizedBox.space12W,
+                                      Text(
+                                        category.name ?? '',
+                                        style: AppTheme.textStyleMediumCustomBlack12,
                                       )
-                                    : SizedBox.shrink()
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  )
+                                    ],
+                                  ),
+                                  (category.isExpanded! && category.subcategory!.isNotEmpty)
+                                      ? Column(
+                                          children: [
+                                            ...List.generate(
+                                              category.subcategory!.length,
+                                              (index) => Padding(
+                                                padding: const EdgeInsets.only(top: 8.0, left: 16),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            category.subcategory![index].isExpanded = !category.subcategory![index].isExpanded!;
+                                                          },
+                                                          child: const CustomCheckboxWidget(),
+                                                        ),
+                                                        CustomSizedBox.space12W,
+                                                        Text(
+                                                          category.subcategory![index].name ?? '',
+                                                          style: AppTheme.textStyleMediumCustomBlack12,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    (category.subcategory![index].isExpanded! && category.subcategory![index].subcategory!.isNotEmpty)
+                                                        ? Padding(
+                                                            padding: const EdgeInsets.only(top: 8.0, left: 16),
+                                                            child: Column(
+                                                              children: [
+                                                                ...List.generate(category.subcategory![index].subcategory!.length, (index) {
+                                                                  final child = category.subcategory![index].subcategory![index];
+                                                                  return Row(
+                                                                    children: [
+                                                                      GestureDetector(
+                                                                        onTap: () {
+                                                                          child.isExpanded = !child.isExpanded!;
+                                                                        },
+                                                                        child: const CustomCheckboxWidget(),
+                                                                      ),
+                                                                      CustomSizedBox.space12W,
+                                                                      Text(
+                                                                        child.name ?? '',
+                                                                        style: AppTheme.textStyleMediumCustomBlack12,
+                                                                      )
+                                                                    ],
+                                                                  );
+                                                                })
+                                                              ],
+                                                            ),
+                                                          )
+                                                        : SizedBox.shrink()
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      : SizedBox.shrink()
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  })
                 : Column(
                     children: [
                       ...List.generate(attribute.attributes.length, (index) {
@@ -887,15 +749,12 @@ class FilterAttributeWidget extends StatelessWidget {
                             children: [
                               GestureDetector(
                                   onTap: () {
-                                    NavigationController.to.checked.value =
-                                        !NavigationController.to.checked.value;
+                                    NavigationController.to.checked.value = !NavigationController.to.checked.value;
                                   },
                                   child: const CustomCheckboxWidget()),
                               CustomSizedBox.space12W,
                               Text(
-                                attribute.name == 'Category'
-                                    ? data1.name ?? ''
-                                    : data.name ?? '',
+                                attribute.name == 'Category' ? data1.name ?? '' : data.name ?? '',
                                 style: AppTheme.textStyleMediumCustomBlack12,
                               )
                             ],
@@ -926,11 +785,8 @@ class CustomCheckboxWidget extends StatelessWidget {
         width: 18,
         decoration: BoxDecoration(
             shape: radioButton ? BoxShape.circle : BoxShape.rectangle,
-            borderRadius:
-                radioButton ? BorderRadius.zero : BorderRadius.circular(2),
-            color: NavigationController.to.checked.value
-                ? AppColors.kPrimaryColor
-                : const Color(0xffE7E7E7),
+            borderRadius: radioButton ? BorderRadius.zero : BorderRadius.circular(2),
+            color: NavigationController.to.checked.value ? AppColors.kPrimaryColor : const Color(0xffE7E7E7),
             border: Border.all(width: 0.5, color: AppColors.kPrimaryColor)),
         alignment: Alignment.center,
         child: NavigationController.to.checked.value

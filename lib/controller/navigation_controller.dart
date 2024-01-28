@@ -18,72 +18,7 @@ class NavigationController extends GetxController {
   RxBool openSearchResult = false.obs;
   RxBool checked = false.obs;
   RxBool checked2 = false.obs;
-  RxList<AttributeModel> attributeList = <AttributeModel>[
-    AttributeModel(
-      name: 'Category',
-      attributes: [],
-      isSelected: true
-    ), AttributeModel(
-      name: 'Price',
-      attributes: [],
-    ),
-    AttributeModel(
-      name: 'Discount',
-      attributes: [],
-    ),
-    AttributeModel(
-      name: 'Avg Customer Rating',
-      attributes: [],
-    ),
-    AttributeModel(
-      name: 'Preference',
-      attributes: HomeApiController.to.preferenceList,
-    ),
-    AttributeModel(
-      name: 'Color',
-      attributes: [],
-    ),
-    AttributeModel(
-      name: 'Country Of Origin',
-      attributes: HomeApiController.to.countryList,
-    ),
-    AttributeModel(
-      name: 'Finish',
-      attributes: HomeApiController.to.finishList,
-    ),
-    AttributeModel(
-      name: 'Formulation',
-      attributes: HomeApiController.to.formulationList,
-    ),
-    AttributeModel(
-      name: 'Gender',
-      attributes: HomeApiController.to.genderList,
-    ),
-    AttributeModel(
-      name: 'Benefits',
-      attributes: HomeApiController.to.benefitList,
-    ),
-    AttributeModel(
-      name: 'Pack Size',
-      attributes: HomeApiController.to.packSizeList,
-    ),
-    AttributeModel(
-      name: 'Skin Type',
-      attributes: HomeApiController.to.skinTypeList,
-    ),
-    AttributeModel(
-      name: 'Skin Tone',
-      attributes: [],
-    ),
-    AttributeModel(
-      name: 'Coverage',
-      attributes: HomeApiController.to.coverageList,
-    ),
-    AttributeModel(
-      name: 'Concern',
-      attributes: HomeApiController.to.concernList,
-    ),
-  ].obs;
+  RxList<AttributeModel> attributeList = <AttributeModel>[].obs;
 
   RxList<dynamic> navList = [
     {'title': 'Home', 'icon': AssetsConstant.navIcon1},
@@ -128,5 +63,71 @@ class NavigationController extends GetxController {
     searchController.value.dispose();
     globalLogger.d("searchController dispose");
     super.onClose();
+  }
+
+  void attributeListCall() {
+    attributeList.value = <AttributeModel>[
+      AttributeModel(name: 'Category', attributes: [], isSelected: true),
+      AttributeModel(
+        name: 'Price',
+        attributes: [],
+      ),
+      AttributeModel(
+        name: 'Discount',
+        attributes: [],
+      ),
+      AttributeModel(
+        name: 'Avg Customer Rating',
+        attributes: [],
+      ),
+      AttributeModel(
+        name: 'Preference',
+        attributes: HomeApiController.to.preferenceList,
+      ),
+      AttributeModel(
+        name: 'Color',
+        attributes: [],
+      ),
+      AttributeModel(
+        name: 'Country Of Origin',
+        attributes: HomeApiController.to.countryList,
+      ),
+      AttributeModel(
+        name: 'Finish',
+        attributes: HomeApiController.to.finishList,
+      ),
+      AttributeModel(
+        name: 'Formulation',
+        attributes: HomeApiController.to.formulationList,
+      ),
+      AttributeModel(
+        name: 'Gender',
+        attributes: HomeApiController.to.genderList,
+      ),
+      AttributeModel(
+        name: 'Benefits',
+        attributes: HomeApiController.to.benefitList,
+      ),
+      AttributeModel(
+        name: 'Pack Size',
+        attributes: HomeApiController.to.packSizeList,
+      ),
+      AttributeModel(
+        name: 'Skin Type',
+        attributes: HomeApiController.to.skinTypeList,
+      ),
+      AttributeModel(
+        name: 'Skin Tone',
+        attributes: [],
+      ),
+      AttributeModel(
+        name: 'Coverage',
+        attributes: HomeApiController.to.coverageList,
+      ),
+      AttributeModel(
+        name: 'Concern',
+        attributes: HomeApiController.to.concernList,
+      ),
+    ];
   }
 }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
@@ -24,6 +25,8 @@ class HomeApiController extends GetxController {
     await packSizeListCall();
     await brandListCall();
     await termsConditionCall();
+
+    NavigationController.to.attributeListCall();
 
     super.onInit();
   }
