@@ -474,67 +474,66 @@ class HomeTopWidget extends StatelessWidget {
         return Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20))),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0).copyWith(bottom: 12),
-                    child: Row(
-                      children: [
-                        const Text(
-                          'Popular Brands',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
+            SingleChildScrollView(
+              child: Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20))),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0).copyWith(bottom: 12),
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Popular Brands',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            CupertinoIcons.multiply,
-                            color: Colors.black54,
-                            size: 25,
-                          ),
-                        )
-                      ],
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(
+                              CupertinoIcons.multiply,
+                              color: Colors.black54,
+                              size: 25,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const Divider(
-                    color: Color(0xffECECEC),
-                    thickness: 1.5,
-                    height: 1.5,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          color: AppColors.klightAccentColor,
-                          child: Obx(
-                             ( ) {
+                    const Divider(
+                      color: Color(0xffECECEC),
+                      thickness: 1.5,
+                      height: 1.5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: AppColors.klightAccentColor,
+                            child: Obx(() {
                               return Column(
-                                mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ...List.generate(
-                                      NavigationController.to.attributeList.length,
-                                      (index) {
+                                      NavigationController
+                                          .to.attributeList.length, (index) {
                                     final filter = NavigationController
                                         .to.attributeList[index];
                                     return GestureDetector(
                                       onTap: () {
-                                        for (var attribute in NavigationController.to.attributeList) {
+                                        for (var attribute in NavigationController
+                                            .to.attributeList) {
                                           attribute.isSelected = false;
                                         }
-
+              
                                         filter.toggleSelected();
                                       },
                                       child: Container(
@@ -547,7 +546,7 @@ class HomeTopWidget extends StatelessWidget {
                                                   right: BorderSide(
                                                       color: filter.isSelected
                                                           ? AppColors
-                                                          .kPrimaryColor
+                                                              .kPrimaryColor
                                                           : Colors.transparent,
                                                       width: 2))),
                                           padding: const EdgeInsets.all(16),
@@ -560,19 +559,21 @@ class HomeTopWidget extends StatelessWidget {
                                   })
                                 ],
                               );
-                            }
+                            }),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: FilterAttributeWidget(attributes: NavigationController.to.attributeList.value),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 80,
-                  )
-                ],
+                        Expanded(
+                          child: FilterAttributeWidget(
+                              attributes:
+                                  NavigationController.to.attributeList.value),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 80,
+                    )
+                  ],
+                ),
               ),
             ),
             Container(
@@ -726,46 +727,183 @@ class HomeTopWidget extends StatelessWidget {
 class FilterAttributeWidget extends StatelessWidget {
   final List<AttributeModel> attributes;
   const FilterAttributeWidget({
-    super.key,required this.attributes,
+    super.key,
+    required this.attributes,
   });
 
   @override
   Widget build(BuildContext context) {
-    final selectedAttributes = attributes
-        .where((attribute) => attribute.isSelected)
-        .toList();
+    final selectedAttributes =
+        attributes.where((attribute) => attribute.isSelected).toList();
     return Column(
       children: [
         ...List.generate(
           selectedAttributes.length,
-          (index){
+          (index) {
             final attribute = selectedAttributes[index];
-            return Column(children: [
-              ...List.generate(attribute.attributes.length, (index) {
-                final data =attribute.attributes[index];
-                final data1 =HomeApiController.to.categoryList[index];
-              return Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          NavigationController.to.checked.value =
-                          !NavigationController
-                              .to.checked.value;
+
+            return (attribute.name=="Category" )
+                ? Column(
+                    children: [
+                      ...List.generate(
+                        HomeApiController.to.categoryList.length,
+                        (index) {
+                          final category =
+                              HomeApiController.to.categoryList[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        category.isExpanded =
+                                            !category.isExpanded!;
+                                      },
+                                      child: const CustomCheckboxWidget(),
+                                    ),
+                                    CustomSizedBox.space12W,
+                                    Text(
+                                      category.name ?? '',
+                                      style:
+                                          AppTheme.textStyleMediumCustomBlack12,
+                                    )
+                                  ],
+                                ),
+                                (category.isExpanded! &&
+                                        category.subcategory!.isNotEmpty)
+                                    ? Column(
+                                        children: [
+                                          ...List.generate(
+                                            category.subcategory!.length,
+                                            (index) => Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0, left: 16),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          category
+                                                                  .subcategory![
+                                                                      index]
+                                                                  .isExpanded =
+                                                              !category
+                                                                  .subcategory![
+                                                                      index]
+                                                                  .isExpanded!;
+                                                        },
+                                                        child:
+                                                            const CustomCheckboxWidget(),
+                                                      ),
+                                                      CustomSizedBox.space12W,
+                                                      Text(
+                                                        category
+                                                                .subcategory![
+                                                                    index]
+                                                                .name ??
+                                                            '',
+                                                        style: AppTheme
+                                                            .textStyleMediumCustomBlack12,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  (category.subcategory![index]
+                                                              .isExpanded! &&
+                                                          category
+                                                              .subcategory![
+                                                                  index]
+                                                              .subcategory!
+                                                              .isNotEmpty)
+                                                      ? Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  top: 8.0,
+                                                                  left: 16),
+                                                          child: Column(
+                                                            children: [
+                                                              ...List.generate(
+                                                                  category
+                                                                      .subcategory![
+                                                                          index]
+                                                                      .subcategory!
+                                                                      .length,
+                                                                  (index) {
+                                                                final child = category
+                                                                    .subcategory![
+                                                                        index]
+                                                                    .subcategory![index];
+                                                                return Row(
+                                                                  children: [
+                                                                    GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        child.isExpanded =
+                                                                            !child.isExpanded!;
+                                                                      },
+                                                                      child:
+                                                                          const CustomCheckboxWidget(),
+                                                                    ),
+                                                                    CustomSizedBox
+                                                                        .space12W,
+                                                                    Text(
+                                                                      child.name ??
+                                                                          '',
+                                                                      style: AppTheme
+                                                                          .textStyleMediumCustomBlack12,
+                                                                    )
+                                                                  ],
+                                                                );
+                                                              })
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : SizedBox.shrink()
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    : SizedBox.shrink()
+                              ],
+                            ),
+                          );
                         },
-                        child: const CustomCheckboxWidget()),
-                    CustomSizedBox.space12W,
-                     Text(
-                       index==0?data1.name??'': data.name??'',
-                      style:
-                      AppTheme.textStyleMediumCustomBlack12,
-                    )
-                  ],
-                ),
-              );
-              })
-            ],);
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      ...List.generate(attribute.attributes.length, (index) {
+                        final data = attribute.attributes[index];
+                        final data1 = HomeApiController.to.categoryList[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    NavigationController.to.checked.value =
+                                        !NavigationController.to.checked.value;
+                                  },
+                                  child: const CustomCheckboxWidget()),
+                              CustomSizedBox.space12W,
+                              Text(
+                                attribute.name == 'Category'
+                                    ? data1.name ?? ''
+                                    : data.name ?? '',
+                                style: AppTheme.textStyleMediumCustomBlack12,
+                              )
+                            ],
+                          ),
+                        );
+                      })
+                    ],
+                  );
           },
         )
       ],

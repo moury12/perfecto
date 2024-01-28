@@ -84,6 +84,7 @@ class NavigationController extends GetxController {
       attributes: HomeApiController.to.concernList,
     ),
   ].obs;
+
   RxList<dynamic> navList = [
     {'title': 'Home', 'icon': AssetsConstant.navIcon1},
     {'title': 'Category', 'icon': AssetsConstant.navIcon2},
