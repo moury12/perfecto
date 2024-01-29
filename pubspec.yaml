@@ -44,6 +44,7 @@ dependencies:
   google_sign_in: ^6.2.1
   flutter_facebook_auth: ^6.0.4
   flutter_html:
+  url_launcher: ^6.2.4
   azlistview: ^2.0.0
 #    path: ../azlistview-2.0.0
   mh_videoplayer:

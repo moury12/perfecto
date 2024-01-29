@@ -2,10 +2,13 @@ import 'package:get/get.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/models/blog_model.dart';
+import 'package:perfecto/models/outlet_model.dart';
+import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 import 'package:perfecto/services/home_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeApiController extends GetxController {
   @override
@@ -28,6 +31,7 @@ class HomeApiController extends GetxController {
     await privacyPolicyCall();
     await returnRefundCall();
     await colorListCall();
+    await outletListCall();
 
     NavigationController.to.attributeListCall();
 
@@ -35,6 +39,7 @@ class HomeApiController extends GetxController {
   }
 
   static HomeApiController get to => Get.find();
+  RxList<OutletModel> outletList = <OutletModel>[].obs;
   RxList<ProductAttributeModel> colorList = <ProductAttributeModel>[].obs;
   RxList<ProductAttributeModel> preferenceList = <ProductAttributeModel>[].obs;
   RxList<ProductAttributeModel> formulationList = <ProductAttributeModel>[].obs;
@@ -69,6 +74,9 @@ class HomeApiController extends GetxController {
 
   Future<void> blogListCall() async {
     blogList.value = await HomeService.blogCall();
+  }
+  Future<void> outletListCall() async {
+    outletList.value = await HomeService.outletCall();
   }
 
   Future<void> preferenceListCall() async {
@@ -146,18 +154,20 @@ class HomeApiController extends GetxController {
       }
     }
   }
-  // void updateAttributeAndLog(AttributeModel attribute) {
-  //   attribute.isSelected = !(attribute.isSelected ?? false);
-  //   NavigationController.to.update();
-  //   NavigationController.to.attributeList.refresh();
-  //   NavigationController.to.addAttribute.addAll({
-  //     '${attribute.name}': attribute.attributes
-  //         .where((element) => element.filtered == true)
-  //         .map((e) => e.id ?? '')
-  //         .toList(),
-  //   });
-  //
-  //   // Log the updated attribute list
-  //   globalLogger.d(NavigationController.to.attributeList.toJson(), 'kkkkkkk');
-  // }
+  void openMap(double lat, double long) async {
+    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$long';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
+  }
+
 }

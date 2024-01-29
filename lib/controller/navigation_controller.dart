@@ -19,8 +19,9 @@ class NavigationController extends GetxController {
   RxBool checked = false.obs;
   RxBool isReset = false.obs;
   RxList<AttributeModel> attributeList = <AttributeModel>[].obs;
+  RxList<SortModel> sortList = <SortModel>[].obs;
 
-  RxMap<dynamic ,dynamic> addAttribute = {}.obs;
+  RxMap<dynamic, dynamic> addAttribute = {}.obs;
   RxList<dynamic> navList = [
     {'title': 'Home', 'icon': AssetsConstant.navIcon1},
     {'title': 'Category', 'icon': AssetsConstant.navIcon2},
@@ -81,67 +82,97 @@ class NavigationController extends GetxController {
 
   void attributeListCall() {
     attributeList.value = <AttributeModel>[
-      AttributeModel(name: 'Category', attributes: [], isSelected: true),
       AttributeModel(
+          name: 'Category',
+          attributes: [],
+          isSelected: true,
+          keyName: 'category'),
+      AttributeModel(
+        keyName: 'brand',
         name: 'Brand',
         attributes: [],
       ),
       AttributeModel(
+        keyName: 'max_min',
         name: 'Price',
         attributes: [],
       ),
       AttributeModel(
+        keyName: '',
         name: 'Discount',
         attributes: [],
       ),
       AttributeModel(
+        keyName: '',
         name: 'Avg Customer Rating',
         attributes: [],
       ),
       AttributeModel(
+        keyName: 'preference',
         name: 'Preference',
         attributes: HomeApiController.to.preferenceList,
       ),
       AttributeModel(
+        keyName: 'color',
         name: 'Color',
         attributes: HomeApiController.to.colorList,
       ),
       AttributeModel(
+        keyName: 'country',
         name: 'Country Of Origin',
         attributes: HomeApiController.to.countryList,
       ),
       AttributeModel(
+        keyName: 'finish',
         name: 'Finish',
         attributes: HomeApiController.to.finishList,
       ),
       AttributeModel(
+        keyName: 'formulation',
         name: 'Formulation',
         attributes: HomeApiController.to.formulationList,
       ),
       AttributeModel(
+        keyName: 'gender',
         name: 'Gender',
         attributes: HomeApiController.to.genderList,
       ),
       AttributeModel(
+        keyName: 'benefit',
         name: 'Benefits',
         attributes: HomeApiController.to.benefitList,
       ),
       AttributeModel(
+        keyName: 'packSize',
         name: 'Pack Size',
         attributes: HomeApiController.to.packSizeList,
       ),
       AttributeModel(
+        keyName: 'skinType',
         name: 'Skin Type',
         attributes: HomeApiController.to.skinTypeList,
       ),
       AttributeModel(
+        keyName: 'coverage',
         name: 'Coverage',
         attributes: HomeApiController.to.coverageList,
       ),
       AttributeModel(
+        keyName: 'concern',
         name: 'Concern',
         attributes: HomeApiController.to.concernList,
       ),
+    ];
+    sortList.value = <SortModel>[
+      SortModel(name: 'Relevance', isSelected: true),
+      SortModel(
+          name: 'Price - High to Low',
+          isSelected: true,
+          keyName: 'sort_by_price'),
+      SortModel(
+          name: 'Price - Low to High',
+          isSelected: true,
+          keyName: 'sort_by_price'),
     ];
   }
 }

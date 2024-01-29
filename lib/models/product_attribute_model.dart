@@ -143,3 +143,17 @@ class AttributeModel {
     isSelected = !isSelected; // Toggle isSelected
   }
 }
+class SortModel {
+  String? name;
+  String? keyName;
+  bool isSelected = false;
+
+  SortModel({
+    this.name,
+    this.keyName,
+    this.isSelected = false,
+  });
+  void toggleSelected() {
+    isSelected = !isSelected; // Toggle isSelected
+  }
+}

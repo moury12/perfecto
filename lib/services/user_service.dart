@@ -109,87 +109,112 @@ class UserService {
   }
 
   static Future<List<DistrictModel>> getDistrictData() async {
-    List<DistrictModel> dislist = [];
-    final response = await ServiceAPI.genericCall(
-      url: '${ServiceAPI.apiUrl}district',
-      httpMethod: HttpMethod.get,
-      noNeedAuthToken: false,
-    );
+  try  {
+      List<DistrictModel> dislist = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}district',
+        httpMethod: HttpMethod.get,
+        noNeedAuthToken: false,
+      );
 
-    globalLogger.d(response, "Get District Route");
-    // Get.back();
-    if (response['status'] != null && response['status']) {
-      response['data']['districts'].forEach((dis) {
-        dislist.add(DistrictModel.fromJson(dis));
-      });
-    } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
-    }
-    return dislist;
+      globalLogger.d(response, "Get District Route");
+      // Get.back();
+      if (response['status'] != null && response['status']) {
+        response['data']['districts'].forEach((dis) {
+          dislist.add(DistrictModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return dislist;
+    }catch (e) {
+    globalLogger.e("Error occurred in Call: $e");
+    return []; // Return an empty list or handle the error accordingly
+  }
   }
 
   static Future<List<CityModel>> getAreaData(String districtId) async {
-    List<CityModel> areaList = [];
-    final response = await ServiceAPI.genericCall(
-      url:
-          '${ServiceAPI.apiUrl}city?district_id=$districtId' /*${dislist.map((e) => e.id)}*/,
-      httpMethod: HttpMethod.get,
-      noNeedAuthToken: false,
-    );
-    globalLogger.d(response, "Get Area Route");
-    if (response['status'] != null && response['status']) {
-      response['data']['cities'].forEach((course) {
-        areaList.add(CityModel.fromJson(course));
-      });
-    } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+    try{
+      List<CityModel> areaList = [];
+      final response = await ServiceAPI.genericCall(
+        url:
+            '${ServiceAPI.apiUrl}city?district_id=$districtId' /*${dislist.map((e) => e.id)}*/,
+        httpMethod: HttpMethod.get,
+        noNeedAuthToken: false,
+      );
+      globalLogger.d(response, "Get Area Route");
+      if (response['status'] != null && response['status']) {
+        response['data']['cities'].forEach((course) {
+          areaList.add(CityModel.fromJson(course));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return areaList;
+    }catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
     }
-    return areaList;
   }
 
   static Future<List<AddressModel>> userAddressCall() async {
-    List<AddressModel> addressModel = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}get_address', httpMethod: HttpMethod.get);
-    globalLogger.d(response, "AddressModel route");
-    if (response['status'] != null && response['status']) {
-      response['data'].forEach((dis) {
-        addressModel.add(AddressModel.fromJson(dis));
-      });
-    } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+    try{
+      List<AddressModel> addressModel = [];
+      final response = await ServiceAPI.genericCall(
+          url: '${ServiceAPI.apiUrl}get_address', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "AddressModel route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          addressModel.add(AddressModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return addressModel;
+    }catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
     }
-    return addressModel;
   }
 
   static Future<List<WishListModel>> userWishListCall() async {
-    List<WishListModel> wishList = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}getwishlist', httpMethod: HttpMethod.get);
-    globalLogger.d(response, "WishListModel route");
-    if (response['status'] != null && response['status']) {
-      response['data'].forEach((dis) {
-        wishList.add(WishListModel.fromJson(dis));
-      });
-    } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+    try{
+      List<WishListModel> wishList = [];
+      final response = await ServiceAPI.genericCall(
+          url: '${ServiceAPI.apiUrl}getwishlist', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "WishListModel route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          wishList.add(WishListModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return wishList;
+    }catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
     }
-    return wishList;
   }
 
   static Future<List<ReviewListModel>> userReviewListCall() async {
-    List<ReviewListModel> reviewList = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}get-review', httpMethod: HttpMethod.get);
-    globalLogger.d(response, "ReviewListModel route");
-    if (response['status'] != null && response['status']) {
-      response['data'].forEach((dis) {
-        reviewList.add(ReviewListModel.fromJson(dis));
-      });
-    } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+    try{
+      List<ReviewListModel> reviewList = [];
+      final response = await ServiceAPI.genericCall(
+          url: '${ServiceAPI.apiUrl}get-review', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "ReviewListModel route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          reviewList.add(ReviewListModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return reviewList;
+    }catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
     }
-    return reviewList;
   }
 
   static Future<bool> editPassword(dynamic body) async {

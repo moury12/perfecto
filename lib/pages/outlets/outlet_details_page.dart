@@ -1,8 +1,13 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
+import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import '../../theme/theme_data.dart';
@@ -14,6 +19,7 @@ class OutletDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    OutletModel outlet = Get.arguments;
     return PageWithNavigation(
       scaffoldChild: Scaffold(drawer: CustomDrawer(),
         body: Container(
@@ -49,8 +55,8 @@ class OutletDetailsScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                const CustomNetworkImage(
-                                  networkImagePath: '',
+                                 CustomNetworkImage(
+                                  networkImagePath: outlet.logo??'',
                                   errorImagePath: AssetsConstant.slider2,
                                   height: 52,
                                   width: 52,
@@ -60,23 +66,23 @@ class OutletDetailsScreen extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'Mirpur Outlet',
-                                      style: AppTheme.textStyleNormalBlack16,
+                                     Text(
+                                 outlet.name??  'Mirpur Outlet',
+                                      style: AppTheme.textStyleMediumBlack14,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     const SizedBox(
-                                      height: 6,
+                                      height: 2,
                                     ),
                                     Row(
                                       children: [
                                         Image.asset(
                                           AssetsConstant.phone,
                                           height: 16,
-                                        ),
-                                        const Text(
-                                          '+88018996514',
+                                        ),CustomSizedBox.space4W,
+                                         Text(
+                                          outlet.mobile?? '+88018996514',
                                           style:
                                               AppTheme.textStyleNormalFadeBlack12,
                                         )
@@ -96,8 +102,8 @@ class OutletDetailsScreen extends StatelessWidget {
                               style: AppTheme.textStyleSemiBoldBlack14,
                             ),
                             CustomSizedBox.space8H,
-                            const Text(
-                              '#Shop #GB , Ground Floor , 38,sonargaon Janapath sector - 11 , uttara< Dhaka (opposite of Zamzam Tower)',
+                             Text(
+                              outlet.address??  '#Shop #GB , Ground Floor , 38,sonargaon Janapath sector - 11 , uttara< Dhaka (opposite of Zamzam Tower)',
                               style: AppTheme.textStyleNormalBlack12,
                             ),
                             Row(
@@ -111,7 +117,9 @@ class OutletDetailsScreen extends StatelessWidget {
                                     prefixImage: AssetsConstant.phoneFill,
                                     prefixImageHeight: 16,
 
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      HomeApiController.to.makePhoneCall(outlet.mobile??'');
+                                    },
                                   ),
                                 ),
                                 CustomSizedBox.space12W,
@@ -123,7 +131,9 @@ class OutletDetailsScreen extends StatelessWidget {
                                     // width: MediaQuery.of(context).size.width*.42,
                                     prefixImage: AssetsConstant.location,
                                     prefixImageHeight: 16,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      HomeApiController.to. openMap(double.parse(outlet.latitude??'37.422'), double.parse(outlet.longitude??'-122.084'));
+                                    },
                                   ),
                                 ),
                               ],
