@@ -7,8 +7,7 @@ import 'package:perfecto/models/terms_condition_model.dart';
 class HomeService {
   static Future<List<BlogModel>> blogCall() async {
     List<BlogModel> blogList = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}blogs', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}blogs', httpMethod: HttpMethod.get);
     globalLogger.d(response, "blog route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -22,8 +21,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> preferenceCall() async {
     List<ProductAttributeModel> preference = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}preference', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}preference', httpMethod: HttpMethod.get);
     globalLogger.d(response, "preference route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -37,8 +35,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> colorCall() async {
     List<ProductAttributeModel> color = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}product/color', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}product/color', httpMethod: HttpMethod.get);
     globalLogger.d(response, "product color");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -52,8 +49,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> formulationCall() async {
     List<ProductAttributeModel> formulation = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}formulation', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}formulation', httpMethod: HttpMethod.get);
     globalLogger.d(response, "formulation route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -67,8 +63,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> finishCall() async {
     List<ProductAttributeModel> finish = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}finish', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}finish', httpMethod: HttpMethod.get);
     globalLogger.d(response, "finish route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -82,8 +77,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> countryCall() async {
     List<ProductAttributeModel> country = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}country', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}country', httpMethod: HttpMethod.get);
     globalLogger.d(response, "country route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -97,8 +91,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> genderCall() async {
     List<ProductAttributeModel> gender = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}gender', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}gender', httpMethod: HttpMethod.get);
     globalLogger.d(response, "gender route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -112,8 +105,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> coverageCall() async {
     List<ProductAttributeModel> coverage = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}coverage', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}coverage', httpMethod: HttpMethod.get);
     globalLogger.d(response, "coverage route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -127,8 +119,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> benefitCall() async {
     List<ProductAttributeModel> benefit = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}benefit', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}benefit', httpMethod: HttpMethod.get);
     globalLogger.d(response, "benefit route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -142,8 +133,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> concernCall() async {
     List<ProductAttributeModel> concern = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}concern', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}concern', httpMethod: HttpMethod.get);
     globalLogger.d(response, "concern route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -157,8 +147,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> ingredientCall() async {
     List<ProductAttributeModel> ingredient = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}ingredient', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}ingredient', httpMethod: HttpMethod.get);
     globalLogger.d(response, "ingredient route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -172,8 +161,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> packSizeCall() async {
     List<ProductAttributeModel> packSize = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}pack-size', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}pack-size', httpMethod: HttpMethod.get);
     globalLogger.d(response, "packSize route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -187,8 +175,7 @@ class HomeService {
 
   static Future<List<ProductAttributeModel>> skinTypeCall() async {
     List<ProductAttributeModel> skinType = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}skin-type', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}skin-type', httpMethod: HttpMethod.get);
     globalLogger.d(response, "skinType route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -202,8 +189,7 @@ class HomeService {
 
   static Future<List<BrandModel>> brandCall() async {
     List<BrandModel> brandList = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}brand', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}brand', httpMethod: HttpMethod.get);
     globalLogger.d(response, "brand route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -217,8 +203,7 @@ class HomeService {
 
   static Future<List<CategoryModel>> categoryCall() async {
     List<CategoryModel> categoryList = [];
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}category', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}category', httpMethod: HttpMethod.get);
     globalLogger.d(response, "category route");
     if (response['status'] != null && response['status']) {
       response['data'].forEach((dis) {
@@ -233,8 +218,7 @@ class HomeService {
   static Future<SingleBlogModel> singleBlogCall(String? blogId) async {
     SingleBlogModel singleBlog = SingleBlogModel();
 
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}blogs/$blogId', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}blogs/$blogId', httpMethod: HttpMethod.get);
     globalLogger.d(response, "Single blog route");
     if (response['status'] != null && response['status']) {
       singleBlog = SingleBlogModel.fromJson(response['data']['blog']);
@@ -245,11 +229,8 @@ class HomeService {
   }
 
   static Future<bool> addBlogComment(dynamic body) async {
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}blogs/add-comment',
-        httpMethod: HttpMethod.multipartFilePost,
-        allInfoField: body,
-        isLoadingEnable: true);
+    final response =
+        await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}blogs/add-comment', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
     globalLogger.d(response, "blog comment Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
@@ -261,8 +242,7 @@ class HomeService {
 
   static Future<TermsConditionModel> termsConditionCall() async {
     TermsConditionModel termsModel = TermsConditionModel();
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}termcondition', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}termcondition', httpMethod: HttpMethod.get);
     globalLogger.d(response, "TermsCondition route");
     if (response['status'] != null && response['status']) {
       termsModel = TermsConditionModel.fromJson(response['data']);
@@ -272,11 +252,9 @@ class HomeService {
     return termsModel;
   }
 
-
   static Future<TermsConditionModel> privacyPolicyCall() async {
     TermsConditionModel privacyModel = TermsConditionModel();
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}privacypolicy', httpMethod: HttpMethod.get);
+    final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}privacypolicy', httpMethod: HttpMethod.get);
     globalLogger.d(response, "privacy policy route");
     if (response['status'] != null && response['status']) {
       privacyModel = TermsConditionModel.fromJson(response['data']);
@@ -287,15 +265,19 @@ class HomeService {
   }
 
   static Future<TermsConditionModel> returnRefundCall() async {
-    TermsConditionModel returnModel = TermsConditionModel();
-    final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}returnrefund', httpMethod: HttpMethod.get);
-    globalLogger.d(response, "return refund route");
-    if (response['status'] != null && response['status']) {
-      returnModel = TermsConditionModel.fromJson(response['data']);
-    } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+    try {
+      TermsConditionModel returnModel = TermsConditionModel();
+      final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}returnrefund', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "return refund route");
+      if (response['status'] != null && response['status']) {
+        returnModel = TermsConditionModel.fromJson(response['data']);
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return returnModel;
+    } catch (e) {
+      globalLogger.e(e);
+      return TermsConditionModel();
     }
-    return returnModel;
   }
 }

@@ -5,7 +5,7 @@ class BrandModel with ISuspensionBean {
   String? name;
   String? image;
   String? status;
-  bool? isChecked= false;
+  bool? isChecked = false;
   String? createdAt;
   String? updatedAt;
   String? isPopular;
@@ -19,7 +19,7 @@ class BrandModel with ISuspensionBean {
     name = json['name'].toString() == 'null' ? '' : json['name'].toString();
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
-    isChecked= false;
+    isChecked = false;
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     isPopular = json['is_popular'].toString() == 'null' ? '' : json['is_popular'].toString();
@@ -57,7 +57,7 @@ class CategoryModel {
   bool? isChecked = false;
   List<CategoryModel>? subcategory;
 
-  CategoryModel({this.id, this.name, this.image, this.status, this.parentId, this.createdAt, this.updatedAt, this.isExpanded,this.isChecked, this.subcategory});
+  CategoryModel({this.id, this.name, this.image, this.status, this.parentId, this.createdAt, this.updatedAt, this.isExpanded, this.isChecked, this.subcategory});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -92,8 +92,6 @@ class CategoryModel {
     }
     return data;
   }
-
-
 }
 
 class ProductAttributeModel {
@@ -105,23 +103,16 @@ class ProductAttributeModel {
   String? createdAt;
   String? updatedAt;
 
-  ProductAttributeModel(
-      {this.id,
-        this.name,
-        this.image,
-        this.status,
-        this.filtered =false,
-        this.createdAt,
-        this.updatedAt});
+  ProductAttributeModel({this.id, this.name, this.image, this.status, this.filtered = false, this.createdAt, this.updatedAt});
 
   ProductAttributeModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString()=='null'?'':json['id'].toString();
-    name = json['name'].toString()=='null'?'':json['name'].toString();
-    image = json['image'].toString()=='null'?'':json['image'].toString();
-    status = json['status'].toString()=='null'?'':json['status'].toString();
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    name = json['name'].toString() == 'null' ? '' : json['name'].toString();
+    image = json['image'].toString() == 'null' ? '' : json['image'].toString();
+    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
 
-    createdAt = json['created_at'].toString()=='null'?'':json['created_at'].toString();
-    updatedAt = json['updated_at'].toString()=='null'?'':json['updated_at'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -135,13 +126,16 @@ class ProductAttributeModel {
     return data;
   }
 }
+
 class AttributeModel {
   String? name;
+  String? keyName;
   List<ProductAttributeModel> attributes;
   bool isSelected = false;
 
   AttributeModel({
     this.name,
+    this.keyName,
     required this.attributes,
     this.isSelected = false,
   });
