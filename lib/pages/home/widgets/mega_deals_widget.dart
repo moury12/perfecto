@@ -100,17 +100,20 @@ class MegaDealsWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                RichText(
-                    text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                  TextSpan(
-                    text: '$price  ',
-                    style: AppTheme.textStyleBoldBlack14,
-                  ),
-                  TextSpan(
-                    text: previousPrice,
-                    style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
-                  )
-                ]))
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: RichText(
+                      text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                    TextSpan(
+                      text: '$price  ',
+                      style: AppTheme.textStyleBoldBlack14,
+                    ),
+                    TextSpan(
+                      text: previousPrice,
+                      style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
+                    )
+                  ])),
+                )
               ],
             ),
           ),

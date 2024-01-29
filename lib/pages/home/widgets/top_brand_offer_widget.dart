@@ -83,23 +83,30 @@ class BestSellerListWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                Padding(
-                  padding:  EdgeInsets.all(8.0),
-                  child: Text('Maybelline New York Superstay Vinyl Ink',style: AppTheme.textStyleBoldBlack12,maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding:  EdgeInsets.all(8.0),
+                        child: Text('Maybelline New York Superstay Vinyl Ink',style: AppTheme.textStyleBoldBlack12,maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,),
+                      ),
+                      Text('30ml',style:AppTheme.textStyleNormalBlack12,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
+                        child: Container(padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 6),
+                            decoration: BoxDecoration(color:/*isBuy1Get1? AppColors.kOfferButtonColor:*/AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
+                            child: Text(/*isBuy1Get1?'Buy 1 Get 1':*/'Free Delivery',style: AppTheme.textStyleBoldWhite10)),
+                      ),
+                  
+                      RichText(text: TextSpan(text: '',style: AppTheme.textStyleBoldBlack14, children: [
+                        TextSpan(text: '৳ 550  ',style: AppTheme.textStyleBoldBlack14,),
+                        TextSpan(text: '৳550',style: const TextStyle(decoration: TextDecoration.lineThrough,color: Colors.black54,fontSize: 10, fontWeight: FontWeight.normal),),TextSpan(text: ' | ',style: AppTheme.textStyleNormalBlack12,),TextSpan(text: '(-25% Off)',style: const TextStyle(color: Color(0xff02792A),fontSize: 10, fontWeight: FontWeight.bold),)
+                      ])), 
+                    ],
+                  ),
                 ),
-                Text('30ml',style:AppTheme.textStyleNormalBlack12,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
-                  child: Container(padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 6),
-                      decoration: BoxDecoration(color:/*isBuy1Get1? AppColors.kOfferButtonColor:*/AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
-                      child: Text(/*isBuy1Get1?'Buy 1 Get 1':*/'Free Delivery',style: AppTheme.textStyleBoldWhite10)),
-                ),
-
-                RichText(text: TextSpan(text: '',style: AppTheme.textStyleBoldBlack14, children: [
-                  TextSpan(text: '৳ 550  ',style: AppTheme.textStyleBoldBlack14,),
-                  TextSpan(text: '৳550',style: const TextStyle(decoration: TextDecoration.lineThrough,color: Colors.black54,fontSize: 10, fontWeight: FontWeight.normal),),TextSpan(text: ' | ',style: AppTheme.textStyleNormalBlack12,),TextSpan(text: '(-25% Off)',style: const TextStyle(color: Color(0xff02792A),fontSize: 10, fontWeight: FontWeight.bold),)
-                ])),
-                CustomButton(label: 'ADD TO BAG',marginHorizontal: 16,marginVertical:6,height: 39,onPressed: () {
+               
+                CustomButton(label: 'ADD TO BAG',marginHorizontal: 16,marginVertical:8,height: 39,onPressed: () {
 
                 },)
               ],

@@ -433,55 +433,55 @@ class HomeTopWidget extends StatelessWidget {
                 NavigationController.to.sortList.length,
                 (index) {
                   final sort = NavigationController.to.sortList[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                for (var sortList in NavigationController.to.sortList) {
-                                  sortList.isSelected = false;
-                                }
-                                sort.toggleSelected();
-                                NavigationController.to.update();
-                                NavigationController.to.sortList.refresh();
-                              },
-                              child: Container(
-                                height: 18,
-                                width: 18,
-                                margin: const EdgeInsets.only(bottom: 16),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: sort.isSelected ? AppColors.kPrimaryColor : const Color(0xffE7E7E7),
-                                    border: Border.all(width: 0.5, color: AppColors.kPrimaryColor)),
-                                alignment: Alignment.center,
-                                child: sort.isSelected
-                                    ? const Icon(
-                                        Icons.check_rounded,
-                                        color: Colors.white,
-                                        size: 15,
-                                      )
-                                    : const SizedBox.shrink(),
-                              ),
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              for (var sortList in NavigationController.to.sortList) {
+                                sortList.isSelected = false;
+                              }
+                              sort.toggleSelected();
+                              NavigationController.to.update();
+                              NavigationController.to.sortList.refresh();
+                            },
+                            child: Container(
+                              height: 18,
+                              width: 18,
+                              margin: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: sort.isSelected ? AppColors.kPrimaryColor : const Color(0xffE7E7E7),
+                                  border: Border.all(width: 0.5, color: AppColors.kPrimaryColor)),
+                              alignment: Alignment.center,
+                              child: sort.isSelected
+                                  ? const Icon(
+                                      Icons.check_rounded,
+                                      color: Colors.white,
+                                      size: 15,
+                                    )
+                                  : const SizedBox.shrink(),
                             ),
-                            CustomSizedBox.space12W,
-                            Text(
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Text(
                               sort.name ?? '',
                               style: AppTheme.textStyleMediumCustomBlack12,
-                            )
-                          ],
-                        ),
-                        const Divider(
-                          color: Color(0xffF3F3F3),
-                          thickness: 1,
-                          height: 1,
-                        )
-                      ],
-                    ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const Divider(
+                        color: Color(0xffF3F3F3),
+                        thickness: 1,
+                        height: 1,
+                      )
+                    ],
                   );
                 },
               ),
@@ -723,7 +723,7 @@ class FilterAttributeWidget extends StatelessWidget {
                                                           HomeApiController.to.update();
                                                           HomeApiController.to.categoryList.refresh();
                                                           NavigationController.to.addAttribute.addAll({
-                                                            'Sub Category': category.subcategory!.where((element) => element.isChecked == true).map((e) => e.id ?? '').toList()
+                                                            'subcategory': category.subcategory!.where((element) => element.isChecked == true).map((e) => e.id ?? '').toList()
                                                           });
                                                         },
                                                         child: CustomCheckboxWidget(
@@ -768,7 +768,7 @@ class FilterAttributeWidget extends StatelessWidget {
                                                                         HomeApiController.to.update();
                                                                         HomeApiController.to.categoryList.refresh();
                                                                         NavigationController.to.addAttribute.addAll({
-                                                                          'Child Category':
+                                                                          'child_category':
                                                                               category.subcategory!.where((element) => element.isChecked == true).map((e) => e.id ?? '').toList()
                                                                         });
                                                                       },

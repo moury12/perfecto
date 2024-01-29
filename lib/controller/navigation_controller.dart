@@ -1,15 +1,12 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
-import 'package:perfecto/main.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
 
-import '../DB/database_helper.dart';
 import '../constants/assets_constants.dart';
 
 class NavigationController extends GetxController {
@@ -103,7 +100,7 @@ class NavigationController extends GetxController {
         attributes: [],
       ),
       AttributeModel(
-        keyName: '',
+        keyName: 'average_rating',
         name: 'Avg Customer Rating',
         attributes: [],
       ),
@@ -143,12 +140,12 @@ class NavigationController extends GetxController {
         attributes: HomeApiController.to.benefitList,
       ),
       AttributeModel(
-        keyName: 'packSize',
+        keyName: 'pack_size',
         name: 'Pack Size',
         attributes: HomeApiController.to.packSizeList,
       ),
       AttributeModel(
-        keyName: 'skinType',
+        keyName: 'skin_type',
         name: 'Skin Type',
         attributes: HomeApiController.to.skinTypeList,
       ),
@@ -167,11 +164,11 @@ class NavigationController extends GetxController {
       SortModel(name: 'Relevance', isSelected: true),
       SortModel(
           name: 'Price - High to Low',
-          isSelected: true,
+
           keyName: 'sort_by_price'),
       SortModel(
           name: 'Price - Low to High',
-          isSelected: true,
+
           keyName: 'sort_by_price'),
     ];
   }
