@@ -125,17 +125,23 @@ class _BrandScreenState extends State<BrandScreen> {
                                 style: AppTheme.textStyleSemiBoldBlack16,
                               ),
                             ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8.0,
-                          ),
-                          child: Text(
-                            subData.name ?? '',
-                            style: AppTheme.textStyleMediumBlack14,
+                      GestureDetector(
+
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8.0,
+                            ),
+                            child: Text(
+                              subData.name ?? '',
+                              style: AppTheme.textStyleMediumBlack14,
+                            ),
                           ),
                         ),
+                        onTap: () {
+                          Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                        },
                       ),
                     ],
                   ),

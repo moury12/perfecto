@@ -395,88 +395,98 @@ class HomeTopWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       useSafeArea: true,
       builder: (BuildContext context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Row(
-                children: [
-                  const Text(
-                    'Sort By',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
+        return Obx(
+         () {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Sort By',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          CupertinoIcons.multiply,
+                          color: Colors.black54,
+                          size: 25,
+                        ),
+                      )
+                    ],
                   ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      CupertinoIcons.multiply,
-                      color: Colors.black54,
-                      size: 25,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: Color(0xffECECEC),
-              thickness: 1.5,
-              height: 1.5,
-            ),
-            ...List.generate(
-              3,
-              (index) => Padding(
-                padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+                const Divider(
+                  color: Color(0xffECECEC),
+                  thickness: 1.5,
+                  height: 1.5,
+                ),
+                ...List.generate(
+                 NavigationController.to.sortList.length,
+                  (index) {
+                   final sort=NavigationController.to.sortList[index];
+                   return Padding(
+                    padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        GestureDetector(onTap: () {
-                          NavigationController.to.checked.value = !NavigationController.to.checked.value;
-                        }, child: Obx(() {
-                          return Container(
-                            height: 18,
-                            width: 18,
-                            margin: const EdgeInsets.only(bottom: 16),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: NavigationController.to.checked.value ? AppColors.kPrimaryColor : const Color(0xffE7E7E7),
-                                border: Border.all(width: 0.5, color: AppColors.kPrimaryColor)),
-                            alignment: Alignment.center,
-                            child: NavigationController.to.checked.value
-                                ? const Icon(
-                                    Icons.check_rounded,
-                                    color: Colors.white,
-                                    size: 15,
-                                  )
-                                : const SizedBox.shrink(),
-                          );
-                        })),
-                        CustomSizedBox.space12W,
-                        const Text(
-                          'Relevance',
-                          style: AppTheme.textStyleMediumCustomBlack12,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(onTap: () {
+                              for(var sortList in NavigationController.to.sortList){
+                              sortList.isSelected =false;
+
+                              }
+                             sort.toggleSelected();
+                              NavigationController.to.update();
+                              NavigationController.to.sortList.refresh();
+                            }, child: Container(
+                                height: 18,
+                                width: 18,
+                                margin: const EdgeInsets.only(bottom: 16),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: sort.isSelected ? AppColors.kPrimaryColor : const Color(0xffE7E7E7),
+                                    border: Border.all(width: 0.5, color: AppColors.kPrimaryColor)),
+                                alignment: Alignment.center,
+                                child: sort.isSelected
+                                    ? const Icon(
+                                        Icons.check_rounded,
+                                        color: Colors.white,
+                                        size: 15,
+                                      )
+                                    : const SizedBox.shrink(),
+                              ), ),
+                            CustomSizedBox.space12W,
+                             Text(
+                              sort.name??'',
+                              style: AppTheme.textStyleMediumCustomBlack12,
+                            )
+                          ],
+                        ),
+                        const Divider(
+                          color: Color(0xffF3F3F3),
+                          thickness: 1,
+                          height: 1,
                         )
                       ],
                     ),
-                    const Divider(
-                      color: Color(0xffF3F3F3),
-                      thickness: 1,
-                      height: 1,
-                    )
-                  ],
+                  );},
                 ),
-              ),
-            ),
-            CustomSizedBox.space16H
-          ],
+                CustomSizedBox.space16H
+              ],
+            );
+          }
         );
       },
     );
