@@ -78,7 +78,10 @@ class _BrandScreenState extends State<BrandScreen> {
                     final popularBrand = HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').toList();
                     final brand = popularBrand[index];
                     return GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        await HomeApiController.to.productListWithCategoryCall({
+                          'brand': [brand.id!].toString(),
+                        });
                         Get.toNamed(SingleCatergoryWiseScreen.routeName);
                       },
                       child: Container(
@@ -125,13 +128,14 @@ class _BrandScreenState extends State<BrandScreen> {
                                 style: AppTheme.textStyleSemiBoldBlack16,
                               ),
                             ),
-                      GestureDetector(
-
-                        child: SizedBox(
+                      InkWell(
+                        child: Container(
+                          color: Colors.transparent,
                           width: double.infinity,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               vertical: 8.0,
+                              horizontal: 8.0,
                             ),
                             child: Text(
                               subData.name ?? '',
@@ -139,7 +143,10 @@ class _BrandScreenState extends State<BrandScreen> {
                             ),
                           ),
                         ),
-                        onTap: () {
+                        onTap: () async {
+                          await HomeApiController.to.productListWithCategoryCall({
+                            'brand': [subData.id!].toString(),
+                          });
                           Get.toNamed(SingleCatergoryWiseScreen.routeName);
                         },
                       ),

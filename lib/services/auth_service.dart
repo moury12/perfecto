@@ -16,7 +16,7 @@ class AuthService {
       );
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+      ServiceAPI.showAlert(response['data']);
     }
     return false;
   }

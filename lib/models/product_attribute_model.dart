@@ -49,6 +49,7 @@ class CategoryModel {
   String? id;
   String? name;
   String? image;
+  String? icon;
   String? status;
   String? parentId;
   String? createdAt;
@@ -57,12 +58,13 @@ class CategoryModel {
   bool? isChecked = false;
   List<CategoryModel>? subcategory;
 
-  CategoryModel({this.id, this.name, this.image, this.status, this.parentId, this.createdAt, this.updatedAt, this.isExpanded, this.isChecked, this.subcategory});
+  CategoryModel({this.id, this.name, this.image, this.icon, this.status, this.parentId, this.createdAt, this.updatedAt, this.isExpanded, this.isChecked, this.subcategory});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
     name = json['name'].toString() == 'null' ? '' : json['name'].toString();
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
+    icon = json['icon'].toString() == 'null' ? '' : json['icon'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
     parentId = json['parent_id'].toString() == 'null' ? '' : json['parent_id'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
@@ -82,6 +84,7 @@ class CategoryModel {
     data['id'] = id;
     data['name'] = name;
     data['image'] = image;
+    data['icon'] = icon;
     data['status'] = status;
     data['parent_id'] = parentId;
     data['created_at'] = createdAt;
@@ -143,6 +146,7 @@ class AttributeModel {
     isSelected = !isSelected; // Toggle isSelected
   }
 }
+
 class SortModel {
   String? name;
   String? keyName;

@@ -8,9 +8,37 @@ import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 import 'package:perfecto/services/home_service.dart';
+import 'package:perfecto/services/product_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/product_model.dart';
+
 class HomeApiController extends GetxController {
+  static HomeApiController get to => Get.find();
+  RxList<OutletModel> outletList = <OutletModel>[].obs;
+  RxList<ProductAttributeModel> colorList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> preferenceList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> formulationList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> finishList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> countryList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> genderList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> coverageList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> benefitList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> concernList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> skinTypeList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> ingredientList = <ProductAttributeModel>[].obs;
+  RxList<ProductAttributeModel> packSizeList = <ProductAttributeModel>[].obs;
+  RxList<BlogModel> blogList = <BlogModel>[].obs;
+  RxList<BrandModel> brandList = <BrandModel>[].obs;
+  RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
+
+  Rx<SingleBlogModel> singleBlog = SingleBlogModel().obs;
+  Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;
+  Rx<TermsConditionModel> privacyPolicyInfo = TermsConditionModel().obs;
+  Rx<TermsConditionModel> returnRefundInfo = TermsConditionModel().obs;
+
+  RxList<ProductModel> productList = <ProductModel>[].obs;
+
   @override
   void onInit() async {
     categoryListCall();
@@ -38,32 +66,10 @@ class HomeApiController extends GetxController {
     super.onInit();
   }
 
-  static HomeApiController get to => Get.find();
-  RxList<OutletModel> outletList = <OutletModel>[].obs;
-  RxList<ProductAttributeModel> colorList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> preferenceList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> formulationList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> finishList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> countryList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> genderList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> coverageList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> benefitList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> concernList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> skinTypeList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> ingredientList = <ProductAttributeModel>[].obs;
-  RxList<ProductAttributeModel> packSizeList = <ProductAttributeModel>[].obs;
-  RxList<BlogModel> blogList = <BlogModel>[].obs;
-  RxList<BrandModel> brandList = <BrandModel>[].obs;
-  RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
-
-  Rx<SingleBlogModel> singleBlog = SingleBlogModel().obs;
-  Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;
-  Rx<TermsConditionModel> privacyPolicyInfo = TermsConditionModel().obs;
-  Rx<TermsConditionModel> returnRefundInfo = TermsConditionModel().obs;
-
   Future<void> privacyPolicyCall() async {
     privacyPolicyInfo.value = await HomeService.privacyPolicyCall();
   }
+
   Future<void> returnRefundCall() async {
     returnRefundInfo.value = await HomeService.returnRefundCall();
   }
@@ -75,6 +81,7 @@ class HomeApiController extends GetxController {
   Future<void> blogListCall() async {
     blogList.value = await HomeService.blogCall();
   }
+
   Future<void> outletListCall() async {
     outletList.value = await HomeService.outletCall();
   }
@@ -82,6 +89,7 @@ class HomeApiController extends GetxController {
   Future<void> preferenceListCall() async {
     preferenceList.value = await HomeService.preferenceCall();
   }
+
   Future<void> colorListCall() async {
     colorList.value = await HomeService.colorCall();
   }
@@ -139,6 +147,13 @@ class HomeApiController extends GetxController {
     categoryList.value = await HomeService.categoryCall();
   }
 
+  Future<void> productListWithCategoryCall(dynamic body) async {
+    globalLogger.d(body, 'productListWithCategoryCall');
+    productList.clear();
+    productList.value = await ProductService.productListCallWithCategory(body);
+    globalLogger.d(productList, 'productList');
+  }
+
   Future<void> singleBlogListCall(String? blogId) async {
     singleBlog.value = await HomeService.singleBlogCall(blogId);
     globalLogger.d(singleBlog.value.title, 'singleBlogList.value.title');
@@ -154,6 +169,7 @@ class HomeApiController extends GetxController {
       }
     }
   }
+
   void openMap(double lat, double long) async {
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$long';
     if (await canLaunch(url)) {
@@ -162,6 +178,7 @@ class HomeApiController extends GetxController {
       throw 'Could not launch $url';
     }
   }
+
   Future<void> makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(
       scheme: 'tel',
@@ -169,5 +186,4 @@ class HomeApiController extends GetxController {
     );
     await launchUrl(launchUri);
   }
-
 }

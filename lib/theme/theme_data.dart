@@ -5,8 +5,7 @@ import '../constants/color_constants.dart';
 class AppTheme {
   final lightTheme = ThemeData(
     primaryColor: AppColors.kPrimaryColor,
-    colorScheme:
-        ColorScheme.fromSwatch().copyWith(secondary: AppColors.kAccentColor),
+    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: AppColors.kAccentColor),
     primarySwatch: AppColors.kPrimarySwatch,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: AppColors.kPrimaryColor,
@@ -18,11 +17,8 @@ class AppTheme {
   static const textStyleNormalBlack10 = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.normal,
-  );  static const textStyleBoldFadeBlack14 = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.bold,
-    color: Colors.black54
   );
+  static const textStyleBoldFadeBlack14 = TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54);
   static const textStyleNormalWhite10 = TextStyle(
     color: Colors.white,
     fontSize: 10,
@@ -41,7 +37,8 @@ class AppTheme {
   static const textStyleMediumBlack10 = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.w500,
-  );  static const textStyleMediumFadeBlack10 = TextStyle(
+  );
+  static const textStyleMediumFadeBlack10 = TextStyle(
     fontSize: 10,
     color: Colors.black54,
     fontWeight: FontWeight.w500,
@@ -65,8 +62,7 @@ class AppTheme {
     fontSize: 10,
     fontWeight: FontWeight.w600,
   );
-  static const textStyleSemiBoldfadeBlack12 = TextStyle(
-      fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black45);
+  static const textStyleSemiBoldfadeBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black45);
   static const textStyleSemiBoldWhite10 = TextStyle(
     color: Colors.white,
     fontSize: 10,
@@ -78,15 +74,11 @@ class AppTheme {
   );
 
   ///font 12
-  static const textStyleNormalBlack12 =
-      TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black);
-  static const textStyleNormalRed12 =
-      TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.red);
-  static const textStyleNormalFadeBlack12 = TextStyle(
-      fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54); static const textStyleNormalFadeBlack10 = TextStyle(
-      fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black54);
-  static const textStyleNormalFadeBlack14 = TextStyle(
-      fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black54);
+  static const textStyleNormalBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black);
+  static const textStyleNormalRed12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.red);
+  static const textStyleNormalFadeBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54);
+  static const textStyleNormalFadeBlack10 = TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black54);
+  static const textStyleNormalFadeBlack14 = TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black54);
   static const textStyleNormalWhite12 = TextStyle(
     color: Colors.white,
     fontSize: 12,
@@ -98,15 +90,8 @@ class AppTheme {
     fontSize: 30,
     fontWeight: FontWeight.w200,
   );
-  static const textStyleMediumBlack12 = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: Colors.black
-  ); static const textStyleMediumCustomBlack12 = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: Colors.black54
-  );
+  static const textStyleMediumBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black);
+  static const textStyleMediumCustomBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black54);
   static const textStyleMediumWhite12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
@@ -122,31 +107,18 @@ class AppTheme {
     fontWeight: FontWeight.w500,
     color: AppColors.kPrimaryColor,
   );
-  static const textStyleSemiBoldBlack12 = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w600,
-    color: Colors.black
-  );
+  static const textStyleSemiBoldBlack12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black);
   static const textStyleBoldBlack12 = TextStyle(
     fontSize: 12,
     color: Colors.black,
     fontWeight: FontWeight.bold,
   );
-  static const textStyleBoldBlackfade12 = TextStyle(
-      fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black38);
-  static const textStyleBoldPrimary12 = TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.bold,
-      color: AppColors.kDarkPrimaryColor);
-  static const textStyleBoldRed12 = TextStyle(
-      fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.kRedColor);
+  static const textStyleBoldBlackfade12 = TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black38);
+  static const textStyleBoldPrimary12 = TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.kDarkPrimaryColor);
+  static const textStyleBoldRed12 = TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.kRedColor);
 
   ///font 14
-  static const textStyleNormalBlack14 = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.normal,
-    color: Colors.black
-  );
+  static const textStyleNormalBlack14 = TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black);
   static const textStyleMediumBlack14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
@@ -161,21 +133,10 @@ class AppTheme {
     fontWeight: FontWeight.w500,
     color: AppColors.kPrimaryColor,
   );
-  static TextStyle textStyleSemiBoldBlack14 = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: Colors.black.withOpacity(.8));
-  static TextStyle textStyleSemiBoldFadeBlack14 = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: Colors.black.withOpacity(.5));static TextStyle textStyleSemiBoldlightFadeBlack14 = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: Colors.black.withOpacity(.7));
-  static TextStyle textStyleSemiBoldFadeDarkBlack14 = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: Colors.black.withOpacity(.8));
+  static TextStyle textStyleSemiBoldBlack14 = TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black.withOpacity(.8));
+  static TextStyle textStyleSemiBoldFadeBlack14 = TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black.withOpacity(.5));
+  static TextStyle textStyleSemiBoldlightFadeBlack14 = TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black.withOpacity(.7));
+  static TextStyle textStyleSemiBoldFadeDarkBlack14 = TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black.withOpacity(.8));
   static const textStyleSemiBoldWhite14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w600,
@@ -186,8 +147,7 @@ class AppTheme {
     fontWeight: FontWeight.w600,
     color: AppColors.kPrimaryColor,
   );
-  static const textStyleBoldBlack14 =
-      TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black);
+  static const textStyleBoldBlack14 = TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black);
   static const textStyleBoldWhite14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.bold,
@@ -207,7 +167,8 @@ class AppTheme {
   static const textStyleMediumBlack16 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
-  ); static  TextStyle textStyleMediumFadeBlack16 = TextStyle(
+  );
+  static TextStyle textStyleMediumFadeBlack16 = TextStyle(
     fontSize: 16,
     color: Colors.black.withOpacity(.7),
     fontWeight: FontWeight.w500,
@@ -221,10 +182,7 @@ class AppTheme {
     fontSize: 16,
     fontWeight: FontWeight.w600,
   );
-  static const textStyleSemiBoldPrimary16 = TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w600,
-      color: AppColors.kPrimaryColor);
+  static const textStyleSemiBoldPrimary16 = TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.kPrimaryColor);
   static const textStyleBoldBlack16 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
@@ -331,7 +289,8 @@ class AppTheme {
   static const textStyleSemiBoldBlack24 = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w600,
-  );static const textStyleSemiBoldBlack32 = TextStyle(
+  );
+  static const textStyleSemiBoldBlack32 = TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.w600,
   );
@@ -340,10 +299,7 @@ class AppTheme {
     fontSize: 24,
     fontWeight: FontWeight.w600,
   );
-  static const textStyleSemiBoldPrimary24 = TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
-      color: AppColors.kPrimaryColor);
+  static const textStyleSemiBoldPrimary24 = TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.kPrimaryColor);
   static const textStyleBoldBlack24 = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w400,

@@ -228,8 +228,12 @@ class DrawerMenuItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         Navigator.pop(context);
+
+        await HomeApiController.to.productListWithCategoryCall({
+          'category': [categoryModel.id!].toString(),
+        });
         Get.toNamed(SingleCatergoryWiseScreen.routeName);
         HomeApiController.to.categoryList.forEach((element) {
           element.isExpanded = false;
@@ -346,8 +350,12 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                onTap: () {
+                                onTap: () async {
                                   Navigator.pop(context);
+
+                                  await HomeApiController.to.productListWithCategoryCall({
+                                    'subcategory': [subCate.id!].toString(),
+                                  });
                                   Get.toNamed(SingleCatergoryWiseScreen.routeName);
                                   HomeApiController.to.categoryList.forEach((element) {
                                     element.isExpanded = false;
@@ -360,8 +368,12 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                         ...List.generate(subCate.subcategory!.length, (index) {
                                           final subCat = subCate.subcategory![index];
                                           return GestureDetector(
-                                            onTap: () {
+                                            onTap: () async {
                                               Navigator.pop(context);
+
+                                              await HomeApiController.to.productListWithCategoryCall({
+                                                'child_category': [subCat.id!].toString(),
+                                              });
                                               Get.toNamed(SingleCatergoryWiseScreen.routeName);
                                               HomeApiController.to.categoryList.forEach((element) {
                                                 element.isExpanded = false;

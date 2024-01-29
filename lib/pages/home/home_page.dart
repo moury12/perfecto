@@ -116,7 +116,10 @@ class HomeScreen extends StatelessWidget {
                   return Wrap(
                     children: HomeApiController.to.categoryList
                             .map((cat) => GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  await HomeApiController.to.productListWithCategoryCall({
+                                    'category': [cat.id!].toString(),
+                                  });
                                   Get.toNamed(SingleCatergoryWiseScreen.routeName);
                                 },
                                 child: Container(
@@ -127,7 +130,11 @@ class HomeScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(12),
                                   child: Column(
                                     children: [
-                                      CustomNetworkImage(networkImagePath: cat.image??'',height: 43,width: 42,errorImagePath: AssetsConstant.firstCategory1,
+                                      CustomNetworkImage(
+                                        networkImagePath: cat.icon ?? '',
+                                        height: 43,
+                                        width: 42,
+                                        errorImagePath: AssetsConstant.firstCategory1,
                                         border: NetworkImageBorder.Rectangle,
                                       ),
                                       CustomSizedBox.space8H,

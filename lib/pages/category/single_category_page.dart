@@ -6,6 +6,7 @@ import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 
+import '../../controller/home_api_controller.dart';
 import '../../controller/navigation_controller.dart';
 import '../../drawer/custom_drawer.dart';
 import 'widgets/single_category_product_widget.dart';
@@ -24,8 +25,7 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-
-        drawer: const CustomDrawer( ),
+        drawer: const CustomDrawer(),
         body: Obx(() {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,16 +41,12 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       shrinkWrap: true,
                       primary: false,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 200,
-                          mainAxisExtent: 380,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12),
-                      itemCount: CategoryController.to.categoryWiseITem.length,
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                      itemCount: HomeApiController.to.productList.length,
                       itemBuilder: (context, index) {
-                        final data =
-                            CategoryController.to.categoryWiseITem[index];
+                        final data = CategoryController.to.categoryWiseITem[index];
                         return SingleCategoryProductWidget(
+                          product: HomeApiController.to.productList[index],
                           name: data['name'],
                           rating: data['rating'],
                           img: data['img'],
@@ -69,15 +65,12 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
                           onTap: () {
                             print(data['isFavourite']);
                             data['isFavourite'] = !data['isFavourite'];
-                            CategoryController.to.categoryWiseITem[index] =
-                                data;
+                            CategoryController.to.categoryWiseITem[index] = data;
                           },
                         );
                       },
                     ),
-                    SizedBox(
-                      height: 60,
-                    )
+                    CustomSizedBox.space8H,
                   ],
                 ),
               ))

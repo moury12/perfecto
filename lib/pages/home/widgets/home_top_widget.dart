@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -468,7 +467,6 @@ class HomeTopWidget extends StatelessWidget {
                                   : const SizedBox.shrink(),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: Text(
@@ -724,9 +722,8 @@ class FilterAttributeWidget extends StatelessWidget {
                                                           category.subcategory![index].isChecked = !category.subcategory![index].isChecked!;
                                                           HomeApiController.to.update();
                                                           HomeApiController.to.categoryList.refresh();
-                                                          NavigationController.to.addAttribute.addAll({
-                                                            'subcategory': category.subcategory!.where((element) => element.isChecked == true).map((e) => e.id ?? '').toList()
-                                                          });
+                                                          NavigationController.to.addAttribute.addAll(
+                                                              {'subcategory': category.subcategory!.where((element) => element.isChecked == true).map((e) => e.id ?? '').toList()});
                                                         },
                                                         child: CustomCheckboxWidget(
                                                           check: category.subcategory![index].isChecked ?? false,
@@ -945,6 +942,9 @@ class PrimaryAcceantListViewItemWidget extends StatelessWidget {
               const Spacer(),
               GestureDetector(
                 onTap: () {
+                  // await HomeApiController.to.productListWithCategoryCall({
+                  //   'category': [category.id!].toString(),
+                  // });
                   Get.toNamed(SingleCatergoryWiseScreen.routeName);
                 },
                 child: const Padding(
