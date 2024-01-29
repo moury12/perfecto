@@ -34,6 +34,7 @@ class HomeService {
     }
     return preference;
   }
+
   static Future<List<ProductAttributeModel>> colorCall() async {
     List<ProductAttributeModel> color = [];
     final response = await ServiceAPI.genericCall(
@@ -243,8 +244,6 @@ class HomeService {
     return singleBlog;
   }
 
-
-
   static Future<bool> addBlogComment(dynamic body) async {
     final response = await ServiceAPI.genericCall(
         url: '${ServiceAPI.apiUrl}blogs/add-comment',
@@ -272,6 +271,8 @@ class HomeService {
     }
     return termsModel;
   }
+
+
   static Future<TermsConditionModel> privacyPolicyCall() async {
     TermsConditionModel privacyModel = TermsConditionModel();
     final response = await ServiceAPI.genericCall(
@@ -284,6 +285,7 @@ class HomeService {
     }
     return privacyModel;
   }
+
   static Future<TermsConditionModel> returnRefundCall() async {
     TermsConditionModel returnModel = TermsConditionModel();
     final response = await ServiceAPI.genericCall(
