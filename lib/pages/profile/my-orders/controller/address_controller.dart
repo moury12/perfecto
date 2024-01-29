@@ -117,13 +117,13 @@ class AddressController extends GetxController {
   Future<bool> updateAddressRequest(
       {String? name, String? phone, String? email, String? districtId, String? cityId, String? address, String? status, String? addressId, bool fromEdit = true}) async {
     final isCreated = await UserService.updateAddress({
-      if (name != null) "name": name!,
-      if (phone != null) "phone": phone!,
-      if (districtId != null) "district_id": districtId!,
-      if (cityId != null) "city_id": cityId!,
-      if (address != null) "address": address!,
-      if (status != null) "status": status!,
-      if (email != null) "email": email!,
+      if (name != null) "name": name,
+      if (phone != null) "phone": phone,
+      if (districtId != null) "district_id": districtId,
+      if (cityId != null) "city_id": cityId,
+      if (address != null) "address": address,
+      if (status != null) "status": status,
+      if (email != null) "email": email,
     }, addressId!);
     if (isCreated) {
       if (fromEdit) {

@@ -684,9 +684,16 @@ class FilterAttributeWidget extends StatelessWidget {
                                     ),
                                     CustomSizedBox.space12W,
                                     Expanded(
-                                      child: Text(
-                                        category.name ?? '',
-                                        style: AppTheme.textStyleMediumCustomBlack12,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            category.name ?? '',
+                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                          ),Text(
+                                           '${ (category.productsCount ?? '0')}',
+                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     GestureDetector(
@@ -842,7 +849,10 @@ class FilterAttributeWidget extends StatelessWidget {
                                     Text(
                                       data.name ?? '',
                                       style: AppTheme.textStyleMediumCustomBlack12,
-                                    )
+                                    ), Text(
+                                      ' (${data.productsCount ?? '0'})',
+                                      style: AppTheme.textStyleMediumCustomBlack12,
+                                    ),
                                   ],
                                 ),
                               );
@@ -877,7 +887,10 @@ class FilterAttributeWidget extends StatelessWidget {
                                   Text(
                                     data.name ?? '',
                                     style: AppTheme.textStyleMediumCustomBlack12,
-                                  )
+                                  ),Text(
+                                    ' (${data.productsCount ?? '0'})',
+                                    style: AppTheme.textStyleMediumCustomBlack12,
+                                  ),
                                 ],
                               ),
                             );

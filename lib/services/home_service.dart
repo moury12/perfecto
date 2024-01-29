@@ -5,6 +5,9 @@ import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
+import 'package:perfecto/models/shade_model.dart';
+import 'package:perfecto/models/shade_model.dart';
+import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 
 class HomeService {
@@ -312,6 +315,44 @@ class HomeService {
     }
   }
 
+  static Future<List<SizeModel>> sizeCall() async {
+    try {
+      List<SizeModel> sizeList = [];
+      final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}product/unit', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "Size route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          sizeList.add(SizeModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return sizeList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  static Future<List<ShadeModel>> shadeCall() async {
+    try {
+      List<ShadeModel> shadeList = [];
+      final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}product/shade?color_id=2', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "shade route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          shadeList.add(ShadeModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return shadeList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
   static Future<SingleBlogModel> singleBlogCall(String? blogId) async {
     try {
       SingleBlogModel singleBlog = SingleBlogModel();
@@ -334,7 +375,24 @@ class HomeService {
     try {
       final response =
           await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}blogs/add-comment', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+
       globalLogger.d(response, "blog comment Route");
+      if (response['status'] != null && response['status']) {
+        return response['status'];
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return false;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return false; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  static Future<bool> addCuponCode(dynamic body) async {
+    try {
+      final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}coupon', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+      globalLogger.d(response, "coupon Route");
       if (response['status'] != null && response['status']) {
         return response['status'];
       } else if (response['status'] != null && !response['status']) {

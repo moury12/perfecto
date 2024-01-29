@@ -140,6 +140,10 @@ class NavigationController extends GetxController {
         attributes: HomeApiController.to.benefitList,
       ),
       AttributeModel(
+        keyName: 'ingredient',
+        name: 'Ingredient',
+        attributes: HomeApiController.to.ingredientList,
+      ), AttributeModel(
         keyName: 'pack_size',
         name: 'Pack Size',
         attributes: HomeApiController.to.packSizeList,

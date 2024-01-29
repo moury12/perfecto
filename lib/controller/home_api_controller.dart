@@ -6,6 +6,7 @@ import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
+import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 import 'package:perfecto/services/home_service.dart';
 import 'package:perfecto/services/product_services.dart';
@@ -39,6 +40,8 @@ class HomeApiController extends GetxController {
 
   RxList<ProductModel> productList = <ProductModel>[].obs;
 
+  RxList<SizeModel> sizeList = <SizeModel>[].obs;
+  RxList<ShadeModel> shadeList = <ShadeModel>[].obs;
   @override
   void onInit() async {
     categoryListCall();
@@ -60,6 +63,8 @@ class HomeApiController extends GetxController {
     await returnRefundCall();
     await colorListCall();
     await outletListCall();
+    await shadeListCall();
+    await sizeListCall();
 
     NavigationController.to.attributeListCall();
 
@@ -134,6 +139,14 @@ class HomeApiController extends GetxController {
     packSizeList.value = await HomeService.packSizeCall();
   }
 
+  Future<void> sizeListCall() async {
+    sizeList.value = await HomeService.sizeCall();
+  }
+
+  Future<void> shadeListCall() async {
+    shadeList.value = await HomeService.shadeCall();
+  }
+
   Future<void> brandListCall() async {
     final List<BrandModel> data = await HomeService.brandCall();
     data.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
@@ -157,6 +170,18 @@ class HomeApiController extends GetxController {
   Future<void> singleBlogListCall(String? blogId) async {
     singleBlog.value = await HomeService.singleBlogCall(blogId);
     globalLogger.d(singleBlog.value.title, 'singleBlogList.value.title');
+  }
+
+  Future<bool> addCouponCode(String couponCode) async {
+    final isCreated = await HomeService.addCuponCode({'coupon_code': couponCode});
+    if (isCreated) {
+      showSnackBar(
+        msg: 'Coupon Added successfully.',
+      );
+      Get.back();
+      // afterLogin(isCreated);
+    }
+    return isCreated;
   }
 
   void _addSuspensionTag(List<BrandModel> list) {
