@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -399,30 +398,33 @@ class HomeTopWidget extends StatelessWidget {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Row(
-                  children: [
-                    const Text(
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
                       'Sort By',
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Icon(
                         CupertinoIcons.multiply,
                         color: Colors.black54,
                         size: 25,
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
               const Divider(
                 color: Color(0xffECECEC),
@@ -696,8 +698,8 @@ class FilterAttributeWidget extends StatelessWidget {
                                         HomeApiController.to.update();
                                         HomeApiController.to.categoryList.refresh();
                                       },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(10.0),
                                         child: Icon(
                                           Icons.keyboard_arrow_right_sharp,
                                           color: AppColors.kPrimaryColor,
@@ -743,8 +745,8 @@ class FilterAttributeWidget extends StatelessWidget {
                                                           HomeApiController.to.update();
                                                           HomeApiController.to.categoryList.refresh();
                                                         },
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(10.0),
+                                                        child: const Padding(
+                                                          padding: EdgeInsets.all(10.0),
                                                           child: Icon(
                                                             Icons.keyboard_arrow_right_sharp,
                                                             color: AppColors.kPrimaryColor,
@@ -787,8 +789,8 @@ class FilterAttributeWidget extends StatelessWidget {
                                                                         HomeApiController.to.update();
                                                                         HomeApiController.to.categoryList.refresh();
                                                                       },
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.all(10.0),
+                                                                      child: const Padding(
+                                                                        padding: EdgeInsets.all(10.0),
                                                                         child: Icon(
                                                                           Icons.keyboard_arrow_right_sharp,
                                                                           color: AppColors.kPrimaryColor,
