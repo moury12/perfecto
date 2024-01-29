@@ -395,46 +395,45 @@ class HomeTopWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       useSafeArea: true,
       builder: (BuildContext context) {
-        return Obx(
-         () {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Sort By',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
+        return Obx(() {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Sort By',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
                       ),
-                      const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          CupertinoIcons.multiply,
-                          color: Colors.black54,
-                          size: 25,
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        CupertinoIcons.multiply,
+                        color: Colors.black54,
+                        size: 25,
+                      ),
+                    )
+                  ],
                 ),
-                const Divider(
-                  color: Color(0xffECECEC),
-                  thickness: 1.5,
-                  height: 1.5,
-                ),
-                ...List.generate(
-                 NavigationController.to.sortList.length,
-                  (index) {
-                   final sort=NavigationController.to.sortList[index];
-                   return Padding(
+              ),
+              const Divider(
+                color: Color(0xffECECEC),
+                thickness: 1.5,
+                height: 1.5,
+              ),
+              ...List.generate(
+                NavigationController.to.sortList.length,
+                (index) {
+                  final sort = NavigationController.to.sortList[index];
+                  return Padding(
                     padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -442,15 +441,16 @@ class HomeTopWidget extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GestureDetector(onTap: () {
-                              for(var sortList in NavigationController.to.sortList){
-                              sortList.isSelected =false;
-
-                              }
-                             sort.toggleSelected();
-                              NavigationController.to.update();
-                              NavigationController.to.sortList.refresh();
-                            }, child: Container(
+                            GestureDetector(
+                              onTap: () {
+                                for (var sortList in NavigationController.to.sortList) {
+                                  sortList.isSelected = false;
+                                }
+                                sort.toggleSelected();
+                                NavigationController.to.update();
+                                NavigationController.to.sortList.refresh();
+                              },
+                              child: Container(
                                 height: 18,
                                 width: 18,
                                 margin: const EdgeInsets.only(bottom: 16),
@@ -466,10 +466,11 @@ class HomeTopWidget extends StatelessWidget {
                                         size: 15,
                                       )
                                     : const SizedBox.shrink(),
-                              ), ),
+                              ),
+                            ),
                             CustomSizedBox.space12W,
-                             Text(
-                              sort.name??'',
+                            Text(
+                              sort.name ?? '',
                               style: AppTheme.textStyleMediumCustomBlack12,
                             )
                           ],
@@ -481,13 +482,13 @@ class HomeTopWidget extends StatelessWidget {
                         )
                       ],
                     ),
-                  );},
-                ),
-                CustomSizedBox.space16H
-              ],
-            );
-          }
-        );
+                  );
+                },
+              ),
+              CustomSizedBox.space16H
+            ],
+          );
+        });
       },
     );
   }

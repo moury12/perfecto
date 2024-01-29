@@ -60,7 +60,15 @@ class SingleCategoryProductWidget extends StatelessWidget {
           Container(
             width: 200,
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: AppColors.kDarkPrimaryColor.withOpacity(.10), blurRadius: 8)]),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.kDarkPrimaryColor.withOpacity(.10),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
             child: Column(
               children: [
                 ClipRRect(
@@ -209,7 +217,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                       CustomButton(
                         label: buttonText,
                         marginHorizontal: 8,
-                        marginVertical: 4,
+                        marginVertical: 8,
                         height: 39,
                         primary: isOutofStock ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
                         width: 140,
