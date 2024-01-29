@@ -79,10 +79,11 @@ class UserService {
     }
     return false;
   }
-  static Future<bool> addToReview(dynamic body) async {
+  static Future<bool> addToReview(dynamic body,List<Map<String, dynamic>>? imageList) async {
     final response = await ServiceAPI.genericCall(
         url: '${ServiceAPI.apiUrl}product-review',
         httpMethod: HttpMethod.multipartFilePost,
+        multipleImageListWithKeyValue:imageList ,
         allInfoField: body,
         isLoadingEnable: true);
     globalLogger.d(response, "add product review Route");

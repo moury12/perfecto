@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/user_model.dart';
+import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/services/user_service.dart';
 
 class UserController extends GetxController {
@@ -83,16 +84,22 @@ class UserController extends GetxController {
     String title,
     String comment,
     String star,
-    List<String> images,
-  ) async {
-    final isCreated = await UserService.addNewAddress({
+
+  ) async {final List<Map<String, dynamic>> imageList = [];
+  if (ProductDetailsController.to.imageList.isNotEmpty) {
+    imageList.add({
+      "key": "images",
+      "value": ProductDetailsController.to.imageList,
+    });
+  }
+    final isCreated = await UserService.addToReview({
       'product_id': productId,
       'order_id': orderId,
       'title': title,
       'comment': comment,
       'star': star,
-      'images': images
-    });
+
+    },imageList);
     if (isCreated) {
       showSnackBar(
         msg: 'your review is added',

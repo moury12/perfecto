@@ -5,13 +5,17 @@ import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
+import 'package:perfecto/models/shade_model.dart';
+import 'package:perfecto/models/shade_model.dart';
+import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 
 class HomeService {
   static Future<List<BlogModel>> blogCall() async {
     try {
       List<BlogModel> blogList = [];
-      final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}blogs', httpMethod: HttpMethod.get);
+      final response = await ServiceAPI.genericCall(
+          url: '${ServiceAPI.apiUrl}blogs', httpMethod: HttpMethod.get);
       globalLogger.d(response, "blog route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
@@ -28,7 +32,7 @@ class HomeService {
   }
 
   static Future<List<ProductAttributeModel>> preferenceCall() async {
-   try {
+    try {
       List<ProductAttributeModel> preference = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}preference', httpMethod: HttpMethod.get);
@@ -41,13 +45,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return preference;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return []; // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
+
   static Future<List<OutletModel>> outletCall() async {
-   try {
+    try {
       List<OutletModel> outletList = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}get-outlet', httpMethod: HttpMethod.get);
@@ -60,14 +65,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return outletList;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return []; // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<List<ProductAttributeModel>> colorCall() async {
-   try {
+    try {
       List<ProductAttributeModel> color = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}product/color', httpMethod: HttpMethod.get);
@@ -80,14 +85,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return color;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return []; // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<List<ProductAttributeModel>> formulationCall() async {
-   try {
+    try {
       List<ProductAttributeModel> formulation = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}formulation', httpMethod: HttpMethod.get);
@@ -100,15 +105,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return formulation;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
     }
-   catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return []; // Return an empty list or handle the error accordingly
-   }
   }
 
   static Future<List<ProductAttributeModel>> finishCall() async {
-   try {
+    try {
       List<ProductAttributeModel> finish = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}finish', httpMethod: HttpMethod.get);
@@ -121,14 +125,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return finish;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return []; // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<List<ProductAttributeModel>> countryCall() async {
-    try{
+    try {
       List<ProductAttributeModel> country = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}country', httpMethod: HttpMethod.get);
@@ -141,14 +145,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return country;
-    }catch (e) {
+    } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly
     }
   }
 
   static Future<List<ProductAttributeModel>> genderCall() async {
-    try{
+    try {
       List<ProductAttributeModel> gender = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}gender', httpMethod: HttpMethod.get);
@@ -161,14 +165,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return gender;
-    }catch (e) {
+    } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly
     }
   }
 
   static Future<List<ProductAttributeModel>> coverageCall() async {
-    try{
+    try {
       List<ProductAttributeModel> coverage = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}coverage', httpMethod: HttpMethod.get);
@@ -181,14 +185,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return coverage;
-    }catch (e) {
+    } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly
     }
   }
 
   static Future<List<ProductAttributeModel>> benefitCall() async {
-  try  {
+    try {
       List<ProductAttributeModel> benefit = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}benefit', httpMethod: HttpMethod.get);
@@ -201,14 +205,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return benefit;
-    }catch (e) {
-    globalLogger.e("Error occurred in Call: $e");
-    return []; // Return an empty list or handle the error accordingly
-  }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<List<ProductAttributeModel>> concernCall() async {
-   try {
+    try {
       List<ProductAttributeModel> concern = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}concern', httpMethod: HttpMethod.get);
@@ -221,14 +225,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return concern;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return []; // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<List<ProductAttributeModel>> ingredientCall() async {
-  try  {
+    try {
       List<ProductAttributeModel> ingredient = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}ingredient', httpMethod: HttpMethod.get);
@@ -241,14 +245,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return ingredient;
-    }catch (e) {
-    globalLogger.e("Error occurred in Call: $e");
-    return []; // Return an empty list or handle the error accordingly
-  }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<List<ProductAttributeModel>> packSizeCall() async {
-   try {
+    try {
       List<ProductAttributeModel> packSize = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}pack-size', httpMethod: HttpMethod.get);
@@ -261,14 +265,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return packSize;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return []; // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<List<ProductAttributeModel>> skinTypeCall() async {
-    try{
+    try {
       List<ProductAttributeModel> skinType = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}skin-type', httpMethod: HttpMethod.get);
@@ -281,14 +285,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return skinType;
-    }catch (e) {
+    } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly
     }
   }
 
   static Future<List<BrandModel>> brandCall() async {
-   try {
+    try {
       List<BrandModel> brandList = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}brand', httpMethod: HttpMethod.get);
@@ -301,14 +305,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return brandList;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return []; // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<List<CategoryModel>> categoryCall() async {
-    try{
+    try {
       List<CategoryModel> categoryList = [];
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}category', httpMethod: HttpMethod.get);
@@ -321,14 +325,55 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return categoryList;
-    }catch (e) {
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  static Future<List<SizeModel>> sizeCall() async {
+    try {
+      List<SizeModel> sizeList = [];
+      final response = await ServiceAPI.genericCall(
+          url: '${ServiceAPI.apiUrl}product/unit', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "Size route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          sizeList.add(SizeModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return sizeList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  static Future<List<ShadeModel>> shadeCall() async {
+    try {
+      List<ShadeModel> shadeList = [];
+      final response = await ServiceAPI.genericCall(
+          url: '${ServiceAPI.apiUrl}product/shade?color_id=2',
+          httpMethod: HttpMethod.get);
+      globalLogger.d(response, "shade route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          shadeList.add(ShadeModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return shadeList;
+    } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly
     }
   }
 
   static Future<SingleBlogModel> singleBlogCall(String? blogId) async {
-   try {
+    try {
       SingleBlogModel singleBlog = SingleBlogModel();
 
       final response = await ServiceAPI.genericCall(
@@ -340,14 +385,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return singleBlog;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return SingleBlogModel(); // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return SingleBlogModel(); // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<bool> addBlogComment(dynamic body) async {
-    try{
+    try {
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}blogs/add-comment',
           httpMethod: HttpMethod.multipartFilePost,
@@ -360,14 +405,33 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return false;
-    }catch (e) {
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return false; // Return an empty list or handle the error accordingly
+    }
+  }
+  static Future<bool> addCuponCode(dynamic body) async {
+    try {
+      final response = await ServiceAPI.genericCall(
+          url: '${ServiceAPI.apiUrl}coupon',
+          httpMethod: HttpMethod.multipartFilePost,
+          allInfoField: body,
+          isLoadingEnable: true);
+      globalLogger.d(response, "coupon Route");
+      if (response['status'] != null && response['status']) {
+        return response['status'];
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return false;
+    } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return false; // Return an empty list or handle the error accordingly
     }
   }
 
   static Future<TermsConditionModel> termsConditionCall() async {
-    try{
+    try {
       TermsConditionModel termsModel = TermsConditionModel();
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}termcondition', httpMethod: HttpMethod.get);
@@ -378,14 +442,14 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return termsModel;
-    }catch (e) {
+    } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return TermsConditionModel(); // Return an empty list or handle the error accordingly
     }
   }
 
   static Future<TermsConditionModel> privacyPolicyCall() async {
-   try {
+    try {
       TermsConditionModel privacyModel = TermsConditionModel();
       final response = await ServiceAPI.genericCall(
           url: '${ServiceAPI.apiUrl}privacypolicy', httpMethod: HttpMethod.get);
@@ -396,16 +460,17 @@ class HomeService {
         ServiceAPI.showAlert(response['message']);
       }
       return privacyModel;
-    }catch (e) {
-     globalLogger.e("Error occurred in Call: $e");
-     return TermsConditionModel(); // Return an empty list or handle the error accordingly
-   }
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return TermsConditionModel(); // Return an empty list or handle the error accordingly
+    }
   }
 
   static Future<TermsConditionModel> returnRefundCall() async {
     try {
       TermsConditionModel returnModel = TermsConditionModel();
-      final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}returnrefund', httpMethod: HttpMethod.get);
+      final response = await ServiceAPI.genericCall(
+          url: '${ServiceAPI.apiUrl}returnrefund', httpMethod: HttpMethod.get);
       globalLogger.d(response, "return refund route");
       if (response['status'] != null && response['status']) {
         returnModel = TermsConditionModel.fromJson(response['data']);

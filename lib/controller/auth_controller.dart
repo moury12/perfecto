@@ -264,7 +264,7 @@ class AuthController extends GetxController {
     });
     if (isVerified) {
       showSnackBar(msg: 'New password reset successfully!');
-      Get.offAllNamed(LoginScreen.routeName);
+      Get.back();
     }
   }
 
