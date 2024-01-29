@@ -82,18 +82,18 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star_rate_rounded,
                               color: AppColors.kOfferButtonColor,
                               size: 15,
                             ),
                             RichText(
                                 text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                              TextSpan(
+                              const TextSpan(
                                 text: '4.4',
                                 style: AppTheme.textStyleBoldBlack10,
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text: ' | ',
                                 style: AppTheme.textStyleNormalFadeBlack12,
                               ),
@@ -104,7 +104,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                             ])),
                           ],
                         )),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 6.0),
                       child: Row(
@@ -114,7 +114,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                             height: 13,
                           ),
                           CustomSizedBox.space4W,
-                          Text(
+                          const Text(
                             '+30 shades',
                             style: TextStyle(color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
                           )
@@ -123,62 +123,76 @@ class SingleCategoryProductWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    name,
-                    style: AppTheme.textStyleBoldBlack12,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          name,
+                          style: AppTheme.textStyleBoldBlack12,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const Text(
+                        '30ml',
+                        style: AppTheme.textStyleNormalBlack12,
+                      ),
+                      CustomSizedBox.space4H,
+                      isOnSale
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                                  decoration:
+                                      BoxDecoration(color: isBuy1Get1 ? AppColors.kOfferButtonColor : AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
+                                  child: Text(isBuy1Get1 ? 'Buy 1 Get 1' : 'Free Delivery', style: AppTheme.textStyleBoldWhite10)),
+                            )
+                          : const SizedBox(
+                              height: 27,
+                            ),
+                      RichText(
+                        text: TextSpan(
+                          text: '',
+                          style: AppTheme.textStyleBoldBlack14,
+                          children: [
+                            TextSpan(
+                              text: '৳ 550  ',
+                              style: AppTheme.textStyleBoldBlack14,
+                              children: isDiscount
+                                  ? [
+                                      const TextSpan(
+                                        text: '৳550',
+                                        style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
+                                      ),
+                                      const TextSpan(
+                                        text: ' | ',
+                                        style: AppTheme.textStyleNormalBlack12,
+                                      ),
+                                      const TextSpan(
+                                        text: '(-25% Off)',
+                                        style: TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.bold),
+                                      )
+                                    ]
+                                  : [],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  '30ml',
-                  style: AppTheme.textStyleNormalBlack12,
-                ),
-                CustomSizedBox.space4H,
-                isOnSale
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-                        child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                            decoration: BoxDecoration(color: isBuy1Get1 ? AppColors.kOfferButtonColor : AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
-                            child: Text(isBuy1Get1 ? 'Buy 1 Get 1' : 'Free Delivery', style: AppTheme.textStyleBoldWhite10)),
-                      )
-                    : SizedBox(
-                        height: 27,
-                      ),
-                RichText(
-                    text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                  TextSpan(
-                      text: '৳ 550  ',
-                      style: AppTheme.textStyleBoldBlack14,
-                      children: isDiscount
-                          ? [
-                              TextSpan(
-                                text: '৳550',
-                                style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
-                              ),
-                              TextSpan(
-                                text: ' | ',
-                                style: AppTheme.textStyleNormalBlack12,
-                              ),
-                              TextSpan(
-                                text: '(-25% Off)',
-                                style: const TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.bold),
-                              )
-                            ]
-                          : []),
-                ])),
                 FittedBox(
                   child: Row(
                     children: [
                       GestureDetector(
                         onTap: onTap,
                         child: Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.only(left: 8),
+                          padding: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.only(left: 8),
                           decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: .5), borderRadius: BorderRadius.circular(4)),
                           height: 38,
                           child: isFavourite
@@ -201,7 +215,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         width: 140,
                         onPressed: buttonText == 'ADD TO BAG'
                             ? () {
-                                var snackBar = SnackBar(content: Text('Add to Cart successfully'));
+                                var snackBar = const SnackBar(content: Text('Add to Cart successfully'));
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               }
                             : isOutofStock
@@ -258,10 +272,10 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                   style: TextStyle(color: Color(0xff1713DF), fontSize: 10),
                                 ),
                               )
-                            : SizedBox.shrink()
+                            : const SizedBox.shrink()
                       ],
                     )
-              : SizedBox.shrink()
+              : const SizedBox.shrink()
         ],
       ),
     );
