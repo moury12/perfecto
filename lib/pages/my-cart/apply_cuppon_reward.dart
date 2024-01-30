@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/pages/my-cart/cart_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 
@@ -88,7 +90,13 @@ class ApplyCupponRewardScreen extends StatelessWidget {
                           label: data == 'coupon'
                               ? 'Apply Coupon Code'
                               : 'Redeem Points',
-                          onPressed: () {},
+                          onPressed: () {
+                            if(CartController.to.couponController.text.isNotEmpty){
+                              HomeApiController.to.addCouponCode(CartController.to.couponController.text);
+                            }else{
+                              showSnackBar(msg: 'Please Enter coupon code!');
+                            }
+                          },
                           marginHorizontal: 0,
                           marginVertical: 12,
                         )

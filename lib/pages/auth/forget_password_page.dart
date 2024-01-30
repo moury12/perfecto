@@ -164,7 +164,8 @@ focusNode: AuthController.to.emailForgetPassFocusNode,
                           .text.isNotEmpty){
 AuthController.to.verifyEmailForgetPassword(AuthController.to.otpForgetPassController.text);
 AuthController.to.emailControllerForgetPass.clear();
-AuthController.to.otpForgetPassController.clear();}
+AuthController.to.otpForgetPassController.clear();
+AuthController.to.isVerifyEmail.value=false;}
                       else{
                         if(AuthController.to.emailControllerForgetPass.text.isEmpty){
                           AuthController.to.errorForgetPassEmail.value='Enter '
