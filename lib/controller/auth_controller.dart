@@ -85,6 +85,7 @@ class AuthController extends GetxController {
     globalLogger.d(loginUser);
     isLoggedIn.value = loginUser.isNotEmpty;
     if (isLoggedIn.value) {
+      callBack401Func = logoutFunc;
       final user =
           await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
 
@@ -121,7 +122,7 @@ class AuthController extends GetxController {
     super.onClose();
   }
 
-  logoutFunc() {
+  Future<void> logoutFunc() async {
     _delete();
     Get.delete<UserController>(force: true);
     ServiceAPI.setAuthToken('');

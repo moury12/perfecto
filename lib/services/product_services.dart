@@ -6,7 +6,12 @@ class ProductService {
   static Future<List<ProductModel>> productListCallWithCategory(dynamic body) async {
     try {
       List<ProductModel> productList = [];
-      final response = await ServiceAPI.genericCall(url: '${ServiceAPI.apiUrl}products', httpMethod: HttpMethod.multipartFilePost, allInfoField: body);
+      final response = await ServiceAPI.genericCall(
+        url: '${ServiceAPI.apiUrl}products',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: body,
+        // defaultErrorMsgShow: false,
+      );
       globalLogger.d(response, "Category Product Route");
       if (response['status'] != null && response['status']) {
         response['data']['products']['data'].forEach((dis) {

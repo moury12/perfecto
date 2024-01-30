@@ -89,9 +89,9 @@ class SingleCategoryProductWidget extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(left: 8),
                       padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(0xffFFF2D9),
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: Row(
                         children: [
