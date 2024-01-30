@@ -690,7 +690,7 @@ class FilterAttributeWidget extends StatelessWidget {
                                             category.name ?? '',
                                             style: AppTheme.textStyleMediumCustomBlack12,
                                           ),Text(
-                                           '${ (category.productsCount ?? '0')}',
+                                           ' (${ category.productsCount ?? '0'})',
                                             style: AppTheme.textStyleMediumCustomBlack12,
                                           ),
                                         ],
@@ -738,9 +738,16 @@ class FilterAttributeWidget extends StatelessWidget {
                                                       ),
                                                       CustomSizedBox.space12W,
                                                       Expanded(
-                                                        child: Text(
-                                                          category.subcategory![index].name ?? '',
-                                                          style: AppTheme.textStyleMediumCustomBlack12,
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              category.subcategory![index].name ?? '',
+                                                              style: AppTheme.textStyleMediumCustomBlack12,
+                                                            ), Text(
+                                                              ' (${category.subcategory![index].productsCount ?? ''})',
+                                                              style: AppTheme.textStyleMediumCustomBlack12,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                       GestureDetector(
@@ -782,9 +789,16 @@ class FilterAttributeWidget extends StatelessWidget {
                                                                     ),
                                                                     CustomSizedBox.space12W,
                                                                     Expanded(
-                                                                      child: Text(
-                                                                        child.name ?? '',
-                                                                        style: AppTheme.textStyleMediumCustomBlack12,
+                                                                      child: Wrap(
+                                                                        children: [
+                                                                          Text(
+                                                                            child.name ?? '',
+                                                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                                                          ),Text(
+                                                                            ' (${child.productsCount ?? ''})',
+                                                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                                                          ),
+                                                                        ],
                                                                       ),
                                                                     ),
                                                                     GestureDetector(
