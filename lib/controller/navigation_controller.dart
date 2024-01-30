@@ -18,7 +18,7 @@ class NavigationController extends GetxController {
   RxList<AttributeModel> attributeList = <AttributeModel>[].obs;
   RxList<SortModel> sortList = <SortModel>[].obs;
 
-  RxMap<dynamic, dynamic> addAttribute = {}.obs;
+  Map<String, String> addAttribute = {};
   RxList<dynamic> navList = [
     {'title': 'Home', 'icon': AssetsConstant.navIcon1},
     {'title': 'Category', 'icon': AssetsConstant.navIcon2},

@@ -157,7 +157,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      if ((product?.sizeCount ?? '0') != '0')
+                      if ((product?.allSizesCount ?? '0') != '0')
                         Text(
                           product?.productSizes?[0].size?.name ?? '30ml',
                           style: AppTheme.textStyleNormalBlack12,

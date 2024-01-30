@@ -37,7 +37,7 @@ class ProductModel {
   String? reviewsAvgStar;
   List<AllShadesByProduct>? allShadesByProduct;
   String? allShadesCount;
-  String? sizeCount;
+  String? allSizesCount;
   List<ProductSizes>? productSizes;
   List<Reviews>? reviews;
   List<ProductImages>? productImages;
@@ -81,7 +81,7 @@ class ProductModel {
       this.reviewsAvgStar,
       this.allShadesByProduct,
       this.allShadesCount,
-      this.sizeCount,
+      this.allSizesCount,
       this.productSizes,
       this.reviews,
       this.productImages});
@@ -130,7 +130,7 @@ class ProductModel {
       });
     }
     allShadesCount = json['all_shades_count'].toString() == 'null' ? '' : json['all_shades_count'].toString();
-    sizeCount = json['size_count'].toString() == 'null' ? '' : json['size_count'].toString();
+    allSizesCount = json['all_sizes_count'].toString() == 'null' ? '' : json['all_sizes_count'].toString();
     if (json['product_sizes'] != null) {
       productSizes = <ProductSizes>[];
       json['product_sizes'].forEach((v) {
@@ -193,7 +193,7 @@ class ProductModel {
       data['all_shades_by_product'] = allShadesByProduct!.map((v) => v.toJson()).toList();
     }
     data['all_shades_count'] = allShadesCount;
-    data['size_count'] = sizeCount;
+    data['all_sizes_count'] = allSizesCount;
     if (productSizes != null) {
       data['product_sizes'] = productSizes!.map((v) => v.toJson()).toList();
     }
