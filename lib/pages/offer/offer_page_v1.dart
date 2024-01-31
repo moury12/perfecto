@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mh_core/mh_core.dart';
 
-import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
@@ -19,10 +19,10 @@ class OfferScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageWithNavigation(
       scaffoldChild: Scaffold(
-        drawer: CustomDrawer(),
+        drawer: const CustomDrawer(),
         body: Column(
           children: [
-            HomeTopWidget(
+            const HomeTopWidget(
               isSearchInclude: false,
             ),
             Expanded(
@@ -30,7 +30,7 @@ class OfferScreen extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: [
                   GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     shrinkWrap: true,
                     primary: false,
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 200, crossAxisSpacing: 16, mainAxisSpacing: 6),
@@ -41,11 +41,11 @@ class OfferScreen extends StatelessWidget {
                         child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
-                                image: DecorationImage(
+                                image: const DecorationImage(
                                   image: AssetImage(AssetsConstant.blueCircleBackground2),
                                   fit: BoxFit.fitHeight,
                                 ),
-                                boxShadow: [
+                                boxShadow: const [
                                   /* BoxShadow(
                           color: Colors.black.withOpacity(.16),
                           blurRadius: 8)*/
@@ -58,8 +58,8 @@ class OfferScreen extends StatelessWidget {
                                   fit: BoxFit.contain,
                                   height: 180,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                const Padding(
+                                  padding: EdgeInsets.all(16.0),
                                   child: CustomNetworkImage(
                                     networkImagePath: '',
                                     errorImagePath: AssetsConstant.foregrond,
@@ -72,9 +72,9 @@ class OfferScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  TitleTextWidget(tileText: 'Top Brands'),
+                  const TitleTextWidget(tileText: 'Top Brands'),
                   GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     shrinkWrap: true,
                     primary: false,
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 200, crossAxisSpacing: 16, mainAxisSpacing: 16),
@@ -85,11 +85,11 @@ class OfferScreen extends StatelessWidget {
                         child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
-                                image: DecorationImage(
+                                image: const DecorationImage(
                                   image: AssetImage(AssetsConstant.blueCircleBackground3),
                                   fit: BoxFit.fitHeight,
                                 ),
-                                boxShadow: [
+                                boxShadow: const [
                                   /* BoxShadow(
                           color: Colors.black.withOpacity(.16),
                           blurRadius: 8)*/
@@ -98,12 +98,12 @@ class OfferScreen extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
-                                  child: Text(
+                                  child: const Text(
                                     'Skin Care',
                                     style: AppTheme.textStyleBoldWhite12,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   '38% OFF',
                                   style: AppTheme.textStyleBoldWhite20,
                                 ),
@@ -115,8 +115,8 @@ class OfferScreen extends StatelessWidget {
                                       fit: BoxFit.contain,
                                       height: 125,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 16.0),
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 16.0),
                                       child: CustomNetworkImage(
                                         networkImagePath: '',
                                         errorImagePath: AssetsConstant.foregrond2,
@@ -132,13 +132,13 @@ class OfferScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  TitleTextWidget(tileText: 'Top Categories'),
+                  const TitleTextWidget(tileText: 'Top Categories'),
                   ...List.generate(
                       4,
                       (index) => Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
                                 child: CustomNetworkImage(
                                   networkImagePath: '',
                                   errorImagePath: AssetsConstant.banner2,
@@ -150,25 +150,25 @@ class OfferScreen extends StatelessWidget {
                               SizedBox(
                                 height: 120,
                                 child: ListView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
                                   scrollDirection: Axis.horizontal,
                                   itemCount: 13,
                                   itemBuilder: (context, index) {
                                     return Column(
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 4),
-                                          decoration: BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground))),
+                                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                                          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground))),
                                           height: 100,
                                           width: 100,
-                                          child: CustomNetworkImage(
+                                          child: const CustomNetworkImage(
                                             networkImagePath: '',
                                             errorImagePath: AssetsConstant.foregrond2,
                                             height: 60,
                                             width: 60,
                                           ),
                                         ),
-                                        Text(
+                                        const Text(
                                           'Lipstick',
                                           style: AppTheme.textStyleSemiBoldBlack10,
                                         )

@@ -2,8 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
@@ -21,12 +20,10 @@ class OutletDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     OutletModel outlet = Get.arguments;
     return PageWithNavigation(
-      scaffoldChild: Scaffold(drawer: CustomDrawer(),
+      scaffoldChild: Scaffold(
+        drawer: CustomDrawer(),
         body: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(AssetsConstant.mapView),
-                  fit: BoxFit.cover)),
+          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.mapView), fit: BoxFit.cover)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -37,26 +34,18 @@ class OutletDetailsScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 12,
-                                  color: Colors.black.withOpacity(.12))
-                            ]),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(blurRadius: 12, color: Colors.black.withOpacity(.12))]),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
-                                 CustomNetworkImage(
-                                  networkImagePath: outlet.logo??'',
+                                CustomNetworkImage(
+                                  networkImagePath: outlet.logo ?? '',
                                   errorImagePath: AssetsConstant.slider2,
                                   height: 52,
                                   width: 52,
@@ -66,8 +55,8 @@ class OutletDetailsScreen extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                     Text(
-                                 outlet.name??  'Mirpur Outlet',
+                                    Text(
+                                      outlet.name ?? 'Mirpur Outlet',
                                       style: AppTheme.textStyleMediumBlack14,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -80,11 +69,11 @@ class OutletDetailsScreen extends StatelessWidget {
                                         Image.asset(
                                           AssetsConstant.phone,
                                           height: 16,
-                                        ),CustomSizedBox.space4W,
-                                         Text(
-                                          outlet.mobile?? '+88018996514',
-                                          style:
-                                              AppTheme.textStyleNormalFadeBlack12,
+                                        ),
+                                        CustomSizedBox.space4W,
+                                        Text(
+                                          outlet.mobile ?? '+88018996514',
+                                          style: AppTheme.textStyleNormalFadeBlack12,
                                         )
                                       ],
                                     )
@@ -102,8 +91,8 @@ class OutletDetailsScreen extends StatelessWidget {
                               style: AppTheme.textStyleSemiBoldBlack14,
                             ),
                             CustomSizedBox.space8H,
-                             Text(
-                              outlet.address??  '#Shop #GB , Ground Floor , 38,sonargaon Janapath sector - 11 , uttara< Dhaka (opposite of Zamzam Tower)',
+                            Text(
+                              outlet.address ?? '#Shop #GB , Ground Floor , 38,sonargaon Janapath sector - 11 , uttara< Dhaka (opposite of Zamzam Tower)',
                               style: AppTheme.textStyleNormalBlack12,
                             ),
                             Row(
@@ -118,7 +107,7 @@ class OutletDetailsScreen extends StatelessWidget {
                                     prefixImageHeight: 16,
 
                                     onPressed: () {
-                                      HomeApiController.to.makePhoneCall(outlet.mobile??'');
+                                      HomeApiController.to.makePhoneCall(outlet.mobile ?? '');
                                     },
                                   ),
                                 ),
@@ -132,7 +121,7 @@ class OutletDetailsScreen extends StatelessWidget {
                                     prefixImage: AssetsConstant.location,
                                     prefixImageHeight: 16,
                                     onPressed: () {
-                                      HomeApiController.to. openMap(double.parse(outlet.latitude??'37.422'), double.parse(outlet.longitude??'-122.084'));
+                                      HomeApiController.to.openMap(double.parse(outlet.latitude ?? '37.422'), double.parse(outlet.longitude ?? '-122.084'));
                                     },
                                   ),
                                 ),

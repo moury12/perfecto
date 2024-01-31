@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/utils/global.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
-import 'package:mh_core/widgets/textfield/custom_textfield.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/chat/chat_controller.dart';
@@ -64,8 +61,7 @@ class ChatScreen extends StatelessWidget {
                               ),
                               Text(
                                 'online',
-                                style: TextStyle(
-                                    color: Color(0xff09FC5C), fontSize: 10),
+                                style: TextStyle(color: Color(0xff09FC5C), fontSize: 10),
                               )
                             ],
                           ),
@@ -74,20 +70,49 @@ class ChatScreen extends StatelessWidget {
                     : const SizedBox.shrink(),
                 const Spacer(),
                 GestureDetector(
-                  
                   child: const Icon(
                     CupertinoIcons.multiply,
                     size: 20,
                   ),
                   onTap: () {
                     showDialog(
-                      context: context, builder: (context) => AlertDialog(backgroundColor: Colors.white,surfaceTintColor: Colors.white,
-                        title: Text('Are you sure to disconnect?',style: AppTheme.textStyleSemiBoldBlack16,),
-                        content:  Row(children: [
-                          CustomButton(onPressed:(){Navigator.pop(context);},label: 'no',width: MediaQuery.of(context).size.width/3.5,marginHorizontal: 8,marginVertical: 0,primary: Colors.white,borderColor: AppColors.kPrimaryColor,isBorder: true,elevation: 0,labelColor: AppColors.kPrimaryColor,),
-                          CustomButton(onPressed:(){Navigator.pop(context);},label: 'Yes',width: MediaQuery.of(context).size.width/3.5,marginHorizontal: 8,marginVertical: 0,)
-                        ],),
-                       ),);
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        backgroundColor: Colors.white,
+                        surfaceTintColor: Colors.white,
+                        title: Text(
+                          'Are you sure to disconnect?',
+                          style: AppTheme.textStyleSemiBoldBlack16,
+                        ),
+                        content: Row(
+                          children: [
+                            CustomButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              label: 'no',
+                              width: MediaQuery.of(context).size.width / 3.5,
+                              marginHorizontal: 8,
+                              marginVertical: 0,
+                              primary: Colors.white,
+                              borderColor: AppColors.kPrimaryColor,
+                              isBorder: true,
+                              elevation: 0,
+                              labelColor: AppColors.kPrimaryColor,
+                            ),
+                            CustomButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              label: 'Yes',
+                              width: MediaQuery.of(context).size.width / 3.5,
+                              marginHorizontal: 8,
+                              marginVertical: 0,
+                            )
+                          ],
+                        ),
+                      ),
+                    );
                   },
                 ),
               ],
@@ -100,35 +125,28 @@ class ChatScreen extends StatelessWidget {
         Expanded(
           child: Obx(() {
             return messageController.messages.isEmpty
-                ? GestureDetector(    onTap: () {
-              final newMessage = Message(
-                  sender: AssetsConstant.foregrond,
-                  content: 'Hi',
-                  timestamp: DateTime.now(),
-                  isReceived: false);
-              messageController.addMessage(newMessage);
-            },
-                  child: Center(
-                      child: Image.asset(
+                ? GestureDetector(
+                    onTap: () {
+                      final newMessage = Message(sender: AssetsConstant.foregrond, content: 'Hi', timestamp: DateTime.now(), isReceived: false);
+                      messageController.addMessage(newMessage);
+                    },
+                    child: Center(
+                        child: Image.asset(
                       AssetsConstant.messageDefault,
                       height: 82,
                     )),
-                )
+                  )
                 : ListView.builder(
                     reverse: true,
                     padding: EdgeInsets.zero,
                     itemCount: ChatController.to.messages.length,
                     itemBuilder: (context, index) {
-                      final message =
-                          messageController.messages.reversed.toList()[index];
+                      final message = messageController.messages.reversed.toList()[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: message.isReceived
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
+                          mainAxisAlignment: message.isReceived ? MainAxisAlignment.start : MainAxisAlignment.end,
                           children: [
                             message.isReceived
                                 ? Stack(
@@ -156,24 +174,14 @@ class ChatScreen extends StatelessWidget {
                             Flexible(
                                 child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: message.isReceived
-                                    ? BorderRadius.circular(26)
-                                    : BorderRadius.circular(26)
-                                        .copyWith(topRight: const Radius.circular(6)),
-                                color: message.isReceived
-                                    ? const Color(0xff8EE6E1).withOpacity(.11)
-                                    : AppColors.kPrimaryColor,
+                                borderRadius: message.isReceived ? BorderRadius.circular(26) : BorderRadius.circular(26).copyWith(topRight: const Radius.circular(6)),
+                                color: message.isReceived ? const Color(0xff8EE6E1).withOpacity(.11) : AppColors.kPrimaryColor,
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              margin: EdgeInsets.only(
-                                  right: message.isReceived ? 80 : 0,
-                                  left: message.isReceived ? 0 : 80),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              margin: EdgeInsets.only(right: message.isReceived ? 80 : 0, left: message.isReceived ? 0 : 80),
                               child: Text(
                                 message.content,
-                                style: message.isReceived
-                                    ? AppTheme.textStyleNormalBlack12
-                                    : AppTheme.textStyleNormalWhite12,
+                                style: message.isReceived ? AppTheme.textStyleNormalBlack12 : AppTheme.textStyleNormalWhite12,
                               ),
                             ))
                           ],

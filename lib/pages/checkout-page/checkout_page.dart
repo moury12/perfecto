@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/dropdown/custom_dropdown.dart';
-import 'package:mh_core/widgets/textfield/custom_textfield.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
@@ -70,15 +68,15 @@ class CheckoutScreen extends StatelessWidget {
                       labelText: 'Email (Optional)',
                       focusColor: Colors.black,
                     ),
-TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
-  fillColor: AppColors.kborderColor,
-  hintText:'Select your district' ,
-
-  title:'District / State' ,
-  rightIconBgColor: Colors.transparent,
-
-),
-
+                    TitleDropdown(
+                      dwItems: ['Dhaka', 'Chittagong'],
+                      dwValue: null,
+                      onChange: () {},
+                      fillColor: AppColors.kborderColor,
+                      hintText: 'Select your district',
+                      title: 'District / State',
+                      rightIconBgColor: Colors.transparent,
+                    ),
                     CustomTextField(
                       marginVertical: 6,
                       hintText: 'Enter your city name',
@@ -95,30 +93,21 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                     ),
                     CustomSizedBox.space8H,
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0)
-                          .copyWith(bottom: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(bottom: 16),
                       child: Row(
                         children: [
                           Obx(() {
                             return GestureDetector(
                               onTap: () {
-                                CheckOutController.to.checked.value =
-                                    !CheckOutController.to.checked.value;
+                                CheckOutController.to.checked.value = !CheckOutController.to.checked.value;
                               },
                               child: Container(
                                 height: 18,
                                 width: 18,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(2),
-                                    color: CheckOutController.to.checked.value
-                                        ? AppColors.kPrimaryColor
-                                        : Colors.white,
-                                    border: Border.all(
-                                        width: 0.5,
-                                        color: CheckOutController
-                                                .to.checked.value
-                                            ? AppColors.kDarkPrimaryColor
-                                            : Colors.black.withOpacity(.25))),
+                                    color: CheckOutController.to.checked.value ? AppColors.kPrimaryColor : Colors.white,
+                                    border: Border.all(width: 0.5, color: CheckOutController.to.checked.value ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
                                 alignment: Alignment.center,
                                 child: CheckOutController.to.checked.value
                                     ? Icon(
@@ -147,30 +136,21 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                   children: [
                     CustomSizedBox.space8H,
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                       child: Obx(() {
                         return Row(
                           children: [
                             GestureDetector(
                               onTap: () {
-                                CheckOutController.to.checked2.value =
-                                    !CheckOutController.to.checked2.value;
+                                CheckOutController.to.checked2.value = !CheckOutController.to.checked2.value;
                               },
                               child: Container(
                                 height: 18,
                                 width: 18,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: CheckOutController.to.checked2.value
-                                        ? AppColors.kPrimaryColor
-                                        : Colors.white,
-                                    border: Border.all(
-                                        width: 1,
-                                        color:
-                                            CheckOutController.to.checked2.value
-                                                ? AppColors.kPrimaryColor
-                                                : Colors.black)),
+                                    color: CheckOutController.to.checked2.value ? AppColors.kPrimaryColor : Colors.white,
+                                    border: Border.all(width: 1, color: CheckOutController.to.checked2.value ? AppColors.kPrimaryColor : Colors.black)),
                                 alignment: Alignment.center,
                                 child: CheckOutController.to.checked2.value
                                     ? Icon(
@@ -184,39 +164,28 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                             CustomSizedBox.space12W,
                             Text(
                               'Inside Dhaka (Delivery charge: ৳ 60)',
-                              style: CheckOutController.to.checked2.value
-                                  ? AppTheme.textStyleSemiBoldBlack14
-                                  : AppTheme.textStyleNormalBlack14,
+                              style: CheckOutController.to.checked2.value ? AppTheme.textStyleSemiBoldBlack14 : AppTheme.textStyleNormalBlack14,
                             )
                           ],
                         );
                       }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                       child: Obx(() {
                         return Row(
                           children: [
                             GestureDetector(
                               onTap: () {
-                                CheckOutController.to.checked3.value =
-                                    !CheckOutController.to.checked3.value;
+                                CheckOutController.to.checked3.value = !CheckOutController.to.checked3.value;
                               },
                               child: Container(
                                 height: 18,
                                 width: 18,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: CheckOutController.to.checked3.value
-                                        ? AppColors.kPrimaryColor
-                                        : Colors.white,
-                                    border: Border.all(
-                                        width: 1,
-                                        color:
-                                            CheckOutController.to.checked3.value
-                                                ? AppColors.kPrimaryColor
-                                                : Colors.black)),
+                                    color: CheckOutController.to.checked3.value ? AppColors.kPrimaryColor : Colors.white,
+                                    border: Border.all(width: 1, color: CheckOutController.to.checked3.value ? AppColors.kPrimaryColor : Colors.black)),
                                 alignment: Alignment.center,
                                 child: CheckOutController.to.checked3.value
                                     ? Icon(
@@ -230,9 +199,7 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                             CustomSizedBox.space12W,
                             Text(
                               'Outside Dhaka (Delivery charge: ৳ 100)',
-                              style: CheckOutController.to.checked3.value
-                                  ? AppTheme.textStyleSemiBoldBlack14
-                                  : AppTheme.textStyleNormalBlack14,
+                              style: CheckOutController.to.checked3.value ? AppTheme.textStyleSemiBoldBlack14 : AppTheme.textStyleNormalBlack14,
                             )
                           ],
                         );
@@ -246,9 +213,7 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
               CustomSizedBox.space8H,
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 3),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4)),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
                   child: CustomTextField(
                     labelText: 'Order Notes (Optional)',
                     hintText: 'Enter order notes',
@@ -262,30 +227,21 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                   children: [
                     CustomSizedBox.space8H,
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                       child: Obx(() {
                         return Row(
                           children: [
                             GestureDetector(
                               onTap: () {
-                                CheckOutController.to.checked2.value =
-                                    !CheckOutController.to.checked2.value;
+                                CheckOutController.to.checked2.value = !CheckOutController.to.checked2.value;
                               },
                               child: Container(
                                 height: 18,
                                 width: 18,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: CheckOutController.to.checked2.value
-                                        ? AppColors.kPrimaryColor
-                                        : Colors.white,
-                                    border: Border.all(
-                                        width: 1,
-                                        color:
-                                            CheckOutController.to.checked2.value
-                                                ? AppColors.kPrimaryColor
-                                                : Colors.black)),
+                                    color: CheckOutController.to.checked2.value ? AppColors.kPrimaryColor : Colors.white,
+                                    border: Border.all(width: 1, color: CheckOutController.to.checked2.value ? AppColors.kPrimaryColor : Colors.black)),
                                 alignment: Alignment.center,
                                 child: CheckOutController.to.checked2.value
                                     ? Icon(
@@ -317,30 +273,21 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                       }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                       child: Obx(() {
                         return Row(
                           children: [
                             GestureDetector(
                               onTap: () {
-                                CheckOutController.to.checked3.value =
-                                    !CheckOutController.to.checked3.value;
+                                CheckOutController.to.checked3.value = !CheckOutController.to.checked3.value;
                               },
                               child: Container(
                                 height: 18,
                                 width: 18,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: CheckOutController.to.checked3.value
-                                        ? AppColors.kPrimaryColor
-                                        : Colors.white,
-                                    border: Border.all(
-                                        width: 1,
-                                        color:
-                                            CheckOutController.to.checked3.value
-                                                ? AppColors.kPrimaryColor
-                                                : Colors.black)),
+                                    color: CheckOutController.to.checked3.value ? AppColors.kPrimaryColor : Colors.white,
+                                    border: Border.all(width: 1, color: CheckOutController.to.checked3.value ? AppColors.kPrimaryColor : Colors.black)),
                                 alignment: Alignment.center,
                                 child: CheckOutController.to.checked3.value
                                     ? Icon(
@@ -388,7 +335,7 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Li...'*2,
+                                      'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Li...' * 2,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: AppTheme.textStyleMediumBlack14,
@@ -397,21 +344,15 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                                     Row(
                                       children: [
                                         RichText(
-                                          text: TextSpan(
-                                              text: 'Qty: ',
-                                              style: AppTheme
-                                                  .textStyleNormalBlack14,
-                                              children: [
-                                                TextSpan(
-                                                  text: '1',
-                                                  style: AppTheme
-                                                      .textStyleBoldBlack14,
-                                                )
-                                              ]),
+                                          text: TextSpan(text: 'Qty: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                            TextSpan(
+                                              text: '1',
+                                              style: AppTheme.textStyleBoldBlack14,
+                                            )
+                                          ]),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0),
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                           child: Container(
                                             color: Colors.black.withOpacity(.2),
                                             height: 15,
@@ -419,17 +360,12 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                                           ),
                                         ),
                                         RichText(
-                                          text: TextSpan(
-                                              text: 'Size: ',
-                                              style: AppTheme
-                                                  .textStyleNormalBlack14,
-                                              children: [
-                                                TextSpan(
-                                                  text: '3.4ml',
-                                                  style: AppTheme
-                                                      .textStyleBoldBlack14,
-                                                )
-                                              ]),
+                                          text: TextSpan(text: 'Size: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                            TextSpan(
+                                              text: '3.4ml',
+                                              style: AppTheme.textStyleBoldBlack14,
+                                            )
+                                          ]),
                                         ),
                                         Spacer(),
                                         Text(
@@ -448,8 +384,7 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                                 ),
                               )),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
                         child: Row(
                           children: [
                             Text(
@@ -465,8 +400,7 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
                         child: Row(
                           children: [
                             Text(
@@ -491,8 +425,7 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                       ),
                       CustomSizedBox.space8H,
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
                         child: Row(
                           children: [
                             Text(
@@ -514,29 +447,21 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                 title: 'Your Order Summary',
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
                 child: Row(
                   children: [
                     Obx(() {
                       return GestureDetector(
                         onTap: () {
-                          CheckOutController.to.checked.value =
-                              !CheckOutController.to.checked.value;
+                          CheckOutController.to.checked.value = !CheckOutController.to.checked.value;
                         },
                         child: Container(
                           height: 18,
                           width: 18,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(2),
-                              color: CheckOutController.to.checked.value
-                                  ? AppColors.kPrimaryColor
-                                  : Colors.white,
-                              border: Border.all(
-                                  width: 0.5,
-                                  color: CheckOutController.to.checked.value
-                                      ? AppColors.kDarkPrimaryColor
-                                      : Colors.black.withOpacity(.25))),
+                              color: CheckOutController.to.checked.value ? AppColors.kPrimaryColor : Colors.white,
+                              border: Border.all(width: 0.5, color: CheckOutController.to.checked.value ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
                           alignment: Alignment.center,
                           child: CheckOutController.to.checked.value
                               ? Icon(
@@ -550,22 +475,20 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                     }),
                     CustomSizedBox.space8W,
                     RichText(
-                      text: TextSpan(
-                          text: 'I’ve read and accept the ',
+                      text: TextSpan(text: 'I’ve read and accept the ', style: AppTheme.textStyleNormalBlack12, children: [
+                        TextSpan(
+                          text: 'T&Cs ',
+                          style: AppTheme.textStyleBoldBlack12,
+                        ),
+                        TextSpan(
+                          text: 'and ',
                           style: AppTheme.textStyleNormalBlack12,
-                          children: [
-                            TextSpan(
-                              text: 'T&Cs ',
-                              style: AppTheme.textStyleBoldBlack12,
-                            ),
-                            TextSpan(
-                              text: 'and ',
-                              style: AppTheme.textStyleNormalBlack12,
-                            ), TextSpan(
-                              text: 'Privacy Policy',
-                              style: AppTheme.textStyleBoldBlack12,
-                            ),
-                          ]),
+                        ),
+                        TextSpan(
+                          text: 'Privacy Policy',
+                          style: AppTheme.textStyleBoldBlack12,
+                        ),
+                      ]),
                     ),
                   ],
                 ),
@@ -576,9 +499,7 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
       ),
       bottomNavigationBar: Container(
         height: 100,
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(.2),blurRadius: 4)
-        ]),
+        decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.2), blurRadius: 4)]),
         padding: EdgeInsets.all(16),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -608,7 +529,6 @@ TitleDropdown(dwItems: ['Dhaka','Chittagong'], dwValue: null, onChange: (){},
                 Get.toNamed(CheckoutScreen.routeName);
               },
               label: 'Place Order',
-
             )
           ],
         ),
@@ -630,8 +550,7 @@ class CheckoutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 3),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(4)),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

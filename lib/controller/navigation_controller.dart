@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
@@ -79,11 +79,7 @@ class NavigationController extends GetxController {
 
   void attributeListCall() {
     attributeList.value = <AttributeModel>[
-      AttributeModel(
-          name: 'Category',
-          attributes: [],
-          isSelected: true,
-          keyName: 'category'),
+      AttributeModel(name: 'Category', attributes: [], isSelected: true, keyName: 'category'),
       AttributeModel(
         keyName: 'brand',
         name: 'Brand',
@@ -143,7 +139,8 @@ class NavigationController extends GetxController {
         keyName: 'ingredient',
         name: 'Ingredient',
         attributes: HomeApiController.to.ingredientList,
-      ), AttributeModel(
+      ),
+      AttributeModel(
         keyName: 'pack_size',
         name: 'Pack Size',
         attributes: HomeApiController.to.packSizeList,
@@ -166,14 +163,8 @@ class NavigationController extends GetxController {
     ];
     sortList.value = <SortModel>[
       SortModel(name: 'Relevance', isSelected: true),
-      SortModel(
-          name: 'Price - High to Low',
-
-          keyName: 'sort_by_price'),
-      SortModel(
-          name: 'Price - Low to High',
-
-          keyName: 'sort_by_price'),
+      SortModel(name: 'Price - High to Low', keyName: 'sort_by_price'),
+      SortModel(name: 'Price - Low to High', keyName: 'sort_by_price'),
     ];
   }
 }

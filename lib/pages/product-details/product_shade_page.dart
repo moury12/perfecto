@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
@@ -40,8 +39,7 @@ class ProductShadeScreen extends StatelessWidget {
                     },
                     itemCount: ProductDetailsController.to.bannerContent.length,
                     itemBuilder: (context, index) {
-                      String data =
-                          ProductDetailsController.to.bannerContent[index];
+                      String data = ProductDetailsController.to.bannerContent[index];
                       return CustomNetworkImage(
                         networkImagePath: '',
                         fit: BoxFit.fill,
@@ -56,20 +54,14 @@ class ProductShadeScreen extends StatelessWidget {
                 Obx(() {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                        ProductDetailsController.to.bannerContent.length,
-                        (index) {
+                    children: List.generate(ProductDetailsController.to.bannerContent.length, (index) {
                       return Container(
                         margin: const EdgeInsets.all(4),
                         width: 7,
                         height: 7,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color:
-                              ProductDetailsController.to.currentPage.value ==
-                                      index
-                                  ? AppColors.kPrimaryColor
-                                  : const Color(0xffD9D9D9),
+                          color: ProductDetailsController.to.currentPage.value == index ? AppColors.kPrimaryColor : const Color(0xffD9D9D9),
                         ),
                       );
                     }),
@@ -88,8 +80,7 @@ class ProductShadeScreen extends StatelessWidget {
                           Container(
                             color: Color(0xffF9F9F9),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 4),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                               child: Column(
                                 children: [
                                   CustomSizedBox.space8H,
@@ -103,13 +94,11 @@ class ProductShadeScreen extends StatelessWidget {
                                         height: 15,
                                         width: 1,
                                         color: Colors.grey,
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 8),
+                                        margin: EdgeInsets.symmetric(horizontal: 8),
                                       ),
                                       Text(
                                         '4 varients',
-                                        style: AppTheme
-                                            .textStyleSemiBoldFadeBlack14,
+                                        style: AppTheme.textStyleSemiBoldFadeBlack14,
                                       )
                                     ],
                                   ),
@@ -135,21 +124,14 @@ class ProductShadeScreen extends StatelessWidget {
                                 margin: EdgeInsets.symmetric(horizontal: 6),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    color: index == 0
-                                        ? AppColors.kPrimaryColor
-                                        : Colors.transparent,
-                                    border: Border.all(
-                                        color: AppColors.kPrimaryColor,
-                                        width: 1.5),
+                                    color: index == 0 ? AppColors.kPrimaryColor : Colors.transparent,
+                                    border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
                                     borderRadius: BorderRadius.circular(4)),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
+                                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 child: Text(
                                   '180ml',
                                   textAlign: TextAlign.center,
-                                  style: index == 0
-                                      ? AppTheme.textStyleSemiBoldWhite14
-                                      : AppTheme.textStyleSemiBoldFadeBlack14,
+                                  style: index == 0 ? AppTheme.textStyleSemiBoldWhite14 : AppTheme.textStyleSemiBoldFadeBlack14,
                                 ),
                               ),
                             ),
@@ -163,24 +145,19 @@ class ProductShadeScreen extends StatelessWidget {
                               //This is for background color
                               color: Color(0xffF9F9F9),
                               //This is for bottom border that is needed
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: Color(0xffECECEC), width: 1.5)),
+                              border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
                             ),
                             child: TabBar(
                                 labelColor: AppColors.kBlackColor,
                                 unselectedLabelColor: Colors.black54,
                                 labelStyle: AppTheme.textStyleBoldBlack14,
-                                unselectedLabelStyle:
-                                    AppTheme.textStyleBoldFadeBlack14,
+                                unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
                                 indicatorColor: AppColors.kPrimaryColor,
                                 dividerColor: AppColors.kPrimaryColor,
                                 automaticIndicatorColorAdjustment: true,
                                 labelPadding: EdgeInsets.symmetric(vertical: 6),
-                                controller:
-                                    ProductDetailsController.to.tabController,
-                                tabs: ProductDetailsController.to.tabTiles
-                                    .map((String title) {
+                                controller: ProductDetailsController.to.tabController,
+                                tabs: ProductDetailsController.to.tabTiles.map((String title) {
                                   return Tab(
                                     text: title,
                                   );
@@ -188,11 +165,7 @@ class ProductShadeScreen extends StatelessWidget {
                           ),
                           SizedBox(
                             height: 300,
-                            child: TabBarView(
-                                controller:
-                                    ProductDetailsController.to.tabController,
-                                children: List.generate(
-                                    2, (index) => buildwidget(index))),
+                            child: TabBarView(controller: ProductDetailsController.to.tabController, children: List.generate(2, (index) => buildwidget(index))),
                           ),
                         ],
                       )
@@ -210,8 +183,7 @@ class ProductShadeScreen extends StatelessWidget {
       case 0:
         return GridView.builder(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
           shrinkWrap: true,
           primary: false,
           itemCount: 10,
@@ -269,8 +241,7 @@ class ProductShadeScreen extends StatelessWidget {
       case 1:
         return GridView.builder(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
           shrinkWrap: true,
           primary: false,
           itemCount: 10,
@@ -349,17 +320,12 @@ class BottomCalculationTotalWidget extends StatelessWidget {
     return Container(
       height: 115,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)
-          ]),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(15)), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
       child: Column(
         children: [
           CustomSizedBox.space8H,
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
             child: Row(
               children: [
                 Text(
@@ -368,35 +334,22 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                 ),
                 const Spacer(),
                 RichText(
-                    text: const TextSpan(
-                        text: '',
-                        style: AppTheme.textStyleBoldBlack14,
-                        children: [
-                      TextSpan(
-                          text: '৳ 550  ',
-                          style: AppTheme.textStyleBoldBlack20,
-                          children: [
-                            TextSpan(
-                              text: '৳550',
-                              style: TextStyle(
-                                  decoration: TextDecoration.lineThrough,
-                                  color: Colors.black54,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                            TextSpan(
-                              text: ' | ',
-                              style: AppTheme.textStyleNormalFadeBlack14,
-                            ),
-                            TextSpan(
-                              text: '(-25% Off)',
-                              style: TextStyle(
-                                  color: Color(0xff02792A),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ]),
-                    ])),
+                    text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                  TextSpan(text: '৳ 550  ', style: AppTheme.textStyleBoldBlack20, children: [
+                    TextSpan(
+                      text: '৳550',
+                      style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 14, fontWeight: FontWeight.normal),
+                    ),
+                    TextSpan(
+                      text: ' | ',
+                      style: AppTheme.textStyleNormalFadeBlack14,
+                    ),
+                    TextSpan(
+                      text: '(-25% Off)',
+                      style: TextStyle(color: Color(0xff02792A), fontSize: 14, fontWeight: FontWeight.bold),
+                    )
+                  ]),
+                ])),
               ],
             ),
           ),
@@ -406,17 +359,12 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                 Obx(() {
                   return GestureDetector(
                     onTap: () {
-                      ProductDetailsController.to.isFavourite.value =
-                          !ProductDetailsController.to.isFavourite.value;
+                      ProductDetailsController.to.isFavourite.value = !ProductDetailsController.to.isFavourite.value;
                     },
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       margin: EdgeInsets.only(left: 8),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: AppColors.kPrimaryColor, width: 1),
-                          borderRadius: BorderRadius.circular(4)),
+                      decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
                       child: ProductDetailsController.to.isFavourite.value
                           ? Image.asset(
                               AssetsConstant.favIconFill,

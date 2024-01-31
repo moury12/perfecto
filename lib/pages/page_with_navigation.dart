@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';

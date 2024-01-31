@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/utils/global.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_videoplayer/widgets/video-player-widget/video_player_widget.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';

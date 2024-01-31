@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
@@ -19,7 +18,8 @@ class ReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: CustomDrawer(),
+    return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: AppColors.kBackgroundColor,
       body: Column(
         children: [
@@ -28,10 +28,14 @@ class ReviewScreen extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                Divider(thickness: 1.5, color: Color(0xffECECEC),height: 1,
-                  indent: 0,),
+                Divider(
+                  thickness: 1.5,
+                  color: Color(0xffECECEC),
+                  height: 1,
+                  indent: 0,
+                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                   child: Column(
                     children: [
                       CustomSizedBox.space8H,
@@ -43,12 +47,8 @@ class ReviewScreen extends StatelessWidget {
                           ),
                           Spacer(),
                           Container(
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.black, width: 1),
-                                borderRadius: BorderRadius.circular(4)),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 12),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(4)),
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                             child: Text(
                               'Write Review',
                               style: AppTheme.textStyleBoldBlack14,
@@ -60,15 +60,16 @@ class ReviewScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                Divider(thickness: 1.5, color: Color(0xffECECEC),height: 0,
-                  indent: 0,),
-
+                Divider(
+                  thickness: 1.5,
+                  color: Color(0xffECECEC),
+                  height: 0,
+                  indent: 0,
+                ),
                 Container(
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16.0, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -86,10 +87,7 @@ class ReviewScreen extends StatelessWidget {
                             ),
                             Text(
                               '234 verified ratings',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black54),
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
                             ),
                           ],
                         )
@@ -120,40 +118,42 @@ class ReviewScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 42,
+                      SizedBox(
+                        height: 42,
                         child: ListView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           scrollDirection: Axis.horizontal,
                           itemCount: 23,
                           itemBuilder: (context, index) => Container(
-                            margin: EdgeInsets.symmetric(horizontal:  4),
+                            margin: EdgeInsets.symmetric(horizontal: 4),
                             alignment: Alignment.center,
-                          decoration: BoxDecoration(
-
-                              border:
-                              Border.all(color:index==0? AppColors.kPrimaryColor:Colors.grey.withOpacity(.5), width: 1.5),
-                              borderRadius: BorderRadius.circular(20)),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Text(
-
-                            'Verified Buyers',
-                            textAlign: TextAlign.center,
-                            style:index==0? AppTheme.textStyleSemiBoldPrimary14:AppTheme.textStyleSemiBoldFadeBlack14,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: index == 0 ? AppColors.kPrimaryColor : Colors.grey.withOpacity(.5), width: 1.5), borderRadius: BorderRadius.circular(20)),
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            child: Text(
+                              'Verified Buyers',
+                              textAlign: TextAlign.center,
+                              style: index == 0 ? AppTheme.textStyleSemiBoldPrimary14 : AppTheme.textStyleSemiBoldFadeBlack14,
+                            ),
                           ),
-                        ),),
+                        ),
                       ),
                       CustomSizedBox.space16H,
                     ],
                   ),
                 ),
-    ...List.generate(10, (index) =>Obx(
-     () {
-        return CommentWidget(index: index,readMore: ProductDetailsController.to.readMore.value,function: () {
-         ProductDetailsController.to.readMore.value=!ProductDetailsController.to.readMore.value;
-        },);
-      }
-    ),),
+                ...List.generate(
+                  10,
+                  (index) => Obx(() {
+                    return CommentWidget(
+                      index: index,
+                      readMore: ProductDetailsController.to.readMore.value,
+                      function: () {
+                        ProductDetailsController.to.readMore.value = !ProductDetailsController.to.readMore.value;
+                      },
+                    );
+                  }),
+                ),
                 CustomSizedBox.space12H,
               ],
             ),
@@ -163,27 +163,19 @@ class ReviewScreen extends StatelessWidget {
       bottomNavigationBar: Container(
         height: 95,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)
-            ]),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(15)), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
         child: FittedBox(
           child: Row(
             children: [
               Obx(() {
                 return GestureDetector(
                   onTap: () {
-                    ProductDetailsController.to.isFavourite.value =
-                        !ProductDetailsController.to.isFavourite.value;
+                    ProductDetailsController.to.isFavourite.value = !ProductDetailsController.to.isFavourite.value;
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     margin: EdgeInsets.only(left: 8),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: AppColors.kPrimaryColor, width: 1),
-                        borderRadius: BorderRadius.circular(4)),
+                    decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
                     child: ProductDetailsController.to.isFavourite.value
                         ? Image.asset(
                             AssetsConstant.favIconFill,
@@ -216,5 +208,3 @@ class ReviewScreen extends StatelessWidget {
     );
   }
 }
-
-

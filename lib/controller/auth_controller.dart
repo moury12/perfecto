@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
@@ -89,7 +90,7 @@ class AuthController extends GetxController {
       final user =
           await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
 
-      ServiceAPI.setAuthToken(user[DatabaseHelper.accessToken]);
+      Service.setAuthToken(user[DatabaseHelper.accessToken]);
       globalLogger.d(user[DatabaseHelper.accessToken], 'token');
       Get.put<UserController>(UserController(), permanent: true);
       Get.put<HomeApiController>(HomeApiController(), permanent: true);
@@ -125,7 +126,7 @@ class AuthController extends GetxController {
   Future<void> logoutFunc() async {
     _delete();
     Get.delete<UserController>(force: true);
-    ServiceAPI.setAuthToken('');
+    Service.setAuthToken('');
     if (currentLoginType == LogInType.google) {
       _googleSignIn.signOut();
     }
@@ -195,7 +196,7 @@ class AuthController extends GetxController {
     final token = isCreated['token'];
     globalLogger.d(token, 'Token');
     if (type != LogInType.phone && isCreated.isNotEmpty) {
-      ServiceAPI.setAuthToken(token);
+      Service.setAuthToken(token);
       currentLoginType = type;
       _insert(accessToken: token, phone: isCreated['phone'] ?? '', loginType: type.name);
       isLoggedIn.value = true;
@@ -245,7 +246,7 @@ class AuthController extends GetxController {
     if (verifyEmail.isNotEmpty) {
       final token = verifyEmail['token'];
       globalLogger.d(token, 'Token');
-      ServiceAPI.setAuthToken(token);
+      Service.setAuthToken(token);
       _insert(accessToken: token);
       showSnackBar(msg: '"Otp verify successfully."');
       Get.offAndToNamed(ChangePasswordScreen.routeName);
@@ -326,8 +327,8 @@ class AuthController extends GetxController {
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken, DatabaseHelper.loginTable, ServiceAPI.getToken);
-    globalLogger.d('deleted $rowsDeleted row(s): User ${ServiceAPI.getToken}');
+    final rowsDeleted = await dbHelper.delete(DatabaseHelper.accessToken, DatabaseHelper.loginTable, Service.getToken);
+    globalLogger.d('deleted $rowsDeleted row(s): User ${Service.getToken}');
   }
 
   Future<void> logout() async {

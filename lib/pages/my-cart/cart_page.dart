@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/checkout-page/checkout_page.dart';
@@ -39,12 +38,12 @@ class CartScreen extends StatelessWidget {
                     },
                   ),
                   CustomSizedBox.space8W,
-                  Text(
+                  const Text(
                     'My Bag',
                     style: AppTheme.textStyleSemiBoldBlack16,
                   ),
                   CustomSizedBox.space4W,
-                  Text(
+                  const Text(
                     '(3 Items)',
                     style: AppTheme.textStyleNormalFadeBlack12,
                   )
@@ -61,29 +60,29 @@ class CartScreen extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           primary: false,
-                          itemBuilder: (context, index) => CartWidget(),
+                          itemBuilder: (context, index) => const CartWidget(),
                           itemCount: 3,
                         ),
                         GestureDetector(
                             onTap: () {
                               Get.toNamed(ApplyCupponRewardScreen.routeName, arguments: 'coupon');
                             },
-                            child: CouponsWidget()),
+                            child: const CouponsWidget()),
                         GestureDetector(
                           onTap: () {
                             Get.toNamed(ApplyCupponRewardScreen.routeName);
                           },
-                          child: CouponsWidget(img: AssetsConstant.rewardIcon, title: 'Reward Points', isRewardPoint: true, subtitle: 'Apply now and save extra!'),
+                          child: const CouponsWidget(img: AssetsConstant.rewardIcon, title: 'Reward Points', isRewardPoint: true, subtitle: 'Apply now and save extra!'),
                         ),
                         Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.24), blurRadius: 2)]),
-                            padding: EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   'Order Summary',
                                   style: AppTheme.textStyleSemiBoldBlack16,
                                 ),
@@ -91,21 +90,21 @@ class CartScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     RichText(
-                                        text: TextSpan(text: 'Items Subtotal', style: AppTheme.textStyleMediumBlack12, children: [
+                                        text: const TextSpan(text: 'Items Subtotal', style: AppTheme.textStyleMediumBlack12, children: [
                                       TextSpan(
                                         text: ' (3 Items)',
                                         style: TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.w500),
                                       )
                                     ])),
-                                    Spacer(),
-                                    Text(
+                                    const Spacer(),
+                                    const Text(
                                       '৳ 1,650',
                                       style: AppTheme.textStyleMediumBlack12,
                                     ),
                                   ],
                                 ),
                                 CustomSizedBox.space8H,
-                                Row(
+                                const Row(
                                   children: [
                                     Text(
                                       'Discount',
@@ -119,7 +118,7 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 CustomSizedBox.space8H,
-                                Row(
+                                const Row(
                                   children: [
                                     Text(
                                       'Shipping Fee',
@@ -133,7 +132,7 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 CustomSizedBox.space8H,
-                                Row(
+                                const Row(
                                   children: [
                                     Text(
                                       'Reward Points Discount',
@@ -147,7 +146,7 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 CustomSizedBox.space4H,
-                                Divider(
+                                const Divider(
                                   color: Color(0xffECECEC),
                                   thickness: 1,
                                 ),
@@ -158,7 +157,7 @@ class CartScreen extends StatelessWidget {
                                       'Total',
                                       style: AppTheme.textStyleSemiBoldBlack14,
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
                                       '৳ 1,450',
                                       style: AppTheme.textStyleSemiBoldBlack14,
@@ -176,16 +175,16 @@ class CartScreen extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Spacer(),
+                          const Spacer(),
                           Image.asset(AssetsConstant.emptyBag, height: 215),
                           CustomSizedBox.space20H,
-                          Text(
+                          const Text(
                             'Your Shopping Bag is Empty',
                             style: AppTheme.textStyleSemiBoldBlack20,
                             textAlign: TextAlign.center,
                           ),
                           CustomSizedBox.space20H,
-                          Text(
+                          const Text(
                             'Looks like you haven’t made your choice yet, add all your favourite products',
                             style: AppTheme.textStyleNormalBlack14,
                             textAlign: TextAlign.center,
@@ -198,7 +197,7 @@ class CartScreen extends StatelessWidget {
                               // Your button's onPressed logic here
                             },
                           ),
-                          Spacer(),
+                          const Spacer(),
                         ],
                       ),
                     ),
@@ -211,12 +210,12 @@ class CartScreen extends StatelessWidget {
                 margin: EdgeInsets.zero,
                 height: 100,
                 decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.2), blurRadius: 4)]),
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
+                    const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
@@ -247,7 +246,7 @@ class CartScreen extends StatelessWidget {
                   ],
                 ),
               )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
       );
     });
   }

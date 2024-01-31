@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/textfield/custom_textfield.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
@@ -190,13 +189,8 @@ class ReturnScreen extends StatelessWidget {
               //       ],
               //     )),
               Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                      border:
-                          Border.all(color: AppColors.kborderColor, width: 0.5),
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4)),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(border: Border.all(color: AppColors.kborderColor, width: 0.5), color: Colors.white, borderRadius: BorderRadius.circular(4)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -205,9 +199,7 @@ class ReturnScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black),
+                              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
                               child: Text(
                                 '1',
                                 style: AppTheme.textStyleSemiBoldWhite12,
@@ -228,19 +220,17 @@ class ReturnScreen extends StatelessWidget {
                         height: 2,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Drop off at Perfecto store',
                               style: AppTheme.textStyleSemiBoldBlack14,
-                            ),CustomSizedBox.space8H,
+                            ),
+                            CustomSizedBox.space8H,
                             Container(
-                              decoration: BoxDecoration(
-                                  color: AppColors.klightAccentColor,
-                                  borderRadius: BorderRadius.circular(6)),
+                              decoration: BoxDecoration(color: AppColors.klightAccentColor, borderRadius: BorderRadius.circular(6)),
                               padding: EdgeInsets.all(12),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,15 +250,19 @@ class ReturnScreen extends StatelessWidget {
                                   ))
                                 ],
                               ),
-                            ),CustomSizedBox.space8H,CustomSizedBox.space8H,
+                            ),
+                            CustomSizedBox.space8H,
+                            CustomSizedBox.space8H,
                             Text(
                               'Return product(s) through your nearest Perfecto store.',
                               style: AppTheme.textStyleSemiBoldlightFadeBlack14,
-                            ),CustomSizedBox.space8H,
+                            ),
+                            CustomSizedBox.space8H,
                             Text(
                               'Find the nearest store',
                               style: AppTheme.textStyleSemiBoldlightFadeBlack14,
-                            ),CustomSizedBox.space8H,
+                            ),
+                            CustomSizedBox.space8H,
                             Text(
                               'Free',
                               style: AppTheme.textStyleSemiBoldBlack14,
@@ -282,9 +276,14 @@ class ReturnScreen extends StatelessWidget {
           ))
         ],
       ),
-      bottomNavigationBar: CustomButton(label: 'Okay',marginHorizontal: 16,marginVertical: 20, onPressed: () {
-Get.toNamed(ReturnProcess.routeName);
-      },),
+      bottomNavigationBar: CustomButton(
+        label: 'Okay',
+        marginHorizontal: 16,
+        marginVertical: 20,
+        onPressed: () {
+          Get.toNamed(ReturnProcess.routeName);
+        },
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
@@ -18,7 +18,7 @@ class MyProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller =Get.put(UserController());
+    final controller = Get.put(UserController());
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
       body: SingleChildScrollView(
@@ -49,10 +49,7 @@ class MyProfileScreen extends StatelessWidget {
             CustomSizedBox.space12H,
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 3),
-              decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.kborderColor, width: .5),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(4)),
+              decoration: BoxDecoration(border: Border.all(color: AppColors.kborderColor, width: .5), color: Colors.white, borderRadius: BorderRadius.circular(4)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,8 +66,10 @@ class MyProfileScreen extends StatelessWidget {
                           marginVertical: 0,
                           marginHorizontal: 0,
                           onPressed: () {
-                            UserController.to.editController( controller.userInfo.value);
-                            Get.to(EditProfileScreen(userModel: controller.userInfo.value,));
+                            UserController.to.editController(controller.userInfo.value);
+                            Get.to(EditProfileScreen(
+                              userModel: controller.userInfo.value,
+                            ));
                           },
                           primary: Colors.white,
                           borderColor: Colors.grey,
@@ -94,8 +93,7 @@ class MyProfileScreen extends StatelessWidget {
                     height: 2,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -104,14 +102,12 @@ class MyProfileScreen extends StatelessWidget {
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
                         CustomSizedBox.space4H,
-                        Obx(
-                           () {
-                            return Text(
-                            controller.userInfo.value.name??  'Anonymous User',
-                              style: AppTheme.textStyleBoldBlack14,
-                            );
-                          }
-                        ),
+                        Obx(() {
+                          return Text(
+                            controller.userInfo.value.name ?? 'Anonymous User',
+                            style: AppTheme.textStyleBoldBlack14,
+                          );
+                        }),
                         CustomSizedBox.space4H,
                         Divider(
                           color: AppColors.kborderColor,
@@ -122,8 +118,7 @@ class MyProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -132,14 +127,12 @@ class MyProfileScreen extends StatelessWidget {
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
                         CustomSizedBox.space4H,
-                        Obx(
-                          () {
-                            return Text(
-                              controller.userInfo.value.email?? '-',
-                              style: AppTheme.textStyleBoldBlack14,
-                            );
-                          }
-                        ),
+                        Obx(() {
+                          return Text(
+                            controller.userInfo.value.email ?? '-',
+                            style: AppTheme.textStyleBoldBlack14,
+                          );
+                        }),
                         CustomSizedBox.space4H,
                         Divider(
                           color: AppColors.kborderColor,
@@ -150,8 +143,7 @@ class MyProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -160,14 +152,12 @@ class MyProfileScreen extends StatelessWidget {
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
                         CustomSizedBox.space4H,
-                        Obx(
-                        () {
-                            return Text(
-                              controller.userInfo.value.phone??  '-',
-                              style: AppTheme.textStyleBoldBlack14,
-                            );
-                          }
-                        ),
+                        Obx(() {
+                          return Text(
+                            controller.userInfo.value.phone ?? '-',
+                            style: AppTheme.textStyleBoldBlack14,
+                          );
+                        }),
                         CustomSizedBox.space4H,
                         Divider(
                           color: AppColors.kborderColor,
@@ -184,10 +174,7 @@ class MyProfileScreen extends StatelessWidget {
             CustomSizedBox.space12H,
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 3),
-              decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.kborderColor, width: .5),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(4)),
+              decoration: BoxDecoration(border: Border.all(color: AppColors.kborderColor, width: .5), color: Colors.white, borderRadius: BorderRadius.circular(4)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -226,8 +213,7 @@ class MyProfileScreen extends StatelessWidget {
                     height: 2,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

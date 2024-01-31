@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/textfield/custom_textfield.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
@@ -62,9 +61,7 @@ class WriteReviewScreen extends StatelessWidget {
                         ProductDetailsController.to.rating.value = index + 1;
                       },
                       child: Icon(
-                        index < ProductDetailsController.to.rating.value
-                            ? Icons.star_rate_rounded
-                            : Icons.star_border_rounded,
+                        index < ProductDetailsController.to.rating.value ? Icons.star_rate_rounded : Icons.star_border_rounded,
                         color: Color(0xffFFAC0A),
                         size: 60,
                       ),
@@ -81,9 +78,7 @@ class WriteReviewScreen extends StatelessWidget {
               CustomSizedBox.space12H,
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -95,23 +90,24 @@ class WriteReviewScreen extends StatelessWidget {
                           builder: (context) => AlertDialog(
                               surfaceTintColor: Colors.white,
                               actionsAlignment: MainAxisAlignment.center,
-                              titlePadding: EdgeInsets.only(top: 19,right: 20),
+                              titlePadding: EdgeInsets.only(top: 19, right: 20),
                               title: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Align(alignment: Alignment.topRight,
-
-                                    child: Icon(CupertinoIcons.multiply,color: Colors.black,size: 30,)),
+                                child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Icon(
+                                      CupertinoIcons.multiply,
+                                      color: Colors.black,
+                                      size: 30,
+                                    )),
                               ),
                               actions: [
                                 GestureDetector(
-
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1,
-                                          color: AppColors.kPrimaryColor),
+                                      border: Border.all(width: 1, color: AppColors.kPrimaryColor),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     padding: EdgeInsets.all(8),
@@ -125,8 +121,7 @@ class WriteReviewScreen extends StatelessWidget {
                                         CustomSizedBox.space4W,
                                         Text(
                                           'Camera',
-                                          style:
-                                              AppTheme.textStyleMediumPrimary12,
+                                          style: AppTheme.textStyleMediumPrimary12,
                                         )
                                       ],
                                     ),
@@ -137,17 +132,13 @@ class WriteReviewScreen extends StatelessWidget {
                                   },
                                 ),
                                 GestureDetector(
-
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1,
-                                          color: AppColors.kPrimaryColor),
+                                      border: Border.all(width: 1, color: AppColors.kPrimaryColor),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     padding: EdgeInsets.all(8),
-                                    margin: EdgeInsets.symmetric(vertical: 16)
-                                        .copyWith(top: 0),
+                                    margin: EdgeInsets.symmetric(vertical: 16).copyWith(top: 0),
                                     child: Row(
                                       children: [
                                         Icon(
@@ -157,8 +148,7 @@ class WriteReviewScreen extends StatelessWidget {
                                         CustomSizedBox.space4W,
                                         Text(
                                           'Gallery',
-                                          style:
-                                              AppTheme.textStyleMediumPrimary12,
+                                          style: AppTheme.textStyleMediumPrimary12,
                                         )
                                       ],
                                     ),
@@ -175,10 +165,7 @@ class WriteReviewScreen extends StatelessWidget {
                         width: double.infinity,
                         padding: EdgeInsets.all(8),
                         margin: EdgeInsets.symmetric(horizontal: 16),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                                color: AppColors.kPrimaryColor, width: 2)),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.kPrimaryColor, width: 2)),
                         child: Column(
                           children: [
                             Icon(
@@ -195,19 +182,35 @@ class WriteReviewScreen extends StatelessWidget {
                     ),
                     CustomSizedBox.space12H,
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
-                      child: Obx(
-                      () {
-                          return ProductDetailsController.to.imageList.isEmpty&&ProductDetailsController.to.captureImage.value.isEmpty?SizedBox.shrink():Wrap(children: [...List.generate(ProductDetailsController.to.imageList.length, (index) => Padding(
-                            padding: const EdgeInsets.all(4.0).copyWith(top: 0),
-                            child: Image.file(File(ProductDetailsController.to.imageList[index]),height: 80,width: 80,fit: BoxFit.cover,),
-                          )),Padding(
-                            padding: const EdgeInsets.all(4.0).copyWith(top: 0),
-                            child: Image.file(File(ProductDetailsController.to.captureImage.value),height: 80,width: 80,fit: BoxFit.cover,),
-                          )
-                          ],);
-                        }
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                      child: Obx(() {
+                        return ProductDetailsController.to.imageList.isEmpty && ProductDetailsController.to.captureImage.value.isEmpty
+                            ? SizedBox.shrink()
+                            : Wrap(
+                                children: [
+                                  ...List.generate(
+                                      ProductDetailsController.to.imageList.length,
+                                      (index) => Padding(
+                                            padding: const EdgeInsets.all(4.0).copyWith(top: 0),
+                                            child: Image.file(
+                                              File(ProductDetailsController.to.imageList[index]),
+                                              height: 80,
+                                              width: 80,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0).copyWith(top: 0),
+                                    child: Image.file(
+                                      File(ProductDetailsController.to.captureImage.value),
+                                      height: 80,
+                                      width: 80,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                ],
+                              );
+                      }),
                     )
                   ],
                 ),
@@ -215,9 +218,7 @@ class WriteReviewScreen extends StatelessWidget {
               CustomSizedBox.space12H,
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/textfield/custom_textfield.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
@@ -51,22 +50,15 @@ class ApplyCupponRewardScreen extends StatelessWidget {
               children: [
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(.24),
-                              blurRadius: 2)
-                        ]),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(4), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.24), blurRadius: 2)]),
                     padding: EdgeInsets.all(12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         data != 'coupon'
                             ? Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16.0),
+                                padding: const EdgeInsets.symmetric(vertical: 16.0),
                                 child: Text(
                                   'You have total 500 reward points to redeem',
                                   style: AppTheme.textStyleSemiBoldBlack14,
@@ -80,20 +72,16 @@ class ApplyCupponRewardScreen extends StatelessWidget {
                         CustomTextField(
                           controller: CartController.to.couponController,
                           marginHorizontal: 0,
-                          hintText: data == 'coupon'
-                              ? 'Enter Coupon Code'
-                              : 'Enter redeemable points',
+                          hintText: data == 'coupon' ? 'Enter Coupon Code' : 'Enter redeemable points',
                           focusColor: AppColors.kPrimaryColor,
                           marginVertical: 14,
                         ),
                         CustomButton(
-                          label: data == 'coupon'
-                              ? 'Apply Coupon Code'
-                              : 'Redeem Points',
+                          label: data == 'coupon' ? 'Apply Coupon Code' : 'Redeem Points',
                           onPressed: () {
-                            if(CartController.to.couponController.text.isNotEmpty){
+                            if (CartController.to.couponController.text.isNotEmpty) {
                               HomeApiController.to.addCouponCode(CartController.to.couponController.text);
-                            }else{
+                            } else {
                               showSnackBar(msg: 'Please Enter coupon code!');
                             }
                           },

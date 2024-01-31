@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
@@ -16,7 +16,8 @@ class ProductImagePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: CustomDrawer(),
+    return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: AppColors.kBackgroundColor,
       body: Column(
         children: [
@@ -27,18 +28,16 @@ class ProductImagePreview extends StatelessWidget {
               child: ListView(
             padding: EdgeInsets.zero,
             children: [
-               Obx(
-                 () {
-                   return CustomNetworkImage(
-                        networkImagePath: '',
-                        fit: BoxFit.fill,
-                        errorImagePath:ProductDetailsController.to.displayUrl.value.isEmpty?AssetsConstant.megaDeals1:ProductDetailsController.to.displayUrl.value,
-                        width: double.infinity,
-                        height: 400,
-                        borderRadius: 0,
-                      );
-                 }
-               ),
+              Obx(() {
+                return CustomNetworkImage(
+                  networkImagePath: '',
+                  fit: BoxFit.fill,
+                  errorImagePath: ProductDetailsController.to.displayUrl.value.isEmpty ? AssetsConstant.megaDeals1 : ProductDetailsController.to.displayUrl.value,
+                  width: double.infinity,
+                  height: 400,
+                  borderRadius: 0,
+                );
+              }),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                 child: Text(
@@ -52,25 +51,27 @@ class ProductImagePreview extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => GestureDetector(
                     onTap: () {
-                      ProductDetailsController.to.displayUrl.value=ProductDetailsController.to.images[index];
-                    }
-                    ,
-                    child: Obx(
-                     () {
-                        return Stack(
-                          children: [
-                            CustomNetworkImage(
-                              networkImagePath: '',
-                              borderRadius: 0,
-                              errorImagePath: ProductDetailsController.to.images.value[index],
-                              height: 120,
-                              fit: BoxFit.fitHeight,
-                            ),
-                            ProductDetailsController.to.displayUrl.value!=ProductDetailsController.to.images[index]? Positioned.fill(child: Container(color: Colors.white.withOpacity(.6),)):SizedBox.shrink()
-                          ],
-                        );
-                      }
-                    ),
+                      ProductDetailsController.to.displayUrl.value = ProductDetailsController.to.images[index];
+                    },
+                    child: Obx(() {
+                      return Stack(
+                        children: [
+                          CustomNetworkImage(
+                            networkImagePath: '',
+                            borderRadius: 0,
+                            errorImagePath: ProductDetailsController.to.images.value[index],
+                            height: 120,
+                            fit: BoxFit.fitHeight,
+                          ),
+                          ProductDetailsController.to.displayUrl.value != ProductDetailsController.to.images[index]
+                              ? Positioned.fill(
+                                  child: Container(
+                                  color: Colors.white.withOpacity(.6),
+                                ))
+                              : SizedBox.shrink()
+                        ],
+                      );
+                    }),
                   ),
                   itemCount: ProductDetailsController.to.images.value.length,
                 ),

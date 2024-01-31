@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';

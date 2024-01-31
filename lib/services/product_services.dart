@@ -1,3 +1,4 @@
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/product_model.dart';
@@ -7,7 +8,7 @@ class ProductService {
     try {
       List<ProductModel> productList = [];
       final response = await ServiceAPI.genericCall(
-        url: '${ServiceAPI.apiUrl}products',
+        url: '${Service.apiUrl}products',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
         // defaultErrorMsgShow: false,

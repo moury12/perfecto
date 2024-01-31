@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'package:get/get.dart';
+import 'package:mh_core/mh_core.dart';
 // import 'package:get_storage/get_storage.dart';
-import 'package:mh_core/services/api_service.dart';
-import 'package:mh_core/utils/color/custom_color.dart';
-import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/bindings/navigation_binding.dart';
 import 'package:perfecto/constants/color_constants.dart';
 
@@ -25,9 +23,9 @@ void main() async {
   }
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
-  ServiceAPI.domain("https://perfecto.fixican.com/");
+  Service.domain("https://perfecto.fixican.com/");
   // ServiceAPI.domain("http://192.168.1.245:88/");
-  ServiceAPI.extraSlag("api/");
+  Service.extraSlag("api/");
   CustomColor.setPrimaryColor(AppColors.kPrimaryColor);
   runApp(const MyApp());
 }

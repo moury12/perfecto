@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/user_controller.dart';
@@ -69,7 +69,7 @@ class MyAddressScreen extends GetView<AddressController> {
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Address',
                                         style: AppTheme.textStyleSemiBoldBlack16,
                                       ),

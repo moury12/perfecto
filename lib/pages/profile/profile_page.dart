@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/services/api_service.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
@@ -49,14 +48,14 @@ class ProfileScreen extends StatelessWidget {
                     CustomSizedBox.space24H,
                     Obx(() {
                       return CustomNetworkImage(
-                        networkImagePath: UserController.to.userInfo.value.avatar??'',
+                        networkImagePath: UserController.to.userInfo.value.avatar ?? '',
                         errorImagePath: 'assets/dummy_profile.png',
                       );
                     }),
-                  // CustomNetworkImage(
-                  //       networkImagePath: '',
-                  //       errorImagePath: 'assets/dummy_profile.png',
-                  //     ),
+                    // CustomNetworkImage(
+                    //       networkImagePath: '',
+                    //       errorImagePath: 'assets/dummy_profile.png',
+                    //     ),
                     CustomSizedBox.space8H,
                     Obx(() {
                       return Text(

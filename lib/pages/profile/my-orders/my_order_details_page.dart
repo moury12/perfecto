@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
-import 'package:mh_core/widgets/textfield/custom_textfield.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
@@ -53,11 +51,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
               CustomSizedBox.space12H,
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                    border:
-                        Border.all(color: AppColors.kborderColor, width: 0.5),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(border: Border.all(color: AppColors.kborderColor, width: 0.5), color: Colors.white, borderRadius: BorderRadius.circular(4)),
                 child: Obx(() {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,39 +74,43 @@ class MyOrderDetailsScreen extends StatelessWidget {
                               ],
                             ),
                             const Spacer(),
-                            ProfileController.to.isCancel.value?Row(
-
-                              mainAxisAlignment: MainAxisAlignment.start,
-
-                              children: [
-                              Image.asset(AssetsConstant.verified,height: 25,),
-                              CustomSizedBox.space8W,
-                              const Text('Submit Cancellation\nRequest',style: AppTheme.textStyleNormalBlack12,textAlign: TextAlign.left,)
-                            ],
-                            ):    CustomButton(
-                              onPressed: ProfileController.to.currentStep.value ==
-                                      ProfileController.to.processes.length - 1
-                                  ? () {Get.toNamed(ReturnScreen.routeName);}
-                                  : () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            const CancelOrderDialogWidget(),
-                                      );
-                                    },
-                              label: ProfileController.to.currentStep.value ==
-                                      ProfileController.to.processes.length - 1
-                                  ? 'Make a return'
-                                  : 'Cancel Order',
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              marginHorizontal: 8,
-                              marginVertical: 0,
-                              primary: Colors.white,
-                              borderColor: Colors.black.withOpacity(.8),
-                              isBorder: true,
-                              elevation: 0,
-                              labelColor: Colors.black.withOpacity(.8),
-                            ),
+                            ProfileController.to.isCancel.value
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Image.asset(
+                                        AssetsConstant.verified,
+                                        height: 25,
+                                      ),
+                                      CustomSizedBox.space8W,
+                                      const Text(
+                                        'Submit Cancellation\nRequest',
+                                        style: AppTheme.textStyleNormalBlack12,
+                                        textAlign: TextAlign.left,
+                                      )
+                                    ],
+                                  )
+                                : CustomButton(
+                                    onPressed: ProfileController.to.currentStep.value == ProfileController.to.processes.length - 1
+                                        ? () {
+                                            Get.toNamed(ReturnScreen.routeName);
+                                          }
+                                        : () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => const CancelOrderDialogWidget(),
+                                            );
+                                          },
+                                    label: ProfileController.to.currentStep.value == ProfileController.to.processes.length - 1 ? 'Make a return' : 'Cancel Order',
+                                    width: MediaQuery.of(context).size.width / 3.5,
+                                    marginHorizontal: 8,
+                                    marginVertical: 0,
+                                    primary: Colors.white,
+                                    borderColor: Colors.black.withOpacity(.8),
+                                    isBorder: true,
+                                    elevation: 0,
+                                    labelColor: Colors.black.withOpacity(.8),
+                                  ),
                           ],
                         ),
                       ),
@@ -121,7 +119,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                         thickness: 2,
                         height: 2,
                       ),
-                      StepProcessWidget(currentStep:ProfileController.to.currentStep.value ,processList: ProfileController.to.processes),
+                      StepProcessWidget(currentStep: ProfileController.to.currentStep.value, processList: ProfileController.to.processes),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: CustomDividerWidget(),
@@ -129,8 +127,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -158,8 +155,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                ProfileController.to.markStepAsCompleted(
-                                    ProfileController.to.currentStep.value);
+                                ProfileController.to.markStepAsCompleted(ProfileController.to.currentStep.value);
                               },
                               child: const Text('step'))
                         ],
@@ -169,8 +165,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                         child: CustomDividerWidget(),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -202,22 +197,13 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                    border: Border.all(
-                                                        color: AppColors
-                                                            .kborderColor,
-                                                        width: .5)),
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: AppColors.kborderColor, width: .5)),
                                                 child: const CustomNetworkImage(
                                                   networkImagePath: '',
-                                                  errorImagePath:
-                                                      AssetsConstant.megaDeals2,
+                                                  errorImagePath: AssetsConstant.megaDeals2,
                                                   height: 100,
                                                   width: 90,
                                                   borderRadius: 4,
@@ -227,56 +213,39 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                             Flexible(
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   const Text(
                                                     'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Li...',
-                                                    style: AppTheme
-                                                        .textStyleMediumBlack14,
+                                                    style: AppTheme.textStyleMediumBlack14,
                                                     textAlign: TextAlign.left,
                                                   ),
                                                   CustomSizedBox.space4H,
                                                   Row(
                                                     children: [
                                                       RichText(
-                                                        text: const TextSpan(
-                                                            text: 'Brand: ',
-                                                            style: AppTheme
-                                                                .textStyleNormalBlack14,
-                                                            children: [
-                                                              TextSpan(
-                                                                text: 'Lakme',
-                                                                style: AppTheme
-                                                                    .textStyleBoldBlack14,
-                                                              )
-                                                            ]),
+                                                        text: const TextSpan(text: 'Brand: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                                          TextSpan(
+                                                            text: 'Lakme',
+                                                            style: AppTheme.textStyleBoldBlack14,
+                                                          )
+                                                        ]),
                                                       ),
                                                       Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                    8.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                                         child: Container(
-                                                          color: Colors.black
-                                                              .withOpacity(.2),
+                                                          color: Colors.black.withOpacity(.2),
                                                           height: 15,
                                                           width: 1,
                                                         ),
                                                       ),
                                                       RichText(
-                                                        text: const TextSpan(
-                                                            text: 'Size: ',
-                                                            style: AppTheme
-                                                                .textStyleNormalBlack14,
-                                                            children: [
-                                                              TextSpan(
-                                                                text: '3.4ml',
-                                                                style: AppTheme
-                                                                    .textStyleBoldBlack14,
-                                                              )
-                                                            ]),
+                                                        text: const TextSpan(text: 'Size: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                                          TextSpan(
+                                                            text: '3.4ml',
+                                                            style: AppTheme.textStyleBoldBlack14,
+                                                          )
+                                                        ]),
                                                       ),
                                                     ],
                                                   ),
@@ -284,43 +253,28 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                                   Row(
                                                     children: [
                                                       RichText(
-                                                        text: const TextSpan(
-                                                            text: 'Qty: ',
-                                                            style: AppTheme
-                                                                .textStyleNormalBlack14,
-                                                            children: [
-                                                              TextSpan(
-                                                                text: '1',
-                                                                style: AppTheme
-                                                                    .textStyleBoldBlack14,
-                                                              )
-                                                            ]),
+                                                        text: const TextSpan(text: 'Qty: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                                          TextSpan(
+                                                            text: '1',
+                                                            style: AppTheme.textStyleBoldBlack14,
+                                                          )
+                                                        ]),
                                                       ),
                                                       Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                    8.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                                         child: Container(
-                                                          color: Colors.black
-                                                              .withOpacity(.2),
+                                                          color: Colors.black.withOpacity(.2),
                                                           height: 15,
                                                           width: 1,
                                                         ),
                                                       ),
                                                       RichText(
-                                                        text: const TextSpan(
-                                                            text: 'Amount: ',
-                                                            style: AppTheme
-                                                                .textStyleNormalBlack14,
-                                                            children: [
-                                                              TextSpan(
-                                                                text: '৳550',
-                                                                style: AppTheme
-                                                                    .textStyleBoldBlack14,
-                                                              )
-                                                            ]),
+                                                        text: const TextSpan(text: 'Amount: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                                          TextSpan(
+                                                            text: '৳550',
+                                                            style: AppTheme.textStyleBoldBlack14,
+                                                          )
+                                                        ]),
                                                       ),
                                                     ],
                                                   ),
@@ -342,8 +296,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                         child: Row(
                           children: [
                             Text(
@@ -359,8 +312,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                         child: Row(
                           children: [
                             Text(
@@ -376,8 +328,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                         child: Row(
                           children: [
                             Text(
@@ -391,9 +342,9 @@ class MyOrderDetailsScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                      ),    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 6),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
                         child: Row(
                           children: [
                             Text(
@@ -414,8 +365,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                         child: CustomDividerWidget(),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                         child: Row(
                           children: [
                             Text(
@@ -447,53 +397,43 @@ class StepProcessWidget extends StatelessWidget {
   final List processList;
   final int currentStep;
   const StepProcessWidget({
-    super.key, required this.processList, required this.currentStep,
+    super.key,
+    required this.processList,
+    required this.currentStep,
   });
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 16.0, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
       child: Column(
         children: [
-          ...List.generate(
-              processList.length, (index) {
-            final process =
-                processList[index];
+          ...List.generate(processList.length, (index) {
+            final process = processList[index];
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(
                       Icons.circle,
                       color: process.isComplete
                           ? Colors.black
-                          : index ==
-                                  currentStep
+                          : index == currentStep
                               ? AppColors.kPrimaryColor
                               : const Color(0xffCBD5E1),
                     ),
-                    index !=
-                            processList.length -
-                                1
+                    index != processList.length - 1
                         ? Padding(
-                            padding:
-                                const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Container(
                               height: 57,
                               width: 3,
                               color: process.isComplete
                                   ? Colors.black
-                                  : index ==
-                                         currentStep&&!ProfileController.to.isCancel.value
-                                      ? AppColors
-                                          .kPrimaryColor
+                                  : index == currentStep && !ProfileController.to.isCancel.value
+                                      ? AppColors.kPrimaryColor
                                       : const Color(0xffCBD5E1),
                             ),
                           )
@@ -502,30 +442,16 @@ class StepProcessWidget extends StatelessWidget {
                 ),
                 CustomSizedBox.space12W,
                 Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      currentStep ==
-                                processList.length   -
-                                      1 &&
-                              index ==
-                                  processList.length -
-                                      1
-                          ? 'Deliverd'
-                          : process.topic,
-                      style:
-                          AppTheme.textStyleNormalFadeBlack14,
+                      currentStep == processList.length - 1 && index == processList.length - 1 ? 'Deliverd' : process.topic,
+                      style: AppTheme.textStyleNormalFadeBlack14,
                     ),
-                    (process.topic == 'Ordered' ||
-                            process.topic ==
-                                'Estimated Delivery'||
-                            process.topic ==
-                                'Return Started')
+                    (process.topic == 'Ordered' || process.topic == 'Estimated Delivery' || process.topic == 'Return Started')
                         ? const Text(
                             '24 Nov, 2023',
-                            style: AppTheme
-                                .textStyleNormalFadeBlack14,
+                            style: AppTheme.textStyleNormalFadeBlack14,
                           )
                         : const SizedBox.shrink(),
                   ],
@@ -548,7 +474,7 @@ class CancelOrderDialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       surfaceTintColor: Colors.white,
-      title:  Row(
+      title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Column(
@@ -565,9 +491,10 @@ class CancelOrderDialogWidget extends StatelessWidget {
               )
             ],
           ),
-          GestureDetector(onTap: () {
-            Navigator.pop(context);
-          },
+          GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: const Icon(CupertinoIcons.multiply)),
         ],
       ),
@@ -613,16 +540,12 @@ class CancelOrderDialogWidget extends StatelessWidget {
                   marginVertical: 0,
                   marginHorizontal: 0,
                   onPressed: () {
-                    if(ProfileController.to.currentStep.value==1){
-                    ProfileController.to.processes.insert(
-                        2,
-                        Process(
-                            name: '3',
-                            isComplete: false,
-                            topic: 'Cancellation Requested'));
-                    ProfileController.to.isCancel.value=true;
-                    ProfileController.to.processes[1].isComplete = true;
-                    ProfileController.to.currentStep.value = 2;}
+                    if (ProfileController.to.currentStep.value == 1) {
+                      ProfileController.to.processes.insert(2, Process(name: '3', isComplete: false, topic: 'Cancellation Requested'));
+                      ProfileController.to.isCancel.value = true;
+                      ProfileController.to.processes[1].isComplete = true;
+                      ProfileController.to.currentStep.value = 2;
+                    }
                     Navigator.pop(context);
                   },
                 )

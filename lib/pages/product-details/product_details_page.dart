@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/utils/constant.dart';
-import 'package:mh_core/widgets/button/custom_button.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
@@ -25,7 +23,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: const CustomDrawer(),backgroundColor: AppColors.kBackgroundColor,
+    return Scaffold(
+      drawer: const CustomDrawer(),
+      backgroundColor: AppColors.kBackgroundColor,
       body: Column(
         children: [
           const HomeTopWidget(),
@@ -44,11 +44,11 @@ class ProductDetailsScreen extends StatelessWidget {
                     },
                     itemCount: ProductDetailsController.to.bannerContent.length,
                     itemBuilder: (context, index) {
-                      String data =
-                          ProductDetailsController.to.bannerContent[index];
-                      return GestureDetector(onTap: () {
-Get.toNamed(ProductImagePreview.routeName);
-                      },
+                      String data = ProductDetailsController.to.bannerContent[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed(ProductImagePreview.routeName);
+                        },
                         child: CustomNetworkImage(
                           networkImagePath: '',
                           fit: BoxFit.fill,
@@ -64,20 +64,14 @@ Get.toNamed(ProductImagePreview.routeName);
                 Obx(() {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                        ProductDetailsController.to.bannerContent.length,
-                        (index) {
+                    children: List.generate(ProductDetailsController.to.bannerContent.length, (index) {
                       return Container(
                         margin: const EdgeInsets.all(4),
                         width: 7,
                         height: 7,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color:
-                              ProductDetailsController.to.currentPage.value ==
-                                      index
-                                  ? AppColors.kPrimaryColor
-                                  : const Color(0xffD9D9D9),
+                          color: ProductDetailsController.to.currentPage.value == index ? AppColors.kPrimaryColor : const Color(0xffD9D9D9),
                         ),
                       );
                     }),
@@ -91,30 +85,25 @@ Get.toNamed(ProductImagePreview.routeName);
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                   child: RichText(
-                      text: const TextSpan(
-                          text: '',
-                          style: AppTheme.textStyleBoldBlack14,
-                          children: [
-                        TextSpan(
-                          text: 'Lakme',
-                          style: AppTheme.textStyleMediumBlack14,
-                        ),
-                        TextSpan(
-                          text: ' | ',
-                          style: AppTheme.textStyleNormalFadeBlack14,
-                        ),
-                        TextSpan(
-                          text: '3.4ml',
-                          style: AppTheme.textStyleMediumBlack14,
-                        ),
-                      ])),
+                      text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                    TextSpan(
+                      text: 'Lakme',
+                      style: AppTheme.textStyleMediumBlack14,
+                    ),
+                    TextSpan(
+                      text: ' | ',
+                      style: AppTheme.textStyleNormalFadeBlack14,
+                    ),
+                    TextSpan(
+                      text: '3.4ml',
+                      style: AppTheme.textStyleMediumBlack14,
+                    ),
+                  ])),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -137,64 +126,41 @@ Get.toNamed(ProductImagePreview.routeName);
                       ),
                       RichText(
                           text: TextSpan(children: [
-                        TextSpan(
-                            text: '4.3/5',
-                            style: AppTheme.textStyleSemiBoldBlack14),
+                        TextSpan(text: '4.3/5', style: AppTheme.textStyleSemiBoldBlack14),
                         const TextSpan(
                           text: ' | ',
                           style: AppTheme.textStyleNormalFadeBlack14,
                         ),
-                        const TextSpan(
-                            text: '(2225)',
-                            style: TextStyle(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 14)),
+                        const TextSpan(text: '(2225)', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 14)),
                       ]))
                     ],
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                   child: Row(
                     children: [
                       RichText(
-                          text: const TextSpan(
-                              text: '',
-                              style: AppTheme.textStyleBoldBlack14,
-                              children: [
-                            TextSpan(
-                                text: '৳ 550  ',
-                                style: AppTheme.textStyleBoldBlack20,
-                                children: [
-                                  TextSpan(
-                                    text: '৳550',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Colors.black54,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  TextSpan(
-                                    text: ' | ',
-                                    style: AppTheme.textStyleNormalFadeBlack14,
-                                  ),
-                                  TextSpan(
-                                    text: '(-25% Off)',
-                                    style: TextStyle(
-                                        color: Color(0xff02792A),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ]),
-                          ])),
+                          text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                        TextSpan(text: '৳ 550  ', style: AppTheme.textStyleBoldBlack20, children: [
+                          TextSpan(
+                            text: '৳550',
+                            style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 14, fontWeight: FontWeight.normal),
+                          ),
+                          TextSpan(
+                            text: ' | ',
+                            style: AppTheme.textStyleNormalFadeBlack14,
+                          ),
+                          TextSpan(
+                            text: '(-25% Off)',
+                            style: TextStyle(color: Color(0xff02792A), fontSize: 14, fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                      ])),
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          ProductDetailsController.to.isAvaiableShade.value =
-                              !ProductDetailsController
-                                  .to.isAvaiableShade.value;
+                          ProductDetailsController.to.isAvaiableShade.value = !ProductDetailsController.to.isAvaiableShade.value;
                         },
                         child: Icon(
                           Icons.share,
@@ -215,8 +181,7 @@ Get.toNamed(ProductImagePreview.routeName);
                     children: ProductDetailsController.to.isAvaiableShade.value
                         ? [
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 6),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
                               child: Row(
                                 children: [
                                   const Text(
@@ -232,10 +197,7 @@ Get.toNamed(ProductImagePreview.routeName);
                                       children: [
                                         const Text(
                                           'All Shades (32)',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.kPrimaryColor),
+                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.kPrimaryColor),
                                         ),
                                         Image.asset(
                                           'assets/arrow_right.png',
@@ -250,8 +212,7 @@ Get.toNamed(ProductImagePreview.routeName);
                             SizedBox(
                               height: 66,
                               child: ListView.builder(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) => Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -260,8 +221,7 @@ Get.toNamed(ProductImagePreview.routeName);
                                     children: [
                                       const CustomNetworkImage(
                                         networkImagePath: '',
-                                        errorImagePath:
-                                            AssetsConstant.lipstickShade,
+                                        errorImagePath: AssetsConstant.lipstickShade,
                                         height: 48,
                                         width: 48,
                                         borderRadius: 4,
@@ -281,8 +241,7 @@ Get.toNamed(ProductImagePreview.routeName);
                           ]
                         : [
                             const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 6),
+                              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
                               child: Row(
                                 children: [
                                   Text(
@@ -308,22 +267,14 @@ Get.toNamed(ProductImagePreview.routeName);
                                     margin: const EdgeInsets.symmetric(horizontal: 6),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                        color: index == 0
-                                            ? AppColors.kPrimaryColor
-                                            : Colors.transparent,
-                                        border: Border.all(
-                                            color: AppColors.kPrimaryColor,
-                                            width: 1.5),
+                                        color: index == 0 ? AppColors.kPrimaryColor : Colors.transparent,
+                                        border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
                                         borderRadius: BorderRadius.circular(4)),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                     child: Text(
                                       '180ml',
                                       textAlign: TextAlign.center,
-                                      style: index == 0
-                                          ? AppTheme.textStyleSemiBoldWhite14
-                                          : AppTheme
-                                              .textStyleSemiBoldFadeBlack14,
+                                      style: index == 0 ? AppTheme.textStyleSemiBoldWhite14 : AppTheme.textStyleSemiBoldFadeBlack14,
                                     ),
                                   ),
                                 ),
@@ -334,17 +285,14 @@ Get.toNamed(ProductImagePreview.routeName);
                   );
                 }),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
                   child: FittedBox(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.kAccentColor),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 16),
+                          decoration: const BoxDecoration(color: AppColors.kAccentColor),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                           width: MediaQuery.of(context).size.width / 2.2,
                           alignment: Alignment.center,
                           child: Row(
@@ -357,8 +305,7 @@ Get.toNamed(ProductImagePreview.routeName);
                               CustomSizedBox.space8W,
                               const Text(
                                 '100% Authentic',
-                                style: TextStyle(
-                                    color: Colors.black54, fontSize: 14),
+                                style: TextStyle(color: Colors.black54, fontSize: 14),
                               )
                             ],
                           ),
@@ -367,10 +314,8 @@ Get.toNamed(ProductImagePreview.routeName);
                         Container(
                           width: MediaQuery.of(context).size.width / 2,
                           alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                              color: AppColors.kAccentColor),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 16),
+                          decoration: const BoxDecoration(color: AppColors.kAccentColor),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -381,8 +326,7 @@ Get.toNamed(ProductImagePreview.routeName);
                               CustomSizedBox.space8W,
                               const Text(
                                 'Easy Return Policy',
-                                style: TextStyle(
-                                    color: Colors.black54, fontSize: 14),
+                                style: TextStyle(color: Colors.black54, fontSize: 14),
                               )
                             ],
                           ),
@@ -400,9 +344,7 @@ Get.toNamed(ProductImagePreview.routeName);
                 ),
                 Container(
                   decoration: const BoxDecoration(
-                    border: Border(
-                        bottom:
-                            BorderSide(color: Color(0xffECECEC), width: 1.5)),
+                    border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
                   ),
                   child: TabBar(
                       isScrollable: true,
@@ -413,14 +355,11 @@ Get.toNamed(ProductImagePreview.routeName);
                       unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
                       indicatorColor: AppColors.kPrimaryColor,
                       dividerColor: AppColors.kPrimaryColor,
-                      labelPadding:
-                          const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                      labelPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                       controller: ProductDetailsController.to.tabController2,
-                      tabs: ProductDetailsController.to.tabTiles2
-                          .map((String title) {
+                      tabs: ProductDetailsController.to.tabTiles2.map((String title) {
                         return Tab(
                           text: title,
-
                         );
                       }).toList()),
                 ),
@@ -428,9 +367,7 @@ Get.toNamed(ProductImagePreview.routeName);
                   height: MediaQuery.of(context).size.width * .4,
                   child: TabBarView(
                       controller: ProductDetailsController.to.tabController2,
-                      children: List.generate(
-                          ProductDetailsController.to.tabTiles2.length,
-                          (index) => buildwidget(index, context))),
+                      children: List.generate(ProductDetailsController.to.tabTiles2.length, (index) => buildwidget(index, context))),
                 ),
                 const Divider(thickness: 1.5, color: Color(0xffECECEC)),
                 GestureDetector(
@@ -466,11 +403,8 @@ Get.toNamed(ProductImagePreview.routeName);
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: AppColors.kAccentColor,
-                      borderRadius: BorderRadius.circular(4)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  decoration: BoxDecoration(color: AppColors.kAccentColor, borderRadius: BorderRadius.circular(4)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -507,10 +441,7 @@ Get.toNamed(ProductImagePreview.routeName);
                           ),
                           Text(
                             '234 verified ratings',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black54),
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
                           )
                         ],
                       ),
@@ -520,11 +451,8 @@ Get.toNamed(ProductImagePreview.routeName);
                           Get.toNamed(WriteReviewScreen.routeName);
                         },
                         child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 1),
-                              borderRadius: BorderRadius.circular(4)),
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(4)),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                           child: const Text(
                             'Write Review',
                             style: AppTheme.textStyleBoldBlack14,
@@ -545,11 +473,9 @@ Get.toNamed(ProductImagePreview.routeName);
                       itemBuilder: (context, index) => Container(
                         height: 72,
                         width: 72,
-                        margin: const EdgeInsets.symmetric(vertical: 8)
-                            .copyWith(left: 16),
+                        margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
                         decoration: BoxDecoration(
-                            border:
-                                Border.all(color: const Color(0xffCECECE), width: 1),
+                            border: Border.all(color: const Color(0xffCECECE), width: 1),
                             borderRadius: BorderRadius.circular(2),
                             image: const DecorationImage(
                                 image: AssetImage(
@@ -561,7 +487,7 @@ Get.toNamed(ProductImagePreview.routeName);
                   ),
                 ),
                 const TitleTextWidget(tileText: 'Most Useful Review'),
-               CommentWidget(index: 1,isHelpful: false,readMore: false),
+                CommentWidget(index: 1, isHelpful: false, readMore: false),
                 CustomSizedBox.space12H,
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -606,27 +532,19 @@ Get.toNamed(ProductImagePreview.routeName);
       bottomNavigationBar: Container(
         height: 95,
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)
-            ]),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
         child: FittedBox(
           child: Row(
             children: [
               Obx(() {
                 return GestureDetector(
                   onTap: () {
-                    ProductDetailsController.to.isFavourite.value =
-                        !ProductDetailsController.to.isFavourite.value;
+                    ProductDetailsController.to.isFavourite.value = !ProductDetailsController.to.isFavourite.value;
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     margin: const EdgeInsets.only(left: 8),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: AppColors.kPrimaryColor, width: 1),
-                        borderRadius: BorderRadius.circular(4)),
+                    decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
                     child: ProductDetailsController.to.isFavourite.value
                         ? Image.asset(
                             AssetsConstant.favIconFill,
@@ -663,34 +581,34 @@ Get.toNamed(ProductImagePreview.routeName);
     switch (tabIndex) {
       case 0:
         return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child:
-                Stack(alignment: Alignment.bottomCenter,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              image: AssetImage(AssetsConstant.banner2),
-                              fit: BoxFit.fitWidth)),
-
-                    ), Container(width: double.infinity,height: 9,decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.white,blurRadius: 60,spreadRadius: 50)]),),
-                  ],
-                ),
-                /*Positioned(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(image: AssetImage(AssetsConstant.banner2), fit: BoxFit.fitWidth)),
+              ),
+              Container(
+                width: double.infinity,
+                height: 9,
+                decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.white, blurRadius: 60, spreadRadius: 50)]),
+              ),
+            ],
+          ),
+          /*Positioned(
                     bottom: MediaQuery.of(context).size.width > 600 ? 28 : 16,
                     left: 0,
                     right: 0,
                     child: ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                             bottom: Radius.circular(
-                                *//*MediaQuery.of(context).size.width>600?20:*//* 10)),
+                                */ /*MediaQuery.of(context).size.width>600?20:*/ /* 10)),
                         child: Image.asset(
                           AssetsConstant.shade,
                           color: const Color(0xffBABABA).withOpacity(.8),
                         ))),*/
-             );
+        );
       case 1:
         return Padding(
           padding: const EdgeInsets.all(16.0),

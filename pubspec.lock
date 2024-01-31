@@ -491,11 +491,16 @@ packages:
   mh_core:
     dependency: "direct main"
     description:
-      path: "."
-      ref: alpha
-      resolved-ref: fdf3d9da39d9b3c5ec67a96566ad441424313382
-      url: "https://github.com/mh-sarkar/mh-core.git"
-    source: git
+      path: "../mh_core"
+      relative: true
+    source: path
+    version: "0.0.1"
+  mh_ui:
+    dependency: transitive
+    description:
+      path: "../mh_ui"
+      relative: true
+    source: path
     version: "0.0.1"
   mh_videoplayer:
     dependency: "direct main"
@@ -926,5 +931,5 @@ packages:
     source: hosted
     version: "2.1.0"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
+  dart: ">=3.2.3 <4.0.0"
   flutter: ">=3.16.0"

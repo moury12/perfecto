@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/widgets/network_image/network_image.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
@@ -21,18 +21,18 @@ class OfferDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: Column(
         children: [
-          HomeTopWidget(),
+          const HomeTopWidget(),
           Expanded(
               child: ListView(
             padding: EdgeInsets.zero,
             children: [
               Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: CustomNetworkImage(
                       networkImagePath: '',
                       errorImagePath: AssetsConstant.banner2,
@@ -44,18 +44,18 @@ class OfferDetailsScreen extends StatelessWidget {
                   SizedBox(
                     height: 120,
                     child: ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
                       scrollDirection: Axis.horizontal,
                       itemCount: 13,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: 4),
-                              decoration: BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground))),
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground))),
                               height: 100,
                               width: 100,
-                              child: CustomNetworkImage(
+                              child: const CustomNetworkImage(
                                 networkImagePath: '',
                                 errorImagePath: AssetsConstant.foregrond2,
                                 height: 60,
@@ -63,7 +63,7 @@ class OfferDetailsScreen extends StatelessWidget {
                                 width: 60,
                               ),
                             ),
-                            Text(
+                            const Text(
                               'Lipstick',
                               style: AppTheme.textStyleSemiBoldBlack10,
                             )
@@ -81,8 +81,8 @@ class OfferDetailsScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              TitleTextWidget(tileText: 'Lipstick'),
-                              Spacer(),
+                              const TitleTextWidget(tileText: 'Lipstick'),
+                              const Spacer(),
                               GestureDetector(
                                 onTap: () {
                                   // await HomeApiController.to.productListWithCategoryCall({
@@ -97,8 +97,8 @@ class OfferDetailsScreen extends StatelessWidget {
                                     // });
                                     Get.toNamed(SingleCatergoryWiseScreen.routeName);
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                                     child: Text(
                                       'See All',
                                       style: TextStyle(
@@ -115,7 +115,7 @@ class OfferDetailsScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             shrinkWrap: true,
                             primary: false,
-                            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
                             itemCount: 4,
                             itemBuilder: (context, index) {
                               final data = CategoryController.to.categoryWiseITem[index];
