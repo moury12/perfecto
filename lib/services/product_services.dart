@@ -8,7 +8,7 @@ class ProductService {
     try {
       List<ProductModel> productList = [];
       final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}products',
+        url: '${Service.apiUrl}products-cat',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
         // defaultErrorMsgShow: false,

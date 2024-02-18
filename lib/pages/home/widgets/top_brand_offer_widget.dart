@@ -19,7 +19,7 @@ class TopBrandsOfferListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration:
           BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: AppColors.kDarkPrimaryColor.withOpacity(.12), blurRadius: 12)]),
       child: Column(
@@ -31,14 +31,14 @@ class TopBrandsOfferListWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(12.0).copyWith(bottom: 4),
-            child: Text(
+            child: const Text(
               'Upto 35% Off',
               style: TextStyle(color: AppColors.kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(12.0).copyWith(top: 0),
-            child: Text(
+            child: const Text(
               'Additional 10% off on ৳1299+',
               style: TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 11),
             ),
@@ -59,7 +59,7 @@ class BestSellerListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16, bottom: 16),
+      padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Stack(
         children: [
           Container(
@@ -90,13 +90,13 @@ class BestSellerListWidget extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star_rate_rounded,
                                 color: AppColors.kOfferButtonColor,
                                 size: 15,
                               ),
                               RichText(
-                                  text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                                  text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
                                 TextSpan(
                                   text: '4.4',
                                   style: AppTheme.textStyleBoldBlack10,
@@ -107,7 +107,7 @@ class BestSellerListWidget extends StatelessWidget {
                                 ),
                                 TextSpan(
                                   text: '(255)',
-                                  style: const TextStyle(color: Colors.black54, fontSize: 8, fontWeight: FontWeight.bold),
+                                  style: TextStyle(color: Colors.black54, fontSize: 8, fontWeight: FontWeight.bold),
                                 )
                               ])),
                             ],
@@ -118,7 +118,7 @@ class BestSellerListWidget extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           'Maybelline New York Superstay Vinyl Ink',
@@ -128,7 +128,7 @@ class BestSellerListWidget extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      Text(
+                      const Text(
                         '30ml',
                         style: AppTheme.textStyleNormalBlack12,
                       ),
@@ -138,17 +138,17 @@ class BestSellerListWidget extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
                             decoration:
                                 BoxDecoration(color: /*isBuy1Get1? AppColors.kOfferButtonColor:*/ AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
-                            child: Text(/*isBuy1Get1?'Buy 1 Get 1':*/ 'Free Delivery', style: AppTheme.textStyleBoldWhite10)),
+                            child: const Text(/*isBuy1Get1?'Buy 1 Get 1':*/ 'Free Delivery', style: AppTheme.textStyleBoldWhite10)),
                       ),
                       RichText(
-                          text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                          text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
                         TextSpan(
                           text: '৳ 550  ',
                           style: AppTheme.textStyleBoldBlack14,
                         ),
                         TextSpan(
                           text: '৳550',
-                          style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
+                          style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
                         ),
                         TextSpan(
                           text: ' | ',
@@ -156,7 +156,7 @@ class BestSellerListWidget extends StatelessWidget {
                         ),
                         TextSpan(
                           text: '(-25% Off)',
-                          style: const TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.bold),
                         )
                       ])),
                     ],
@@ -184,7 +184,7 @@ class BestSellerListWidget extends StatelessWidget {
                     style: TextStyle(color: Color(0xff0094CF), fontSize: 10),
                   ),
                 )
-              : SizedBox.shrink()
+              : const SizedBox.shrink()
         ],
       ),
     );
@@ -206,7 +206,7 @@ class BestSellerListViewBuilder extends StatelessWidget {
           Row(
             children: [
               const TitleTextWidget(tileText: 'Bestseller'),
-              Spacer(),
+              const Spacer(),
               InkWell(
                 onTap: () {
                   // await HomeApiController.to.productListWithCategoryCall({
@@ -214,8 +214,8 @@ class BestSellerListViewBuilder extends StatelessWidget {
                   // });
                   Get.toNamed(SingleCatergoryWiseScreen.routeName);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     'See All',
                     style: TextStyle(
@@ -259,10 +259,10 @@ class SegmentGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       shrinkWrap: true,
       primary: false,
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 200, crossAxisSpacing: 12, mainAxisSpacing: 12),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 200, crossAxisSpacing: 12, mainAxisSpacing: 12),
       itemCount: 8,
       itemBuilder: (context, index) {
         return GestureDetector(
@@ -295,7 +295,7 @@ class SegmentGridWidget extends StatelessWidget {
                       'assets/blue_background1.png',
                     )),
                 widgetinBlueShade ??
-                    Positioned(
+                    const Positioned(
                         bottom: 10,
                         left: 0,
                         right: 0,
@@ -323,7 +323,7 @@ class GreetingCardWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 220,
-      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.bottomGrettings), fit: BoxFit.fill)),
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.bottomGrettings), fit: BoxFit.fill)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -333,8 +333,8 @@ class GreetingCardWidget extends StatelessWidget {
             'assets/Enhance_Your_Beauty_With_ Perfecto.png',
             height: 46,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Text(
               'With vast experience in the cosmetics industry, who sourcing cosmetics, skincare and hair care on a global level. We deliver the highest quality products of world renowned at the most affordable prices. We believe that everyone – no matter their sex, ethnicity, age, budget or location – should be thrilled by Perfecto.',
               style: AppTheme.textStyleMediumBlack12,

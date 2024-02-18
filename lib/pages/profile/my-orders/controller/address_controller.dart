@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/utils/global.dart';
@@ -7,10 +9,12 @@ import 'package:perfecto/services/user_service.dart';
 class AddressController extends GetxController {
   final _districtStatus = Rx<RxStatus>(RxStatus.empty());
   final _areaStatus = Rx<RxStatus>(RxStatus.empty());
-  final _areaList = <CityModel>[].obs;
+  final _cityList = <CityModel>[].obs;
+  final _zoneList = <ZoneModel>[].obs;
+  final _areaList = <AreaModel>[].obs;
   final _districtList = <DistrictModel>[].obs;
   final _addressList = <AddressModel>[].obs;
-  final selectedDistrict = ''.obs;
+  final selectedCity = ''.obs;
   final selectedArea = ''.obs;
   final sameAddress = false.obs;
   final address = AddressModel().obs;
@@ -30,7 +34,9 @@ class AddressController extends GetxController {
 
   RxStatus get districtStatus => _districtStatus.value;
   RxStatus get areaStatus => _areaStatus.value;
-  List<CityModel> get areaList => _areaList.value;
+  RxList<CityModel> get cityList => _cityList;
+  RxList<ZoneModel> get zoneList => _zoneList;
+  RxList<AreaModel> get areaList => _areaList;
   RxList<DistrictModel> get districtList => _districtList;
   RxList<AddressModel> get addressList => _addressList;
   RxBool isAddNew = false.obs;
@@ -38,7 +44,7 @@ class AddressController extends GetxController {
   void onInit() {
     super.onInit();
     getAddressCall();
-    getDistrictData();
+    getCityData();
   }
 
   editAddress(AddressModel addressModel) {
@@ -47,10 +53,11 @@ class AddressController extends GetxController {
     emailController.text = addressModel.email ?? '-';
     phoneController.text = addressModel.phone ?? '';
     addressController.text = addressModel.address ?? '';
-    selectedDistrict.value = addressModel.districtId ?? '';
+    selectedCity.value = addressModel.districtId ?? '';
     selectedArea.value = addressModel.cityId ?? '';
     sameAddress.value = addressModel.status == '1' ? true : false;
-    getAreaData(selectedDistrict.value);
+    //TODO: //
+    // getAreaData(selectedCity.value);
   }
 
   clearAddress() {
@@ -58,7 +65,7 @@ class AddressController extends GetxController {
     emailController.clear();
     phoneController.clear();
     addressController.clear();
-    selectedDistrict.value = '';
+    selectedCity.value = '';
     selectedArea.value = '';
     sameAddress.value = false;
     isAddNew.value = true;
@@ -68,16 +75,21 @@ class AddressController extends GetxController {
     _addressList.value = await UserService.userAddressCall();
   }
 
-  Future<void> getDistrictData() async {
-    _districtList.value = await UserService.getDistrictData();
-    districtList.refresh();
+  Future<void> getCityData() async {
+    _cityList.value = await UserService.getCityData();
+    cityList.refresh();
     update();
   }
 
-  Future<void> getAreaData(String districtId) async {
+  Future<void> getZoneAreaData(String id, String type) async {
     _areaList.clear();
-    final areas = await UserService.getAreaData(districtId);
-    _areaList.assignAll(areas);
+
+    final areas = await UserService.getAreaData(id, type);
+    if (type == 'zone') {
+      _zoneList.assignAll(areas as List<ZoneModel>);
+    } else {
+      _areaList.assignAll(areas as List<AreaModel>);
+    }
     update();
   }
 

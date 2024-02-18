@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
 
@@ -125,10 +127,16 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     Timer.periodic(Duration(milliseconds: 5000), (timer) {
-      if (currentPage < (bannerContent.length - 1)) {
-        pageController.value.nextPage(duration: Duration(milliseconds: 2000), curve: Curves.ease);
-      } else {
-        pageController.value.animateToPage(0, duration: Duration(milliseconds: 2000), curve: Curves.ease);
+      try {
+        if (NavigationController.to.selectedIndex.value == 0) {
+          if (currentPage < (bannerContent.length - 1)) {
+            pageController.value.nextPage(duration: Duration(milliseconds: 2000), curve: Curves.ease);
+          } else {
+            pageController.value.animateToPage(0, duration: Duration(milliseconds: 2000), curve: Curves.ease);
+          }
+        }
+      } catch (e) {
+        globalLogger.e(e);
       }
     });
     // TODO: implement onInit

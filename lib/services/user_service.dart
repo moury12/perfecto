@@ -113,23 +113,53 @@ class UserService {
     }
   }
 
-  static Future<List<CityModel>> getAreaData(String districtId) async {
+  static Future<List<CityModel>> getCityData() async {
     try {
-      List<CityModel> areaList = [];
+      List<CityModel> cityList = [];
       final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}city?district_id=$districtId' /*${dislist.map((e) => e.id)}*/,
+        url: '${Service.apiUrl}get-city-list',
         httpMethod: HttpMethod.get,
         noNeedAuthToken: false,
       );
-      globalLogger.d(response, "Get Area Route");
+
+      globalLogger.d(response, "Get City List Route");
+      // Get.back();
       if (response['status'] != null && response['status']) {
-        response['data']['cities'].forEach((course) {
-          areaList.add(CityModel.fromJson(course));
+        response['data']['districts'].forEach((dis) {
+          cityList.add(CityModel.fromJson(dis));
         });
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
-      return areaList;
+      return cityList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  static Future<List<dynamic>> getAreaData(String id, String type) async {
+    try {
+      List<ZoneModel> zoneList = [];
+      List<AreaModel> areaList = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}get-${type == 'zone' ? 'zone' : 'area'}-list/$id',
+        httpMethod: HttpMethod.get,
+        noNeedAuthToken: false,
+      );
+      globalLogger.d(response, "Get ${type == 'zone' ? 'Zone' : 'Area'} Route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((item) {
+          if (type == 'zone') {
+            zoneList.add(ZoneModel.fromJson(item));
+          } else {
+            areaList.add(AreaModel.fromJson(item));
+          }
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return type == 'zone' ? zoneList : areaList;
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly

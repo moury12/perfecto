@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/chat/chat_controller.dart';
@@ -15,8 +19,6 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ChatController messageController = Get.put(ChatController());
-    globalLogger.d(messageController.messages);
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -28,7 +30,7 @@ class ChatScreen extends StatelessWidget {
           child: Obx(() {
             return Row(
               children: [
-                messageController.messages.isNotEmpty
+                ChatController.to.messageList.isNotEmpty
                     ? const Row(
                         children: [
                           Stack(
@@ -56,7 +58,7 @@ class ChatScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Farzarr akteh',
+                                'Admin',
                                 style: AppTheme.textStyleSemiBoldBlack12,
                               ),
                               Text(
@@ -80,7 +82,7 @@ class ChatScreen extends StatelessWidget {
                       builder: (context) => AlertDialog(
                         backgroundColor: Colors.white,
                         surfaceTintColor: Colors.white,
-                        title: Text(
+                        title: const Text(
                           'Are you sure to disconnect?',
                           style: AppTheme.textStyleSemiBoldBlack16,
                         ),
@@ -123,112 +125,212 @@ class ChatScreen extends StatelessWidget {
           height: 1,
         ),
         Expanded(
-          child: Obx(() {
-            return messageController.messages.isEmpty
-                ? GestureDetector(
-                    onTap: () {
-                      final newMessage = Message(sender: AssetsConstant.foregrond, content: 'Hi', timestamp: DateTime.now(), isReceived: false);
-                      messageController.addMessage(newMessage);
-                    },
-                    child: Center(
-                        child: Image.asset(
-                      AssetsConstant.messageDefault,
-                      height: 82,
-                    )),
-                  )
-                : ListView.builder(
-                    reverse: true,
-                    padding: EdgeInsets.zero,
-                    itemCount: ChatController.to.messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messageController.messages.reversed.toList()[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: message.isReceived ? MainAxisAlignment.start : MainAxisAlignment.end,
-                          children: [
-                            message.isReceived
-                                ? Stack(
-                                    children: [
-                                      CustomNetworkImage(
-                                        networkImagePath: '',
-                                        errorImagePath: message.sender,
-                                        border: NetworkImageBorder.Circle,
-                                        height: 40,
-                                        width: 40,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      const Positioned(
-                                          right: 0,
-                                          bottom: 0,
-                                          child: Icon(
-                                            Icons.circle,
-                                            color: Color(0xff09FC5C),
-                                            size: 12,
-                                          ))
-                                    ],
-                                  )
-                                : const SizedBox.shrink(),
-                            CustomSizedBox.space20W,
-                            Flexible(
+          child: Obx(
+            () {
+              return ChatController.to.messageList.isEmpty
+                  ? GestureDetector(
+                      onTap: () {
+                        // final newMessage = Message(sender: AssetsConstant.foregrond, content: 'Hi', timestamp: DateTime.now(), isReceived: false);
+                        // messageController.addMessage(newMessage);
+                      },
+                      child: Center(
+                          child: Image.asset(
+                        AssetsConstant.messageDefault,
+                        height: 82,
+                      )),
+                    )
+                  : ListView.builder(
+                      reverse: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: ChatController.to.messageList.length,
+                      itemBuilder: (context, index) {
+                        final message = ChatController.to.messageList.reversed.toList()[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: message.senderId == '0' ? MainAxisAlignment.start : MainAxisAlignment.end,
+                            children: [
+                              message.senderId == '0'
+                                  ? const Stack(
+                                      children: [
+                                        CustomNetworkImage(
+                                          networkImagePath: '',
+                                          errorImagePath: 'message.sender',
+                                          border: NetworkImageBorder.Circle,
+                                          height: 40,
+                                          width: 40,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Positioned(
+                                            right: 0,
+                                            bottom: 0,
+                                            child: Icon(
+                                              Icons.circle,
+                                              color: Color(0xff09FC5C),
+                                              size: 12,
+                                            ))
+                                      ],
+                                    )
+                                  : const SizedBox.shrink(),
+                              CustomSizedBox.space20W,
+                              Flexible(
                                 child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: message.isReceived ? BorderRadius.circular(26) : BorderRadius.circular(26).copyWith(topRight: const Radius.circular(6)),
-                                color: message.isReceived ? const Color(0xff8EE6E1).withOpacity(.11) : AppColors.kPrimaryColor,
-                              ),
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              margin: EdgeInsets.only(right: message.isReceived ? 80 : 0, left: message.isReceived ? 0 : 80),
-                              child: Text(
-                                message.content,
-                                style: message.isReceived ? AppTheme.textStyleNormalBlack12 : AppTheme.textStyleNormalWhite12,
-                              ),
-                            ))
-                          ],
-                        ),
-                      );
-                    },
-                  );
-          }),
+                                  decoration: BoxDecoration(
+                                    borderRadius: message.senderId == '0'
+                                        ? BorderRadius.circular(26)
+                                        : BorderRadius.circular(26).copyWith(
+                                            topRight: const Radius.circular(6),
+                                          ),
+                                    color: message.senderId == '0' ? const Color(0xff8EE6E1).withOpacity(.11) : AppColors.kPrimaryColor,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  margin: EdgeInsets.only(
+                                    right: message.senderId == '0' ? 80 : 0,
+                                    left: message.senderId == '0' ? 0 : 80,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (message.image!.isNotEmpty)
+                                        CustomNetworkImage(
+                                          networkImagePath: message.image!,
+                                          errorImagePath: 'message.sender',
+                                          width: MediaQuery.of(context).size.width * .5,
+                                          height: MediaQuery.of(context).size.width * .5,
+                                          border: NetworkImageBorder.Circle,
+                                          borderRadius: 8,
+                                          fit: BoxFit.cover,
+                                          isPreviewPageNeed: true,
+                                          previewPageTitle: 'Image Preview',
+                                          previewPageTitleColor: Colors.white,
+                                        ),
+                                      if (message.image!.isNotEmpty && message.message!.isNotEmpty) CustomSizedBox.space8H,
+                                      if (message.message!.isNotEmpty)
+                                        Text(
+                                          message.message!,
+                                          style: message.senderId == '0' ? AppTheme.textStyleNormalBlack12 : AppTheme.textStyleNormalWhite12,
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+            },
+          ),
         ),
         FittedBox(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: const Offset(0, 1), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CustomTextField(
-                  width: MediaQuery.of(context).size.width / 1.15,
-                  marginHorizontal: 0,
-                  controller: messageController.textController,
-                  hintText: 'Type a message...',
-                  enableBorderColor: AppColors.kPrimaryColor,
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      messageController.toggleIsReceived();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset(
-                        AssetsConstant.link,
-                        height: 24,
+                Obx(() {
+                  return ChatController.to.lastImage.value.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.file(
+                                File(ChatController.to.lastImage.value),
+                                height: 50,
+                                width: 50,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .85,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  ChatController.to.removeImage();
+                                },
+                                child: const Text(
+                                  'Remove',
+                                  style: TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox.shrink();
+                }),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      CustomTextField(
+                        width: MediaQuery.of(context).size.width,
+                        marginHorizontal: 0,
+                        marginVertical: 0,
+                        controller: ChatController.to.textController,
+                        hintText: 'Type a message...',
+                        enableBorderColor: AppColors.kPrimaryColor,
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            // ChatController.to.toggleIsReceived();
+                            ChatController.to.pickImage();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Image.asset(
+                              AssetsConstant.link,
+                              height: 24,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      CustomSizedBox.space8W,
+                      GestureDetector(
+                          onTap: () {
+                            // final newMessage = Message(
+                            //     sender: AssetsConstant.foregrond,
+                            //     content: ChatController.to.textController.text,
+                            //     timestamp: DateTime.now(),
+                            //     isReceived: messageController.isReceived.value);
+                            // messageController.addMessage(newMessage);
+                            if (ChatController.to.textController.text.isNotEmpty) {
+                              ChatController.to.sendMessage(
+                                ChatController.to.textController.text,
+                              );
+                            } else {
+                              showSnackBar(msg: 'Type something to send');
+                            }
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: AppColors.kPrimaryColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                AssetsConstant.sendIcon,
+                                color: Colors.white,
+                                height: 30,
+                              ),
+                            ),
+                          ))
+                    ],
                   ),
                 ),
-                CustomSizedBox.space8W,
-                GestureDetector(
-                    onTap: () {
-                      final newMessage = Message(
-                          sender: AssetsConstant.foregrond,
-                          content: messageController.textController.text,
-                          timestamp: DateTime.now(),
-                          isReceived: messageController.isReceived.value);
-                      messageController.addMessage(newMessage);
-                    },
-                    child: Image.asset(
-                      AssetsConstant.sendIcon,
-                      height: 30,
-                    ))
               ],
             ),
           ),

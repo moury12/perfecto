@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
-import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
+import 'package:perfecto/pages/chat/chat_controller.dart';
 
 import '../constants/assets_constants.dart';
 
@@ -30,6 +30,10 @@ class NavigationController extends GetxController {
       loginRoute(index);
     } else {
       selectedIndex.value = index;
+      if (index == 2) {
+        globalLogger.d("getChats");
+        ChatController.to.getChats();
+      }
     }
   }
 

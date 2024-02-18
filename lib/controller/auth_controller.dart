@@ -10,6 +10,8 @@ import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 
 import 'package:perfecto/pages/auth/change_password_page.dart';
+import 'package:perfecto/pages/chat/chat_controller.dart';
+import 'package:perfecto/pages/chat/chat_controller.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/services/auth_service.dart';
 import '../DB/database_helper.dart';
@@ -93,8 +95,7 @@ class AuthController extends GetxController {
       Service.setAuthToken(user[DatabaseHelper.accessToken]);
       globalLogger.d(user[DatabaseHelper.accessToken], 'token');
       Get.put<UserController>(UserController(), permanent: true);
-      Get.put<HomeApiController>(HomeApiController(), permanent: true);
-      // UserController.to.getUserInfoCall();
+      Get.put<ChatController>(ChatController(), permanent: true);
       // globalLogger.d(user, user.runtimeType);
     }
     super.onInit();
@@ -126,6 +127,7 @@ class AuthController extends GetxController {
   Future<void> logoutFunc() async {
     _delete();
     Get.delete<UserController>(force: true);
+    Get.delete<ChatController>(force: true);
     Service.setAuthToken('');
     if (currentLoginType == LogInType.google) {
       _googleSignIn.signOut();
@@ -208,7 +210,7 @@ class AuthController extends GetxController {
       unAuthenticateIndex.value = -1;
 
       Get.put<UserController>(UserController(), permanent: true);
-      // UserController.to.getUserInfoCall();
+      Get.put<ChatController>(ChatController(), permanent: true);
       Get.back();
       // afterLogin(isCreated);
     } else if (type == LogInType.phone && isCreated.isNotEmpty) {

@@ -150,16 +150,17 @@ class AddNewAddressScreen extends StatelessWidget {
                       ),
                       Obx(() {
                         return TitleDropdown(
-                          dwItems: controller.districtList,
-                          dwValue: controller.selectedDistrict.value!.isEmpty ? null : controller.selectedDistrict.value,
+                          dwItems: controller.cityList,
+                          dwValue: controller.selectedCity.value!.isEmpty ? null : controller.selectedCity.value,
                           type: DropdownListType.object,
                           onChange: (v) async {
-                            if (controller.selectedDistrict.value != v) {
+                            if (controller.selectedCity.value != v) {
                               controller.selectedArea.value = '';
-                              controller.selectedDistrict.value = v;
-                              await controller.getAreaData(v);
+                              controller.selectedCity.value = v;
+                              //TODO://
+                              // await controller.getAreaData(v);
                             }
-                            globalLogger.d(controller.selectedDistrict.value);
+                            globalLogger.d(controller.selectedCity.value);
                           },
                           fillColor: AppColors.kborderColor,
                           hintText: 'Select your district',
@@ -260,17 +261,17 @@ class AddNewAddressScreen extends StatelessWidget {
                               controller.addressController.text.length >= 3 &&
                               controller.nameController.text.isNotEmpty &&
                               controller.selectedArea.value.isNotEmpty &&
-                              controller.selectedDistrict.value.isNotEmpty) {
+                              controller.selectedCity.value.isNotEmpty) {
                             if (controller.isAddNew.value) {
                               controller.addAddressRequest(controller.nameController.text, controller.phoneController.text, controller.emailController.text,
-                                  controller.selectedDistrict.value, controller.selectedArea.value, controller.addressController.text, controller.sameAddress.value ? '1' : '0');
+                                  controller.selectedCity.value, controller.selectedArea.value, controller.addressController.text, controller.sameAddress.value ? '1' : '0');
                               globalLogger.d('Add new Address');
                             } else {
                               controller.updateAddressRequest(
                                   name: controller.nameController.text,
                                   phone: controller.phoneController.text,
                                   email: controller.emailController.text,
-                                  districtId: controller.selectedDistrict.value,
+                                  districtId: controller.selectedCity.value,
                                   cityId: controller.selectedArea.value,
                                   address: controller.addressController.text,
                                   status: controller.sameAddress.value ? '1' : '0',
@@ -295,7 +296,7 @@ class AddNewAddressScreen extends StatelessWidget {
                             if (controller.phoneController.text.length < 11) {
                               controller.errorPhone.value = 'Enter a valid phone number!';
                             }
-                            if (controller.selectedDistrict.value!.isEmpty) {
+                            if (controller.selectedCity.value!.isEmpty) {
                               showSnackBar(msg: 'Please select a District');
                             }
                             if (controller.selectedArea.value!.isEmpty) {
