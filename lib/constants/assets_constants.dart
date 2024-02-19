@@ -11,12 +11,9 @@ class AssetsConstant {
   static const String drawerIcon = "assets/drawer_icon.png";
   static const String cartIcon = "assets/cart_icon.png";
   static const String bottomGrettings = "assets/bottom_grettings.png";
-  static const String blueCircleBackground =
-      "assets/blue_circle_background.png";
-  static const String blueCircleBackground2 =
-      "assets/blue_circle_background2.png";
-  static const String blueCircleBackground3 =
-      "assets/blue_circle_background3.png";
+  static const String blueCircleBackground = "assets/blue_circle_background.png";
+  static const String blueCircleBackground2 = "assets/blue_circle_background2.png";
+  static const String blueCircleBackground3 = "assets/blue_circle_background3.png";
   static const String blueCircleBackground4 = "assets/category_blue.png";
   static const String circleBackground = "assets/circleBackground.png";
   static const String circleBackground2 = "assets/circleBackground2.png";
@@ -39,6 +36,8 @@ class AssetsConstant {
   static const String link = "assets/link.png";
   static const String locationAddress = "assets/location_address.png";
   static const String messageDefault = "assets/message_default.png";
+  static const String messageExpired = "assets/expired.jpg";
+  static const String messageAdmin = "assets/perfecto.jpg";
   static const String phoneLogin = "assets/phone_login.png";
   static const String sort = "assets/sort.png";
   static const String returnCancel = "assets/return_cancel.png";
@@ -71,10 +70,8 @@ class AssetsConstant {
   static const String favIcon = "assets/fav_icon.png";
   static const String favIconFill = "assets/fav_icon_fill.png";
   static const String lipstickShade = "assets/lipstickShade.png";
-  static const String superOfferForeground =
-      "assets/super_offer_foreground.png";
-  static const String superOfferBackground =
-      "assets/super_offer_background.png";
+  static const String superOfferForeground = "assets/super_offer_foreground.png";
+  static const String superOfferBackground = "assets/super_offer_background.png";
   static const String slider1 = "assets/slider1.png";
   static const String slider2 = "assets/slider2.png";
   static const String pointsIcon = "assets/points_icon.png";

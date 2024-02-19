@@ -38,7 +38,7 @@ class ChatScreen extends StatelessWidget {
                             children: [
                               CustomNetworkImage(
                                 networkImagePath: '',
-                                errorImagePath: AssetsConstant.foregrond,
+                                errorImagePath: AssetsConstant.messageAdmin,
                                 border: NetworkImageBorder.Circle,
                                 height: 40,
                                 width: 40,
@@ -180,7 +180,7 @@ class ChatScreen extends StatelessWidget {
                                           children: [
                                             CustomNetworkImage(
                                               networkImagePath: '',
-                                              errorImagePath: 'message.sender',
+                                              errorImagePath: AssetsConstant.messageAdmin,
                                               border: NetworkImageBorder.Circle,
                                               height: 40,
                                               width: 40,
@@ -199,72 +199,67 @@ class ChatScreen extends StatelessWidget {
                                       : const SizedBox.shrink(),
                                   CustomSizedBox.space20W,
                                   Flexible(
-                                    child: ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                        minWidth: 150,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: message.senderId == '0'
+                                            ? BorderRadius.circular(26)
+                                            : BorderRadius.circular(26).copyWith(
+                                                topRight: const Radius.circular(6),
+                                              ),
+                                        color: message.senderId == '0' ? const Color(0xff8EE6E1).withOpacity(.11) : AppColors.kPrimaryColor,
                                       ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: message.senderId == '0'
-                                              ? BorderRadius.circular(26)
-                                              : BorderRadius.circular(26).copyWith(
-                                                  topRight: const Radius.circular(6),
-                                                ),
-                                          color: message.senderId == '0' ? const Color(0xff8EE6E1).withOpacity(.11) : AppColors.kPrimaryColor,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                        margin: EdgeInsets.only(
-                                          right: message.senderId == '0' ? 80 : 0,
-                                          left: message.senderId == '0' ? 0 : 80,
-                                        ),
-                                        child: /*Stack(
-                                          children: [*/
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      margin: EdgeInsets.only(
+                                        right: message.senderId == '0' ? 80 : 0,
+                                        left: message.senderId == '0' ? 0 : 80,
+                                      ),
+                                      child: /*Stack(
+                                        children: [*/
+                                          Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          if (message.image!.isNotEmpty)
+                                            CustomNetworkImage(
+                                              networkImagePath: message.image!,
+                                              errorImagePath: AssetsConstant.messageExpired,
+                                              width: MediaQuery.of(context).size.width * .5,
+                                              height: MediaQuery.of(context).size.width * .5,
+                                              border: NetworkImageBorder.Circle,
+                                              borderRadius: 8,
+                                              fit: BoxFit.cover,
+                                              isPreviewPageNeed: true,
+                                              previewPageTitle: 'Image Preview',
+                                              previewPageTitleColor: Colors.white,
+                                            ),
+                                          if (message.image!.isNotEmpty && message.message!.isNotEmpty) CustomSizedBox.space8H,
+                                          if (message.message!.isNotEmpty)
                                             Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            if (message.image!.isNotEmpty)
-                                              CustomNetworkImage(
-                                                networkImagePath: message.image!,
-                                                errorImagePath: 'message.sender',
-                                                width: MediaQuery.of(context).size.width * .5,
-                                                height: MediaQuery.of(context).size.width * .5,
-                                                border: NetworkImageBorder.Circle,
-                                                borderRadius: 8,
-                                                fit: BoxFit.cover,
-                                                isPreviewPageNeed: true,
-                                                previewPageTitle: 'Image Preview',
-                                                previewPageTitleColor: Colors.white,
-                                              ),
-                                            if (message.image!.isNotEmpty && message.message!.isNotEmpty) CustomSizedBox.space8H,
-                                            if (message.message!.isNotEmpty)
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                    message.message!,
-                                                    style: message.senderId == '0' ? AppTheme.textStyleNormalBlack12 : AppTheme.textStyleNormalWhite12,
-                                                  ),
-                                                ],
-                                              ),
+                                              children: [
+                                                Text(
+                                                  message.message!,
+                                                  style: message.senderId == '0' ? AppTheme.textStyleNormalBlack12 : AppTheme.textStyleNormalWhite12,
+                                                ),
+                                              ],
+                                            ),
 
-                                            // CustomSizedBox.space12H,
+                                          // CustomSizedBox.space12H,
 
-                                            // Text(
-                                            //   message.message!.length.toString() + chatTimeAgo(date: message.createdAt!).replaceAll(' ago', ''),
-                                            //   style: TextStyle(fontSize: 8),
-                                            // ),
-                                          ],
-                                        ),
-                                        // Positioned(
-                                        //   bottom: 12,
-                                        //   right: 0,
-                                        //   child: Text(
-                                        //     chatTimeAgo(date: message.createdAt!).replaceAll(' ago', ''),
-                                        //     style: TextStyle(fontSize: 8),
-                                        //   ),
-                                        // ),
-                                        //   ],
-                                        // ),
+                                          // Text(
+                                          //   message.message!.length.toString() + chatTimeAgo(date: message.createdAt!).replaceAll(' ago', ''),
+                                          //   style: TextStyle(fontSize: 8),
+                                          // ),
+                                        ],
                                       ),
+                                      // Positioned(
+                                      //   bottom: 12,
+                                      //   right: 0,
+                                      //   child: Text(
+                                      //     chatTimeAgo(date: message.createdAt!).replaceAll(' ago', ''),
+                                      //     style: TextStyle(fontSize: 8),
+                                      //   ),
+                                      // ),
+                                      //   ],
+                                      // ),
                                     ),
                                   )
                                 ],
