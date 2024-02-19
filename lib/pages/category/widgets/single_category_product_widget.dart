@@ -55,7 +55,11 @@ class SingleCategoryProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        Get.put<ProductDetailsController>(
+          ProductDetailsController(),
+        );
+        await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
         Get.toNamed(ProductDetailsScreen.routeName);
       },
       child: Stack(
@@ -74,15 +78,21 @@ class SingleCategoryProductWidget extends StatelessWidget {
             ),
             child: Column(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    product?.image ?? '',
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(img, fit: BoxFit.fill, height: 168, width: 200);
-                    },
-                  ),
-                ),
+                CustomNetworkImage(networkImagePath: product?.image ?? '', height: 168, width: 200, errorImagePath: img, fit: BoxFit.fill, borderRadius: 10),
+
+                // ClipRRect(
+                //   borderRadius: BorderRadius.circular(10),
+                //   child:
+                //
+                //
+                //
+                //   Image.network(
+                //     product?.image ?? '',
+                //     errorBuilder: (context, error, stackTrace) {
+                //       return Image.asset(img, fit: BoxFit.fill, height: 168, width: 200);
+                //     },
+                //   ),
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -129,10 +139,17 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Row(
                           children: [
-                            Image.asset(
-                              AssetsConstant.lipstickShade,
-                              height: 13,
-                            ),
+                            CustomNetworkImage(
+                                networkImagePath: product?.productShades?[0].shade?.image ?? '',
+                                height: 13,
+                                width: 13,
+                                errorImagePath: AssetsConstant.lipstickShade,
+                                borderRadius: 2,
+                                fit: BoxFit.fill),
+                            // Image.asset(
+                            //   AssetsConstant.lipstickShade,
+                            //   height: 13,
+                            // ),
                             CustomSizedBox.space4W,
                             Text(
                               '${int.parse(product?.allShadesCount ?? '0') > 30 ? '+${product?.allShadesCount ?? '0'}' : product?.allShadesCount ?? '0'} shades',
@@ -254,21 +271,26 @@ class SingleCategoryProductWidget extends StatelessWidget {
               ],
             ),
           ),
-          isStacked
-              ? isBestSeller
-                  ? Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: Color(0xffD4F3FF),
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(4)),
-                      ),
-                      child: const Text(
-                        'Bestseller',
-                        style: TextStyle(color: Color(0xff0094CF), fontSize: 10),
-                      ),
-                    )
-                  : Row(
-                      children: [
+
+          ((product?.offers?.count ?? '0') != '0') || (product?.bestSale ?? '0') == '1'
+              ? Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Row(
+                    children: [
+                      if ((product?.bestSale ?? '0') == '1')
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            color: Color(0xffD4F3FF),
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(9), bottomRight: Radius.circular(4)),
+                          ),
+                          child: const Text(
+                            'Bestseller',
+                            style: TextStyle(color: Color(0xff0094CF), fontSize: 10),
+                          ),
+                        ),
+                      if ((product?.offers?.count ?? '0') != '0')
                         Container(
                           padding: const EdgeInsets.all(4),
                           decoration: const BoxDecoration(
@@ -280,23 +302,53 @@ class SingleCategoryProductWidget extends StatelessWidget {
                             style: TextStyle(color: Color(0xff8513DF), fontSize: 10),
                           ),
                         ),
-                        isFeatured
-                            ? Container(
-                                padding: const EdgeInsets.all(4),
-                                /* margin: EdgeInsets.only(left: 4),*/
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffDDDCFF),
-                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(4), bottomRight: Radius.circular(4)),
-                                ),
-                                child: const Text(
-                                  'Featured',
-                                  style: TextStyle(color: Color(0xff1713DF), fontSize: 10),
-                                ),
-                              )
-                            : const SizedBox.shrink()
-                      ],
-                    )
-              : const SizedBox.shrink()
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink(),
+          // isStacked
+          //     ? isBestSeller
+          //         ? Container(
+          //             padding: const EdgeInsets.all(4),
+          //             decoration: const BoxDecoration(
+          //               color: Color(0xffD4F3FF),
+          //               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(4)),
+          //             ),
+          //             child: const Text(
+          //               'Bestseller',
+          //               style: TextStyle(color: Color(0xff0094CF), fontSize: 10),
+          //             ),
+          //           )
+          //         : Row(
+          //             children: [
+          //               Container(
+          //                 padding: const EdgeInsets.all(4),
+          //                 decoration: const BoxDecoration(
+          //                   color: Color(0xffECDDFF),
+          //                   borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(4)),
+          //                 ),
+          //                 child: const Text(
+          //                   'Offer',
+          //                   style: TextStyle(color: Color(0xff8513DF), fontSize: 10),
+          //                 ),
+          //               ),
+          //               isFeatured
+          //                   ? Container(
+          //                       padding: const EdgeInsets.all(4),
+          //                       /* margin: EdgeInsets.only(left: 4),*/
+          //                       decoration: const BoxDecoration(
+          //                         color: Color(0xffDDDCFF),
+          //                         borderRadius: BorderRadius.only(topLeft: Radius.circular(4), bottomRight: Radius.circular(4)),
+          //                       ),
+          //                       child: const Text(
+          //                         'Featured',
+          //                         style: TextStyle(color: Color(0xff1713DF), fontSize: 10),
+          //                       ),
+          //                     )
+          //                   : const SizedBox.shrink()
+          //             ],
+          //           )
+          //     : const SizedBox.shrink()
         ],
       ),
     );

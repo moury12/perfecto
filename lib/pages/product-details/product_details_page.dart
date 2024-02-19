@@ -77,29 +77,33 @@ class ProductDetailsScreen extends StatelessWidget {
                     }),
                   );
                 }),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-                  child: Text(
-                    'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
-                    style: AppTheme.textStyleBoldBlack14,
-                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                  child: Obx(() {
+                    return Text(
+                      ProductDetailsController.to.product.value.name ?? 'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
+                      style: AppTheme.textStyleBoldBlack14,
+                    );
+                  }),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                   child: RichText(
-                      text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                      text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
                     TextSpan(
-                      text: 'Lakme',
+                      text: ProductDetailsController.to.product.value.brand?.name ?? '-',
                       style: AppTheme.textStyleMediumBlack14,
                     ),
-                    TextSpan(
-                      text: ' | ',
-                      style: AppTheme.textStyleNormalFadeBlack14,
-                    ),
-                    TextSpan(
-                      text: '3.4ml',
-                      style: AppTheme.textStyleMediumBlack14,
-                    ),
+                    if (ProductDetailsController.to.product.value.variationType != 'shade') ...[
+                      TextSpan(
+                        text: ' | ',
+                        style: AppTheme.textStyleNormalFadeBlack14,
+                      ),
+                      TextSpan(
+                        text: '3.4ml',
+                        style: AppTheme.textStyleMediumBlack14,
+                      ),
+                    ]
                   ])),
                 ),
                 Padding(
@@ -487,7 +491,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 const TitleTextWidget(tileText: 'Most Useful Review'),
-                CommentWidget(index: 1, isHelpful: false, readMore: false),
+                const CommentWidget(index: 1, isHelpful: false, readMore: false),
                 CustomSizedBox.space12H,
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -592,7 +596,7 @@ class ProductDetailsScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 9,
-                decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.white, blurRadius: 60, spreadRadius: 50)]),
+                decoration: const BoxDecoration(boxShadow: [BoxShadow(color: Colors.white, blurRadius: 60, spreadRadius: 50)]),
               ),
             ],
           ),

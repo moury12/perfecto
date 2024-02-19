@@ -6,3 +6,9 @@ enum DataType {
   district,
   area,
 }
+
+enum ProductDetailType {
+  product,
+  review,
+  customerWillView,
+}
