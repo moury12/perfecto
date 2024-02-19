@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:mh_core/utils/string_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/chat/chat_controller.dart';
@@ -124,6 +125,14 @@ class ChatScreen extends StatelessWidget {
         const Divider(
           height: 1,
         ),
+        Obx(() => ChatController.to.chatDataLoading.value
+            ? const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : const SizedBox()),
         Expanded(
           child: Obx(
             () {
@@ -140,81 +149,126 @@ class ChatScreen extends StatelessWidget {
                       )),
                     )
                   : ListView.builder(
+                      controller: ChatController.to.scrollController,
                       reverse: true,
                       padding: EdgeInsets.zero,
                       itemCount: ChatController.to.messageList.length,
                       itemBuilder: (context, index) {
-                        final message = ChatController.to.messageList.reversed.toList()[index];
+                        final message = ChatController.to.messageList.toList()[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: message.senderId == '0' ? MainAxisAlignment.start : MainAxisAlignment.end,
+                          child: Column(
                             children: [
-                              message.senderId == '0'
-                                  ? const Stack(
-                                      children: [
-                                        CustomNetworkImage(
-                                          networkImagePath: '',
-                                          errorImagePath: 'message.sender',
-                                          border: NetworkImageBorder.Circle,
-                                          height: 40,
-                                          width: 40,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Positioned(
-                                            right: 0,
-                                            bottom: 0,
-                                            child: Icon(
-                                              Icons.circle,
-                                              color: Color(0xff09FC5C),
-                                              size: 12,
-                                            ))
-                                      ],
-                                    )
-                                  : const SizedBox.shrink(),
-                              CustomSizedBox.space20W,
-                              Flexible(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: message.senderId == '0'
-                                        ? BorderRadius.circular(26)
-                                        : BorderRadius.circular(26).copyWith(
-                                            topRight: const Radius.circular(6),
-                                          ),
-                                    color: message.senderId == '0' ? const Color(0xff8EE6E1).withOpacity(.11) : AppColors.kPrimaryColor,
+                              Row(
+                                mainAxisAlignment: message.senderId == '0' ? MainAxisAlignment.start : MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0).copyWith(left: message.senderId == '0' ? 64 : 2),
+                                    child: Text(
+                                      chatTimeAgo(date: message.createdAt!).replaceAll(' ago', ''),
+                                      style: TextStyle(fontSize: 8),
+                                    ),
                                   ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                  margin: EdgeInsets.only(
-                                    right: message.senderId == '0' ? 80 : 0,
-                                    left: message.senderId == '0' ? 0 : 80,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      if (message.image!.isNotEmpty)
-                                        CustomNetworkImage(
-                                          networkImagePath: message.image!,
-                                          errorImagePath: 'message.sender',
-                                          width: MediaQuery.of(context).size.width * .5,
-                                          height: MediaQuery.of(context).size.width * .5,
-                                          border: NetworkImageBorder.Circle,
-                                          borderRadius: 8,
-                                          fit: BoxFit.cover,
-                                          isPreviewPageNeed: true,
-                                          previewPageTitle: 'Image Preview',
-                                          previewPageTitleColor: Colors.white,
+                                ],
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: message.senderId == '0' ? MainAxisAlignment.start : MainAxisAlignment.end,
+                                children: [
+                                  message.senderId == '0'
+                                      ? const Stack(
+                                          children: [
+                                            CustomNetworkImage(
+                                              networkImagePath: '',
+                                              errorImagePath: 'message.sender',
+                                              border: NetworkImageBorder.Circle,
+                                              height: 40,
+                                              width: 40,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Positioned(
+                                                right: 0,
+                                                bottom: 0,
+                                                child: Icon(
+                                                  Icons.circle,
+                                                  color: Color(0xff09FC5C),
+                                                  size: 12,
+                                                ))
+                                          ],
+                                        )
+                                      : const SizedBox.shrink(),
+                                  CustomSizedBox.space20W,
+                                  Flexible(
+                                    child: ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        minWidth: 150,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: message.senderId == '0'
+                                              ? BorderRadius.circular(26)
+                                              : BorderRadius.circular(26).copyWith(
+                                                  topRight: const Radius.circular(6),
+                                                ),
+                                          color: message.senderId == '0' ? const Color(0xff8EE6E1).withOpacity(.11) : AppColors.kPrimaryColor,
                                         ),
-                                      if (message.image!.isNotEmpty && message.message!.isNotEmpty) CustomSizedBox.space8H,
-                                      if (message.message!.isNotEmpty)
-                                        Text(
-                                          message.message!,
-                                          style: message.senderId == '0' ? AppTheme.textStyleNormalBlack12 : AppTheme.textStyleNormalWhite12,
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                        margin: EdgeInsets.only(
+                                          right: message.senderId == '0' ? 80 : 0,
+                                          left: message.senderId == '0' ? 0 : 80,
                                         ),
-                                    ],
-                                  ),
-                                ),
-                              )
+                                        child: /*Stack(
+                                          children: [*/
+                                            Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            if (message.image!.isNotEmpty)
+                                              CustomNetworkImage(
+                                                networkImagePath: message.image!,
+                                                errorImagePath: 'message.sender',
+                                                width: MediaQuery.of(context).size.width * .5,
+                                                height: MediaQuery.of(context).size.width * .5,
+                                                border: NetworkImageBorder.Circle,
+                                                borderRadius: 8,
+                                                fit: BoxFit.cover,
+                                                isPreviewPageNeed: true,
+                                                previewPageTitle: 'Image Preview',
+                                                previewPageTitleColor: Colors.white,
+                                              ),
+                                            if (message.image!.isNotEmpty && message.message!.isNotEmpty) CustomSizedBox.space8H,
+                                            if (message.message!.isNotEmpty)
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    message.message!,
+                                                    style: message.senderId == '0' ? AppTheme.textStyleNormalBlack12 : AppTheme.textStyleNormalWhite12,
+                                                  ),
+                                                ],
+                                              ),
+
+                                            // CustomSizedBox.space12H,
+
+                                            // Text(
+                                            //   message.message!.length.toString() + chatTimeAgo(date: message.createdAt!).replaceAll(' ago', ''),
+                                            //   style: TextStyle(fontSize: 8),
+                                            // ),
+                                          ],
+                                        ),
+                                        // Positioned(
+                                        //   bottom: 12,
+                                        //   right: 0,
+                                        //   child: Text(
+                                        //     chatTimeAgo(date: message.createdAt!).replaceAll(' ago', ''),
+                                        //     style: TextStyle(fontSize: 8),
+                                        //   ),
+                                        // ),
+                                        //   ],
+                                        // ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         );

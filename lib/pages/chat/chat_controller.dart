@@ -17,6 +17,7 @@ class ChatController extends GetxController {
   Rx<ChatModel> chat = ChatModel().obs;
 
   RxList<Message> messages = <Message>[].obs;
+  RxBool chatDataLoading = false.obs;
 
   RxString lastImage = ''.obs;
 
@@ -30,6 +31,18 @@ class ChatController extends GetxController {
     isReceived.value = !isReceived.value;
   }
 
+  ScrollController scrollController = ScrollController();
+  Future<void> _scrollListener() async {
+    globalLogger.d('Scroll Listener');
+    globalLogger.d(scrollController.position.pixels, 'pixels');
+    if (!chatDataLoading.value && scrollController.position.pixels == scrollController.position.minScrollExtent) {
+      if (chat.value.messageDetails!.nextPageUrl!.isNotEmpty) {
+        await getChats(false);
+      }
+      globalLogger.d(scrollController.position.minScrollExtent, 'min scroll live chat screen');
+    }
+  }
+
   TextEditingController textController = TextEditingController();
   @override
   void onClose() {
@@ -41,6 +54,7 @@ class ChatController extends GetxController {
   @override
   onInit() {
     super.onInit();
+    scrollController.addListener(_scrollListener);
     initSocket();
     getChats();
   }
@@ -57,7 +71,7 @@ class ChatController extends GetxController {
       globalLogger.d('Socket Enter');
       socket.on('chat message', (newMessage) {
         globalLogger.d(newMessage, 'Send To Pharmacy');
-        if (newMessage['sender_id'] == '0' && newMessage['receiver_id'] == UserController.to.getUserInfo.id!) {
+        if (newMessage[0]['sender_id'].toString() == '0' && newMessage[0]['receiver_id'].toString() == UserController.to.getUserInfo.id!) {
           getChats();
         }
       });
@@ -88,6 +102,7 @@ class ChatController extends GetxController {
   }
 
   Future<void> getChats([bool initialCall = true]) async {
+    chatDataLoading.value = true;
     if (initialCall) {
       _messageList.clear();
       messageList.refresh();
@@ -98,6 +113,7 @@ class ChatController extends GetxController {
       _messageList.addAll(data.messageDetails!.data!);
       messageList.refresh();
     }
+    chatDataLoading.value = false;
   }
 
   Future<void> readMessage() async {
