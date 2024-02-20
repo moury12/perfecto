@@ -159,9 +159,9 @@ class ProductModel {
     faq = json['faq'].toString() == 'null' ? '' : json['faq'].toString();
     variationType = json['variation_type'].toString() == 'null' ? '' : json['variation_type'].toString();
     price = json['price'].toString() == 'null' ? '' : json['price'].toString();
-    discountAmount = json['discount_amount'].toString() == 'null' ? '' : json['discount_amount'].toString();
-    discountPercent = json['discount_percent'].toString() == 'null' ? '' : json['discount_percent'].toString();
-    discountPrice = json['discount_price'].toString() == 'null' ? '' : json['discount_price'].toString();
+    discountAmount = json['discount_amount'].toString() == 'null' ? '0' : json['discount_amount'].toString();
+    discountPercent = json['discount_percent'].toString() == 'null' ? '0' : json['discount_percent'].toString();
+    discountPrice = json['discount_price'].toString() == 'null' ? '0' : json['discount_price'].toString();
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
     tax = json['tax'].toString() == 'null' ? '' : json['tax'].toString();
     shortDescription = json['short_description'].toString() == 'null' ? '' : json['short_description'].toString();
@@ -226,8 +226,8 @@ class ProductModel {
       });
     }
     offers = json['offers'] != null ? Offers.fromJson(json['offers']) : null;
-    allShadesCount = json['all_shades_count'].toString() == 'null' ? '' : json['all_shades_count'].toString();
-    allSizesCount = json['all_sizes_count'].toString() == 'null' ? '' : json['all_sizes_count'].toString();
+    allShadesCount = json['all_shades_count'].toString() == 'null' ? '0' : json['all_shades_count'].toString();
+    allSizesCount = json['all_sizes_count'].toString() == 'null' ? '0' : json['all_sizes_count'].toString();
     totalStock = json['total_stock'].toString() == 'null' ? '' : json['total_stock'].toString();
     if (json['product_shades'] != null) {
       productShades = <ProductShades>[];
@@ -542,8 +542,8 @@ class Offer {
     bannerMobile = json['banner_mobile'].toString() == 'null' ? '' : json['banner_mobile'].toString();
     offerTypeId = json['offer_type_id'].toString() == 'null' ? '' : json['offer_type_id'].toString();
     isFreeDelivery = json['is_free_delivery'].toString() == 'null' ? '' : json['is_free_delivery'].toString();
-    minAmount = json['min_amount'].toString() == 'null' ? '' : json['min_amount'].toString();
-    maxAmount = json['max_amount'].toString() == 'null' ? '' : json['max_amount'].toString();
+    minAmount = json['min_amount'].toString() == 'null' ? '0' : json['min_amount'].toString();
+    maxAmount = json['max_amount'].toString() == 'null' ? '0' : json['max_amount'].toString();
     startDate = json['start_date'].toString() == 'null' ? '' : json['start_date'].toString();
     expiryDate = json['expiry_date'].toString() == 'null' ? '' : json['expiry_date'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
@@ -759,6 +759,7 @@ class ProductSizes {
   String? sizePrice;
   String? createdAt;
   String? updatedAt;
+  List<ProductSizeImages>? productSizeImages;
   ProductAttributeModel? size;
 
   ProductSizes({this.id, this.productId, this.sizeId, this.sizePrice, this.createdAt, this.updatedAt, this.size});
@@ -770,6 +771,12 @@ class ProductSizes {
     sizePrice = json['size_price'].toString() == 'null' ? '' : json['size_price'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    if (json['product_size_images'] != null) {
+      productSizeImages = <ProductSizeImages>[];
+      json['product_size_images'].forEach((v) {
+        productSizeImages!.add(ProductSizeImages.fromJson(v));
+      });
+    }
     size = json['size'] != null ? ProductAttributeModel.fromJson(json['size']) : null;
   }
 
@@ -781,9 +788,46 @@ class ProductSizes {
     data['size_price'] = sizePrice;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (productSizeImages != null) {
+      data['product_size_images'] = productSizeImages!.map((v) => v.toJson()).toList();
+    }
     if (size != null) {
       data['size'] = size!.toJson();
     }
+    return data;
+  }
+}
+
+class ProductSizeImages {
+  int? id;
+  String? productSizeId;
+  String? productId;
+  String? sizeId;
+  String? productSizeImage;
+  String? createdAt;
+  String? updatedAt;
+
+  ProductSizeImages({this.id, this.productSizeId, this.productId, this.sizeId, this.productSizeImage, this.createdAt, this.updatedAt});
+
+  ProductSizeImages.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productSizeId = json['product_size_id'];
+    productId = json['product_id'];
+    sizeId = json['size_id'];
+    productSizeImage = json['product_size_image'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['product_size_id'] = this.productSizeId;
+    data['product_id'] = this.productId;
+    data['size_id'] = this.sizeId;
+    data['product_size_image'] = this.productSizeImage;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

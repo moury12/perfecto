@@ -13,6 +13,7 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   static ProductDetailsController get to => Get.find();
   TabController? tabController;
   TabController? tabController2;
+  RxString selectedVariation = ''.obs;
   RxBool isFavourite = false.obs;
   RxBool isAvaiableShade = true.obs;
   RxBool isHelpfull = false.obs;
@@ -53,10 +54,38 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   Future<void> getProductDetails(String id) async {
     globalLogger.d(id, 'productListWithCategoryCall');
     productList.clear();
+    currentPage.value = 0;
     final data = await ProductService.productDetails(id);
     product.value = data[ProductDetailType.product];
     productList.value = data[ProductDetailType.customerWillView];
+    selectedVariation.value = product.value.variationType == 'shade' ? product.value.shadeId![0] : product.value.sizeId![0];
     globalLogger.d(productList, 'productList');
+  }
+
+  double getPrice() {
+    if (product.value.variationType == 'shade') {
+      return (double.tryParse(product.value.discountPercent!) ?? 0) == 0
+          ? double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).shadePrice!) ?? 0
+          : (double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).shadePrice!) ?? 0) -
+              ((double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).shadePrice!) ?? 0) *
+                  (double.tryParse(product.value.discountPercent!) ?? 0) /
+                  100);
+    } else {
+      return (double.tryParse(product.value.discountPercent!) ?? 0) == 0
+          ? double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).sizePrice!) ?? 0
+          : (double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).sizePrice!) ?? 0) -
+              ((double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).sizePrice!) ?? 0) *
+                  (double.tryParse(product.value.discountPercent!) ?? 0) /
+                  100);
+    }
+  }
+
+  double getActualPrice() {
+    if (product.value.variationType == 'shade') {
+      return double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).shadePrice!) ?? 0;
+    } else {
+      return double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).sizePrice!) ?? 0;
+    }
   }
 
   List<String> tabTiles = ['All Shades', 'Bestsellers'];

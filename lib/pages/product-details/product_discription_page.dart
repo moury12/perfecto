@@ -6,6 +6,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
+import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -109,89 +110,89 @@ class ProductDescriptionScreen extends StatelessWidget {
     );
   }
 
-  Widget buildwidget(int tabIndex, BuildContext context) {
-    switch (tabIndex) {
-      case 0:
-        return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomSizedBox.space12H,
-                  Column(
-                    children: List.generate(
-                        5,
-                        (index) => CustomNetworkImage(
-                              networkImagePath: '',
-                              borderRadius: 0,
-                              errorImagePath: 'assets/discription.png',
-                              width: double.infinity,
-                              height: 200,
-                            )),
-                  ),
-                  CustomSizedBox.space12H,
-                  Text(
-                    'Lorem ipsum dolor sit amet consectetur. Elementum neque est bibendum quis. Sed vitae curabitur elementum felis urna sed sed diam. Arcu tempor ullamcorper viverra morbi venenatis amet donec in maecenas. Lorem ipsum dolor sit amet consectetur. Elementum neque est bibendum quis. Sed vitae curabitur elementum felis urna sed sed diam. Arcu tempor ullamcorper viverra morbi venenatis amet donec in maecenas.',
-                    style: AppTheme.textStyleNormalBlack14,
-                  ),
-                  CustomSizedBox.space12H,
-                  Text(
-                    'Expiry Date: 15 May 2025',
-                    style: AppTheme.textStyleBoldBlack14,
-                  ),
-                  CustomSizedBox.space12H,
-                  Text(
-                    'Country of Origin: India',
-                    style: AppTheme.textStyleBoldBlack14,
-                  ),
-                  CustomSizedBox.space12H,
-                  CustomSizedBox.space12H,
-                  Text(
-                    'Manufacturer: Hindustan Unilever Ltd.',
-                    style: AppTheme.textStyleBoldBlack14,
-                  ),
-                  CustomSizedBox.space12H,
-                  Text(
-                    'Address: Unit Ii - Haridwar',
-                    style: AppTheme.textStyleBoldBlack14,
-                  ),
-                  CustomSizedBox.space12H,
-                ],
-              ),
-            ));
-      case 1:
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
-            style: AppTheme.textStyleSemiBoldBlack14,
-          ),
-        );
-      case 2:
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
-            style: AppTheme.textStyleSemiBoldBlack14,
-          ),
-        );
-      case 3:
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
-            style: AppTheme.textStyleSemiBoldBlack14,
-          ),
-        );
-
-      default:
-        return Center(
-          child: Text(
-            'Unknown Tab',
-            style: TextStyle(fontSize: 10),
-          ),
-        );
-    }
-  }
+  // Widget buildwidget(int tabIndex, BuildContext context) {
+  //   switch (tabIndex) {
+  //     case 0:
+  //       return Padding(
+  //           padding: EdgeInsets.symmetric(horizontal: 16.0),
+  //           child: SingleChildScrollView(
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 CustomSizedBox.space12H,
+  //                 Column(
+  //                   children: List.generate(
+  //                       5,
+  //                       (index) => CustomNetworkImage(
+  //                             networkImagePath: '',
+  //                             borderRadius: 0,
+  //                             errorImagePath: 'assets/discription.png',
+  //                             width: double.infinity,
+  //                             height: 200,
+  //                           )),
+  //                 ),
+  //                 CustomSizedBox.space12H,
+  //                 Text(
+  //                   'Lorem ipsum dolor sit amet consectetur. Elementum neque est bibendum quis. Sed vitae curabitur elementum felis urna sed sed diam. Arcu tempor ullamcorper viverra morbi venenatis amet donec in maecenas. Lorem ipsum dolor sit amet consectetur. Elementum neque est bibendum quis. Sed vitae curabitur elementum felis urna sed sed diam. Arcu tempor ullamcorper viverra morbi venenatis amet donec in maecenas.',
+  //                   style: AppTheme.textStyleNormalBlack14,
+  //                 ),
+  //                 CustomSizedBox.space12H,
+  //                 Text(
+  //                   'Expiry Date: 15 May 2025',
+  //                   style: AppTheme.textStyleBoldBlack14,
+  //                 ),
+  //                 CustomSizedBox.space12H,
+  //                 Text(
+  //                   'Country of Origin: India',
+  //                   style: AppTheme.textStyleBoldBlack14,
+  //                 ),
+  //                 CustomSizedBox.space12H,
+  //                 CustomSizedBox.space12H,
+  //                 Text(
+  //                   'Manufacturer: Hindustan Unilever Ltd.',
+  //                   style: AppTheme.textStyleBoldBlack14,
+  //                 ),
+  //                 CustomSizedBox.space12H,
+  //                 Text(
+  //                   'Address: Unit Ii - Haridwar',
+  //                   style: AppTheme.textStyleBoldBlack14,
+  //                 ),
+  //                 CustomSizedBox.space12H,
+  //               ],
+  //             ),
+  //           ));
+  //     case 1:
+  //       return Padding(
+  //         padding: const EdgeInsets.all(16.0),
+  //         child: Text(
+  //           'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
+  //           style: AppTheme.textStyleSemiBoldBlack14,
+  //         ),
+  //       );
+  //     case 2:
+  //       return Padding(
+  //         padding: const EdgeInsets.all(16.0),
+  //         child: Text(
+  //           'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
+  //           style: AppTheme.textStyleSemiBoldBlack14,
+  //         ),
+  //       );
+  //     case 3:
+  //       return Padding(
+  //         padding: const EdgeInsets.all(16.0),
+  //         child: Text(
+  //           'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
+  //           style: AppTheme.textStyleSemiBoldBlack14,
+  //         ),
+  //       );
+  //
+  //     default:
+  //       return Center(
+  //         child: Text(
+  //           'Unknown Tab',
+  //           style: TextStyle(fontSize: 10),
+  //         ),
+  //       );
+  //   }
+  // }
 }

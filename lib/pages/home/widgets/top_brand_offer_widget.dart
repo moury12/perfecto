@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -51,9 +52,11 @@ class TopBrandsOfferListWidget extends StatelessWidget {
 
 class BestSellerListWidget extends StatelessWidget {
   final bool isBestSeller;
+  final ProductModel? product;
   const BestSellerListWidget({
     super.key,
     this.isBestSeller = true,
+    this.product,
   });
 
   @override
@@ -82,56 +85,127 @@ class BestSellerListWidget extends StatelessWidget {
                     Positioned(
                       bottom: 0,
                       left: 0,
-                      child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
-                            color: Color(0xffFFF2D9),
-                            borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            // margin: const EdgeInsets.only(left: 8),
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Color(0xffFFF2D9),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.star_rate_rounded,
+                                  color: AppColors.kOfferButtonColor,
+                                  size: 15,
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: '',
+                                    style: AppTheme.textStyleBoldBlack14,
+                                    children: [
+                                      TextSpan(
+                                        text: double.parse(product?.reviewsAvgStar ?? '4.4').toStringAsFixed(2),
+                                        style: AppTheme.textStyleBoldBlack10,
+                                      ),
+                                      const TextSpan(
+                                        text: ' | ',
+                                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w100, color: Colors.black54),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            "(${int.parse(product?.reviewsCount ?? '0') > 999 ? '${(int.parse(product?.reviewsCount ?? '0') / 1000).toStringAsFixed(1)}k' : product?.reviewsCount ?? 0})",
+                                        style: TextStyle(color: Colors.black.withOpacity(.8), fontSize: 8, fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.star_rate_rounded,
-                                color: AppColors.kOfferButtonColor,
-                                size: 15,
+                          if ((product?.allShadesCount ?? '0') != '0')
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Row(
+                                children: [
+                                  CustomNetworkImage(
+                                      networkImagePath: product?.productShades?[0].shade?.image ?? '',
+                                      height: 13,
+                                      width: 13,
+                                      errorImagePath: AssetsConstant.lipstickShade,
+                                      borderRadius: 2,
+                                      fit: BoxFit.fill),
+                                  // Image.asset(
+                                  //   AssetsConstant.lipstickShade,
+                                  //   height: 13,
+                                  // ),
+                                  CustomSizedBox.space4W,
+                                  Text(
+                                    '${(int.tryParse(product?.allShadesCount ?? '0') ?? 0) > 30 ? '+${product?.allShadesCount ?? '0'}' : product?.allShadesCount ?? '0'} shades',
+                                    style: const TextStyle(color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
+                                  )
+                                ],
                               ),
-                              RichText(
-                                  text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                                TextSpan(
-                                  text: '4.4',
-                                  style: AppTheme.textStyleBoldBlack10,
-                                ),
-                                TextSpan(
-                                  text: ' | ',
-                                  style: AppTheme.textStyleNormalFadeBlack12,
-                                ),
-                                TextSpan(
-                                  text: '(255)',
-                                  style: TextStyle(color: Colors.black54, fontSize: 8, fontWeight: FontWeight.bold),
-                                )
-                              ])),
-                            ],
-                          )),
+                            ),
+                        ],
+                      ),
+
+                      // Container(
+                      //     padding: const EdgeInsets.all(4),
+                      //     decoration: const BoxDecoration(
+                      //       color: Color(0xffFFF2D9),
+                      //       borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                      //     ),
+                      //     child: Row(
+                      //       children: [
+                      //         const Icon(
+                      //           Icons.star_rate_rounded,
+                      //           color: AppColors.kOfferButtonColor,
+                      //           size: 15,
+                      //         ),
+                      //         RichText(
+                      //             text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                      //           TextSpan(
+                      //             text: '4.4',
+                      //             style: AppTheme.textStyleBoldBlack10,
+                      //           ),
+                      //           TextSpan(
+                      //             text: ' | ',
+                      //             style: AppTheme.textStyleNormalFadeBlack12,
+                      //           ),
+                      //           TextSpan(
+                      //             text: '(255)',
+                      //             style: TextStyle(color: Colors.black54, fontSize: 8, fontWeight: FontWeight.bold),
+                      //           )
+                      //         ])),
+                      //       ],
+                      //     )),
                     )
                   ],
                 ),
                 Expanded(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          'Maybelline New York Superstay Vinyl Ink',
+                          product?.name ?? 'Maybelline New York Superstay Vinyl Ink',
                           style: AppTheme.textStyleBoldBlack12,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      const Text(
-                        '30ml',
-                        style: AppTheme.textStyleNormalBlack12,
-                      ),
+                      if ((product?.allSizesCount ?? '0') != '0')
+                        Text(
+                          product?.productSizes?[0].size?.name ?? '30ml',
+                          style: AppTheme.textStyleNormalBlack12,
+                        ),
+                      CustomSizedBox.space4H,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                         child: Container(
@@ -140,31 +214,59 @@ class BestSellerListWidget extends StatelessWidget {
                                 BoxDecoration(color: /*isBuy1Get1? AppColors.kOfferButtonColor:*/ AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
                             child: const Text(/*isBuy1Get1?'Buy 1 Get 1':*/ 'Free Delivery', style: AppTheme.textStyleBoldWhite10)),
                       ),
+                      // RichText(
+                      //     text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                      //   TextSpan(
+                      //     text: '৳ 550  ',
+                      //     style: AppTheme.textStyleBoldBlack14,
+                      //   ),
+                      //   TextSpan(
+                      //     text: '৳550',
+                      //     style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
+                      //   ),
+                      //   TextSpan(
+                      //     text: ' | ',
+                      //     style: AppTheme.textStyleNormalBlack12,
+                      //   ),
+                      //   TextSpan(
+                      //     text: '(-25% Off)',
+                      //     style: TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.bold),
+                      //   )
+                      // ])),
                       RichText(
-                          text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                        TextSpan(
-                          text: '৳ 550  ',
+                        text: TextSpan(
+                          text: '',
                           style: AppTheme.textStyleBoldBlack14,
+                          children: [
+                            TextSpan(
+                              text: '৳ ${double.parse(product?.discountPercent ?? '0') > 0 ? (product?.discountPrice ?? '550') : product?.price ?? '550'}  ',
+                              style: AppTheme.textStyleBoldBlack14,
+                              children: double.parse(product?.discountPercent ?? '0') > 0
+                                  ? [
+                                      TextSpan(
+                                        text: '৳${double.parse(product?.price ?? '550').toStringAsFixed(0)}',
+                                        style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
+                                      ),
+                                      const TextSpan(
+                                        text: ' | ',
+                                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200, color: Colors.black45),
+                                      ),
+                                      TextSpan(
+                                        text: '(-${product?.discountPercent ?? '25'}% Off)',
+                                        style: const TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.w700),
+                                      )
+                                    ]
+                                  : [],
+                            ),
+                          ],
                         ),
-                        TextSpan(
-                          text: '৳550',
-                          style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
-                        ),
-                        TextSpan(
-                          text: ' | ',
-                          style: AppTheme.textStyleNormalBlack12,
-                        ),
-                        TextSpan(
-                          text: '(-25% Off)',
-                          style: TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.bold),
-                        )
-                      ])),
+                      ),
                     ],
                   ),
                 ),
                 CustomButton(
                   label: 'ADD TO BAG',
-                  marginHorizontal: 16,
+                  marginHorizontal: 8,
                   marginVertical: 8,
                   height: 39,
                   onPressed: () {},

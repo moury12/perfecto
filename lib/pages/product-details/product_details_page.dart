@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/string_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
@@ -33,38 +35,65 @@ class ProductDetailsScreen extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                SizedBox(
-                  height: 360,
-                  child: PageView.builder(
-                    padEnds: false,
-                    scrollDirection: Axis.horizontal,
-                    controller: PageController(),
-                    onPageChanged: (value) {
-                      ProductDetailsController.to.currentPage.value = value;
-                    },
-                    itemCount: ProductDetailsController.to.bannerContent.length,
-                    itemBuilder: (context, index) {
-                      String data = ProductDetailsController.to.bannerContent[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Get.toNamed(ProductImagePreview.routeName);
-                        },
-                        child: CustomNetworkImage(
-                          networkImagePath: '',
-                          fit: BoxFit.fill,
-                          errorImagePath: data,
-                          height: double.maxFinite,
-                          width: double.infinity,
-                          borderRadius: 0,
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                Obx(() {
+                  return SizedBox(
+                    height: 360,
+                    child: PageView.builder(
+                      padEnds: false,
+                      scrollDirection: Axis.horizontal,
+                      controller: PageController(),
+                      onPageChanged: (value) {
+                        ProductDetailsController.to.currentPage.value = value;
+                      },
+                      itemCount: ProductDetailsController.to.product.value.variationType == 'shade'
+                          ? ProductDetailsController.to.product.value.productShades!
+                              .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                              .productShadeImages!
+                              .length
+                          : ProductDetailsController.to.product.value.productSizes!
+                              .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                              .productSizeImages!
+                              .length,
+                      itemBuilder: (context, index) {
+                        String data = ProductDetailsController.to.product.value.variationType == 'shade'
+                            ? ProductDetailsController.to.product.value.productShades!
+                                .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                .productShadeImages![index]
+                                .productShadeImage!
+                            : ProductDetailsController.to.product.value.productSizes!
+                                .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                .productSizeImages![index]
+                                .productSizeImage!;
+                        return GestureDetector(
+                          onTap: () {
+                            Get.toNamed(ProductImagePreview.routeName);
+                          },
+                          child: CustomNetworkImage(
+                            networkImagePath: data,
+                            fit: BoxFit.fill,
+                            errorImagePath: data,
+                            height: double.maxFinite,
+                            width: double.infinity,
+                            borderRadius: 0,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
                 Obx(() {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(ProductDetailsController.to.bannerContent.length, (index) {
+                    children: List.generate(
+                        ProductDetailsController.to.product.value.variationType == 'shade'
+                            ? ProductDetailsController.to.product.value.productShades!
+                                .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                .productShadeImages!
+                                .length
+                            : ProductDetailsController.to.product.value.productSizes!
+                                .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                .productSizeImages!
+                                .length, (index) {
                       return Container(
                         margin: const EdgeInsets.all(4),
                         width: 7,
@@ -88,23 +117,28 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                  child: RichText(
-                      text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                    TextSpan(
-                      text: ProductDetailsController.to.product.value.brand?.name ?? '-',
-                      style: AppTheme.textStyleMediumBlack14,
-                    ),
-                    if (ProductDetailsController.to.product.value.variationType != 'shade') ...[
+                  child: Obx(() {
+                    return RichText(
+                        text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
                       TextSpan(
-                        text: ' | ',
-                        style: AppTheme.textStyleNormalFadeBlack14,
-                      ),
-                      TextSpan(
-                        text: '3.4ml',
+                        text: ProductDetailsController.to.product.value.brand?.name ?? '-',
                         style: AppTheme.textStyleMediumBlack14,
                       ),
-                    ]
-                  ])),
+                      if (ProductDetailsController.to.product.value.variationType != 'shade') ...[
+                        const TextSpan(
+                          text: ' | ',
+                          style: AppTheme.textStyleNormalFadeBlack14,
+                        ),
+                        TextSpan(
+                          text: ProductDetailsController.to.product.value.productSizes!
+                              .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                              .size!
+                              .name!,
+                          style: AppTheme.textStyleMediumBlack14,
+                        ),
+                      ]
+                    ]));
+                  }),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
@@ -112,68 +146,97 @@ class ProductDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      ...List.generate(
-                        5,
-                        (index) {
-                          return index == 4
-                              ? const Icon(
-                                  Icons.star_border_rounded,
-                                  color: AppColors.kOfferButtonColor,
-                                  size: 15,
-                                )
-                              : const Icon(
-                                  Icons.star_rate_rounded,
-                                  color: AppColors.kOfferButtonColor,
-                                  size: 15,
-                                );
-                        },
-                      ),
+                      // ...List.generate(
+                      //   5,
+                      //   (index) {
+                      //     return index == 4
+                      //         ? const Icon(
+                      //             Icons.star_border_rounded,
+                      //             color: AppColors.kOfferButtonColor,
+                      //             size: 15,
+                      //           )
+                      //         : const Icon(
+                      //             Icons.star_rate_rounded,
+                      //             color: AppColors.kOfferButtonColor,
+                      //             size: 15,
+                      //           );
+                      //   },
+                      // ),
+                      RatingWidget(
+                          rating: double.tryParse(ProductDetailsController.to.product.value.reviewsAvgStar!) ?? 0,
+                          showRatingValue: false,
+                          fontSize: 12,
+                          ratingTextPosition: RatingTextPosition.right,
+                          textColor: Colors.black.withOpacity(.8),
+                          ratingIconSize: 14,
+                          ratingColor: AppColors.kOfferButtonColor,
+                          outOf: 5),
+                      // Text('4.3/5', style: AppTheme.textStyleSemiBoldBlack14),
                       RichText(
                           text: TextSpan(children: [
-                        TextSpan(text: '4.3/5', style: AppTheme.textStyleSemiBoldBlack14),
+                        TextSpan(text: ' ${double.tryParse(ProductDetailsController.to.product.value.reviewsAvgStar!) ?? 0}/5', style: AppTheme.textStyleSemiBoldBlack14),
                         const TextSpan(
                           text: ' | ',
                           style: AppTheme.textStyleNormalFadeBlack14,
                         ),
-                        const TextSpan(text: '(2225)', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 14)),
+                        TextSpan(
+                            text: '(${ProductDetailsController.to.product.value.reviewsCount!})',
+                            style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 14)),
                       ]))
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                  child: Row(
+                Obx(() {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                    child: Row(
+                      children: [
+                        RichText(
+                            text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                          TextSpan(
+                              text: '৳ ${ProductDetailsController.to.getPrice()}  ',
+                              style: AppTheme.textStyleBoldBlack20,
+                              children: (double.tryParse(ProductDetailsController.to.product.value.discountPercent!) ?? 0) == 0
+                                  ? []
+                                  : [
+                                      TextSpan(
+                                        text: '৳${ProductDetailsController.to.getActualPrice()}',
+                                        style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 14, fontWeight: FontWeight.normal),
+                                      ),
+                                      const TextSpan(
+                                        text: ' | ',
+                                        style: AppTheme.textStyleNormalFadeBlack14,
+                                      ),
+                                      TextSpan(
+                                        text: '(-${(double.tryParse(ProductDetailsController.to.product.value.discountPercent!) ?? 0).toStringAsFixed(1)}% Off)',
+                                        style: const TextStyle(color: Color(0xff02792A), fontSize: 14, fontWeight: FontWeight.bold),
+                                      )
+                                    ]),
+                        ])),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            ProductDetailsController.to.isAvaiableShade.value = !ProductDetailsController.to.isAvaiableShade.value;
+                          },
+                          child: Icon(
+                            Icons.share,
+                            color: Colors.black.withOpacity(.4),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+                if (ProductDetailsController.to.product.value.offers!.count != '0')
+                  Column(
                     children: [
-                      RichText(
-                          text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                        TextSpan(text: '৳ 550  ', style: AppTheme.textStyleBoldBlack20, children: [
-                          TextSpan(
-                            text: '৳550',
-                            style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                          TextSpan(
-                            text: ' | ',
-                            style: AppTheme.textStyleNormalFadeBlack14,
-                          ),
-                          TextSpan(
-                            text: '(-25% Off)',
-                            style: TextStyle(color: Color(0xff02792A), fontSize: 14, fontWeight: FontWeight.bold),
-                          )
-                        ]),
-                      ])),
-                      const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          ProductDetailsController.to.isAvaiableShade.value = !ProductDetailsController.to.isAvaiableShade.value;
-                        },
-                        child: Icon(
-                          Icons.share,
-                          color: Colors.black.withOpacity(.4),
-                        ),
-                      )
+                      ...List.generate(
+                        ProductDetailsController.to.product.value.offers!.offerDetails!.length,
+                        (index) => Text(
+                            '${ProductDetailsController.to.product.value.offers!.offerDetails![index].title!}: ${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.minAmount != '0' ? 'Minimum: ৳${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.minAmount!}' : ''} ${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.maxAmount != '0' ? 'Maximum: ৳${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.maxAmount!}' : ''} ${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.isFreeDelivery != '0' ? '' : '(Free Delivery)'}'),
+                      ),
                     ],
                   ),
-                ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Divider(
@@ -182,14 +245,17 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 Obx(() {
                   return Column(
-                    children: ProductDetailsController.to.isAvaiableShade.value
+                    children: ProductDetailsController.to.product.value.variationType == 'shade'
                         ? [
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
                               child: Row(
                                 children: [
-                                  const Text(
-                                    'Nude Shade Color',
+                                  Text(
+                                    ProductDetailsController.to.product.value.productShades!
+                                        .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                        .shade!
+                                        .name!,
                                     style: AppTheme.textStyleBoldFadeBlack14,
                                   ),
                                   const Spacer(),
@@ -199,8 +265,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                     },
                                     child: Row(
                                       children: [
-                                        const Text(
-                                          'All Shades (32)',
+                                        Text(
+                                          'All Shades (${ProductDetailsController.to.product.value.allShadesCount!})',
                                           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.kPrimaryColor),
                                         ),
                                         Image.asset(
@@ -218,33 +284,43 @@ class ProductDetailsScreen extends StatelessWidget {
                               child: ListView.builder(
                                 padding: const EdgeInsets.symmetric(horizontal: 8),
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      const CustomNetworkImage(
-                                        networkImagePath: '',
-                                        errorImagePath: AssetsConstant.lipstickShade,
-                                        height: 48,
-                                        width: 48,
-                                        borderRadius: 4,
-                                      ),
-                                      index == 0
-                                          ? const Icon(
-                                              Icons.check,
-                                              color: Colors.white,
-                                            )
-                                          : const SizedBox.shrink()
-                                    ],
-                                  ),
-                                ),
-                                itemCount: 12,
+                                itemBuilder: (context, index) {
+                                  final shade = ProductDetailsController.to.product.value.productShades![index];
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Obx(() {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                                        },
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            CustomNetworkImage(
+                                              networkImagePath: shade.shade!.image!,
+                                              errorImagePath: AssetsConstant.lipstickShade,
+                                              height: 48,
+                                              width: 48,
+                                              borderRadius: 4,
+                                            ),
+                                            shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                                                ? const Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                  )
+                                                : const SizedBox.shrink()
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                                  );
+                                },
+                                itemCount: ProductDetailsController.to.product.value.productShades!.length,
                               ),
                             ),
                           ]
                         : [
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
                               child: Row(
                                 children: [
@@ -253,7 +329,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                     style: AppTheme.textStyleBoldFadeBlack14,
                                   ),
                                   Text(
-                                    '180ml',
+                                    ProductDetailsController.to.product.value.productSizes!
+                                        .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                        .size!
+                                        .name!,
                                     style: AppTheme.textStyleBoldBlack14,
                                   ),
                                 ],
@@ -266,21 +345,48 @@ class ProductDetailsScreen extends StatelessWidget {
                                 child: ListView.builder(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: 23,
-                                  itemBuilder: (context, index) => Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 6),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: index == 0 ? AppColors.kPrimaryColor : Colors.transparent,
-                                        border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
-                                        borderRadius: BorderRadius.circular(4)),
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                    child: Text(
-                                      '180ml',
-                                      textAlign: TextAlign.center,
-                                      style: index == 0 ? AppTheme.textStyleSemiBoldWhite14 : AppTheme.textStyleSemiBoldFadeBlack14,
-                                    ),
-                                  ),
+                                  itemCount: ProductDetailsController.to.product.value.productSizes!.length,
+                                  itemBuilder: (context, index) {
+                                    final size = ProductDetailsController.to.product.value.productSizes![index];
+                                    return Obx(() {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          ProductDetailsController.to.selectedVariation.value = ProductDetailsController.to.product.value.productSizes![index].sizeId!;
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(horizontal: 6),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: size.sizeId == ProductDetailsController.to.selectedVariation.value ? AppColors.kPrimaryColor : Colors.transparent,
+                                            border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
+                                            borderRadius: BorderRadius.circular(4),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                          child: Text(
+                                            size.size!.name!,
+                                            textAlign: TextAlign.center,
+                                            style: size.sizeId == ProductDetailsController.to.selectedVariation.value
+                                                ? AppTheme.textStyleSemiBoldWhite14
+                                                : AppTheme.textStyleSemiBoldFadeBlack14,
+                                          ),
+                                        ),
+                                      );
+                                    });
+                                    // return Container(
+                                    //   margin: const EdgeInsets.symmetric(horizontal: 6),
+                                    //   alignment: Alignment.center,
+                                    //   decoration: BoxDecoration(
+                                    //       color: index == 0 ? AppColors.kPrimaryColor : Colors.transparent,
+                                    //       border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
+                                    //       borderRadius: BorderRadius.circular(4)),
+                                    //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    //   child: Text(
+                                    //     '180ml',
+                                    //     textAlign: TextAlign.center,
+                                    //     style: index == 0 ? AppTheme.textStyleSemiBoldWhite14 : AppTheme.textStyleSemiBoldFadeBlack14,
+                                    //   ),
+                                    // );
+                                  },
                                 ),
                               ),
                             ),
@@ -525,7 +631,8 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 CustomSizedBox.space12H,
-                const PrimaryAcceantListViewItemWidget(
+                PrimaryAcceantListViewItemWidget(
+                  productList: ProductDetailsController.to.productList,
                   title: 'Customers also Viewed',
                 )
               ],
@@ -580,27 +687,41 @@ class ProductDetailsScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget buildwidget(int tabIndex, BuildContext context) {
-    switch (tabIndex) {
-      case 0:
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(image: AssetImage(AssetsConstant.banner2), fit: BoxFit.fitWidth)),
-              ),
+Widget buildwidget(int tabIndex, BuildContext context) {
+  switch (tabIndex) {
+    case 0:
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Stack(
+          alignment: Get.currentRoute == ProductDescriptionScreen.routeName ? Alignment.topLeft : Alignment.bottomCenter,
+          children: [
+            // Container(
+            //   width: double.infinity,
+            //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(image: AssetImage(AssetsConstant.banner2), fit: BoxFit.fitWidth)),
+            // ),
+            Html(
+              data: findAndRemove(findAndRemove(ProductDetailsController.to.product.value.description!, 'margin', ';'), 'line-height', ';'),
+              style: {
+                'body': Style(
+                  margin: Margins.symmetric(horizontal: 0, vertical: 0),
+                  fontSize: FontSize(14),
+                  lineHeight: LineHeight.number(.9),
+                  textOverflow: TextOverflow.ellipsis,
+                  maxLines: /*showMore ? 5000 :*/ 5, /*textAlign: TextAlign.justify*/
+                ),
+              },
+            ),
+            if (Get.currentRoute != ProductDescriptionScreen.routeName)
               Container(
                 width: double.infinity,
                 height: 9,
                 decoration: const BoxDecoration(boxShadow: [BoxShadow(color: Colors.white, blurRadius: 60, spreadRadius: 50)]),
               ),
-            ],
-          ),
-          /*Positioned(
+          ],
+        ),
+        /*Positioned(
                     bottom: MediaQuery.of(context).size.width > 600 ? 28 : 16,
                     left: 0,
                     right: 0,
@@ -612,39 +733,74 @@ class ProductDetailsScreen extends StatelessWidget {
                           AssetsConstant.shade,
                           color: const Color(0xffBABABA).withOpacity(.8),
                         ))),*/
-        );
-      case 1:
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
+      );
+    case 1:
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Html(
+          data: findAndRemove(findAndRemove(ProductDetailsController.to.product.value.ingredientDescription!, 'margin', ';'), 'line-height', ';'),
+          style: {
+            'body': Style(
+              margin: Margins.symmetric(horizontal: 0, vertical: 0),
+              fontSize: FontSize(14),
+              lineHeight: LineHeight.number(.9),
+              textOverflow: TextOverflow.ellipsis,
+              maxLines: /*showMore ? 5000 :*/ 5, /*textAlign: TextAlign.justify*/
+            ),
+          },
+        ),
+        /* Text(
             'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
             style: AppTheme.textStyleSemiBoldBlack14,
-          ),
-        );
-      case 2:
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
-            style: AppTheme.textStyleSemiBoldBlack14,
-          ),
-        );
-      case 3:
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
-            style: AppTheme.textStyleSemiBoldBlack14,
-          ),
-        );
+          ),*/
+      );
+    case 2:
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Html(
+          data: findAndRemove(findAndRemove(ProductDetailsController.to.product.value.howToUse!, 'margin', ';'), 'line-height', ';'),
+          style: {
+            'body': Style(
+              margin: Margins.symmetric(horizontal: 0, vertical: 0),
+              fontSize: FontSize(14),
+              lineHeight: LineHeight.number(.9),
+              textOverflow: TextOverflow.ellipsis,
+              maxLines: /*showMore ? 5000 :*/ 5, /*textAlign: TextAlign.justify*/
+            ),
+          },
+        ),
 
-      default:
-        return const Center(
-          child: Text(
-            'Unknown Tab',
-            style: TextStyle(fontSize: 10),
-          ),
-        );
-    }
+        /* Text(
+            'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
+            style: AppTheme.textStyleSemiBoldBlack14,
+          ),*/
+      );
+    case 3:
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Html(
+          data: findAndRemove(findAndRemove(ProductDetailsController.to.product.value.faq!, 'margin', ';'), 'line-height', ';'),
+          style: {
+            'body': Style(
+              margin: Margins.symmetric(horizontal: 0, vertical: 0),
+              fontSize: FontSize(14),
+              lineHeight: LineHeight.number(.9),
+              textOverflow: TextOverflow.ellipsis,
+              maxLines: /*showMore ? 5000 :*/ 5, /*textAlign: TextAlign.justify*/
+            ),
+          },
+        ), /*Text(
+            'Ethylhexyl Palmitate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Polyethylene, Lavandula Angustifolia (Lavender) Oil, Helianthus Annuus (Sunflower) Seed Oil, Eucalyptus Globulus Leaf Oil, Caprylyl Glycol, Ethylhexylglycerin, Anthemis Nobilis Flower Oil, Avena Sativa (Oat) Kernel Oil, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Oil, Olea Europaea (Olive) Fruit Oil, Oenothera Biennis (Evening Primrose) Oil, Persea Gratissima (Avocado) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Water, 1,2-Hexanediol, Centella Asiatica Extract, Centella Asiatica Leaf Extract, Centella Asiatica Root Extract, Pinus Pinaster Bark Extract, Asiaticoside, Asiatic Acid, Madecassoside, Madecassic Acid',
+            style: AppTheme.textStyleSemiBoldBlack14,
+          ),*/
+      );
+
+    default:
+      return const Center(
+        child: Text(
+          'Unknown Tab',
+          style: TextStyle(fontSize: 10),
+        ),
+      );
   }
 }

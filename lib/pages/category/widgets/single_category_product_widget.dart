@@ -293,9 +293,10 @@ class SingleCategoryProductWidget extends StatelessWidget {
                       if ((product?.offers?.count ?? '0') != '0')
                         Container(
                           padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
+                          margin: EdgeInsets.only(left: (product?.bestSale ?? '0') == '1' ? 1 : 0),
+                          decoration: BoxDecoration(
                             color: Color(0xffECDDFF),
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(4)),
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular((product?.bestSale ?? '0') == '1' ? 4 : 10), bottomRight: Radius.circular(4)),
                           ),
                           child: const Text(
                             'Offer',

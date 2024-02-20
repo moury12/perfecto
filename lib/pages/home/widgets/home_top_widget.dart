@@ -7,6 +7,7 @@ import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
+import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
@@ -973,9 +974,11 @@ class CustomCheckboxWidget extends StatelessWidget {
 
 class PrimaryAcceantListViewItemWidget extends StatelessWidget {
   final String? title;
+  final List<ProductModel>? productList;
   const PrimaryAcceantListViewItemWidget({
     super.key,
     this.title,
+    this.productList,
   });
 
   @override
@@ -988,34 +991,35 @@ class PrimaryAcceantListViewItemWidget extends StatelessWidget {
           Row(
             children: [
               TitleTextWidget(tileText: title ?? 'Personal Care'),
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  // await HomeApiController.to.productListWithCategoryCall({
-                  //   'category': [category.id!].toString(),
-                  // });
-                  Get.toNamed(SingleCatergoryWiseScreen.routeName);
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    'See All',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.kPrimaryColor,
-                    ),
-                  ),
-                ),
-              )
+              // const Spacer(),
+              // GestureDetector(
+              //   onTap: () {
+              //     // await HomeApiController.to.productListWithCategoryCall({
+              //     //   'category': [category.id!].toString(),
+              //     // });
+              //     Get.toNamed(SingleCatergoryWiseScreen.routeName);
+              //   },
+              //   child: const Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 16.0),
+              //     child: Text(
+              //       'See All',
+              //       style: TextStyle(
+              //         fontSize: 12,
+              //         color: AppColors.kPrimaryColor,
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           ),
           SizedBox(
             height: 380,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 5,
+              itemCount: productList?.length ?? 5,
               itemBuilder: (context, index) {
-                return const BestSellerListWidget(
+                return BestSellerListWidget(
+                  product: productList != null && productList!.isNotEmpty ? productList![index] : null,
                   isBestSeller: false,
                 );
               },
