@@ -111,7 +111,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   child: Obx(() {
                     return Text(
                       ProductDetailsController.to.product.value.name ?? 'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
-                      style: AppTheme.textStyleBoldBlack14,
+                      style: AppTheme.textStyleBoldBlack20,
                     );
                   }),
                 ),
@@ -227,16 +227,168 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                   );
                 }),
-                if (ProductDetailsController.to.product.value.offers!.count != '0')
-                  Column(
-                    children: [
-                      ...List.generate(
-                        ProductDetailsController.to.product.value.offers!.offerDetails!.length,
-                        (index) => Text(
-                            '${ProductDetailsController.to.product.value.offers!.offerDetails![index].title!}: ${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.minAmount != '0' ? 'Minimum: ৳${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.minAmount!}' : ''} ${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.maxAmount != '0' ? 'Maximum: ৳${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.maxAmount!}' : ''} ${ProductDetailsController.to.product.value.offers!.offerDetails![index].productDetails!.offer!.isFreeDelivery != '0' ? '' : '(Free Delivery)'}'),
-                      ),
-                    ],
-                  ),
+                Obx(() {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    // decoration: BoxDecoration(
+                    //     color: AppColors.kAccentColor,
+                    //     borderRadius: BorderRadius.circular(4),
+                    //     border: Border.all(color: AppColors.kAccentColor, width: 1.5),
+                    //     boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (ProductDetailsController.to.product.value.variationType == 'shade')
+                          ...List.generate(
+                            ProductDetailsController.to.product.value.productShades!
+                                .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                .offers!
+                                .length,
+                            (index) {
+                              final offer = ProductDetailsController.to.product.value.productShades!
+                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                  .offers![index];
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    offer.productDetails!.offer!.title1!,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Colors.blue,
+                                        height: 1.3,
+                                        decorationThickness: 1,
+                                        decorationStyle: TextDecorationStyle.solid),
+                                  ),
+                                  Text(
+                                    offer.productDetails!.offer!.title1!,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Colors.blue,
+                                        height: 1.3,
+                                        decorationThickness: 1,
+                                        decorationStyle: TextDecorationStyle.solid),
+                                  ),
+                                ],
+                              );
+                            },
+                          )
+                        else
+                          ...List.generate(
+                            ProductDetailsController.to.product.value.productSizes!
+                                .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                .offers!
+                                .length,
+                            (index) {
+                              final offer = ProductDetailsController.to.product.value.productSizes!
+                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                  .offers![index];
+                              return Wrap(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
+                                    child: Text(
+                                      offer.productDetails!.offer!.title1!,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.blue,
+                                          height: 1.3,
+                                          decorationThickness: 1,
+                                          decorationStyle: TextDecorationStyle.solid),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
+                                    child: Text(
+                                      offer.productDetails!.offer!.title1!,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.blue,
+                                          height: 1.3,
+                                          decorationThickness: 1,
+                                          decorationStyle: TextDecorationStyle.solid),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
+                                    child: Text(
+                                      offer.productDetails!.offer!.title1!,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.blue,
+                                          height: 1.3,
+                                          decorationThickness: 1,
+                                          decorationStyle: TextDecorationStyle.solid),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
+                                    child: Text(
+                                      offer.productDetails!.offer!.title1!,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.blue,
+                                          height: 1.3,
+                                          decorationThickness: 1,
+                                          decorationStyle: TextDecorationStyle.solid),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
+                                    child: Text(
+                                      offer.productDetails!.offer!.title1!,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.blue,
+                                          height: 1.3,
+                                          decorationThickness: 1,
+                                          decorationStyle: TextDecorationStyle.solid),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
+                                    child: Text(
+                                      offer.productDetails!.offer!.title1!,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.blue,
+                                          height: 1.3,
+                                          decorationThickness: 1,
+                                          decorationStyle: TextDecorationStyle.solid),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                      ],
+                    ),
+                  );
+                }),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Divider(
@@ -267,7 +419,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           'All Shades (${ProductDetailsController.to.product.value.allShadesCount!})',
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.kPrimaryColor),
+                                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.kPrimaryColor),
                                         ),
                                         Image.asset(
                                           'assets/arrow_right.png',
@@ -321,10 +473,10 @@ class ProductDetailsScreen extends StatelessWidget {
                           ]
                         : [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Selected Size - ',
                                     style: AppTheme.textStyleBoldFadeBlack14,
                                   ),
@@ -537,12 +689,12 @@ class ProductDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     children: [
-                      const Text(
-                        '4.3/5',
+                      Text(
+                        '${double.tryParse(ProductDetailsController.to.product.value.reviewsAvgStar!) ?? 0}/5',
                         style: AppTheme.textStyleSemiBoldBlack32,
                       ),
                       CustomSizedBox.space8W,
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -550,7 +702,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             style: AppTheme.textStyleSemiBoldBlack12,
                           ),
                           Text(
-                            '234 verified ratings',
+                            '${int.tryParse(ProductDetailsController.to.product.value.reviewsCount!) ?? 0} verified ratings',
                             style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
                           )
                         ],
@@ -577,22 +729,32 @@ class ProductDetailsScreen extends StatelessWidget {
                   child: SizedBox(
                     height: 86,
                     child: ListView.builder(
-                      itemCount: 12,
+                      itemCount: 12, //ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!.length).reduce((value, element) => value + element),
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) => Container(
-                        height: 72,
-                        width: 72,
-                        margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xffCECECE), width: 1),
-                            borderRadius: BorderRadius.circular(2),
-                            image: const DecorationImage(
-                                image: AssetImage(
-                                  AssetsConstant.megaDeals2,
-                                ),
-                                fit: BoxFit.cover)),
-                      ),
+                      itemBuilder: (context, index) {
+                        // final reviewImage =
+                        //     ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!).reduce((value, element) => value + element)[index];
+                        return Container(
+                          height: 72,
+                          width: 72,
+                          margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: const Color(0xffCECECE), width: 1),
+                              borderRadius: BorderRadius.circular(2),
+                              image: const DecorationImage(
+                                  image: AssetImage(
+                                    AssetsConstant.megaDeals2,
+                                  ),
+                                  fit: BoxFit.cover)),
+                          // child: CustomNetworkImage(
+                          //   networkImagePath: reviewImage.image!,
+                          //   fit: BoxFit.cover,
+                          //   errorImagePath: AssetsConstant.megaDeals2,
+                          //   borderRadius: 2,
+                          // ),
+                        );
+                      },
                     ),
                   ),
                 ),

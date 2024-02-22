@@ -51,7 +51,7 @@ class ProductModel {
   List<ProductAttributeModel>? benefits;
   List<ProductAttributeModel>? concerns;
   List<ProductAttributeModel>? packs;
-  Offers? offers;
+  OffersMain? offers;
   String? allShadesCount;
   String? allSizesCount;
   String? totalStock;
@@ -225,7 +225,7 @@ class ProductModel {
         packs!.add(ProductAttributeModel.fromJson(v));
       });
     }
-    offers = json['offers'] != null ? Offers.fromJson(json['offers']) : null;
+    offers = json['offers'] != null ? OffersMain.fromJson(json['offers']) : null;
     allShadesCount = json['all_shades_count'].toString() == 'null' ? '0' : json['all_shades_count'].toString();
     allSizesCount = json['all_sizes_count'].toString() == 'null' ? '0' : json['all_sizes_count'].toString();
     totalStock = json['total_stock'].toString() == 'null' ? '' : json['total_stock'].toString();
@@ -364,13 +364,13 @@ class ProductModel {
   }
 }
 
-class Offers {
+class OffersMain {
   String? count;
   List<OfferDetails>? offerDetails;
 
-  Offers({this.count, this.offerDetails});
+  OffersMain({this.count, this.offerDetails});
 
-  Offers.fromJson(Map<String, dynamic> json) {
+  OffersMain.fromJson(Map<String, dynamic> json) {
     count = json['count'].toString() == 'null' ? '0' : json['count'].toString();
     if (json['offer_details'] != null) {
       offerDetails = <OfferDetails>[];
@@ -500,79 +500,6 @@ class ProductDetails {
   }
 }
 
-class Offer {
-  String? id;
-  String? name;
-  String? color;
-  String? bannerWeb;
-  String? bannerMobile;
-  String? offerTypeId;
-  String? isFreeDelivery;
-  String? minAmount;
-  String? maxAmount;
-  String? startDate;
-  String? expiryDate;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  String? deletedAt;
-
-  Offer(
-      {this.id,
-      this.name,
-      this.color,
-      this.bannerWeb,
-      this.bannerMobile,
-      this.offerTypeId,
-      this.isFreeDelivery,
-      this.minAmount,
-      this.maxAmount,
-      this.startDate,
-      this.expiryDate,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
-
-  Offer.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    name = json['name'].toString() == 'null' ? '' : json['name'].toString();
-    color = json['color'].toString() == 'null' ? '' : json['color'].toString();
-    bannerWeb = json['banner_web'].toString() == 'null' ? '' : json['banner_web'].toString();
-    bannerMobile = json['banner_mobile'].toString() == 'null' ? '' : json['banner_mobile'].toString();
-    offerTypeId = json['offer_type_id'].toString() == 'null' ? '' : json['offer_type_id'].toString();
-    isFreeDelivery = json['is_free_delivery'].toString() == 'null' ? '' : json['is_free_delivery'].toString();
-    minAmount = json['min_amount'].toString() == 'null' ? '0' : json['min_amount'].toString();
-    maxAmount = json['max_amount'].toString() == 'null' ? '0' : json['max_amount'].toString();
-    startDate = json['start_date'].toString() == 'null' ? '' : json['start_date'].toString();
-    expiryDate = json['expiry_date'].toString() == 'null' ? '' : json['expiry_date'].toString();
-    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
-    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
-    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
-    deletedAt = json['deleted_at'].toString() == 'null' ? '' : json['deleted_at'].toString();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['color'] = color;
-    data['banner_web'] = bannerWeb;
-    data['banner_mobile'] = bannerMobile;
-    data['offer_type_id'] = offerTypeId;
-    data['is_free_delivery'] = isFreeDelivery;
-    data['min_amount'] = minAmount;
-    data['max_amount'] = maxAmount;
-    data['start_date'] = startDate;
-    data['expiry_date'] = expiryDate;
-    data['status'] = status;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    return data;
-  }
-}
-
 class ComboProducts {
   String? id;
   String? name;
@@ -643,20 +570,45 @@ class ProductShades {
   String? productId;
   String? shadeId;
   String? shadePrice;
+  String? discountPercent;
+  String? discountedPrice;
+  String? flatDiscount;
   String? createdAt;
   String? updatedAt;
+  List<Offers>? offers;
   List<ProductShadeImages>? productShadeImages;
   Shade? shade;
 
-  ProductShades({this.id, this.productId, this.shadeId, this.shadePrice, this.createdAt, this.updatedAt, this.productShadeImages, this.shade});
+  ProductShades(
+      {this.id,
+      this.productId,
+      this.shadeId,
+      this.shadePrice,
+      this.discountPercent,
+      this.discountedPrice,
+      this.flatDiscount,
+      this.createdAt,
+      this.updatedAt,
+      this.offers,
+      this.productShadeImages,
+      this.shade});
 
   ProductShades.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    productId = json['product_id'].toString() == 'null' ? '' : json['product_id'].toString();
-    shadeId = json['shade_id'].toString() == 'null' ? '' : json['shade_id'].toString();
-    shadePrice = json['shade_price'].toString() == 'null' ? '' : json['shade_price'].toString();
-    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
-    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    id = json['id'].toString() == 'null' ? "" : json['id'].toString();
+    productId = json['product_id'].toString() == 'null' ? "" : json['product_id'].toString();
+    shadeId = json['shade_id'].toString() == 'null' ? "" : json['shade_id'].toString();
+    shadePrice = json['shade_price'].toString() == 'null' ? "" : json['shade_price'].toString();
+    discountPercent = json['discount_percent'].toString() == 'null' ? "" : json['discount_percent'].toString();
+    discountedPrice = json['discounted_price'].toString() == 'null' ? "" : json['discounted_price'].toString();
+    flatDiscount = json['flat_discount'].toString() == 'null' ? "" : json['flat_discount'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? "" : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? "" : json['updated_at'].toString();
+    if (json['offers'] != null) {
+      offers = <Offers>[];
+      json['offers'].forEach((v) {
+        offers!.add(Offers.fromJson(v));
+      });
+    }
     if (json['product_shade_images'] != null) {
       productShadeImages = <ProductShadeImages>[];
       json['product_shade_images'].forEach((v) {
@@ -672,14 +624,125 @@ class ProductShades {
     data['product_id'] = productId;
     data['shade_id'] = shadeId;
     data['shade_price'] = shadePrice;
+    data['discount_percent'] = discountPercent;
+    data['discounted_price'] = discountedPrice;
+    data['flat_discount'] = flatDiscount;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (offers != null) {
+      data['offers'] = offers!.map((v) => v.toJson()).toList();
+    }
     if (productShadeImages != null) {
       data['product_shade_images'] = productShadeImages!.map((v) => v.toJson()).toList();
     }
     if (shade != null) {
       data['shade'] = shade!.toJson();
     }
+    return data;
+  }
+}
+
+class Offers {
+  String? title;
+  ProductDetails? productDetails;
+  String? maximumDiscountAmount;
+
+  Offers({this.title, this.productDetails, this.maximumDiscountAmount});
+
+  Offers.fromJson(Map<String, dynamic> json) {
+    title = json['title'].toString() == 'null' ? "" : json['title'].toString();
+    productDetails = json['product_details'] != null ? ProductDetails.fromJson(json['product_details']) : null;
+    maximumDiscountAmount = json['maximum_discount_amount'].toString() == 'null' ? "" : json['maximum_discount_amount'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    if (productDetails != null) {
+      data['product_details'] = productDetails!.toJson();
+    }
+    data['maximum_discount_amount'] = maximumDiscountAmount;
+    return data;
+  }
+}
+
+class Offer {
+  String? id;
+  String? name;
+  String? title1;
+  String? title2;
+  String? color;
+  String? bannerWeb;
+  String? bannerMobile;
+  String? offerTypeId;
+  String? isFreeDelivery;
+  String? minAmount;
+  String? maxAmount;
+  String? startDate;
+  String? expiryDate;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+
+  Offer(
+      {this.id,
+      this.name,
+      this.title1,
+      this.title2,
+      this.color,
+      this.bannerWeb,
+      this.bannerMobile,
+      this.offerTypeId,
+      this.isFreeDelivery,
+      this.minAmount,
+      this.maxAmount,
+      this.startDate,
+      this.expiryDate,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Offer.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString() == 'null' ? "" : json['id'].toString();
+    name = json['name'].toString() == 'null' ? "" : json['name'].toString();
+    title1 = json['title1'].toString() == 'null' ? "" : json['title1'].toString();
+    title2 = json['title2'].toString() == 'null' ? "" : json['title2'].toString();
+    color = json['color'].toString() == 'null' ? "" : json['color'].toString();
+    bannerWeb = json['banner_web'].toString() == 'null' ? "" : json['banner_web'].toString();
+    bannerMobile = json['banner_mobile'].toString() == 'null' ? "" : json['banner_mobile'].toString();
+    offerTypeId = json['offer_type_id'].toString() == 'null' ? "" : json['offer_type_id'].toString();
+    isFreeDelivery = json['is_free_delivery'].toString() == 'null' ? "" : json['is_free_delivery'].toString();
+    minAmount = json['min_amount'].toString() == 'null' ? "" : json['min_amount'].toString();
+    maxAmount = json['max_amount'].toString() == 'null' ? "" : json['max_amount'].toString();
+    startDate = json['start_date'].toString() == 'null' ? "" : json['start_date'].toString();
+    expiryDate = json['expiry_date'].toString() == 'null' ? "" : json['expiry_date'].toString();
+    status = json['status'].toString() == 'null' ? "" : json['status'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? "" : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? "" : json['updated_at'].toString();
+    deletedAt = json['deleted_at'].toString() == 'null' ? "" : json['deleted_at'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['title1'] = title1;
+    data['title2'] = title2;
+    data['color'] = color;
+    data['banner_web'] = bannerWeb;
+    data['banner_mobile'] = bannerMobile;
+    data['offer_type_id'] = offerTypeId;
+    data['is_free_delivery'] = isFreeDelivery;
+    data['min_amount'] = minAmount;
+    data['max_amount'] = maxAmount;
+    data['start_date'] = startDate;
+    data['expiry_date'] = expiryDate;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -696,13 +759,13 @@ class ProductShadeImages {
   ProductShadeImages({this.id, this.productShadeId, this.productId, this.shadeId, this.productShadeImage, this.createdAt, this.updatedAt});
 
   ProductShadeImages.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    productShadeId = json['product_shade_id'].toString() == 'null' ? '' : json['product_shade_id'].toString();
-    productId = json['product_id'].toString() == 'null' ? '' : json['product_id'].toString();
-    shadeId = json['shade_id'].toString() == 'null' ? '' : json['shade_id'].toString();
-    productShadeImage = json['product_shade_image'].toString() == 'null' ? '' : json['product_shade_image'].toString();
-    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
-    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    id = json['id'].toString() == 'null' ? "" : json['id'].toString();
+    productShadeId = json['product_shade_id'].toString() == 'null' ? "" : json['product_shade_id'].toString();
+    productId = json['product_id'].toString() == 'null' ? "" : json['product_id'].toString();
+    shadeId = json['shade_id'].toString() == 'null' ? "" : json['shade_id'].toString();
+    productShadeImage = json['product_shade_image'].toString() == 'null' ? "" : json['product_shade_image'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? "" : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? "" : json['updated_at'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -730,13 +793,13 @@ class Shade {
   Shade({this.id, this.name, this.image, this.status, this.colorId, this.createdAt, this.updatedAt});
 
   Shade.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    name = json['name'].toString() == 'null' ? '' : json['name'].toString();
-    image = json['image'].toString() == 'null' ? '' : json['image'].toString();
-    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
-    colorId = json['color_id'].toString() == 'null' ? '' : json['color_id'].toString();
-    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
-    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    id = json['id'].toString() == 'null' ? "" : json['id'].toString();
+    name = json['name'].toString() == 'null' ? "" : json['name'].toString();
+    image = json['image'].toString() == 'null' ? "" : json['image'].toString();
+    status = json['status'].toString() == 'null' ? "" : json['status'].toString();
+    colorId = json['color_id'].toString() == 'null' ? "" : json['color_id'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? "" : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? "" : json['updated_at'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -757,27 +820,55 @@ class ProductSizes {
   String? productId;
   String? sizeId;
   String? sizePrice;
+  String? discountPercent;
+  String? discountedPrice;
+  String? flatDiscount;
   String? createdAt;
   String? updatedAt;
+  List<Offers>? offers;
+  String? bestSale;
   List<ProductSizeImages>? productSizeImages;
-  ProductAttributeModel? size;
+  Size? size;
 
-  ProductSizes({this.id, this.productId, this.sizeId, this.sizePrice, this.createdAt, this.updatedAt, this.size});
+  ProductSizes(
+      {this.id,
+      this.productId,
+      this.sizeId,
+      this.sizePrice,
+      this.discountPercent,
+      this.discountedPrice,
+      this.flatDiscount,
+      this.createdAt,
+      this.updatedAt,
+      this.offers,
+      this.bestSale,
+      this.productSizeImages,
+      this.size});
 
   ProductSizes.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
     productId = json['product_id'].toString() == 'null' ? '' : json['product_id'].toString();
     sizeId = json['size_id'].toString() == 'null' ? '' : json['size_id'].toString();
     sizePrice = json['size_price'].toString() == 'null' ? '' : json['size_price'].toString();
+    discountPercent = json['discount_percent'].toString() == 'null' ? '' : json['discount_percent'].toString();
+    discountedPrice = json['discounted_price'].toString() == 'null' ? '' : json['discounted_price'].toString();
+    flatDiscount = json['flat_discount'].toString() == 'null' ? '' : json['flat_discount'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    if (json['offers'] != null) {
+      offers = <Offers>[];
+      json['offers'].forEach((v) {
+        offers!.add(Offers.fromJson(v));
+      });
+    }
+    bestSale = json['best_sale'].toString() == 'null' ? '' : json['best_sale'].toString();
     if (json['product_size_images'] != null) {
       productSizeImages = <ProductSizeImages>[];
       json['product_size_images'].forEach((v) {
         productSizeImages!.add(ProductSizeImages.fromJson(v));
       });
     }
-    size = json['size'] != null ? ProductAttributeModel.fromJson(json['size']) : null;
+    size = json['size'] != null ? Size.fromJson(json['size']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -786,8 +877,15 @@ class ProductSizes {
     data['product_id'] = productId;
     data['size_id'] = sizeId;
     data['size_price'] = sizePrice;
+    data['discount_percent'] = discountPercent;
+    data['discounted_price'] = discountedPrice;
+    data['flat_discount'] = flatDiscount;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (offers != null) {
+      data['offers'] = offers!.map((v) => v.toJson()).toList();
+    }
+    data['best_sale'] = bestSale;
     if (productSizeImages != null) {
       data['product_size_images'] = productSizeImages!.map((v) => v.toJson()).toList();
     }
@@ -799,7 +897,7 @@ class ProductSizes {
 }
 
 class ProductSizeImages {
-  int? id;
+  String? id;
   String? productSizeId;
   String? productId;
   String? sizeId;
@@ -810,24 +908,52 @@ class ProductSizeImages {
   ProductSizeImages({this.id, this.productSizeId, this.productId, this.sizeId, this.productSizeImage, this.createdAt, this.updatedAt});
 
   ProductSizeImages.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    productSizeId = json['product_size_id'];
-    productId = json['product_id'];
-    sizeId = json['size_id'];
-    productSizeImage = json['product_size_image'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    productSizeId = json['product_size_id'].toString() == 'null' ? '' : json['product_size_id'].toString();
+    productId = json['product_id'].toString() == 'null' ? '' : json['product_id'].toString();
+    sizeId = json['size_id'].toString() == 'null' ? '' : json['size_id'].toString();
+    productSizeImage = json['product_size_image'].toString() == 'null' ? '' : json['product_size_image'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['product_size_id'] = this.productSizeId;
-    data['product_id'] = this.productId;
-    data['size_id'] = this.sizeId;
-    data['product_size_image'] = this.productSizeImage;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_size_id'] = productSizeId;
+    data['product_id'] = productId;
+    data['size_id'] = sizeId;
+    data['product_size_image'] = productSizeImage;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class Size {
+  String? id;
+  String? name;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+
+  Size({this.id, this.name, this.status, this.createdAt, this.updatedAt});
+
+  Size.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    name = json['name'].toString() == 'null' ? '' : json['name'].toString();
+    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -849,7 +975,7 @@ class Reviews {
   List<Null>? reviewHelpful;
   String? shade;
   String? size;
-  List<Null>? productReviewImages;
+  List<ProductReviewImages>? productReviewImages;
 
   Reviews(
       {this.id,
@@ -893,13 +1019,12 @@ class Reviews {
     // }
     shade = json['shade'].toString() == 'null' ? '' : json['shade'].toString();
     size = json['size'].toString() == 'null' ? '' : json['size'].toString();
-    productReviewImages = [];
-    // if (json['product_review_images'] != null) {
-    //   productReviewImages = <Null>[];
-    //   json['product_review_images'].forEach((v) {
-    //     productReviewImages!.add(Null.fromJson(v));
-    //   });
-    // }
+    if (json['product_review_images'] != null) {
+      productReviewImages = <ProductReviewImages>[];
+      json['product_review_images'].forEach((v) {
+        productReviewImages!.add(ProductReviewImages.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -923,10 +1048,46 @@ class Reviews {
     // }
     data['shade'] = shade;
     data['size'] = size;
-    data['product_review_images'] = productReviewImages;
-    // if (this.productReviewImages != null) {
-    //   data['product_review_images'] = this.productReviewImages!.map((v) => v.toJson()).toList();
-    // }
+    if (productReviewImages != null) {
+      data['product_review_images'] = productReviewImages!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ProductReviewImages {
+  String? id;
+  String? productReviewId;
+  String? productId;
+  String? shadeId;
+  String? sizeId;
+  String? image;
+  String? createdAt;
+  String? updatedAt;
+
+  ProductReviewImages({this.id, this.productReviewId, this.productId, this.shadeId, this.sizeId, this.image, this.createdAt, this.updatedAt});
+
+  ProductReviewImages.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    productReviewId = json['product_review_id'].toString() == 'null' ? '' : json['product_review_id'].toString();
+    productId = json['product_id'].toString() == 'null' ? '' : json['product_id'].toString();
+    shadeId = json['shade_id'].toString() == 'null' ? '' : json['shade_id'].toString();
+    sizeId = json['size_id'].toString() == 'null' ? '' : json['size_id'].toString();
+    image = json['image'].toString() == 'null' ? '' : json['image'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_review_id'] = productReviewId;
+    data['product_id'] = productId;
+    data['shade_id'] = shadeId;
+    data['size_id'] = sizeId;
+    data['image'] = image;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

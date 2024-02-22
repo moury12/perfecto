@@ -109,6 +109,22 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+    - family: Times
+      fonts:
+        - asset: fonts/times-new-roman/times new roman.ttf
+        - asset: fonts/times-new-roman/times new roman bold.ttf
+        - asset: fonts/times-new-roman/times new roman bold italic.ttf
+        - asset: fonts/times-new-roman/times new roman italic.ttf
+    - family: InriaSans
+      fonts:
+        - asset: fonts/inria-sans/InriaSans-Regular.ttf
+          weight: 500
+        - asset: fonts/inria-sans/InriaSans-Bold.ttf
+          weight: 700
+        - asset: fonts/inria-sans/InriaSans-Light.ttf
+          weight: 300
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -10,25 +10,17 @@ class BlogModel {
   String? createdAt;
   String? updatedAt;
 
-  BlogModel(
-      {this.id,
-        this.title,
-        this.image,
-        this.description,
-        this.status,
-        this.slug,
-        this.createdAt,
-        this.updatedAt});
+  BlogModel({this.id, this.title, this.image, this.description, this.status, this.slug, this.createdAt, this.updatedAt});
 
   BlogModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString()=='null'?'':json['id'].toString();
-    title = json['title'].toString()=='null'?'':json['title'].toString();
-    image = json['image'].toString()=='null'?'':json['image'].toString();
-    description = json['description'].toString()=='null'?'':json['description'].toString();
-    status = json['status'].toString()=='null'?'':json['status'].toString();
-    slug = json['slug'].toString()=='null'?'':json['slug'].toString();
-    createdAt = json['created_at'].toString()=='null'?'':json['created_at'].toString();
-    updatedAt = json['updated_at'].toString()=='null'?'':json['updated_at'].toString();
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    title = json['title'].toString() == 'null' ? '' : json['title'].toString();
+    image = json['image'].toString() == 'null' ? '' : json['image'].toString();
+    description = json['description'].toString() == 'null' ? '' : json['description'].toString();
+    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
+    slug = json['slug'].toString() == 'null' ? '' : json['slug'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -44,6 +36,7 @@ class BlogModel {
     return data;
   }
 }
+
 class SingleBlogModel {
   String? id;
   String? title;
@@ -55,26 +48,17 @@ class SingleBlogModel {
   String? updatedAt;
   List<Comments>? comments;
 
-  SingleBlogModel(
-      {this.id,
-        this.title,
-        this.image,
-        this.description,
-        this.status,
-        this.slug,
-        this.createdAt,
-        this.updatedAt,
-        this.comments});
+  SingleBlogModel({this.id, this.title, this.image, this.description, this.status, this.slug, this.createdAt, this.updatedAt, this.comments});
 
   SingleBlogModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString()=='null'?'':json['id'].toString();
-    title = json['title'].toString()=='null'?'':json['title'].toString();
-    image = json['image'].toString()=='null'?'':json['image'].toString();
-    description = json['description'].toString()=='null'?'':json['description'].toString();
-    status = json['status'].toString()=='null'?'':json['status'].toString();
-    slug = json['slug'].toString()=='null'?'':json['slug'].toString();
-    createdAt = json['created_at'].toString()=='null'?'':json['created_at'].toString();
-    updatedAt = json['updated_at'].toString()=='null'?'':json['updated_at'].toString();
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    title = json['title'].toString() == 'null' ? '' : json['title'].toString();
+    image = json['image'].toString() == 'null' ? '' : json['image'].toString();
+    description = json['description'].toString() == 'null' ? '' : json['description'].toString();
+    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
+    slug = json['slug'].toString() == 'null' ? '' : json['slug'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     if (json['comments'] != null) {
       comments = <Comments>[];
       json['comments'].forEach((v) {
@@ -101,24 +85,16 @@ class SingleBlogModel {
 }
 
 class Comments {
-  int? id;
-  int? blogId;
-  int? userId;
+  String? id;
+  String? blogId;
+  String? userId;
   String? comment;
   String? status;
   String? createdAt;
   String? updatedAt;
   UserModel? user;
 
-  Comments(
-      {this.id,
-        this.blogId,
-        this.userId,
-        this.comment,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.user});
+  Comments({this.id, this.blogId, this.userId, this.comment, this.status, this.createdAt, this.updatedAt, this.user});
 
   Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -128,7 +104,7 @@ class Comments {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    user = json['user'] != null ?  UserModel.fromJson(json['user']) : null;
+    user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -146,6 +122,3 @@ class Comments {
     return data;
   }
 }
-
-
-

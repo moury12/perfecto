@@ -65,7 +65,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: 200,
+            // width: 200,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -100,7 +100,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 8),
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: Color(0xffFFF2D9),
+                        color: const Color(0xffFFF2D9),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Row(
@@ -168,7 +168,12 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           product?.name ?? name,
-                          style: AppTheme.textStyleBoldBlack12,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'InriaSans',
+                          ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
@@ -295,8 +300,8 @@ class SingleCategoryProductWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(4),
                           margin: EdgeInsets.only(left: (product?.bestSale ?? '0') == '1' ? 1 : 0),
                           decoration: BoxDecoration(
-                            color: Color(0xffECDDFF),
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular((product?.bestSale ?? '0') == '1' ? 4 : 10), bottomRight: Radius.circular(4)),
+                            color: const Color(0xffECDDFF),
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular((product?.bestSale ?? '0') == '1' ? 4 : 10), bottomRight: const Radius.circular(4)),
                           ),
                           child: const Text(
                             'Offer',
