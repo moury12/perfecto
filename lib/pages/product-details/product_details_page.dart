@@ -18,6 +18,7 @@ import 'package:perfecto/pages/product-details/review/widget/comment_widget.dart
 import 'package:perfecto/pages/product-details/review/write_review_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
+import 'package:collection/collection.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   static const String routeName = '/productDetails';
@@ -111,7 +112,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   child: Obx(() {
                     return Text(
                       ProductDetailsController.to.product.value.name ?? 'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
-                      style: AppTheme.textStyleBoldBlack20,
+                      style: AppTheme.textStyleBoldBlack20.copyWith(fontFamily: 'InriaSans'),
                     );
                   }),
                 ),
@@ -239,62 +240,43 @@ class ProductDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (ProductDetailsController.to.product.value.variationType == 'shade')
-                          ...List.generate(
-                            ProductDetailsController.to.product.value.productShades!
+                          Wrap(
+                            children: ProductDetailsController.to.product.value.productShades!
                                 .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
                                 .offers!
-                                .length,
-                            (index) {
-                              final offer = ProductDetailsController.to.product.value.productShades!
-                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                  .offers![index];
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    offer.productDetails!.offer!.title1!,
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: Colors.blue,
-                                        height: 1.3,
-                                        decorationThickness: 1,
-                                        decorationStyle: TextDecorationStyle.solid),
+                                .map(
+                                  (e) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
+                                    ).copyWith(right: 8),
+                                    child: Text(
+                                      e.productDetails!.offer!.title1!,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.blue,
+                                          height: 1.3,
+                                          decorationThickness: 1,
+                                          decorationStyle: TextDecorationStyle.solid),
+                                    ),
                                   ),
-                                  Text(
-                                    offer.productDetails!.offer!.title1!,
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: Colors.blue,
-                                        height: 1.3,
-                                        decorationThickness: 1,
-                                        decorationStyle: TextDecorationStyle.solid),
-                                  ),
-                                ],
-                              );
-                            },
+                                )
+                                .toList(),
                           )
                         else
-                          ...List.generate(
-                            ProductDetailsController.to.product.value.productSizes!
+                          Wrap(
+                            children: ProductDetailsController.to.product.value.productSizes!
                                 .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
                                 .offers!
-                                .length,
-                            (index) {
-                              final offer = ProductDetailsController.to.product.value.productSizes!
-                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                  .offers![index];
-                              return Wrap(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
+                                .map(
+                                  (e) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
+                                    ).copyWith(right: 8),
                                     child: Text(
-                                      offer.productDetails!.offer!.title1!,
+                                      e.productDetails!.offer!.title1!,
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -306,85 +288,9 @@ class ProductDetailsScreen extends StatelessWidget {
                                           decorationStyle: TextDecorationStyle.solid),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
-                                    child: Text(
-                                      offer.productDetails!.offer!.title1!,
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: Colors.blue,
-                                          height: 1.3,
-                                          decorationThickness: 1,
-                                          decorationStyle: TextDecorationStyle.solid),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
-                                    child: Text(
-                                      offer.productDetails!.offer!.title1!,
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: Colors.blue,
-                                          height: 1.3,
-                                          decorationThickness: 1,
-                                          decorationStyle: TextDecorationStyle.solid),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
-                                    child: Text(
-                                      offer.productDetails!.offer!.title1!,
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: Colors.blue,
-                                          height: 1.3,
-                                          decorationThickness: 1,
-                                          decorationStyle: TextDecorationStyle.solid),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
-                                    child: Text(
-                                      offer.productDetails!.offer!.title1!,
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: Colors.blue,
-                                          height: 1.3,
-                                          decorationThickness: 1,
-                                          decorationStyle: TextDecorationStyle.solid),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
-                                    child: Text(
-                                      offer.productDetails!.offer!.title1!,
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: Colors.blue,
-                                          height: 1.3,
-                                          decorationThickness: 1,
-                                          decorationStyle: TextDecorationStyle.solid),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
+                                )
+                                .toList(),
+                          )
                       ],
                     ),
                   );
@@ -697,13 +603,13 @@ class ProductDetailsScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Overall Ratings',
                             style: AppTheme.textStyleSemiBoldBlack12,
                           ),
                           Text(
                             '${int.tryParse(ProductDetailsController.to.product.value.reviewsCount!) ?? 0} verified ratings',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
                           )
                         ],
                       ),
@@ -724,42 +630,82 @@ class ProductDetailsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  child: SizedBox(
-                    height: 86,
-                    child: ListView.builder(
-                      itemCount: 12, //ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!.length).reduce((value, element) => value + element),
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        // final reviewImage =
-                        //     ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!).reduce((value, element) => value + element)[index];
-                        return Container(
-                          height: 72,
-                          width: 72,
-                          margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xffCECECE), width: 1),
-                              borderRadius: BorderRadius.circular(2),
-                              image: const DecorationImage(
-                                  image: AssetImage(
-                                    AssetsConstant.megaDeals2,
-                                  ),
-                                  fit: BoxFit.cover)),
-                          // child: CustomNetworkImage(
-                          //   networkImagePath: reviewImage.image!,
-                          //   fit: BoxFit.cover,
-                          //   errorImagePath: AssetsConstant.megaDeals2,
-                          //   borderRadius: 2,
-                          // ),
-                        );
-                      },
-                    ),
-                  ),
+                Obx(
+                  () => ProductDetailsController.to.reviewImages.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: SizedBox(
+                            height: 86,
+                            child: ListView.builder(
+                              // itemCount: ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!.length).toList().sum,
+                              itemCount: ProductDetailsController.to.reviewImages.length > 4 ? 4 : ProductDetailsController.to.reviewImages.length,
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context, index) {
+                                final reviewImage = ProductDetailsController.to.reviewImages[index];
+                                // ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!).reduce((value, element) => value + element)[index];
+                                return Stack(
+                                  children: [
+                                    Container(
+                                      height: 72,
+                                      width: 72,
+                                      margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: const Color(0xffCECECE), width: 1),
+                                        borderRadius: BorderRadius.circular(2),
+                                      ),
+                                      child: CustomNetworkImage(
+                                        networkImagePath: reviewImage.image!,
+                                        fit: BoxFit.cover,
+                                        errorImagePath: AssetsConstant.megaDeals2,
+                                        borderRadius: 2,
+                                      ),
+                                    ),
+                                    if (ProductDetailsController.to.reviewImages.length > 4 && 3 == index)
+                                      Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        left: 0,
+                                        bottom: 0,
+                                        child: Container(
+                                          height: 72,
+                                          width: 72,
+                                          margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: const Color(0xffCECECE), width: 1),
+                                            borderRadius: BorderRadius.circular(2),
+                                            color: Colors.black.withOpacity(.4),
+                                            // image: const DecorationImage(
+                                            //     image: AssetImage(
+                                            //       AssetsConstant.megaDeals2,
+                                            //     ),
+                                            //     fit: BoxFit.cover),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              '+${ProductDetailsController.to.reviewImages.length - 4}',
+                                              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                 ),
                 const TitleTextWidget(tileText: 'Most Useful Review'),
-                const CommentWidget(index: 1, isHelpful: false, readMore: false),
+                ...List.generate(
+                  ProductDetailsController.to.product.value.reviews!.length,
+                  (index) => CommentWidget(
+                    index: 1,
+                    readMore: false,
+                    reviews: ProductDetailsController.to.product.value.reviews![index],
+                  ),
+                ),
                 CustomSizedBox.space12H,
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -768,7 +714,8 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    await ProductDetailsController.to.getAllReviews();
                     Get.toNamed(ReviewScreen.routeName);
                   },
                   child: Container(

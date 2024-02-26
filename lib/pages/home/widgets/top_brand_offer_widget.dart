@@ -194,7 +194,7 @@ class BestSellerListWidget extends StatelessWidget {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           product?.name ?? 'Maybelline New York Superstay Vinyl Ink',
-                          style: AppTheme.textStyleBoldBlack12,
+                          style: AppTheme.textStyleBoldBlack12.copyWith(fontFamily: 'InriaSans', fontSize: 14),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,

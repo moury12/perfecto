@@ -60,6 +60,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
           ProductDetailsController(),
         );
         await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
+        ProductDetailsController.to.getReviewImages(product?.id ?? '30');
         Get.toNamed(ProductDetailsScreen.routeName);
       },
       child: Stack(

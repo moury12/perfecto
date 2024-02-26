@@ -56,4 +56,54 @@ class ProductService {
       return {}; // Return an empty list or handle the error accordingly
     }
   }
+
+  //productReviewImages
+  static Future<List<ProductReviewImages>> productReviewImages(String id) async {
+    try {
+      List<ProductReviewImages> reviewImages = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}get-review-all-images',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: {'product_id': id},
+      );
+      globalLogger.d(response, "Review Images Route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((image) {
+          reviewImages.add(ProductReviewImages.fromJson(image));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return reviewImages;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //productReviews
+  static Future<List<Reviews>> productReviews(dynamic body) async {
+    try {
+      List<Reviews> allReviews = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}get-review-product-wise',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: body,
+        isLoadingEnable: true,
+        loadingMessage: 'Loading...',
+      );
+      globalLogger.d(response, "reviews Route");
+      if (response['status'] != null && response['status']) {
+        response['data']['data'].forEach((review) {
+          allReviews.add(Reviews.fromJson(review));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return allReviews;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
 }

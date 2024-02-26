@@ -75,18 +75,18 @@ class ReviewScreen extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
+                            ProductDetailsController.to.product.value.name ?? 'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
                             style: AppTheme.textStyleNormalBlack14,
                           ),
                         ),
                         Column(
                           children: [
                             Text(
-                              '4.3/5',
+                              '${double.tryParse(ProductDetailsController.to.product.value.reviewsAvgStar!) ?? 0}/5',
                               style: AppTheme.textStyleSemiBoldBlack14,
                             ),
                             Text(
-                              '234 verified ratings',
+                              '${int.tryParse(ProductDetailsController.to.product.value.reviewsCount!) ?? 0} verified ratings',
                               style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
                             ),
                           ],
@@ -104,7 +104,13 @@ class ReviewScreen extends StatelessWidget {
                           TitleTextWidget(tileText: 'Refine Reviews By'),
                           Spacer(),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              ProductDetailsController.to.reviewFilterList.forEach((element) {
+                                element['is_selected'] = false;
+                              });
+                              ProductDetailsController.to.reviewFilterList.refresh();
+                              ProductDetailsController.to.getAllReviews();
+                            },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               child: Text(
@@ -118,42 +124,102 @@ class ReviewScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: 42,
-                        child: ListView.builder(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 23,
-                          itemBuilder: (context, index) => Container(
-                            margin: EdgeInsets.symmetric(horizontal: 4),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: index == 0 ? AppColors.kPrimaryColor : Colors.grey.withOpacity(.5), width: 1.5), borderRadius: BorderRadius.circular(20)),
-                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            child: Text(
-                              'Verified Buyers',
-                              textAlign: TextAlign.center,
-                              style: index == 0 ? AppTheme.textStyleSemiBoldPrimary14 : AppTheme.textStyleSemiBoldFadeBlack14,
+                      Obx(() {
+                        return SizedBox(
+                          height: 42,
+                          child: ListView.builder(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: ProductDetailsController.to.reviewFilterList.length,
+                            itemBuilder: (context, index) => GestureDetector(
+                              onTap: () {
+                                if (index > 0) {
+                                  globalLogger.d('Not First Element');
+                                  for (var element in ProductDetailsController.to.reviewFilterList) {
+                                    if (!(ProductDetailsController.to.reviewFilterList[0]['title'] == element['title'])) {
+                                      if (ProductDetailsController.to.reviewFilterList[index]['title'] == element['title']) {
+                                        globalLogger.d(element['title'], 'Not First Element');
+                                        element['is_selected'] = !element['is_selected'];
+                                      } else {
+                                        globalLogger.d(element['title'], 'Not First Element');
+                                        element['is_selected'] = false;
+                                      }
+                                    }
+                                  }
+                                } else {
+                                  globalLogger.d('First Element');
+                                  ProductDetailsController.to.reviewFilterList[index]['is_selected'] =
+                                      !(ProductDetailsController.to.reviewFilterList[index]['is_selected'] as bool);
+                                }
+                                ProductDetailsController.to.reviewFilterList.refresh();
+
+                                final data = {
+                                  'with_image': ProductDetailsController.to.reviewFilterList[0]['is_selected'] ? '1' : '0',
+                                };
+                                for (int i = 1; i < ProductDetailsController.to.reviewFilterList.length; i++) {
+                                  if (ProductDetailsController.to.reviewFilterList[i]['is_selected']) {
+                                    data['rating'] = ProductDetailsController.to.reviewFilterList[i]['key'];
+                                  }
+                                }
+
+                                ProductDetailsController.to.getAllReviews(addition: data);
+
+                                globalLogger.d(data, 'Filter Data');
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 4),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: ProductDetailsController.to.reviewFilterList[index]['is_selected'] ? AppColors.kPrimaryColor : Colors.grey.withOpacity(.5),
+                                        width: 1.5),
+                                    borderRadius: BorderRadius.circular(20)),
+                                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                child: Text(
+                                  ProductDetailsController.to.reviewFilterList[index]['title'].toString(),
+                                  textAlign: TextAlign.center,
+                                  style: ProductDetailsController.to.reviewFilterList[index]['is_selected']
+                                      ? AppTheme.textStyleSemiBoldPrimary14
+                                      : AppTheme.textStyleSemiBoldFadeBlack14,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      }),
                       CustomSizedBox.space16H,
                     ],
                   ),
                 ),
-                ...List.generate(
-                  10,
-                  (index) => Obx(() {
-                    return CommentWidget(
-                      index: index,
-                      readMore: ProductDetailsController.to.readMore.value,
-                      function: () {
-                        ProductDetailsController.to.readMore.value = !ProductDetailsController.to.readMore.value;
-                      },
-                    );
-                  }),
-                ),
+
+                Obx(() {
+                  return ListView.builder(
+                    itemCount: ProductDetailsController.to.allReviews.length,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemBuilder: (context, index) {
+                      return CommentWidget(
+                        reviews: ProductDetailsController.to.allReviews[index],
+                        index: index,
+                        readMore: ProductDetailsController.to.readMore.value,
+                        function: () {
+                          ProductDetailsController.to.readMore.value = !ProductDetailsController.to.readMore.value;
+                        },
+                      );
+                    },
+                  );
+                }),
+
+                // ...List.generate(
+                //   10,
+                //   (index) =>  CommentWidget(
+                //       index: index,
+                //       readMore: ProductDetailsController.to.readMore.value,
+                //       function: () {
+                //         ProductDetailsController.to.readMore.value = !ProductDetailsController.to.readMore.value;
+                //       },
+                //     ),
+                // ),
                 CustomSizedBox.space12H,
               ],
             ),

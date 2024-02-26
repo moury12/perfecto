@@ -1,4 +1,5 @@
 import 'package:perfecto/models/product_attribute_model.dart';
+import 'package:perfecto/models/user_model.dart';
 
 class ProductModel {
   String? id;
@@ -972,9 +973,11 @@ class Reviews {
   String? createdAt;
   String? updatedAt;
   String? reviewHelpfulCount;
-  List<Null>? reviewHelpful;
-  String? shade;
-  String? size;
+  bool? readMore = false;
+  List<ReviewHelpful>? reviewHelpful;
+  Shade? shade;
+  Size? size;
+  UserModel? user;
   List<ProductReviewImages>? productReviewImages;
 
   Reviews(
@@ -991,9 +994,11 @@ class Reviews {
       this.createdAt,
       this.updatedAt,
       this.reviewHelpfulCount,
+      this.readMore,
       this.reviewHelpful,
       this.shade,
       this.size,
+      this.user,
       this.productReviewImages});
 
   Reviews.fromJson(Map<String, dynamic> json) {
@@ -1010,15 +1015,16 @@ class Reviews {
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     reviewHelpfulCount = json['review_helpful_count'].toString() == 'null' ? '' : json['review_helpful_count'].toString();
-    reviewHelpful = [];
-    // if (json['review_helpful'] != null) {
-    //   reviewHelpful = <Null>[];
-    //   json['review_helpful'].forEach((v) {
-    //     reviewHelpful!.add(Null.fromJson(v));
-    //   });
-    // }
-    shade = json['shade'].toString() == 'null' ? '' : json['shade'].toString();
-    size = json['size'].toString() == 'null' ? '' : json['size'].toString();
+    if (json['review_helpful'] != null) {
+      reviewHelpful = <ReviewHelpful>[];
+      json['review_helpful'].forEach((v) {
+        reviewHelpful!.add(ReviewHelpful.fromJson(v));
+      });
+    }
+    readMore = false;
+    shade = json['shade'] != null ? Shade.fromJson(json['shade']) : null;
+    size = json['size'] != null ? Size.fromJson(json['size']) : null;
+    user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
     if (json['product_review_images'] != null) {
       productReviewImages = <ProductReviewImages>[];
       json['product_review_images'].forEach((v) {
@@ -1041,16 +1047,55 @@ class Reviews {
     data['status'] = status;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['read_more'] = readMore;
     data['review_helpful_count'] = reviewHelpfulCount;
-    data['review_helpful'] = reviewHelpful;
-    // if (this.reviewHelpful != null) {
-    //   data['review_helpful'] = this.reviewHelpful!.map((v) => v.toJson()).toList();
-    // }
-    data['shade'] = shade;
-    data['size'] = size;
+    // data['review_helpful'] = reviewHelpful;
+    if (reviewHelpful != null) {
+      data['review_helpful'] = reviewHelpful!.map((v) => v.toJson()).toList();
+    }
+    if (shade != null) {
+      data['shade'] = shade!.toJson();
+    }
+    if (size != null) {
+      data['size'] = size!.toJson();
+    }
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
     if (productReviewImages != null) {
       data['product_review_images'] = productReviewImages!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class ReviewHelpful {
+  String? id;
+  String? productReviewId;
+  String? userId;
+  String? helpful;
+  String? createdAt;
+  String? updatedAt;
+
+  ReviewHelpful({this.id, this.productReviewId, this.userId, this.helpful, this.createdAt, this.updatedAt});
+
+  ReviewHelpful.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    productReviewId = json['product_review_id'].toString() == 'null' ? '' : json['product_review_id'].toString();
+    userId = json['user_id'].toString() == 'null' ? '' : json['user_id'].toString();
+    helpful = json['helpful'].toString() == 'null' ? '' : json['helpful'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['product_review_id'] = productReviewId;
+    data['user_id'] = userId;
+    data['helpful'] = helpful;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

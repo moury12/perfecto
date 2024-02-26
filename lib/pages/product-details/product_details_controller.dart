@@ -22,7 +22,19 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   RxList imageList = [].obs;
   RxString captureImage = ''.obs;
 
+  final RxList reviewFilterList = [
+    {'title': 'With Image', 'is_selected': false, 'key': 'with_image'},
+    {'title': '5 Star', 'is_selected': false, 'key': '5'},
+    {'title': '4 Star', 'is_selected': false, 'key': '4'},
+    {'title': '3 Star', 'is_selected': false, 'key': '3'},
+    {'title': '2 Star', 'is_selected': false, 'key': '2'},
+    {'title': '1 Star', 'is_selected': false, 'key': '1'},
+  ].obs;
+
   RxList<ProductModel> productList = <ProductModel>[].obs;
+  RxList<ProductReviewImages> reviewImages = <ProductReviewImages>[].obs;
+  // Reviews List
+  RxList<Reviews> allReviews = <Reviews>[].obs;
   Rx<ProductModel> product = ProductModel().obs;
   void selectedImage() async {
     final List<XFile> selectedImages = await ImagePicker().pickMultiImage();
@@ -60,6 +72,23 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
     productList.value = data[ProductDetailType.customerWillView];
     selectedVariation.value = product.value.variationType == 'shade' ? product.value.shadeId![0] : product.value.sizeId![0];
     globalLogger.d(productList, 'productList');
+  }
+
+  Future<void> getReviewImages(String id) async {
+    reviewImages.clear();
+    final data = await ProductService.productReviewImages(id);
+    reviewImages.value = data;
+  }
+
+  // allReviews
+  Future<void> getAllReviews({dynamic addition}) async {
+    final body = {'product_id': product.value.id!, 'pagination': '15'};
+    if (addition != null) {
+      body.addAll(addition);
+    }
+    allReviews.clear();
+    final data = await ProductService.productReviews(body);
+    allReviews.value = data;
   }
 
   double getPrice() {
