@@ -204,12 +204,15 @@ class SingleCategoryProductWidget extends StatelessWidget {
                           style: AppTheme.textStyleBoldBlack14,
                           children: [
                             TextSpan(
-                              text: '৳ ${double.parse(product?.discountPercent ?? '0') > 0 ? (product?.discountPrice ?? '550') : product?.price ?? '550'}  ',
+                              text:
+                                  '৳ ${product?.variationType == 'shade' ? (product?.productShades?[0].discountedPrice ?? '550') : (product?.productSizes?[0].discountedPrice ?? '550')}  ',
                               style: AppTheme.textStyleBoldBlack14,
                               children: double.parse(product?.discountPercent ?? '0') > 0
                                   ? [
                                       TextSpan(
-                                        text: '৳${double.parse(product?.price ?? '550').toStringAsFixed(0)}',
+                                        text:
+                                            '৳${product?.variationType == 'shade' ? (product?.productShades?[0].shadePrice ?? '550') : (product?.productSizes?[0].sizePrice ?? '55'
+                                                '0')}',
                                         style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
                                       ),
                                       const TextSpan(

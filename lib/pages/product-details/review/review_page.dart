@@ -86,7 +86,7 @@ class ReviewScreen extends StatelessWidget {
                               style: AppTheme.textStyleSemiBoldBlack14,
                             ),
                             Text(
-                              '${int.tryParse(ProductDetailsController.to.product.value.reviewsCount!) ?? 0} verified ratings',
+                              '${ProductDetailsController.to.allReviews.length} verified ratings',
                               style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
                             ),
                           ],

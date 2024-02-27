@@ -78,7 +78,7 @@ class ChatController extends GetxController {
     });
     socket.connect();
     socket.onDisconnect((_) => globalLogger.d('Connection Disconnection'));
-    socket.onConnectError((err) => globalLogger.e(err));
+    // socket.onConnectError((err) => globalLogger.e(err));
     socket.onError((err) => globalLogger.e(err));
   }
 

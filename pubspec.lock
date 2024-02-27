@@ -506,11 +506,9 @@ packages:
   mh_ui:
     dependency: transitive
     description:
-      path: "."
-      ref: alpha
-      resolved-ref: "63c6920e92ddd86b7988ac5b4ff64a72531c9916"
-      url: "https://github.com/mh-sarkar/mh-ui.git"
-    source: git
+      path: "../mh_ui"
+      relative: true
+    source: path
     version: "0.0.1"
   mh_videoplayer:
     dependency: "direct main"

@@ -78,8 +78,8 @@ class CommentWidget extends StatelessWidget {
                           height: 14,
                         ),
                         CustomSizedBox.space4W,
-                        const Text(
-                          'Verified Buyers',
+                        Text(
+                          'Verified Buyers ${reviews!.productId!}',
                           style: AppTheme.textStyleNormalFadeBlack10,
                         )
                       ],

@@ -20,7 +20,12 @@ class ProductService {
       globalLogger.d(response, "Category Product Route");
       if (response['status'] != null && response['status']) {
         response['data']['products']['data'].forEach((dis) {
-          productList.add(ProductModel.fromJson(dis));
+          try {
+            productList.add(ProductModel.fromJson(dis));
+          } catch (e) {
+            globalLogger.e("Error occurred in Call: $dis");
+            globalLogger.e("Error occurred in Call: $e");
+          }
         });
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
@@ -79,6 +84,28 @@ class ProductService {
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
 
+      return false; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //post-review
+  static Future<bool> postReview(dynamic body, List<Map<String, dynamic>>? images) async {
+    try {
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}post-review',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: body,
+        imageListWithKeyValue: images,
+      );
+      globalLogger.d(response, "Post Review Route");
+      if (response['status'] != null && response['status']) {
+        return true;
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return false;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
       return false; // Return an empty list or handle the error accordingly
     }
   }

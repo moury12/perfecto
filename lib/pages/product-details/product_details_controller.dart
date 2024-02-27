@@ -23,7 +23,7 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   RxBool isHelpfull = false.obs;
   RxBool readMore = false.obs;
   RxInt rating = 0.obs;
-  RxList imageList = [].obs;
+  RxList<String> imageList = <String>[].obs;
   RxString captureImage = ''.obs;
 
   final RxList reviewFilterList = [
@@ -41,16 +41,16 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   RxList<Reviews> allReviews = <Reviews>[].obs;
   Rx<ProductModel> product = ProductModel().obs;
   void selectedImage() async {
-    final List<XFile> selectedImages = await ImagePicker().pickMultiImage();
+    final selectedImages = await ImagePicker().pickMultiImage();
     if (selectedImages.isNotEmpty) {
       imageList.addAll(selectedImages.map((e) => e.path));
     }
   }
 
   void selectedImageCamera() async {
-    final XFile? selectedImages = await ImagePicker().pickImage(source: ImageSource.camera);
+    final selectedImages = await ImagePicker().pickImage(source: ImageSource.camera);
     if (selectedImages != null) {
-      captureImage.value = selectedImages.path;
+      imageList.add(selectedImages.path);
     }
   }
 
@@ -96,6 +96,38 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
       }
       showSnackBar(
         msg: 'Helpful Added Successfully',
+      );
+    }
+  }
+
+  //post review
+  Future<void> postReview(
+      {required String comment, required String rating, required String title, required String productId, String? shadeId, String? sizeId, required String orderId}) async {
+    final body = {
+      'product_id': productId,
+      if (shadeId != null) 'shade_id': shadeId,
+      if (sizeId != null) 'size_id': sizeId,
+      'order_id': orderId,
+      'title': title,
+      'comment': comment,
+      'star': rating,
+    };
+    final List<Map<String, dynamic>> images = [];
+    if (imageList.isNotEmpty) {
+      images.add({
+        "key": "images",
+        "value": imageList,
+      });
+    }
+    final data = await ProductService.postReview(body, images);
+    if (data) {
+      // if (Get.currentRoute == ProductDetailsScreen.routeName) {
+      //   getProductDetails(product.value.id!, needLoading: false);
+      // } else {
+      //   getAllReviews(needLoading: false);
+      // }
+      showSnackBar(
+        msg: 'Review Added Successfully. Waiting for Admin Approval.',
       );
     }
   }

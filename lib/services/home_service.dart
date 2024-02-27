@@ -2,6 +2,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/blog_model.dart';
+import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
@@ -10,6 +11,7 @@ import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
+import 'package:perfecto/pages/home/controller/home_controller.dart';
 
 class HomeService {
   static Future<List<BlogModel>> blogCall() async {
@@ -27,6 +29,41 @@ class HomeService {
       return blogList;
     } catch (e) {
       globalLogger.e("Error occurred in blogCall: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  // home page HomeModel list
+  static Future<List<HomeModel>> homeCall() async {
+    try {
+      List<HomeModel> homeList = [];
+      final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}get-home-mobile', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "home route");
+      if (response['status'] != null && response['status']) {
+        (response['data'] as List).insert(1, {'id': 'cat'});
+        response['data'].forEach((dis) {
+          try {
+            if (HomeController.to.productListId.contains(dis['id'].toString())) {
+              globalLogger.d(HomeController.to.productListId, "product_list section id list");
+              dis['product_list'] = dis['section_data'];
+              dis['section_data'] = [];
+            }
+            if (dis['section_data'].runtimeType.toString() == '_Map<String, dynamic>') {
+              dis['section_data'] = [dis['section_data']];
+            }
+            homeList.add(HomeModel.fromJson(dis));
+          } catch (e) {
+            globalLogger.d(dis['section_data'].runtimeType, "home route");
+            globalLogger.e("Error occurred in homeCall: $dis");
+            globalLogger.e("Error occurred in homeCall: $e");
+          }
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return homeList;
+    } catch (e) {
+      globalLogger.e("Error occurred in homeCall: $e");
       return []; // Return an empty list or handle the error accordingly
     }
   }

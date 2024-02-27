@@ -6,6 +6,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
+import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
@@ -1015,6 +1016,9 @@ class PrimaryAcceantListViewItemWidget extends StatelessWidget {
           SizedBox(
             height: 380,
             child: ListView.builder(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+              ).copyWith(bottom: 16),
               scrollDirection: Axis.horizontal,
               itemCount: productList?.length ?? 5,
               itemBuilder: (context, index) {
