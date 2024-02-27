@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
+import 'package:perfecto/controller/auth_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/services/product_services.dart';
 
 import '../../models/product_model.dart';
@@ -63,11 +67,11 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
     super.onClose();
   }
 
-  Future<void> getProductDetails(String id) async {
+  Future<void> getProductDetails(String id, {bool needLoading = true}) async {
     globalLogger.d(id, 'productListWithCategoryCall');
     productList.clear();
     currentPage.value = 0;
-    final data = await ProductService.productDetails(id);
+    final data = await ProductService.productDetails(id, needLoading: needLoading);
     product.value = data[ProductDetailType.product];
     productList.value = data[ProductDetailType.customerWillView];
     selectedVariation.value = product.value.variationType == 'shade' ? product.value.shadeId![0] : product.value.sizeId![0];
@@ -80,14 +84,34 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
     reviewImages.value = data;
   }
 
+  //storeReviewHelpful
+  Future<void> storeReviewHelpful({required String reviewId}) async {
+    final body = {'product_review_id': reviewId};
+    final data = await ProductService.storeReviewHelpful(body);
+    if (data) {
+      if (Get.currentRoute == ProductDetailsScreen.routeName) {
+        getProductDetails(product.value.id!, needLoading: false);
+      } else {
+        getAllReviews(needLoading: false);
+      }
+      showSnackBar(
+        msg: 'Helpful Added Successfully',
+      );
+    }
+  }
+
   // allReviews
-  Future<void> getAllReviews({dynamic addition}) async {
-    final body = {'product_id': product.value.id!, 'pagination': '15'};
+  Future<void> getAllReviews({dynamic addition, bool needLoading = true}) async {
+    final body = {
+      'product_id': product.value.id!,
+      'pagination': '15',
+      if (AuthController.to.isLoggedIn.value) 'user_id': UserController.to.getUserInfo.id!,
+    };
     if (addition != null) {
       body.addAll(addition);
     }
     allReviews.clear();
-    final data = await ProductService.productReviews(body);
+    final data = await ProductService.productReviews(body, needLoading: needLoading);
     allReviews.value = data;
   }
 

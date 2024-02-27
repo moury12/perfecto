@@ -224,11 +224,19 @@ class CommentWidget extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        ProductDetailsController.to.isHelpfull.value = !ProductDetailsController.to.isHelpfull.value;
+                        ProductDetailsController.to.storeReviewHelpful(reviewId: reviews!.id!);
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: ProductDetailsController.to.isHelpfull.value ? AppColors.kPrimaryColor : null,
+                            color: fromProductDetails
+                                ? ProductDetailsController.to.product.value.reviews!.firstWhere((element) => element.id == reviews!.id).reviewHelpful!.isNotEmpty &&
+                                        ProductDetailsController.to.product.value.reviews!.firstWhere((element) => element.id == reviews!.id).reviewHelpful![0].helpful == '1'
+                                    ? AppColors.kPrimaryColor
+                                    : null
+                                : ProductDetailsController.to.allReviews.firstWhere((element) => element.id == reviews!.id).reviewHelpful!.isNotEmpty &&
+                                        ProductDetailsController.to.allReviews.firstWhere((element) => element.id == reviews!.id).reviewHelpful![0].helpful == '1'
+                                    ? AppColors.kPrimaryColor
+                                    : null,
                             border: Border.all(color: AppColors.kPrimaryColor, width: 1),
                             borderRadius: BorderRadius.circular(4)),
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -237,12 +245,28 @@ class CommentWidget extends StatelessWidget {
                             Image.asset(
                               'assets/like.png',
                               height: 17,
-                              color: ProductDetailsController.to.isHelpfull.value ? Colors.white : null,
+                              color: fromProductDetails
+                                  ? ProductDetailsController.to.product.value.reviews!.firstWhere((element) => element.id == reviews!.id).reviewHelpful!.isNotEmpty &&
+                                          ProductDetailsController.to.product.value.reviews!.firstWhere((element) => element.id == reviews!.id).reviewHelpful![0].helpful == '1'
+                                      ? Colors.white
+                                      : null
+                                  : ProductDetailsController.to.allReviews.firstWhere((element) => element.id == reviews!.id).reviewHelpful!.isNotEmpty &&
+                                          ProductDetailsController.to.allReviews.firstWhere((element) => element.id == reviews!.id).reviewHelpful![0].helpful == '1'
+                                      ? Colors.white
+                                      : null,
                             ),
                             CustomSizedBox.space4W,
                             Text(
                               'Helpful',
-                              style: ProductDetailsController.to.isHelpfull.value ? AppTheme.textStyleSemiBoldWhite14 : AppTheme.textStyleSemiBoldPrimary14,
+                              style: fromProductDetails
+                                  ? ProductDetailsController.to.product.value.reviews!.firstWhere((element) => element.id == reviews!.id).reviewHelpful!.isNotEmpty &&
+                                          ProductDetailsController.to.product.value.reviews!.firstWhere((element) => element.id == reviews!.id).reviewHelpful![0].helpful == '1'
+                                      ? AppTheme.textStyleSemiBoldWhite14
+                                      : AppTheme.textStyleSemiBoldPrimary14
+                                  : ProductDetailsController.to.allReviews.firstWhere((element) => element.id == reviews!.id).reviewHelpful!.isNotEmpty &&
+                                          ProductDetailsController.to.allReviews.firstWhere((element) => element.id == reviews!.id).reviewHelpful![0].helpful == '1'
+                                      ? AppTheme.textStyleSemiBoldWhite14
+                                      : AppTheme.textStyleSemiBoldPrimary14,
                             ),
                           ],
                         ),
@@ -250,7 +274,7 @@ class CommentWidget extends StatelessWidget {
                     ),
                     CustomSizedBox.space8W,
                     Text(
-                      '${reviews?.reviewHelpfulCount ?? 0} people found this helpful',
+                      '${fromProductDetails ? ProductDetailsController.to.product.value.reviews!.firstWhere((element) => element.id == reviews!.id).reviewHelpfulCount ?? 0 : ProductDetailsController.to.allReviews.firstWhere((element) => element.id == reviews!.id).reviewHelpfulCount ?? 0} people found this helpful',
                       style: AppTheme.textStyleNormalFadeBlack14,
                     ),
                   ],

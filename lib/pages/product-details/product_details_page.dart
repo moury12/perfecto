@@ -704,6 +704,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     index: 1,
                     readMore: false,
                     reviews: ProductDetailsController.to.product.value.reviews![index],
+                    fromProductDetails: true,
                   ),
                 ),
                 CustomSizedBox.space12H,

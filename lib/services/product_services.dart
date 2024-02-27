@@ -1,6 +1,8 @@
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/auth_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/product_model.dart';
 
 import '../utils.dart';
@@ -30,13 +32,15 @@ class ProductService {
     }
   }
 
-  static Future<Map<ProductDetailType, dynamic>> productDetails(String id) async {
+  static Future<Map<ProductDetailType, dynamic>> productDetails(String id, {required bool needLoading}) async {
     try {
       ProductModel productModel = ProductModel();
       List<ProductModel> productList = [];
       final response = await ServiceAPI.genericCall(
         url: '${Service.apiUrl}product-detail/$id',
-        httpMethod: HttpMethod.get,
+        httpMethod: HttpMethod.multipartFilePost,
+        isLoadingEnable: needLoading,
+        allInfoField: AuthController.to.isLoggedIn.value ? {'user_id': UserController.to.getUserInfo.id!} : {},
       );
       globalLogger.d(response, "Category Product Route");
       if (response['status'] != null && response['status']) {
@@ -54,6 +58,28 @@ class ProductService {
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return {}; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  // store-review-helpful
+  static Future<bool> storeReviewHelpful(dynamic body) async {
+    try {
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}store-review-helpful',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: body,
+      );
+      globalLogger.d(response, "Review Helpful Route");
+      if (response['status'] != null && response['status']) {
+        return true;
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return false;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+
+      return false; // Return an empty list or handle the error accordingly
     }
   }
 
@@ -82,14 +108,14 @@ class ProductService {
   }
 
   //productReviews
-  static Future<List<Reviews>> productReviews(dynamic body) async {
+  static Future<List<Reviews>> productReviews(dynamic body, {required bool needLoading}) async {
     try {
       List<Reviews> allReviews = [];
       final response = await ServiceAPI.genericCall(
         url: '${Service.apiUrl}get-review-product-wise',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
-        isLoadingEnable: true,
+        isLoadingEnable: needLoading,
         loadingMessage: 'Loading...',
       );
       globalLogger.d(response, "reviews Route");
