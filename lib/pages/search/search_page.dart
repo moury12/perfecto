@@ -32,7 +32,7 @@ class SearchScreen extends StatelessWidget {
           return Column(
             children: [
               const HomeTopWidget(
-                isSearchpage: true,
+                isSearchPage: true,
               ),
               NavigationController.to.isSearchFieldNotEmpty.value
                   ? Expanded(

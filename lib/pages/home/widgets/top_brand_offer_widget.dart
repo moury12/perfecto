@@ -12,6 +12,7 @@ import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
+import '../../../controller/home_api_controller.dart';
 import '../../offer/sale_page.dart';
 import '../../product-details/product_details_controller.dart';
 
@@ -358,7 +359,6 @@ class BestSellerListViewBuilder extends StatelessWidget {
               itemCount: model?.productList?.length ?? 5,
               itemBuilder: (context, index) {
                 final product = model?.productList?[index];
-                globalLogger.d(model?.toJson(), 'Product Name');
                 return BestSellerListWidget(
                   product: product,
                 );
@@ -398,10 +398,15 @@ class SegmentGridWidget extends StatelessWidget {
         final category = model.sectionData?[index];
 
         return GestureDetector(
-          onTap: () {
-            // await HomeApiController.to.productListWithCategoryCall({
-            //   'category': [category.id!].toString(),
-            // });
+          onTap: () async {
+            if (category.categories != null)
+              await HomeApiController.to.productListWithCategoryCall({
+                'category': [category.categories!.id!].toString(),
+              });
+            else
+              await HomeApiController.to.productListCallWithFilterCall({
+                'concern': [category.concerns!.id!].toString(),
+              });
             Get.toNamed(SingleCatergoryWiseScreen.routeName);
           },
           child: Container(

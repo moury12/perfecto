@@ -86,7 +86,7 @@ class SectionData {
   String? description;
   String? createdAt;
   String? updatedAt;
-  Offers? offers;
+  OfferModel? offers;
   Categories? categories;
   Concerns? concerns;
 
@@ -117,7 +117,7 @@ class SectionData {
     description = json['description'].toString() == 'null' ? '' : json['description'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
-    offers = json['offers'] != null ? Offers.fromJson(json['offers']) : null;
+    offers = json['offers'] != null ? OfferModel.fromJson(json['offers']) : null;
     categories = json['categories'] != null ? Categories.fromJson(json['categories']) : null;
     concerns = json['concerns'] != null ? Concerns.fromJson(json['concerns']) : null;
   }
@@ -147,7 +147,7 @@ class SectionData {
   }
 }
 
-class Offers {
+class OfferModel {
   String? id;
   String? name;
   String? title1;
@@ -166,7 +166,7 @@ class Offers {
   String? updatedAt;
   String? deletedAt;
 
-  Offers(
+  OfferModel(
       {this.id,
       this.name,
       this.title1,
@@ -185,7 +185,7 @@ class Offers {
       this.updatedAt,
       this.deletedAt});
 
-  Offers.fromJson(Map<String, dynamic> json) {
+  OfferModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
     name = json['name'].toString() == 'null' ? '' : json['name'].toString();
     title1 = json['title1'].toString() == 'null' ? '' : json['title1'].toString();

@@ -25,8 +25,8 @@ class HomeTopWidget extends StatelessWidget {
   final bool isSearchInclude;
   final bool isCartPage;
   final bool isWalletPage;
-  final bool isSearchpage;
-  final bool isneedFilter;
+  final bool isSearchPage;
+  final bool isNeedFilter;
   final Widget? title;
 
   final TextEditingController? controller;
@@ -35,10 +35,10 @@ class HomeTopWidget extends StatelessWidget {
       this.controller,
       this.isSearchInclude = true,
       this.title,
-      this.isSearchpage = false,
+      this.isSearchPage = false,
       this.isCartPage = false,
       this.isWalletPage = true,
-      this.isneedFilter = false});
+      this.isNeedFilter = false});
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +170,7 @@ class HomeTopWidget extends StatelessWidget {
                 child: isSearchInclude
                     ? CustomTextField(
                         height: 42,
-                        isEnable: isSearchpage,
+                        isEnable: isSearchPage,
                         controller: controller ?? NavigationController.to.searchController.value,
                         hintText: 'Search for products...',
                         focusColor: AppColors.kPrimaryColor,
@@ -202,7 +202,7 @@ class HomeTopWidget extends StatelessWidget {
                       )
                     : const SizedBox.shrink(),
               ),
-              if (isSearchpage)
+              if (isSearchPage)
                 Obx(
                   () => NavigationController.to.isSearchFieldNotEmpty.value
                       ? SingleChildScrollView(
@@ -323,7 +323,7 @@ class HomeTopWidget extends StatelessWidget {
                         )
                       : const SizedBox.shrink(),
                 ),
-              if (isneedFilter)
+              if (isNeedFilter)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0).copyWith(bottom: 12),
                   child: Row(

@@ -3,6 +3,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/models/blog_model.dart';
+import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
@@ -13,6 +14,7 @@ import 'package:perfecto/services/home_service.dart';
 import 'package:perfecto/services/product_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/offer_details_model.dart';
 import '../models/product_model.dart';
 
 class HomeApiController extends GetxController {
@@ -43,6 +45,9 @@ class HomeApiController extends GetxController {
 
   RxList<SizeModel> sizeList = <SizeModel>[].obs;
   RxList<ShadeModel> shadeList = <ShadeModel>[].obs;
+  RxList<OfferModel> offerList = <OfferModel>[].obs;
+  Rx<OfferDetailsModel> offerDetails = OfferDetailsModel().obs;
+
   @override
   void onInit() async {
     categoryListCall();
@@ -148,6 +153,16 @@ class HomeApiController extends GetxController {
     shadeList.value = await HomeService.shadeCall();
   }
 
+  //offerCall
+  Future<void> offerListCall() async {
+    offerList.value = await HomeService.offerCall();
+  }
+
+  //offerDetailsCall
+  Future<void> offerDetailsCall(String offerId) async {
+    offerDetails.value = await HomeService.offerDetailsCall(offerId);
+  }
+
   Future<void> brandListCall() async {
     final List<BrandModel> data = await HomeService.brandCall();
     data.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
@@ -165,6 +180,13 @@ class HomeApiController extends GetxController {
     globalLogger.d(body, 'productListWithCategoryCall');
     productList.clear();
     productList.value = await ProductService.productListCallWithCategory(body);
+    globalLogger.d(productList, 'productList');
+  }
+
+  Future<void> productListCallWithFilterCall(dynamic body) async {
+    globalLogger.d(body, 'productListCallWithFilterCall');
+    productList.clear();
+    productList.value = await ProductService.productListCallWithFilter(body);
     globalLogger.d(productList, 'productList');
   }
 

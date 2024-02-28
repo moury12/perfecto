@@ -126,7 +126,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                 ),
                                 TextSpan(
                                   text:
-                                      "(${int.parse(product?.reviewsCount ?? rating) > 999 ? '${(int.parse(product?.reviewsCount ?? rating) / 1000).toStringAsFixed(1)}k' : product?.reviewsCount ?? rating})",
+                                      "(${(int.tryParse(product?.reviewsCount ?? rating) ?? 0) > 999 ? '${((int.tryParse(product?.reviewsCount ?? rating) ?? 0) / 1000).toStringAsFixed(1)}k' : product?.reviewsCount ?? rating})",
                                   style: TextStyle(color: Colors.black.withOpacity(.8), fontSize: 8, fontWeight: FontWeight.w500),
                                 )
                               ],

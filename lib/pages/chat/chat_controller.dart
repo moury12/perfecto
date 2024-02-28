@@ -70,7 +70,7 @@ class ChatController extends GetxController {
     socket.onConnect((_) {
       globalLogger.d('Socket Enter');
       socket.on('chat message', (newMessage) {
-        globalLogger.d(newMessage, 'Send To Pharmacy');
+        globalLogger.d(newMessage, 'chat message');
         if (newMessage[0]['sender_id'].toString() == '0' && newMessage[0]['receiver_id'].toString() == UserController.to.getUserInfo.id!) {
           getChats();
         }

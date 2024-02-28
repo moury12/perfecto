@@ -3,6 +3,7 @@ import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/models/home_model.dart';
+import 'package:perfecto/models/offer_details_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
@@ -236,6 +237,53 @@ class HomeService {
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //offerList
+  static Future<List<OfferModel>> offerCall() async {
+    try {
+      List<OfferModel> offer = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}offers',
+        httpMethod: HttpMethod.get,
+        isLoadingEnable: true,
+      );
+      globalLogger.d(response, "offer route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          offer.add(OfferModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return offer;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //OfferDetailsModel data
+  static Future<OfferDetailsModel> offerDetailsCall(String offerId) async {
+    try {
+      OfferDetailsModel offerDetails = OfferDetailsModel();
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}offer-products',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: {'offer_id': offerId},
+        isLoadingEnable: true,
+      );
+      globalLogger.d(response, "offerDetails route");
+      if (response['status'] != null && response['status']) {
+        offerDetails = OfferDetailsModel.fromJson(response['data']);
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return offerDetails;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return OfferDetailsModel(); // Return an empty list or handle the error accordingly
     }
   }
 

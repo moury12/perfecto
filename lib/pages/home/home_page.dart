@@ -48,13 +48,16 @@ class HomeScreen extends StatelessWidget {
                       itemCount: model.sectionData!.length,
                       itemBuilder: (context, index) {
                         controller.currentPage.value = index;
-                        String data = model.sectionData!.map((e) => e.image!).toList()[index];
+                        final data = model.sectionData![index];
                         return GestureDetector(
-                          onTap: () => Get.toNamed(OfferDetailsScreen.routeName),
+                          onTap: () async {
+                            await HomeApiController.to.offerDetailsCall(data.offerId!);
+                            Get.toNamed(OfferDetailsScreen.routeName);
+                          },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 0),
                             child: CustomNetworkImage(
-                              networkImagePath: data,
+                              networkImagePath: data.image!,
                               errorImagePath: AssetsConstant.slider1,
                               width: double.infinity,
                               fit: BoxFit.fill,
@@ -139,7 +142,8 @@ class HomeScreen extends StatelessWidget {
                           ),
                         )),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        await HomeApiController.to.offerListCall();
                         Get.toNamed(OfferScreenNew.routeName);
                       },
                       child: Container(
@@ -183,7 +187,10 @@ class HomeScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final data = model.sectionData![index];
                       return GestureDetector(
-                        onTap: () => Get.toNamed(OfferDetailsScreen.routeName),
+                        onTap: () async {
+                          await HomeApiController.to.offerDetailsCall(data.offerId!);
+                          Get.toNamed(OfferDetailsScreen.routeName);
+                        },
                         child: Container(
                           decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.black.withOpacity(.16), blurRadius: 8)]),
                           child: CustomNetworkImage(
@@ -223,7 +230,8 @@ class HomeScreen extends StatelessWidget {
                   ...List.generate(
                     model.sectionData!.length,
                     (index) => GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        await HomeApiController.to.offerDetailsCall(model.sectionData![index].offerId!);
                         Get.toNamed(OfferDetailsScreen.routeName);
                       },
                       child: TopBrandsOfferListWidget(
@@ -257,10 +265,13 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TitleTextWidget(tileText: model.mobileTitle ?? 'Clearance Sale'),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  GestureDetector(
+                    onTap: () async {
+                      await HomeApiController.to.offerDetailsCall(model.sectionData!.first.offerId!);
+                      Get.toNamed(OfferDetailsScreen.routeName);
+                    },
                     child: Container(
-                      margin: const EdgeInsets.all(4),
+                      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                       width: double.infinity,
                       height: 200,
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: const [
@@ -461,7 +472,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 itemCount: controller.homeData.length,
                 itemBuilder: (context, index) {
-                  globalLogger.d(controller.homeData[index].id);
+                  // globalLogger.d(controller.homeData[index].id);
                   return switchHomeWidget(
                     controller.homeData[index],
                     context,

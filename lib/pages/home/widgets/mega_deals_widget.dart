@@ -40,7 +40,6 @@ class MegaDealsWidget extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    globalLogger.d(product?.toJson(), 'MegaDealsWidget');
     return GestureDetector(
       onTap: () async {
         Get.put(ProductDetailsController());

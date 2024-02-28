@@ -30,7 +30,7 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              HomeTopWidget(isneedFilter: true),
+              HomeTopWidget(isNeedFilter: true),
               Expanded(
                   child: Center(
                 child: ListView(
