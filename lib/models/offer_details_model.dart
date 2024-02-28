@@ -136,7 +136,7 @@ class CategoryData {
 
 class Products {
   String? currentPage;
-  List<ProductData>? data;
+  List<ProductModel>? data;
   String? firstPageUrl;
   String? from;
   String? lastPage;
@@ -167,9 +167,9 @@ class Products {
   Products.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'].toString() == 'null' ? '' : json['current_page'].toString();
     if (json['data'] != null) {
-      data = <ProductData>[];
+      data = <ProductModel>[];
       json['data'].forEach((v) {
-        data!.add(ProductData.fromJson(v));
+        data!.add(ProductModel.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'].toString() == 'null' ? '' : json['first_page_url'].toString();
@@ -209,39 +209,6 @@ class Products {
     data['prev_page_url'] = prevPageUrl;
     data['to'] = to;
     data['total'] = total;
-    return data;
-  }
-}
-
-class ProductData {
-  String? productId;
-  String? offerId;
-  String? categoryId;
-  String? discountedPrice;
-  String? id;
-  ProductModel? product;
-
-  ProductData({this.productId, this.offerId, this.categoryId, this.discountedPrice, this.id, this.product});
-
-  ProductData.fromJson(Map<String, dynamic> json) {
-    productId = json['product_id'].toString() == 'null' ? '' : json['product_id'].toString();
-    offerId = json['offer_id'].toString() == 'null' ? '' : json['offer_id'].toString();
-    categoryId = json['category_id'].toString() == 'null' ? '' : json['category_id'].toString();
-    discountedPrice = json['discounted_price'].toString() == 'null' ? '' : json['discounted_price'].toString();
-    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    product = json['product'] != null ? ProductModel.fromJson(json['product']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['product_id'] = productId;
-    data['offer_id'] = offerId;
-    data['category_id'] = categoryId;
-    data['discounted_price'] = discountedPrice;
-    data['id'] = id;
-    if (product != null) {
-      data['product'] = product!.toJson();
-    }
     return data;
   }
 }

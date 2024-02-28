@@ -29,10 +29,10 @@ class HomeTopWidget extends StatelessWidget {
   final bool isNeedFilter;
   final Widget? title;
 
-  final TextEditingController? controller;
+  // final TextEditingController? controller;
   const HomeTopWidget(
       {super.key,
-      this.controller,
+      // this.controller,
       this.isSearchInclude = true,
       this.title,
       this.isSearchPage = false,
@@ -165,33 +165,39 @@ class HomeTopWidget extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
+                  HomeApiController.to.trendingSearchListCall();
                   Get.toNamed(SearchScreen.routeName);
                 },
                 child: isSearchInclude
                     ? CustomTextField(
                         height: 42,
                         isEnable: isSearchPage,
-                        controller: controller ?? NavigationController.to.searchController.value,
+                        controller: NavigationController.to.searchController.value,
+                        focusNode: isSearchPage ? NavigationController.to.searchFocus.value : null,
                         hintText: 'Search for products...',
                         focusColor: AppColors.kPrimaryColor,
                         enableBorderColor: AppColors.kPrimaryColor,
                         disableBorderColor: AppColors.kPrimaryColor,
                         onSubmitted: (p0) async {
+                          globalLogger.d(p0, 'search');
                           if (p0.isNotEmpty) {
                             NavigationController.to.openSearchResult.value = true;
                             NavigationController.to.openSearchSuggestion.value = false;
-                            await HomeApiController.to.productListWithCategoryCall({
+                            await HomeApiController.to.productListCallWithNameCall({
                               'search': p0,
                             });
                             // Get.toNamed(SingleCatergoryWiseScreen.routeName);
                           }
                         },
-                        onChanged: (value) {
+                        onChanged: (value) async {
                           // Get.toNamed(SearchScreen.routeName,arguments: 'searched');
                           globalLogger.d(value);
                           NavigationController.to.openSearchSuggestion.value = true;
                           NavigationController.to.searchController.value.text = value;
                           NavigationController.to.isSearchFieldNotEmpty.value = value.isNotEmpty;
+                          await HomeApiController.to.productListCallWithNameCall({
+                            'search': value,
+                          });
                         },
                         prefixWidget: const Icon(
                           Icons.search_rounded,
@@ -211,12 +217,13 @@ class HomeTopWidget extends StatelessWidget {
                               NavigationController.to.openSearchSuggestion.value
                                   ? Container(
                                       decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.10), blurRadius: 10)]),
-                                      padding: const EdgeInsets.all(16),
+                                      padding: HomeApiController.to.searchList.isNotEmpty ? const EdgeInsets.all(16) : EdgeInsets.zero,
+                                      width: double.infinity,
                                       margin: const EdgeInsets.symmetric(horizontal: 16),
                                       child: Column(
                                         children: [
                                           ...List.generate(
-                                              4,
+                                              HomeApiController.to.searchList.length > 5 ? 5 : HomeApiController.to.searchList.length,
                                               (index) => Column(
                                                     children: [
                                                       Row(
@@ -227,20 +234,22 @@ class HomeTopWidget extends StatelessWidget {
                                                             size: 15,
                                                           ),
                                                           CustomSizedBox.space8W,
-                                                          InkWell(
-                                                            onTap: () {
-                                                              NavigationController.to.searchController.value.text = "Lakme Absolute Lipstick";
-                                                              NavigationController.to.update();
-                                                            },
-                                                            child: const Padding(
-                                                              padding: EdgeInsets.symmetric(vertical: 8.0),
-                                                              child: Text(
-                                                                'Lakme Absolute Lipstick',
-                                                                style: AppTheme.textStyleMediumBlack14,
+                                                          Expanded(
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                NavigationController.to.searchController.value.text = HomeApiController.to.searchList[index].name!;
+                                                                NavigationController.to.update();
+                                                              },
+                                                              child: Padding(
+                                                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                                                child: Text(
+                                                                  HomeApiController.to.searchList[index].name!,
+                                                                  style: AppTheme.textStyleMediumBlack14,
+                                                                  maxLines: 1,
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                          const Spacer(),
                                                           const Icon(
                                                             Icons.arrow_forward_ios,
                                                             color: Colors.black45,
@@ -630,7 +639,7 @@ class HomeTopWidget extends StatelessWidget {
                       marginHorizontal: 0,
                       onPressed: () async {
                         Navigator.pop(context);
-                        await HomeApiController.to.productListWithCategoryCall(NavigationController.to.addAttribute);
+                        await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
                         Get.toNamed(SingleCatergoryWiseScreen.routeName);
                         globalLogger.d(NavigationController.to.addAttribute, 'kkkkkkk');
                         NavigationController.to.resetFilters();

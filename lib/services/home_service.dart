@@ -287,6 +287,30 @@ class HomeService {
     }
   }
 
+  //OfferDetailsModel data
+  static Future<OfferDetailsModel> offerDetailsCatCall(String offerId, String catId) async {
+    try {
+      OfferDetailsModel offerDetails = OfferDetailsModel();
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}offer-cat-products',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: {'offer_id': offerId, 'category_id': catId},
+        isLoadingEnable: true,
+      );
+      globalLogger.d(response, "offerDetails route");
+      if (response['status'] != null && response['status']) {
+        response['data']['data'] = [response['data']['data']];
+        offerDetails = OfferDetailsModel.fromJson(response['data']);
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return offerDetails;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return OfferDetailsModel(); // Return an empty list or handle the error accordingly
+    }
+  }
+
   static Future<List<ProductAttributeModel>> concernCall() async {
     try {
       List<ProductAttributeModel> concern = [];

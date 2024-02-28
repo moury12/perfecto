@@ -16,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/offer_details_model.dart';
 import '../models/product_model.dart';
+import '../models/trending_search_model.dart';
 
 class HomeApiController extends GetxController {
   static HomeApiController get to => Get.find();
@@ -42,11 +43,14 @@ class HomeApiController extends GetxController {
   Rx<TermsConditionModel> returnRefundInfo = TermsConditionModel().obs;
 
   RxList<ProductModel> productList = <ProductModel>[].obs;
+  RxList<ProductModel> searchList = <ProductModel>[].obs;
 
   RxList<SizeModel> sizeList = <SizeModel>[].obs;
   RxList<ShadeModel> shadeList = <ShadeModel>[].obs;
   RxList<OfferModel> offerList = <OfferModel>[].obs;
+  RxList<TrendingSearchModel> trendingSearchList = <TrendingSearchModel>[].obs;
   Rx<OfferDetailsModel> offerDetails = OfferDetailsModel().obs;
+  Rx<OfferDetailsModel> singleCatOffer = OfferDetailsModel().obs;
 
   @override
   void onInit() async {
@@ -71,6 +75,7 @@ class HomeApiController extends GetxController {
     await outletListCall();
     await shadeListCall();
     await sizeListCall();
+    trendingSearchListCall();
 
     NavigationController.to.attributeListCall();
 
@@ -163,6 +168,12 @@ class HomeApiController extends GetxController {
     offerDetails.value = await HomeService.offerDetailsCall(offerId);
   }
 
+  //offerDetailsCall
+  Future<void> offerDetailsCatCall(String offerId, String catId) async {
+    singleCatOffer.value = await HomeService.offerDetailsCatCall(offerId, catId);
+    productList.value = singleCatOffer.value.data!.first.products!.data!;
+  }
+
   Future<void> brandListCall() async {
     final List<BrandModel> data = await HomeService.brandCall();
     data.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
@@ -188,6 +199,19 @@ class HomeApiController extends GetxController {
     productList.clear();
     productList.value = await ProductService.productListCallWithFilter(body);
     globalLogger.d(productList, 'productList');
+  }
+
+  Future<void> productListCallWithNameCall(dynamic body) async {
+    globalLogger.d(body, 'productListCallWithNameCall');
+    productList.clear();
+    productList.value = await ProductService.productListCallWithName(body);
+    searchList.value = productList;
+    globalLogger.d(productList, 'productList');
+  }
+
+  //trendingSearchList
+  Future<void> trendingSearchListCall() async {
+    trendingSearchList.value = await ProductService.trendingSearchList();
   }
 
   Future<void> singleBlogListCall(String? blogId) async {

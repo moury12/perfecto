@@ -50,26 +50,32 @@ class OfferDetailsScreen extends StatelessWidget {
                       itemCount: HomeApiController.to.offerDetails.value.data!.length,
                       itemBuilder: (context, index) {
                         final data = HomeApiController.to.offerDetails.value.data![index];
-                        return Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 4),
-                              decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground))),
-                              height: 100,
-                              width: 100,
-                              child: CustomNetworkImage(
-                                networkImagePath: data.image ?? '',
-                                errorImagePath: AssetsConstant.foregrond2,
-                                height: 60,
-                                fit: BoxFit.cover,
-                                width: 60,
+                        return GestureDetector(
+                          onTap: () async {
+                            await HomeApiController.to.offerDetailsCatCall(HomeApiController.to.offerDetails.value.id!, data.id!);
+                            Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 4),
+                                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground))),
+                                height: 100,
+                                width: 100,
+                                child: CustomNetworkImage(
+                                  networkImagePath: data.image ?? '',
+                                  errorImagePath: AssetsConstant.foregrond2,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                  width: 60,
+                                ),
                               ),
-                            ),
-                            Text(
-                              data.name ?? '',
-                              style: AppTheme.textStyleSemiBoldBlack10,
-                            )
-                          ],
+                              Text(
+                                data.name ?? '',
+                                style: AppTheme.textStyleSemiBoldBlack10,
+                              )
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -86,27 +92,17 @@ class OfferDetailsScreen extends StatelessWidget {
                         TitleTextWidget(tileText: cat.name ?? ''),
                         const Spacer(),
                         GestureDetector(
-                          onTap: () {
-                            // await HomeApiController.to.productListWithCategoryCall({
-                            //   'category': [category.id!].toString(),
-                            // });
+                          onTap: () async {
+                            await HomeApiController.to.offerDetailsCatCall(HomeApiController.to.offerDetails.value.id!, cat.id!);
                             Get.toNamed(SingleCatergoryWiseScreen.routeName);
                           },
-                          child: GestureDetector(
-                            onTap: () {
-                              // await HomeApiController.to.productListWithCategoryCall({
-                              //   'category': [category.id!].toString(),
-                              // });
-                              Get.toNamed(SingleCatergoryWiseScreen.routeName);
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Text(
-                                'See All',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.kPrimaryColor,
-                                ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              'See All',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.kPrimaryColor,
                               ),
                             ),
                           ),
@@ -121,7 +117,7 @@ class OfferDetailsScreen extends StatelessWidget {
                       itemCount: cat.products!.data!.length,
                       itemBuilder: (context, index) {
                         final data = CategoryController.to.categoryWiseITem[index];
-                        final product = cat.products!.data![index].product!;
+                        final product = cat.products!.data![index];
                         return SingleCategoryProductWidget(
                           product: product,
                           name: data['name'],

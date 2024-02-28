@@ -67,6 +67,7 @@ class NavigationController extends GetxController {
 
   RxBool openSearchSuggestion = true.obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
+  Rx<FocusNode> searchFocus = FocusNode().obs;
   RxBool isSearchFieldNotEmpty = false.obs;
 
   @override
@@ -77,6 +78,7 @@ class NavigationController extends GetxController {
   @override
   void onClose() {
     searchController.value.dispose();
+    searchFocus.value.dispose();
     globalLogger.d("searchController dispose");
     super.onClose();
   }

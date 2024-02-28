@@ -4,6 +4,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/product_model.dart';
+import 'package:perfecto/models/trending_search_model.dart';
 
 import '../utils.dart';
 
@@ -41,7 +42,64 @@ class ProductService {
     try {
       List<ProductModel> productList = [];
       final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}products-cat',
+        url: '${Service.apiUrl}products',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: body,
+        // defaultErrorMsgShow: false,
+      );
+      globalLogger.d(response, "Filter Product Route");
+      if (response['status'] != null && response['status']) {
+        response['data']['products']['data'].forEach((dis) {
+          try {
+            productList.add(ProductModel.fromJson(dis));
+          } catch (e) {
+            globalLogger.e("Error occurred in Call: $dis");
+            globalLogger.e("Error occurred in Call: $e");
+          }
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return productList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //TrendingSearchModel list
+  static Future<List<TrendingSearchModel>> trendingSearchList() async {
+    try {
+      List<TrendingSearchModel> trendingSearchList = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}trending-search',
+        httpMethod: HttpMethod.multipartFilePost,
+        allInfoField: {'pagination': '5'},
+      );
+      globalLogger.d(response, "Trending Search Route");
+      if (response['status'] != null && response['status']) {
+        response['data']['data'].forEach((dis) {
+          try {
+            trendingSearchList.add(TrendingSearchModel.fromJson(dis));
+          } catch (e) {
+            globalLogger.e("Error occurred in Call: $e");
+          }
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return trendingSearchList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  static Future<List<ProductModel>> productListCallWithName(dynamic body) async {
+    try {
+      List<ProductModel> productList = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}products-name',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
         // defaultErrorMsgShow: false,
