@@ -12,3 +12,8 @@ enum ProductDetailType {
   review,
   customerWillView,
 }
+
+enum OfferType {
+  offer,
+  combo,
+}

@@ -14,6 +14,8 @@ import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 
+import '../utils.dart';
+
 class HomeService {
   static Future<List<BlogModel>> blogCall() async {
     try {
@@ -265,9 +267,10 @@ class HomeService {
   }
 
   //OfferDetailsModel data
-  static Future<OfferDetailsModel> offerDetailsCall(String offerId) async {
+  static Future<Map<OfferType, dynamic>> offerDetailsCall(String offerId) async {
     try {
       OfferDetailsModel offerDetails = OfferDetailsModel();
+      List offerCombo = [];
       final response = await ServiceAPI.genericCall(
         url: '${Service.apiUrl}offer-products',
         httpMethod: HttpMethod.multipartFilePost,
@@ -276,14 +279,20 @@ class HomeService {
       );
       globalLogger.d(response, "offerDetails route");
       if (response['status'] != null && response['status']) {
+        if (response['data']['offer_type_id'] == '2') {
+          response['data']['data']['data'].forEach((dis) {
+            offerCombo.add(dis);
+          });
+          response['data']['data'] = [];
+        }
         offerDetails = OfferDetailsModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
-      return offerDetails;
+      return {OfferType.offer: offerDetails, OfferType.combo: offerCombo};
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
-      return OfferDetailsModel(); // Return an empty list or handle the error accordingly
+      return {OfferType.offer: OfferDetailsModel, OfferType.combo: []}; // Return an empty list or handle the error accordingly
     }
   }
 

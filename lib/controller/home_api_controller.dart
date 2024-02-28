@@ -3,6 +3,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/models/blog_model.dart';
+import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
@@ -12,6 +13,7 @@ import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 import 'package:perfecto/services/home_service.dart';
 import 'package:perfecto/services/product_services.dart';
+import 'package:perfecto/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/offer_details_model.dart';
@@ -49,6 +51,8 @@ class HomeApiController extends GetxController {
   RxList<ShadeModel> shadeList = <ShadeModel>[].obs;
   RxList<OfferModel> offerList = <OfferModel>[].obs;
   RxList<TrendingSearchModel> trendingSearchList = <TrendingSearchModel>[].obs;
+  RxList<ComboDetailsModel> comboList = <ComboDetailsModel>[].obs;
+  Rx<ComboDetailsModel> comboProduct = ComboDetailsModel().obs;
   Rx<OfferDetailsModel> offerDetails = OfferDetailsModel().obs;
   Rx<OfferDetailsModel> singleCatOffer = OfferDetailsModel().obs;
 
@@ -165,7 +169,9 @@ class HomeApiController extends GetxController {
 
   //offerDetailsCall
   Future<void> offerDetailsCall(String offerId) async {
-    offerDetails.value = await HomeService.offerDetailsCall(offerId);
+    final data = await HomeService.offerDetailsCall(offerId);
+    offerDetails.value = data[OfferType.offer]!;
+    comboList.value = data[OfferType.combo]!;
   }
 
   //offerDetailsCall
