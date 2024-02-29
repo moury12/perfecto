@@ -3,6 +3,7 @@ import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/models/trending_search_model.dart';
 
@@ -150,6 +151,28 @@ class ProductService {
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return {}; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //comboDetails data
+  static Future<ComboDetailsModel> comboDetails(String id, {required bool needLoading}) async {
+    try {
+      ComboDetailsModel comboModel = ComboDetailsModel();
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}combo-product-detail/$id',
+        httpMethod: HttpMethod.get,
+        isLoadingEnable: needLoading,
+      );
+      globalLogger.d(response, "Combo Product Route");
+      if (response['status'] != null && response['status']) {
+        comboModel = ComboDetailsModel.fromJson(response['data']);
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return comboModel;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return ComboDetailsModel(); // Return an empty list or handle the error accordingly
     }
   }
 

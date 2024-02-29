@@ -51,7 +51,7 @@ class HomeApiController extends GetxController {
   RxList<ShadeModel> shadeList = <ShadeModel>[].obs;
   RxList<OfferModel> offerList = <OfferModel>[].obs;
   RxList<TrendingSearchModel> trendingSearchList = <TrendingSearchModel>[].obs;
-  RxList<ComboDetailsModel> comboList = <ComboDetailsModel>[].obs;
+  RxList<ComboOfferItemModel> comboList = <ComboOfferItemModel>[].obs;
   Rx<ComboDetailsModel> comboProduct = ComboDetailsModel().obs;
   Rx<OfferDetailsModel> offerDetails = OfferDetailsModel().obs;
   Rx<OfferDetailsModel> singleCatOffer = OfferDetailsModel().obs;
@@ -171,7 +171,7 @@ class HomeApiController extends GetxController {
   Future<void> offerDetailsCall(String offerId) async {
     final data = await HomeService.offerDetailsCall(offerId);
     offerDetails.value = data[OfferType.offer]!;
-    comboList.value = data[OfferType.combo]!;
+    comboList.value = data[OfferType.combo]! as List<ComboOfferItemModel>;
   }
 
   //offerDetailsCall

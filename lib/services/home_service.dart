@@ -2,6 +2,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/blog_model.dart';
+import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/offer_details_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
@@ -270,7 +271,7 @@ class HomeService {
   static Future<Map<OfferType, dynamic>> offerDetailsCall(String offerId) async {
     try {
       OfferDetailsModel offerDetails = OfferDetailsModel();
-      List offerCombo = [];
+      List<ComboOfferItemModel> offerCombo = [];
       final response = await ServiceAPI.genericCall(
         url: '${Service.apiUrl}offer-products',
         httpMethod: HttpMethod.multipartFilePost,
@@ -281,7 +282,7 @@ class HomeService {
       if (response['status'] != null && response['status']) {
         if (response['data']['offer_type_id'] == '2') {
           response['data']['data']['data'].forEach((dis) {
-            offerCombo.add(dis);
+            offerCombo.add(ComboOfferItemModel.fromJson(dis));
           });
           response['data']['data'] = [];
         }

@@ -28,6 +28,7 @@ import 'package:perfecto/pages/outlets/oulet_page.dart';
 import 'package:perfecto/pages/outlets/outlet_details_page.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/pages/points/my_points_page.dart';
+import 'package:perfecto/pages/product-details/combo_details_page.dart';
 import 'package:perfecto/pages/product-details/product_details_binding.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_discription_page.dart';
@@ -83,6 +84,7 @@ class AppRoutes {
         GetPage(name: OutletDetailsScreen.routeName, page: () => const OutletDetailsScreen(), binding: OfferBinding()),
         GetPage(name: OfferDetailsScreen.routeName, page: () => const OfferDetailsScreen(), binding: OfferBinding()),
         GetPage(name: ProductDetailsScreen.routeName, page: () => const ProductDetailsScreen(), binding: ProductDetailsBinding()),
+        GetPage(name: ComboDetailsScreen.routeName, page: () => const ComboDetailsScreen(), binding: ProductDetailsBinding()),
         GetPage(name: ProductShadeScreen.routeName, page: () => const ProductShadeScreen(), binding: ProductDetailsBinding()),
         GetPage(name: ProductDescriptionScreen.routeName, page: () => const ProductDescriptionScreen(), binding: ProductDetailsBinding()),
         GetPage(name: VerifiedUserScreen.routeName, page: () => const VerifiedUserScreen(), binding: ProductDetailsBinding()),

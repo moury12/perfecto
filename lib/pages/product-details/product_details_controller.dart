@@ -7,6 +7,8 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/models/combo_product_model.dart';
+import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/services/product_services.dart';
 
@@ -40,6 +42,7 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   // Reviews List
   RxList<Reviews> allReviews = <Reviews>[].obs;
   Rx<ProductModel> product = ProductModel().obs;
+  Rx<ComboDetailsModel> comboDetails = ComboDetailsModel().obs;
   void selectedImage() async {
     final selectedImages = await ImagePicker().pickMultiImage();
     if (selectedImages.isNotEmpty) {
@@ -76,6 +79,12 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
     productList.value = data[ProductDetailType.customerWillView];
     selectedVariation.value = product.value.variationType == 'shade' ? product.value.shadeId![0] : product.value.sizeId![0];
     globalLogger.d(productList, 'productList');
+  }
+
+  Future<void> getComboDetails(String id, {bool needLoading = true}) async {
+    globalLogger.d(id, 'getComboDetails');
+    final data = await ProductService.comboDetails(id, needLoading: needLoading);
+    comboDetails.value = data;
   }
 
   Future<void> getReviewImages(String id) async {
