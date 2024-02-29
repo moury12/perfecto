@@ -58,6 +58,9 @@ class UserService {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}wishlist', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
     globalLogger.d(response, "add wish Route");
     if (response['status'] != null && response['status']) {
+      showSnackBar(
+        msg: response['message'],
+      );
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
       ServiceAPI.showAlert(response['message']);

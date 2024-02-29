@@ -367,11 +367,6 @@ class GridItemForSegmentsWidget extends StatelessWidget {
                         isFeatured: dataItem['isFeatured'],
                         isOnSale: dataItem['isOnSale'],
                         isOutofStock: dataItem['isOutofStock'],
-                        onTap: () {
-                          print(dataItem['isFavourite']);
-                          dataItem['isFavourite'] = !dataItem['isFavourite'];
-                          CategoryController.to.categoryWiseITem[index] = dataItem;
-                        },
                       ));
             },
             itemCount: gridItem ?? data.length,

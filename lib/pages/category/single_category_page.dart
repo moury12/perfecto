@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
@@ -51,7 +52,7 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
                           rating: data['rating'],
                           img: data['img'],
                           price: data['price'],
-                          buttonText: data['buttonText'],
+                          // buttonText: data['buttonText'],
                           previousPrice: data['previousPrice'],
                           isBestSeller: data['isBestSeller'],
                           isStacked: data['isStacked'],
@@ -62,11 +63,6 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
                           isOnSale: data['isOnSale'],
                           isOutofStock: data['isOutofStock'],
                           isShadeSwatch: data['shade'],
-                          onTap: () {
-                            print(data['isFavourite']);
-                            data['isFavourite'] = !data['isFavourite'];
-                            CategoryController.to.categoryWiseITem[index] = data;
-                          },
                         );
                       },
                     ),

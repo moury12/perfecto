@@ -18,6 +18,7 @@ class ChatController extends GetxController {
 
   RxList<Message> messages = <Message>[].obs;
   RxBool chatDataLoading = false.obs;
+  RxBool chatSendMsg = false.obs;
 
   RxString lastImage = ''.obs;
 
@@ -59,7 +60,7 @@ class ChatController extends GetxController {
     getChats();
   }
 
-  IO.Socket socket = IO.io("http://192.168.1.63:3000", <String, dynamic>{
+  IO.Socket socket = IO.io("https://chat-perfect.fixican.com/", <String, dynamic>{
     'autoConnect': false,
     'transports': ['websocket', 'polling'],
   });
@@ -71,7 +72,7 @@ class ChatController extends GetxController {
       globalLogger.d('Socket Enter');
       socket.on('chat message', (newMessage) {
         globalLogger.d(newMessage, 'chat message');
-        if (newMessage[0]['sender_id'].toString() == '0' && newMessage[0]['receiver_id'].toString() == UserController.to.getUserInfo.id!) {
+        if (newMessage['sender_id'].toString() == '0' && newMessage['receiver_id'].toString() == UserController.to.getUserInfo.id!) {
           getChats();
         }
       });
@@ -91,7 +92,9 @@ class ChatController extends GetxController {
             }
           ]
         : null;
+    chatSendMsg.value = true;
     final data = await ChatService.sendMessage(body: {'message': message.toString()}, imageList: imageList);
+    chatSendMsg.value = false;
     if (data.id != null) {
       socket.emit('chat message', data.toJson());
       getChats();

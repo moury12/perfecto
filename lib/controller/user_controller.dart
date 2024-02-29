@@ -21,8 +21,7 @@ class UserController extends GetxController {
   TextEditingController nameAddNewAddressController = TextEditingController();
   TextEditingController emailAddNewAddressController = TextEditingController();
   TextEditingController phoneAddNewAddressController = TextEditingController();
-  TextEditingController addressAddNewAddressController =
-      TextEditingController();
+  TextEditingController addressAddNewAddressController = TextEditingController();
   Rx<String?> errorName = ''.obs;
   Rx<String?> errorEmail = ''.obs;
   Rx<String?> errorPhone = ''.obs;
@@ -65,8 +64,7 @@ class UserController extends GetxController {
   }
 
   Future<bool> addWishListRequest(String productId) async {
-    final isCreated =
-        await UserService.addNewAddress({'product_id': productId});
+    final isCreated = await UserService.addNewAddress({'product_id': productId});
     if (isCreated) {
       showSnackBar(
         msg: 'Product save at wish List',
@@ -84,22 +82,21 @@ class UserController extends GetxController {
     String title,
     String comment,
     String star,
-
-  ) async {final List<Map<String, dynamic>> imageList = [];
-  if (ProductDetailsController.to.imageList.isNotEmpty) {
-    imageList.add({
-      "key": "images",
-      "value": ProductDetailsController.to.imageList,
-    });
-  }
+  ) async {
+    final List<Map<String, dynamic>> imageList = [];
+    if (ProductDetailsController.to.imageList.isNotEmpty) {
+      imageList.add({
+        "key": "images",
+        "value": ProductDetailsController.to.imageList,
+      });
+    }
     final isCreated = await UserService.addToReview({
       'product_id': productId,
       'order_id': orderId,
       'title': title,
       'comment': comment,
       'star': star,
-
-    },imageList);
+    }, imageList);
     if (isCreated) {
       showSnackBar(
         msg: 'your review is added',
@@ -113,6 +110,15 @@ class UserController extends GetxController {
 
   Future<void> getWishListCall() async {
     wishList.value = await UserService.userWishListCall();
+  }
+
+  //add addToWish
+  Future<void> addToWish(String productId) async {
+    final isCreated = await UserService.addToWish({'product_id': productId});
+    if (isCreated) {
+      getWishListCall();
+      // afterLogin(isCreated);
+    }
   }
 
   Future<void> getReviewListCall() async {
@@ -149,8 +155,7 @@ class UserController extends GetxController {
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       pickedImagePath.value = pickedFile.path;

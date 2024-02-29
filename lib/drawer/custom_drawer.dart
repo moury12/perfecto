@@ -5,7 +5,9 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/drawer_controller.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/pages/auth/return_cancelation_page.dart';
@@ -68,15 +70,22 @@ class CustomDrawer extends StatelessWidget {
                             height: 25,
                             color: Colors.black,
                           ),
-                          Positioned(
-                            top: -2,
-                            right: 0,
-                            child: Container(
-                              padding: const EdgeInsets.all(2.5),
-                              decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                              child: const Text('12', style: AppTheme.textStyleBoldWhite8),
-                            ),
-                          )
+                          if (AuthController.to.isLoggedIn.value)
+                            Positioned(
+                              top: -2,
+                              right: 0,
+                              child: Obx(() {
+                                return Container(
+                                  padding: const EdgeInsets.all(2.5),
+                                  height: 15,
+                                  width: 15,
+                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                  child: Center(
+                                      child:
+                                          Text(UserController.to.wishList.length > 9 ? '9+' : UserController.to.wishList.length.toString(), style: AppTheme.textStyleBoldWhite8)),
+                                );
+                              }),
+                            )
                         ],
                       ),
                     ),

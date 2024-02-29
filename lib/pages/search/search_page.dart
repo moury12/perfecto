@@ -56,7 +56,7 @@ class SearchScreen extends StatelessWidget {
                                 rating: data['rating'],
                                 img: data['img'],
                                 price: data['price'],
-                                buttonText: data['buttonText'],
+                                // buttonText: data['buttonText'],
                                 previousPrice: data['previousPrice'],
                                 isBestSeller: data['isBestSeller'],
                                 isStacked: data['isStacked'],
@@ -67,11 +67,6 @@ class SearchScreen extends StatelessWidget {
                                 isOnSale: data['isOnSale'],
                                 isOutofStock: data['isOutofStock'],
                                 isShadeSwatch: data['shade'],
-                                onTap: () {
-                                  print(data['isFavourite']);
-                                  data['isFavourite'] = !data['isFavourite'];
-                                  CategoryController.to.categoryWiseITem[index] = data;
-                                },
                               );
                             },
                           ),

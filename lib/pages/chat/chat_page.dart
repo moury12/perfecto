@@ -354,7 +354,7 @@ class ChatScreen extends StatelessWidget {
                             //     timestamp: DateTime.now(),
                             //     isReceived: messageController.isReceived.value);
                             // messageController.addMessage(newMessage);
-                            if (ChatController.to.textController.text.isNotEmpty) {
+                            if ((ChatController.to.textController.text.isNotEmpty || ChatController.to.lastImage.value.isNotEmpty) && !ChatController.to.chatSendMsg.value) {
                               ChatController.to.sendMessage(
                                 ChatController.to.textController.text,
                               );
@@ -370,11 +370,13 @@ class ChatScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Center(
-                              child: Image.asset(
-                                AssetsConstant.sendIcon,
-                                color: Colors.white,
-                                height: 30,
-                              ),
+                              child: ChatController.to.chatSendMsg.value
+                                  ? CircularProgressIndicator()
+                                  : Image.asset(
+                                      AssetsConstant.sendIcon,
+                                      color: Colors.white,
+                                      height: 30,
+                                    ),
                             ),
                           ))
                     ],

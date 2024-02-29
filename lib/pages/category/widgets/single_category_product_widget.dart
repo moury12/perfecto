@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
@@ -19,7 +21,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
   final String rating;
   final String img;
   final String price;
-  final String buttonText;
+  final String? buttonText;
   final String previousPrice;
   final bool isStacked;
   final bool isBuy1Get1;
@@ -30,7 +32,6 @@ class SingleCategoryProductWidget extends StatelessWidget {
   final bool isOnSale;
   final bool isShadeSwatch;
   final ProductModel? product;
-  final Function() onTap;
   const SingleCategoryProductWidget({
     super.key,
     this.isBestSeller = true,
@@ -38,7 +39,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
     required this.rating,
     required this.img,
     required this.price,
-    required this.buttonText,
+    this.buttonText,
     required this.previousPrice,
     this.isStacked = false,
     this.isBuy1Get1 = true,
@@ -47,7 +48,6 @@ class SingleCategoryProductWidget extends StatelessWidget {
     this.isOutofStock = false,
     this.isOnSale = false,
     this.isFeatured = false,
-    required this.onTap,
     this.isShadeSwatch = true,
     this.product,
   });
@@ -235,44 +235,67 @@ class SingleCategoryProductWidget extends StatelessWidget {
                 FittedBox(
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: onTap,
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          margin: const EdgeInsets.only(left: 8),
-                          decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: .5), borderRadius: BorderRadius.circular(4)),
-                          height: 38,
-                          child: isFavourite
-                              ? Image.asset(
-                                  AssetsConstant.favIconFill,
-                                  height: 16,
-                                )
-                              : Image.asset(
-                                  AssetsConstant.favIcon,
-                                  height: 16,
-                                ),
-                        ),
-                      ),
+                      Obx(() {
+                        return GestureDetector(
+                          onTap: () async {
+                            await UserController.to.addToWish(product!.id!);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            margin: const EdgeInsets.only(left: 8),
+                            decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: .5), borderRadius: BorderRadius.circular(4)),
+                            height: 38,
+                            child: UserController.to.wishList.any((element) => element.productId == product?.id)
+                                ? Image.asset(
+                                    AssetsConstant.favIconFill,
+                                    height: 16,
+                                  )
+                                : Image.asset(
+                                    AssetsConstant.favIcon,
+                                    height: 16,
+                                  ),
+                          ),
+                        );
+                      }),
                       CustomButton(
-                        label: buttonText,
+                        label: buttonText ??
+                            (product?.totalStock != '0'
+                                ? product?.variationType == 'shade'
+                                    ? 'SELECT SHADE'
+                                    : 'SELECT SIZE'
+                                : 'OUT OF STOCK'),
                         marginHorizontal: 8,
                         marginVertical: 8,
                         height: 39,
-                        primary: isOutofStock ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
+                        primary: product?.totalStock == '0' ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
                         width: 140,
-                        onPressed: buttonText == 'ADD TO BAG'
-                            ? () {
-                                var snackBar = const SnackBar(content: Text('Add to Cart successfully'));
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }
-                            : isOutofStock
-                                ? () {}
-                                : () {
+                        onPressed: product?.totalStock != '0'
+                            ? buttonText != null
+                                ? () {
+                                    var snackBar = const SnackBar(content: Text('Add to Cart successfully'));
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  }
+                                : () async {
                                     Get.put(ProductDetailsController());
+                                    await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
                                     Get.to(ProductShadeScreen(
-                                      isSelectSize: isShadeSwatch ? false : true,
+                                      isSelectSize: product?.variationType == 'shade' ? false : true,
                                     ));
-                                  },
+                                  }
+                            : () {},
+                        // buttonText == 'ADD TO BAG'
+                        //     ? () {
+                        //         var snackBar = const SnackBar(content: Text('Add to Cart successfully'));
+                        //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        //       }
+                        //     : isOutofStock
+                        //         ? () {}
+                        //         : () {
+                        //             Get.put(ProductDetailsController());
+                        //             Get.to(ProductShadeScreen(
+                        //               isSelectSize: isShadeSwatch ? false : true,
+                        //             ));
+                        //           },
                       ),
                     ],
                   ),

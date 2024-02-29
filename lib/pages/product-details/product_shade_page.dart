@@ -28,33 +28,65 @@ class ProductShadeScreen extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                SizedBox(
-                  height: 360,
-                  child: PageView.builder(
-                    padEnds: false,
-                    scrollDirection: Axis.horizontal,
-                    controller: PageController(),
-                    onPageChanged: (value) {
-                      ProductDetailsController.to.currentPage.value = value;
-                    },
-                    itemCount: ProductDetailsController.to.bannerContent.length,
-                    itemBuilder: (context, index) {
-                      String data = ProductDetailsController.to.bannerContent[index];
-                      return CustomNetworkImage(
-                        networkImagePath: '',
-                        fit: BoxFit.fill,
-                        errorImagePath: data,
-                        height: double.maxFinite,
-                        width: double.infinity,
-                        borderRadius: 0,
-                      );
-                    },
-                  ),
-                ),
+                Obx(() {
+                  return SizedBox(
+                    height: 360,
+                    child: PageView.builder(
+                      padEnds: false,
+                      scrollDirection: Axis.horizontal,
+                      controller: PageController(),
+                      onPageChanged: (value) {
+                        ProductDetailsController.to.currentPage.value = value;
+                      },
+                      itemCount: ProductDetailsController.to.product.value.variationType == 'shade'
+                          ? ProductDetailsController.to.product.value.productShades!
+                              .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                              .productShadeImages!
+                              .length
+                          : ProductDetailsController.to.product.value.productSizes!
+                              .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                              .productSizeImages!
+                              .length,
+                      itemBuilder: (context, index) {
+                        String data = ProductDetailsController.to.product.value.variationType == 'shade'
+                            ? ProductDetailsController.to.product.value.productShades!
+                                .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                .productShadeImages![index]
+                                .productShadeImage!
+                            : ProductDetailsController.to.product.value.productSizes!
+                                .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                .productSizeImages![index]
+                                .productSizeImage!;
+                        return GestureDetector(
+                          onTap: () {
+                            // Get.toNamed(ProductImagePreview.routeName);
+                          },
+                          child: CustomNetworkImage(
+                            networkImagePath: data,
+                            fit: BoxFit.fill,
+                            errorImagePath: data,
+                            height: double.maxFinite,
+                            width: double.infinity,
+                            borderRadius: 0,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
                 Obx(() {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(ProductDetailsController.to.bannerContent.length, (index) {
+                    children: List.generate(
+                        ProductDetailsController.to.product.value.variationType == 'shade'
+                            ? ProductDetailsController.to.product.value.productShades!
+                                .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                .productShadeImages!
+                                .length
+                            : ProductDetailsController.to.product.value.productSizes!
+                                .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                .productSizeImages!
+                                .length, (index) {
                       return Container(
                         margin: const EdgeInsets.all(4),
                         width: 7,
@@ -67,12 +99,14 @@ class ProductShadeScreen extends StatelessWidget {
                     }),
                   );
                 }),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-                  child: Text(
-                    'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
-                    style: AppTheme.textStyleBoldBlack14,
-                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                  child: Obx(() {
+                    return Text(
+                      ProductDetailsController.to.product.value.name ?? 'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
+                      style: AppTheme.textStyleBoldBlack20.copyWith(fontFamily: 'InriaSans'),
+                    );
+                  }),
                 ),
                 isSelectSize
                     ? Column(
@@ -97,7 +131,7 @@ class ProductShadeScreen extends StatelessWidget {
                                         margin: EdgeInsets.symmetric(horizontal: 8),
                                       ),
                                       Text(
-                                        '4 varients',
+                                        '${ProductDetailsController.to.product.value.productSizes!.length} varients',
                                         style: AppTheme.textStyleSemiBoldFadeBlack14,
                                       )
                                     ],
@@ -119,21 +153,31 @@ class ProductShadeScreen extends StatelessWidget {
                             child: ListView.builder(
                               padding: EdgeInsets.symmetric(horizontal: 12),
                               scrollDirection: Axis.horizontal,
-                              itemCount: 23,
-                              itemBuilder: (context, index) => Container(
-                                margin: EdgeInsets.symmetric(horizontal: 6),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: index == 0 ? AppColors.kPrimaryColor : Colors.transparent,
-                                    border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
-                                    borderRadius: BorderRadius.circular(4)),
-                                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                child: Text(
-                                  '180ml',
-                                  textAlign: TextAlign.center,
-                                  style: index == 0 ? AppTheme.textStyleSemiBoldWhite14 : AppTheme.textStyleSemiBoldFadeBlack14,
-                                ),
-                              ),
+                              itemCount: ProductDetailsController.to.product.value.productSizes!.length,
+                              itemBuilder: (context, index) {
+                                final data = ProductDetailsController.to.product.value.productSizes![index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    ProductDetailsController.to.selectedVariation.value = data.sizeId!;
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 6),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: ProductDetailsController.to.selectedVariation.value == data.sizeId ? AppColors.kPrimaryColor : Colors.transparent,
+                                        border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
+                                        borderRadius: BorderRadius.circular(4)),
+                                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    child: Text(
+                                      data.size?.name ?? '180ml',
+                                      textAlign: TextAlign.center,
+                                      style: ProductDetailsController.to.selectedVariation.value == data.sizeId
+                                          ? AppTheme.textStyleSemiBoldWhite14
+                                          : AppTheme.textStyleSemiBoldFadeBlack14,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -141,32 +185,145 @@ class ProductShadeScreen extends StatelessWidget {
                     : Column(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
-                              //This is for background color
-                              color: Color(0xffF9F9F9),
-                              //This is for bottom border that is needed
-                              border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
+                            color: Color(0xffF9F9F9),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                              child: Column(
+                                children: [
+                                  CustomSizedBox.space8H,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Select a Shade',
+                                        style: AppTheme.textStyleBoldBlack14,
+                                      ),
+                                      Container(
+                                        height: 15,
+                                        width: 1,
+                                        color: Colors.grey,
+                                        margin: EdgeInsets.symmetric(horizontal: 8),
+                                      ),
+                                      Text(
+                                        '${ProductDetailsController.to.product.value.productShades!.length} varients',
+                                        style: AppTheme.textStyleSemiBoldFadeBlack14,
+                                      )
+                                    ],
+                                  ),
+                                  CustomSizedBox.space8H,
+                                ],
+                              ),
                             ),
-                            child: TabBar(
-                                labelColor: AppColors.kBlackColor,
-                                unselectedLabelColor: Colors.black54,
-                                labelStyle: AppTheme.textStyleBoldBlack14,
-                                unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
-                                indicatorColor: AppColors.kPrimaryColor,
-                                dividerColor: AppColors.kPrimaryColor,
-                                automaticIndicatorColorAdjustment: true,
-                                labelPadding: EdgeInsets.symmetric(vertical: 6),
-                                controller: ProductDetailsController.to.tabController,
-                                tabs: ProductDetailsController.to.tabTiles.map((String title) {
-                                  return Tab(
-                                    text: title,
-                                  );
-                                }).toList()),
                           ),
-                          SizedBox(
-                            height: 300,
-                            child: TabBarView(controller: ProductDetailsController.to.tabController, children: List.generate(2, (index) => buildwidget(index))),
+                          Divider(
+                            thickness: 1.5,
+                            color: Color(0xffECECEC),
+                            height: 0,
+                            indent: 0,
                           ),
+                          CustomSizedBox.space20H,
+                          Wrap(
+                            alignment: WrapAlignment.start,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            children: ProductDetailsController.to.product.value.productShades!
+                                .map((shade) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Obx(() {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                                          },
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              CustomNetworkImage(
+                                                networkImagePath: shade.shade!.image!,
+                                                errorImagePath: AssetsConstant.lipstickShade,
+                                                height: 48,
+                                                width: 48,
+                                                borderRadius: 4,
+                                              ),
+                                              shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                                                  ? const Icon(
+                                                      Icons.check,
+                                                      color: Colors.white,
+                                                    )
+                                                  : const SizedBox.shrink()
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                    ))
+                                .toList(),
+                          ),
+                          // SizedBox(
+                          //   height: 100,
+                          //   child: ListView.builder(
+                          //     padding: const EdgeInsets.symmetric(horizontal: 8),
+                          //     scrollDirection: Axis.horizontal,
+                          //     itemBuilder: (context, index) {
+                          //       final shade = ProductDetailsController.to.product.value.productShades![index];
+                          //       return Padding(
+                          //         padding: const EdgeInsets.all(8.0),
+                          //         child: Obx(() {
+                          //           return GestureDetector(
+                          //             onTap: () {
+                          //               ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                          //             },
+                          //             child: Stack(
+                          //               alignment: Alignment.center,
+                          //               children: [
+                          //                 CustomNetworkImage(
+                          //                   networkImagePath: shade.shade!.image!,
+                          //                   errorImagePath: AssetsConstant.lipstickShade,
+                          //                   height: 48,
+                          //                   width: 48,
+                          //                   borderRadius: 4,
+                          //                 ),
+                          //                 shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                          //                     ? const Icon(
+                          //                         Icons.check,
+                          //                         color: Colors.white,
+                          //                       )
+                          //                     : const SizedBox.shrink()
+                          //               ],
+                          //             ),
+                          //           );
+                          //         }),
+                          //       );
+                          //     },
+                          //     itemCount: ProductDetailsController.to.product.value.productShades!.length,
+                          //   ),
+                          // )
+
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     //This is for background color
+                          //     color: Color(0xffF9F9F9),
+                          //     //This is for bottom border that is needed
+                          //     border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
+                          //   ),
+                          //   child:
+                          //
+                          //   TabBar(
+                          //       labelColor: AppColors.kBlackColor,
+                          //       unselectedLabelColor: Colors.black54,
+                          //       labelStyle: AppTheme.textStyleBoldBlack14,
+                          //       unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
+                          //       indicatorColor: AppColors.kPrimaryColor,
+                          //       dividerColor: AppColors.kPrimaryColor,
+                          //       automaticIndicatorColorAdjustment: true,
+                          //       labelPadding: EdgeInsets.symmetric(vertical: 6),
+                          //       controller: ProductDetailsController.to.tabController,
+                          //       tabs: ProductDetailsController.to.tabTiles.map((String title) {
+                          //         return Tab(
+                          //           text: title,
+                          //         );
+                          //       }).toList()),
+                          // ),
+                          // SizedBox(
+                          //   height: 300,
+                          //   child: TabBarView(controller: ProductDetailsController.to.tabController, children: List.generate(2, (index) => buildwidget(index))),
+                          // ),
                         ],
                       )
               ],

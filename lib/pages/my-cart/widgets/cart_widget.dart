@@ -4,32 +4,36 @@ import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
 class CartWidget extends StatelessWidget {
   final bool iswish;
+  final WishListModel? wishListModel;
   const CartWidget({
     super.key,
     this.iswish = false,
+    this.wishListModel,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12),
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: Color(0xffCECECE), width: 0.2)),
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: const Color(0xffCECECE), width: 0.2)),
       child: Column(
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                decoration: BoxDecoration(border: Border.all(color: Color(0xffCECECE), width: 0.2), borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(border: Border.all(color: const Color(0xffCECECE), width: 0.2), borderRadius: BorderRadius.circular(4)),
                 child: CustomNetworkImage(
-                  networkImagePath: '',
+                  networkImagePath: wishListModel?.productDetails?.image ?? '',
                   errorImagePath: AssetsConstant.megaDeals2,
                   borderRadius: 4,
                   height: 80,
@@ -43,7 +47,7 @@ class CartWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Lakme Absolute Skin Dew Satin Color Sensational Ultimatt...',
+                      wishListModel?.productDetails?.name ?? 'Lakme Absolute Skin Dew Satin Color Sensational Ultimatt...',
                       style: AppTheme.textStyleMediumBlack14,
                     ),
                     CustomSizedBox.space8H,
@@ -51,46 +55,56 @@ class CartWidget extends StatelessWidget {
                       children: [
                         RichText(
                             text: TextSpan(children: [
-                          TextSpan(text: 'Brand:', style: AppTheme.textStyleNormalFadeBlack12),
-                          TextSpan(text: ' Lakme', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
+                          const TextSpan(text: 'Brand:', style: AppTheme.textStyleNormalFadeBlack12),
+                          TextSpan(
+                              text: ' ${wishListModel?.productDetails?.brandName ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
                         ])),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 6),
-                          height: 12,
-                          width: 1,
-                          color: Color(0xffCECECE),
-                        ),
-                        Text('Size: 3.4ml', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
+                        if (iswish)
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 6),
+                            height: 12,
+                            width: 1,
+                            color: const Color(0xffCECECE),
+                          ),
+                        if (iswish) const Text('Size: 3.4ml', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
                       ],
                     ),
-                    CustomSizedBox.space4H,
-                    Row(
-                      children: [
-                        CustomNetworkImage(
-                          networkImagePath: '',
-                          errorImagePath: AssetsConstant.lipstickShade,
-                          height: 16,
-                          borderRadius: 2,
-                          width: 16,
-                        ),
-                        CustomSizedBox.space4W,
-                        Text(
-                          'Nude Shade Color',
-                          style: AppTheme.textStyleMediumBlack12,
-                        )
-                      ],
-                    ),
+                    if (iswish) CustomSizedBox.space4H,
+                    if (iswish)
+                      const Row(
+                        children: [
+                          CustomNetworkImage(
+                            networkImagePath: '',
+                            errorImagePath: AssetsConstant.lipstickShade,
+                            height: 16,
+                            borderRadius: 2,
+                            width: 16,
+                          ),
+                          CustomSizedBox.space4W,
+                          Text(
+                            'Nude Shade Color',
+                            style: AppTheme.textStyleMediumBlack12,
+                          )
+                        ],
+                      ),
                     CustomSizedBox.space8H,
                   ],
                 ),
               ),
-              Image.asset(
-                AssetsConstant.deleteIcon,
-                height: 16,
+              GestureDetector(
+                onTap: () {
+                  if (iswish) {
+                    UserController.to.addToWish(wishListModel?.productId ?? '');
+                  }
+                },
+                child: Image.asset(
+                  AssetsConstant.deleteIcon,
+                  height: 16,
+                ),
               )
             ],
           ),
-          Divider(
+          const Divider(
             color: Color(0xffECECEC),
             thickness: 1,
           ),
@@ -98,7 +112,7 @@ class CartWidget extends StatelessWidget {
           iswish
               ? Row(
                   children: [
-                    Row(
+                    const Row(
                       children: [
                         Text(
                           '৳550',
@@ -111,7 +125,7 @@ class CartWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     CustomButton(
                       label: 'Move to Cart',
                       width: 150,
@@ -132,10 +146,10 @@ class CartWidget extends StatelessWidget {
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             CupertinoIcons.minus,
                             color: AppColors.kPrimaryColor,
                             size: 25,
@@ -144,9 +158,9 @@ class CartWidget extends StatelessWidget {
                             height: 20,
                             width: .5,
                             color: AppColors.kPrimaryColor,
-                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
                           ),
-                          Text(
+                          const Text(
                             '0',
                             style: AppTheme.textStyleMediumBlack16,
                           ),
@@ -154,9 +168,9 @@ class CartWidget extends StatelessWidget {
                             height: 20,
                             width: .5,
                             color: AppColors.kPrimaryColor,
-                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.add,
                             color: AppColors.kPrimaryColor,
                             size: 25,
@@ -164,8 +178,8 @@ class CartWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(),
-                    Row(
+                    const Spacer(),
+                    const Row(
                       children: [
                         Text(
                           '৳550',
@@ -202,9 +216,9 @@ class CouponsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.24), blurRadius: 2)]),
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       child: Row(
         children: [
           Image.asset(
@@ -229,18 +243,18 @@ class CouponsWidget extends StatelessWidget {
                             height: 12,
                           ),
                         )
-                      : SizedBox.shrink()
+                      : const SizedBox.shrink()
                 ],
               ),
               CustomSizedBox.space4H,
               Text(
                 subtitle ?? 'Apply now and save extra!',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.kDarkPrimaryColor),
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.kDarkPrimaryColor),
               )
             ],
           ),
-          Spacer(),
-          Icon(
+          const Spacer(),
+          const Icon(
             Icons.arrow_forward_ios,
             color: Colors.black,
           )
