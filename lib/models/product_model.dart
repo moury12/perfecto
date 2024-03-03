@@ -790,8 +790,9 @@ class Shade {
   String? colorId;
   String? createdAt;
   String? updatedAt;
+  ProductShades? productShade;
 
-  Shade({this.id, this.name, this.image, this.status, this.colorId, this.createdAt, this.updatedAt});
+  Shade({this.id, this.name, this.image, this.status, this.colorId, this.createdAt, this.updatedAt, this.productShade});
 
   Shade.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? "" : json['id'].toString();
@@ -801,6 +802,7 @@ class Shade {
     colorId = json['color_id'].toString() == 'null' ? "" : json['color_id'].toString();
     createdAt = json['created_at'].toString() == 'null' ? "" : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? "" : json['updated_at'].toString();
+    productShade = json['product_shade'] != null ? ProductShades.fromJson(json['product_shade']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -812,6 +814,9 @@ class Shade {
     data['color_id'] = colorId;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (productShade != null) {
+      data['product_shade'] = productShade!.toJson();
+    }
     return data;
   }
 }
@@ -937,8 +942,9 @@ class Size {
   String? status;
   String? createdAt;
   String? updatedAt;
+  ProductSizes? productSize;
 
-  Size({this.id, this.name, this.status, this.createdAt, this.updatedAt});
+  Size({this.id, this.name, this.status, this.createdAt, this.updatedAt, this.productSize});
 
   Size.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -946,6 +952,7 @@ class Size {
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    productSize = json['product_size'] != null ? ProductSizes.fromJson(json['product_size']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -955,6 +962,9 @@ class Size {
     data['status'] = status;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (productSize != null) {
+      data['product_size'] = productSize!.toJson();
+    }
     return data;
   }
 }

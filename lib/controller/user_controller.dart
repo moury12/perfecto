@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/services/user_service.dart';
@@ -35,10 +36,12 @@ class UserController extends GetxController {
   RxString pickedImagePath = ''.obs;
   RxString image = ''.obs;
   RxList<WishListModel> wishList = <WishListModel>[].obs;
+  RxList<CartModel> cartList = <CartModel>[].obs;
   RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
   @override
   Future<void> onInit() async {
     await getUserInfoCall();
+    await getCartListCall();
     await getReviewListCall();
     await getWishListCall();
     super.onInit();
@@ -112,6 +115,10 @@ class UserController extends GetxController {
     wishList.value = await UserService.userWishListCall();
   }
 
+  Future<void> getCartListCall() async {
+    cartList.value = await UserService.userCartListCall();
+  }
+
   //add addToWish
   Future<void> addToWish(String productId) async {
     final isCreated = await UserService.addToWish({'product_id': productId});
@@ -119,6 +126,53 @@ class UserController extends GetxController {
       getWishListCall();
       // afterLogin(isCreated);
     }
+  }
+
+  //add addToWish
+  Future<void> updateCart(dynamic body, String cartId) async {
+    final isCreated = await UserService.updateCart(body, cartId);
+    if (isCreated) {
+      getCartListCall();
+      // afterLogin(isCreated);
+    }
+  }
+
+  //add addToCart
+  Future<void> addToCart(dynamic body) async {
+    final isCreated = await UserService.addToCart(body);
+
+    if (isCreated) {
+      // getWishListCall();
+      // afterLogin(isCreated);
+    }
+  }
+
+  //removeFromCart
+  Future<void> removeFromCart(String cartId) async {
+    final isCreated = await UserService.removeFromCart(cartId);
+    if (isCreated) {
+      getCartListCall();
+      // afterLogin(isCreated);
+    }
+  }
+
+  //cart item price calculation
+  double cartTotalPrice() {
+    double totalPrice = 0;
+    for (int i = 0; i < cartList.length; i++) {
+      totalPrice +=
+          double.parse(cartList[i].shade != null ? cartList[i].shade!.productShade!.shadePrice! : cartList[i].size!.productSize!.sizePrice!) * int.parse(cartList[i].quantity!);
+    }
+    return totalPrice;
+  }
+
+  //cart item discount price calculation
+  double cartTotalDiscountPrice() {
+    double totalPrice = 0;
+    for (int i = 0; i < cartList.length; i++) {
+      totalPrice += double.parse(cartList[i].shade != null ? cartList[i].shade!.productShade!.flatDiscount! : cartList[i].size!.productSize!.flatDiscount!);
+    }
+    return totalPrice;
   }
 
   Future<void> getReviewListCall() async {

@@ -1,3 +1,5 @@
+import 'package:perfecto/models/product_model.dart';
+
 class UserModel {
   String? id;
   String? name;
@@ -32,9 +34,9 @@ class WishListModel {
   String? userId;
   String? createdAt;
   String? updatedAt;
-  ProductDetails? productDetails;
+  ProductModel? product;
 
-  WishListModel({this.id, this.productId, this.userId, this.createdAt, this.updatedAt, this.productDetails});
+  WishListModel({this.id, this.productId, this.userId, this.createdAt, this.updatedAt, this.product});
 
   WishListModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -42,7 +44,7 @@ class WishListModel {
     userId = json['user_id'].toString() == 'null' ? '' : json['user_id'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
-    productDetails = json['product_details'] != null ? ProductDetails.fromJson(json['product_details']) : null;
+    product = json['product'] != null ? ProductModel.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -52,8 +54,8 @@ class WishListModel {
     data['user_id'] = userId;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
-    if (productDetails != null) {
-      data['product_details'] = productDetails!.toJson();
+    if (product != null) {
+      data['product'] = product!.toJson();
     }
     return data;
   }

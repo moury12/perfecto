@@ -6,6 +6,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_model.dart';
@@ -19,6 +20,7 @@ import 'package:perfecto/pages/search/search_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
+import '../../../controller/auth_controller.dart';
 import '../../../controller/navigation_controller.dart';
 
 class HomeTopWidget extends StatelessWidget {
@@ -114,15 +116,22 @@ class HomeTopWidget extends StatelessWidget {
                                 height: 25,
                                 color: Colors.black,
                               ),
-                              Positioned(
-                                top: -2,
-                                right: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(2.5),
-                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                                  child: const Text('12', style: AppTheme.textStyleBoldWhite8),
-                                ),
-                              )
+                              if (AuthController.to.isLoggedIn.value)
+                                Positioned(
+                                  top: -2,
+                                  right: 0,
+                                  child: Obx(() {
+                                    return Container(
+                                      padding: const EdgeInsets.all(2.5),
+                                      height: 15,
+                                      width: 15,
+                                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                      child: Center(
+                                          child: Text(UserController.to.wishList.length > 9 ? '9+' : UserController.to.wishList.length.toString(),
+                                              style: AppTheme.textStyleBoldWhite8)),
+                                    );
+                                  }),
+                                )
                             ],
                           ),
                         ),
@@ -145,15 +154,22 @@ class HomeTopWidget extends StatelessWidget {
                                 AssetsConstant.cartIcon,
                                 height: 25,
                               ),
-                              Positioned(
-                                top: 0,
-                                right: 2,
-                                child: Container(
-                                  padding: const EdgeInsets.all(2.5),
-                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                                  child: const Text('12', style: AppTheme.textStyleBoldWhite8),
-                                ),
-                              )
+                              if (AuthController.to.isLoggedIn.value)
+                                Positioned(
+                                  top: -2,
+                                  right: 0,
+                                  child: Obx(() {
+                                    return Container(
+                                      padding: const EdgeInsets.all(2.5),
+                                      height: 15,
+                                      width: 15,
+                                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                      child: Center(
+                                          child: Text(UserController.to.cartList.length > 9 ? '9+' : UserController.to.cartList.length.toString(),
+                                              style: AppTheme.textStyleBoldWhite8)),
+                                    );
+                                  }),
+                                )
                             ],
                           ),
                         ),

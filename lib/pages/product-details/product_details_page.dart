@@ -6,6 +6,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/string_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
@@ -789,7 +790,17 @@ class ProductDetailsScreen extends StatelessWidget {
                 prefixImageHeight: 20,
                 primary: AppColors.kPrimaryColor,
                 width: MediaQuery.of(context).size.width / 1.3,
-                onPressed: () {},
+                onPressed: () {
+                  final data = {
+                    "product_id": ProductDetailsController.to.product.value.id!,
+                    if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
+                    if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
+                    "quantity": '1',
+                  };
+                  globalLogger.d(data);
+
+                  UserController.to.addToCart(data);
+                },
               ),
             ],
           ),

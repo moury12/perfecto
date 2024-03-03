@@ -19,7 +19,7 @@ class ProductShadeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -112,7 +112,7 @@ class ProductShadeScreen extends StatelessWidget {
                     ? Column(
                         children: [
                           Container(
-                            color: Color(0xffF9F9F9),
+                            color: const Color(0xffF9F9F9),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                               child: Column(
@@ -120,7 +120,7 @@ class ProductShadeScreen extends StatelessWidget {
                                   CustomSizedBox.space8H,
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Select a Size',
                                         style: AppTheme.textStyleBoldBlack14,
                                       ),
@@ -128,7 +128,7 @@ class ProductShadeScreen extends StatelessWidget {
                                         height: 15,
                                         width: 1,
                                         color: Colors.grey,
-                                        margin: EdgeInsets.symmetric(horizontal: 8),
+                                        margin: const EdgeInsets.symmetric(horizontal: 8),
                                       ),
                                       Text(
                                         '${ProductDetailsController.to.product.value.productSizes!.length} varients',
@@ -141,7 +141,7 @@ class ProductShadeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1.5,
                             color: Color(0xffECECEC),
                             height: 0,
@@ -151,7 +151,7 @@ class ProductShadeScreen extends StatelessWidget {
                           SizedBox(
                             height: 42,
                             child: ListView.builder(
-                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
                               scrollDirection: Axis.horizontal,
                               itemCount: ProductDetailsController.to.product.value.productSizes!.length,
                               itemBuilder: (context, index) {
@@ -160,22 +160,24 @@ class ProductShadeScreen extends StatelessWidget {
                                   onTap: () {
                                     ProductDetailsController.to.selectedVariation.value = data.sizeId!;
                                   },
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 6),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: ProductDetailsController.to.selectedVariation.value == data.sizeId ? AppColors.kPrimaryColor : Colors.transparent,
-                                        border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
-                                        borderRadius: BorderRadius.circular(4)),
-                                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                    child: Text(
-                                      data.size?.name ?? '180ml',
-                                      textAlign: TextAlign.center,
-                                      style: ProductDetailsController.to.selectedVariation.value == data.sizeId
-                                          ? AppTheme.textStyleSemiBoldWhite14
-                                          : AppTheme.textStyleSemiBoldFadeBlack14,
-                                    ),
-                                  ),
+                                  child: Obx(() {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(horizontal: 6),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: ProductDetailsController.to.selectedVariation.value == data.sizeId ? AppColors.kPrimaryColor : Colors.transparent,
+                                          border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
+                                          borderRadius: BorderRadius.circular(4)),
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                      child: Text(
+                                        data.size?.name ?? '180ml',
+                                        textAlign: TextAlign.center,
+                                        style: ProductDetailsController.to.selectedVariation.value == data.sizeId
+                                            ? AppTheme.textStyleSemiBoldWhite14
+                                            : AppTheme.textStyleSemiBoldFadeBlack14,
+                                      ),
+                                    );
+                                  }),
                                 );
                               },
                             ),
@@ -185,7 +187,7 @@ class ProductShadeScreen extends StatelessWidget {
                     : Column(
                         children: [
                           Container(
-                            color: Color(0xffF9F9F9),
+                            color: const Color(0xffF9F9F9),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                               child: Column(
@@ -193,7 +195,7 @@ class ProductShadeScreen extends StatelessWidget {
                                   CustomSizedBox.space8H,
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Select a Shade',
                                         style: AppTheme.textStyleBoldBlack14,
                                       ),
@@ -201,7 +203,7 @@ class ProductShadeScreen extends StatelessWidget {
                                         height: 15,
                                         width: 1,
                                         color: Colors.grey,
-                                        margin: EdgeInsets.symmetric(horizontal: 8),
+                                        margin: const EdgeInsets.symmetric(horizontal: 8),
                                       ),
                                       Text(
                                         '${ProductDetailsController.to.product.value.productShades!.length} varients',
@@ -214,7 +216,7 @@ class ProductShadeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1.5,
                             color: Color(0xffECECEC),
                             height: 0,
@@ -339,8 +341,8 @@ class ProductShadeScreen extends StatelessWidget {
     switch (tabIndex) {
       case 0:
         return GridView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
           shrinkWrap: true,
           primary: false,
           itemCount: 10,
@@ -352,7 +354,7 @@ class ProductShadeScreen extends StatelessWidget {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    CustomNetworkImage(
+                    const CustomNetworkImage(
                       networkImagePath: '',
                       borderRadius: 5,
                       height: 52,
@@ -361,16 +363,16 @@ class ProductShadeScreen extends StatelessWidget {
                       fit: BoxFit.fitHeight,
                     ),
                     index == 0
-                        ? Icon(
+                        ? const Icon(
                             Icons.check_rounded,
                             color: Colors.white,
                           )
                         : index == 9
-                            ? Icon(
+                            ? const Icon(
                                 CupertinoIcons.multiply,
                                 color: Colors.white,
                               )
-                            : SizedBox.shrink()
+                            : const SizedBox.shrink()
                   ],
                 ),
                 CustomSizedBox.space8W,
@@ -378,16 +380,16 @@ class ProductShadeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Nude Shade Color',
                       style: AppTheme.textStyleNormalBlack14,
                     ),
                     index == 9
-                        ? Text(
+                        ? const Text(
                             'Out of Stock',
                             style: AppTheme.textStyleNormalRed12,
                           )
-                        : SizedBox.shrink(),
+                        : const SizedBox.shrink(),
                   ],
                 )
               ],
@@ -397,8 +399,8 @@ class ProductShadeScreen extends StatelessWidget {
 
       case 1:
         return GridView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
           shrinkWrap: true,
           primary: false,
           itemCount: 10,
@@ -411,7 +413,7 @@ class ProductShadeScreen extends StatelessWidget {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    CustomNetworkImage(
+                    const CustomNetworkImage(
                       networkImagePath: '',
                       borderRadius: 5,
                       height: 42,
@@ -420,32 +422,32 @@ class ProductShadeScreen extends StatelessWidget {
                       fit: BoxFit.fitHeight,
                     ),
                     index == 0
-                        ? Icon(
+                        ? const Icon(
                             Icons.check_rounded,
                             color: Colors.white,
                           )
                         : index == 9
-                            ? Icon(
+                            ? const Icon(
                                 CupertinoIcons.multiply,
                                 color: Colors.white,
                               )
-                            : SizedBox.shrink()
+                            : const SizedBox.shrink()
                   ],
                 ),
                 CustomSizedBox.space8W,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Nude Shade Color',
                       style: AppTheme.textStyleNormalBlack14,
                     ),
                     index == 9
-                        ? Text(
+                        ? const Text(
                             'Out of Stock',
                             style: AppTheme.textStyleNormalRed12,
                           )
-                        : SizedBox.shrink(),
+                        : const SizedBox.shrink(),
                   ],
                 )
               ],
@@ -454,7 +456,7 @@ class ProductShadeScreen extends StatelessWidget {
         );
 
       default:
-        return Center(
+        return const Center(
           child: Text(
             'Unknown Tab',
             style: TextStyle(fontSize: 10),
@@ -477,7 +479,7 @@ class BottomCalculationTotalWidget extends StatelessWidget {
     return Container(
       height: 115,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(15)), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
       child: Column(
         children: [
           CustomSizedBox.space8H,
@@ -519,8 +521,8 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                       ProductDetailsController.to.isFavourite.value = !ProductDetailsController.to.isFavourite.value;
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      margin: EdgeInsets.only(left: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      margin: const EdgeInsets.only(left: 8),
                       decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
                       child: ProductDetailsController.to.isFavourite.value
                           ? Image.asset(

@@ -5,6 +5,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -13,10 +14,12 @@ import 'package:perfecto/theme/theme_data.dart';
 class CartWidget extends StatelessWidget {
   final bool iswish;
   final WishListModel? wishListModel;
+  final CartModel? cartModel;
   const CartWidget({
     super.key,
     this.iswish = false,
     this.wishListModel,
+    this.cartModel,
   });
 
   @override
@@ -33,7 +36,7 @@ class CartWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(border: Border.all(color: const Color(0xffCECECE), width: 0.2), borderRadius: BorderRadius.circular(4)),
                 child: CustomNetworkImage(
-                  networkImagePath: wishListModel?.productDetails?.image ?? '',
+                  networkImagePath: wishListModel?.product?.image ?? '',
                   errorImagePath: AssetsConstant.megaDeals2,
                   borderRadius: 4,
                   height: 80,
@@ -47,7 +50,7 @@ class CartWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      wishListModel?.productDetails?.name ?? 'Lakme Absolute Skin Dew Satin Color Sensational Ultimatt...',
+                      iswish ? wishListModel?.product?.name ?? '-' : cartModel?.product?.name ?? '-',
                       style: AppTheme.textStyleMediumBlack14,
                     ),
                     CustomSizedBox.space8H,
@@ -57,24 +60,26 @@ class CartWidget extends StatelessWidget {
                             text: TextSpan(children: [
                           const TextSpan(text: 'Brand:', style: AppTheme.textStyleNormalFadeBlack12),
                           TextSpan(
-                              text: ' ${wishListModel?.productDetails?.brandName ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
+                              text: ' ${iswish ? wishListModel?.product?.brand?.name ?? '-' : cartModel?.product?.brand?.name ?? '-'}',
+                              style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
                         ])),
-                        if (iswish)
+                        if (!iswish && cartModel?.product?.sizeId != null)
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 6),
                             height: 12,
                             width: 1,
                             color: const Color(0xffCECECE),
                           ),
-                        if (iswish) const Text('Size: 3.4ml', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
+                        if (!iswish && cartModel?.product?.sizeId != null && cartModel!.product!.sizeId!.isNotEmpty)
+                          Text('Size: ${cartModel?.size?.name ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
                       ],
                     ),
-                    if (iswish) CustomSizedBox.space4H,
-                    if (iswish)
-                      const Row(
+                    if (!iswish && cartModel?.product?.shadeId != null && cartModel!.product!.shadeId!.isNotEmpty) CustomSizedBox.space4H,
+                    if (!iswish && cartModel?.product?.shadeId != null && cartModel!.product!.shadeId!.isNotEmpty)
+                      Row(
                         children: [
                           CustomNetworkImage(
-                            networkImagePath: '',
+                            networkImagePath: cartModel!.shade!.image ?? '',
                             errorImagePath: AssetsConstant.lipstickShade,
                             height: 16,
                             borderRadius: 2,
@@ -82,7 +87,7 @@ class CartWidget extends StatelessWidget {
                           ),
                           CustomSizedBox.space4W,
                           Text(
-                            'Nude Shade Color',
+                            cartModel!.shade!.name ?? 'Nude Shade Color',
                             style: AppTheme.textStyleMediumBlack12,
                           )
                         ],
@@ -95,6 +100,8 @@ class CartWidget extends StatelessWidget {
                 onTap: () {
                   if (iswish) {
                     UserController.to.addToWish(wishListModel?.productId ?? '');
+                  } else {
+                    // UserController.to.addToWish(cartModel?.productId ?? '');
                   }
                 },
                 child: Image.asset(
@@ -112,16 +119,17 @@ class CartWidget extends StatelessWidget {
           iswish
               ? Row(
                   children: [
-                    const Row(
+                    Row(
                       children: [
                         Text(
-                          '৳550',
+                          '৳ ${wishListModel?.product?.variationType == 'shade' ? (wishListModel?.product?.productShades?[0].discountedPrice ?? '550') : (wishListModel?.product?.productSizes?[0].discountedPrice ?? '550')}',
                           style: AppTheme.textStyleSemiBoldBlack16,
                         ),
                         CustomSizedBox.space4W,
                         Text(
-                          '৳550',
-                          style: TextStyle(color: Colors.black45, fontSize: 14, decoration: TextDecoration.lineThrough),
+                          '৳${wishListModel?.product?.variationType == 'shade' ? (wishListModel?.product?.productShades?[0].shadePrice ?? '550') : (wishListModel?.product?.productSizes?[0].sizePrice ?? '55'
+                              '0')}',
+                          style: const TextStyle(color: Colors.black45, fontSize: 14, decoration: TextDecoration.lineThrough),
                         ),
                       ],
                     ),
@@ -146,49 +154,86 @@ class CartWidget extends StatelessWidget {
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(4)),
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      // padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: Row(
                         children: [
-                          const Icon(
-                            CupertinoIcons.minus,
-                            color: AppColors.kPrimaryColor,
-                            size: 25,
+                          GestureDetector(
+                            onTap: () {
+                              if (int.parse(cartModel!.quantity!) > 1) {
+                                final dynamic body = {
+                                  'product_id': cartModel!.productId!,
+                                  'quantity': (int.parse(cartModel!.quantity!) - 1).toString(),
+                                };
+                                globalLogger.d(body, 'body');
+                                UserController.to.updateCart(body, cartModel?.id ?? '');
+                              } else {
+                                UserController.to.removeFromCart(cartModel?.id ?? '');
+                              }
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Icon(
+                                Icons.remove,
+                                color: AppColors.kPrimaryColor,
+                                size: 25,
+                              ),
+                            ),
                           ),
                           Container(
                             height: 20,
                             width: .5,
                             color: AppColors.kPrimaryColor,
-                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                            // margin: const EdgeInsets.symmetric(horizontal: 8),
                           ),
-                          const Text(
-                            '0',
-                            style: AppTheme.textStyleMediumBlack16,
+                          Container(
+                            width: 30,
+                            padding: const EdgeInsets.all(4.0),
+                            child: Center(
+                              child: Text(
+                                cartModel?.quantity.toString() ?? '1',
+                                style: AppTheme.textStyleMediumBlack16,
+                              ),
+                            ),
                           ),
                           Container(
                             height: 20,
                             width: .5,
                             color: AppColors.kPrimaryColor,
-                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                            // margin: const EdgeInsets.symmetric(horizontal: 8),
                           ),
-                          const Icon(
-                            Icons.add,
-                            color: AppColors.kPrimaryColor,
-                            size: 25,
+                          GestureDetector(
+                            onTap: () {
+                              final dynamic body = {
+                                'product_id': cartModel!.productId!,
+                                'quantity': (int.parse(cartModel!.quantity!) + 1).toString(),
+                              };
+                              globalLogger.d(body, 'body');
+                              UserController.to.updateCart(body, cartModel?.id ?? '');
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Icon(
+                                Icons.add,
+                                color: AppColors.kPrimaryColor,
+                                size: 25,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                     const Spacer(),
-                    const Row(
+                    Row(
                       children: [
                         Text(
-                          '৳550',
+                          '৳ ${cartModel?.product?.variationType == 'shade' ? (cartModel?.shade?.productShade?.discountedPrice ?? '550') : (cartModel?.size?.productSize?.discountedPrice ?? '550')}',
                           style: AppTheme.textStyleSemiBoldBlack16,
                         ),
                         CustomSizedBox.space4W,
                         Text(
-                          '৳550',
-                          style: TextStyle(color: Colors.black45, fontSize: 14, decoration: TextDecoration.lineThrough),
+                          '৳ ${cartModel?.product?.variationType == 'shade' ? (cartModel?.shade?.productShade?.shadePrice ?? '550') : (cartModel?.size?.productSize?.sizePrice ?? '5'
+                              '50')}',
+                          style: const TextStyle(color: Colors.black45, fontSize: 14, decoration: TextDecoration.lineThrough),
                         ),
                       ],
                     ),

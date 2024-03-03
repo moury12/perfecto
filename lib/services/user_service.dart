@@ -3,6 +3,10 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/address_model.dart';
+import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/models/cart_model.dart';
 import '../models/user_model.dart';
 
 class UserService {
@@ -57,6 +61,20 @@ class UserService {
   static Future<bool> addToWish(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}wishlist', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
     globalLogger.d(response, "add wish Route");
+    if (response['status'] != null && response['status']) {
+      showSnackBar(
+        msg: response['message'],
+      );
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  static Future<bool> addToCart(dynamic body) async {
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}user/add-to-cart', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d(response, "Add Cart Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -205,6 +223,56 @@ class UserService {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly
     }
+  }
+
+  static Future<List<CartModel>> userCartListCall() async {
+    try {
+      List<CartModel> cartList = [];
+      final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}user/add-to-cart/list', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "CartModel route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          cartList.add(CartModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return cartList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //user/update-cart
+  static Future<bool> updateCart(dynamic body, String productId) async {
+    final response =
+        await ServiceAPI.genericCall(url: '${Service.apiUrl}user/update-cart/$productId', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d(response, "update cart Route");
+    if (response['status'] != null && response['status']) {
+      showSnackBar(
+        msg: response['message'],
+      );
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  //user/remove-form-cart
+  static Future<bool> removeFromCart(String cartId) async {
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}user/remove-form-cart/$cartId', httpMethod: HttpMethod.multipartFilePost, isLoadingEnable: true);
+    globalLogger.d(response, "remove from cart Route");
+    if (response['status'] != null && response['status']) {
+      showSnackBar(
+        msg: response['message'],
+      );
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
   }
 
   static Future<List<ReviewListModel>> userReviewListCall() async {

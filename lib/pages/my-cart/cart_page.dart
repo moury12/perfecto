@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/checkout-page/checkout_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/my-cart/apply_cuppon_reward.dart';
@@ -43,10 +43,12 @@ class CartScreen extends StatelessWidget {
                     style: AppTheme.textStyleSemiBoldBlack16,
                   ),
                   CustomSizedBox.space4W,
-                  const Text(
-                    '(3 Items)',
-                    style: AppTheme.textStyleNormalFadeBlack12,
-                  )
+                  Obx(() {
+                    return Text(
+                      '(${UserController.to.cartList.length} Items)',
+                      style: AppTheme.textStyleNormalFadeBlack12,
+                    );
+                  })
                 ],
               ),
               isSearchInclude: false,
@@ -60,8 +62,12 @@ class CartScreen extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           primary: false,
-                          itemBuilder: (context, index) => const CartWidget(),
-                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return CartWidget(
+                              cartModel: UserController.to.cartList[index],
+                            );
+                          },
+                          itemCount: UserController.to.cartList.length,
                         ),
                         GestureDetector(
                             onTap: () {
@@ -90,21 +96,21 @@ class CartScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     RichText(
-                                        text: const TextSpan(text: 'Items Subtotal', style: AppTheme.textStyleMediumBlack12, children: [
+                                        text: TextSpan(text: 'Items Subtotal', style: AppTheme.textStyleMediumBlack12, children: [
                                       TextSpan(
-                                        text: ' (3 Items)',
+                                        text: ' (${UserController.to.cartList.length} Items)',
                                         style: TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.w500),
                                       )
                                     ])),
                                     const Spacer(),
-                                    const Text(
-                                      '৳ 1,650',
+                                    Text(
+                                      '৳ ${UserController.to.cartTotalPrice()}',
                                       style: AppTheme.textStyleMediumBlack12,
                                     ),
                                   ],
                                 ),
                                 CustomSizedBox.space8H,
-                                const Row(
+                                Row(
                                   children: [
                                     Text(
                                       'Discount',
@@ -112,7 +118,7 @@ class CartScreen extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     Text(
-                                      '-৳ 250',
+                                      '-৳ ${UserController.to.cartTotalDiscountPrice()}',
                                       style: AppTheme.textStyleMediumBlack12,
                                     ),
                                   ],
