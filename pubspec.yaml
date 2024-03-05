@@ -56,6 +56,7 @@ dependencies:
 #      url: https://github.com/mh-sarkar/mh-core.git
 #      ref: alpha
   socket_io_client: ^2.0.3+1
+  super_banners: ^0.0.1
 
 
 

@@ -8,6 +8,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/string_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
@@ -311,7 +312,22 @@ class ComboDetailsScreen extends StatelessWidget {
           prefixImageHeight: 20,
           primary: AppColors.kPrimaryColor,
           width: MediaQuery.of(context).size.width / 1.3,
-          onPressed: () {},
+          onPressed: () {
+            final data = {
+              'quantity': '1',
+              'combo_product_id': ProductDetailsController.to.comboDetails.value.id!,
+              'combo_info': jsonEncode(ProductDetailsController.to.comboDetails.value.comboProductDetails!
+                  .map((e) => {
+                        "product_id": e.productId!,
+                        if (e.product!.variationType == 'size') "size_id": e.variantId,
+                        if (e.product!.variationType == 'shade') "shade_id": e.variantId
+                      })
+                  .toList()),
+            };
+            globalLogger.d(data);
+
+            UserController.to.addToCart(data);
+          },
         ),
       ),
     );

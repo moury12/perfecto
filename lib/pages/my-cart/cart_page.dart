@@ -63,6 +63,7 @@ class CartScreen extends StatelessWidget {
                           shrinkWrap: true,
                           primary: false,
                           itemBuilder: (context, index) {
+                            final cartModel = UserController.to.cartList[index];
                             return CartWidget(
                               cartModel: UserController.to.cartList[index],
                             );
@@ -99,7 +100,7 @@ class CartScreen extends StatelessWidget {
                                         text: TextSpan(text: 'Items Subtotal', style: AppTheme.textStyleMediumBlack12, children: [
                                       TextSpan(
                                         text: ' (${UserController.to.cartList.length} Items)',
-                                        style: TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.w500),
+                                        style: const TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.w500),
                                       )
                                     ])),
                                     const Spacer(),
@@ -112,11 +113,11 @@ class CartScreen extends StatelessWidget {
                                 CustomSizedBox.space8H,
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Discount',
                                       style: AppTheme.textStyleMediumBlack10,
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
                                       '-৳ ${UserController.to.cartTotalDiscountPrice()}',
                                       style: AppTheme.textStyleMediumBlack12,

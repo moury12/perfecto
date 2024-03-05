@@ -142,7 +142,7 @@ class UserController extends GetxController {
     final isCreated = await UserService.addToCart(body);
 
     if (isCreated) {
-      // getWishListCall();
+      getCartListCall();
       // afterLogin(isCreated);
     }
   }
@@ -159,9 +159,14 @@ class UserController extends GetxController {
   //cart item price calculation
   double cartTotalPrice() {
     double totalPrice = 0;
+    // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
     for (int i = 0; i < cartList.length; i++) {
-      totalPrice +=
-          double.parse(cartList[i].shade != null ? cartList[i].shade!.productShade!.shadePrice! : cartList[i].size!.productSize!.sizePrice!) * int.parse(cartList[i].quantity!);
+      if (cartList[i].comboProduct == null) {
+        totalPrice +=
+            double.parse(cartList[i].shade != null ? cartList[i].shade!.productShade!.shadePrice! : cartList[i].size!.productSize!.sizePrice!) * int.parse(cartList[i].quantity!);
+      } else {
+        totalPrice += double.parse(cartList[i].comboProduct!.discountedPrice!) * int.parse(cartList[i].quantity!);
+      }
     }
     return totalPrice;
   }
@@ -169,8 +174,11 @@ class UserController extends GetxController {
   //cart item discount price calculation
   double cartTotalDiscountPrice() {
     double totalPrice = 0;
+    // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
     for (int i = 0; i < cartList.length; i++) {
-      totalPrice += double.parse(cartList[i].shade != null ? cartList[i].shade!.productShade!.flatDiscount! : cartList[i].size!.productSize!.flatDiscount!);
+      if (cartList[i].comboProduct == null) {
+        totalPrice += double.parse(cartList[i].shade != null ? cartList[i].shade!.productShade!.flatDiscount! : cartList[i].size!.productSize!.flatDiscount!);
+      }
     }
     return totalPrice;
   }

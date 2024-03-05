@@ -1,3 +1,4 @@
+import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/models/product_model.dart';
 
 class CartModel {
@@ -9,12 +10,12 @@ class CartModel {
   String? shadeId;
   String? quantity;
   String? comboProductId;
-  String? comboInfo;
+  List<ComboInfo>? comboInfo;
   String? createdAt;
   String? updatedAt;
   ProductModel? product;
   List<Offers>? offers;
-  String? comboProduct;
+  ComboDetailsModel? comboProduct;
   Size? size;
   ColorModel? color;
   Shade? shade;
@@ -47,7 +48,12 @@ class CartModel {
     shadeId = json['shade_id'].toString() == 'null' ? '' : json['shade_id'].toString();
     quantity = json['quantity'].toString() == 'null' ? '' : json['quantity'].toString();
     comboProductId = json['combo_product_id'].toString() == 'null' ? '' : json['combo_product_id'].toString();
-    comboInfo = json['combo_info'].toString() == 'null' ? '' : json['combo_info'].toString();
+    if (json['combo_info'] != null) {
+      comboInfo = <ComboInfo>[];
+      json['combo_info'].forEach((v) {
+        comboInfo!.add(ComboInfo.fromJson(v));
+      });
+    }
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     product = json['product'] != null ? ProductModel.fromJson(json['product']) : null;
@@ -57,7 +63,7 @@ class CartModel {
         offers!.add(Offers.fromJson(v));
       });
     }
-    comboProduct = json['combo_product'].toString() == 'null' ? '' : json['combo_product'].toString();
+    comboProduct = json['combo_product'] != null ? ComboDetailsModel.fromJson(json['combo_product']) : null;
     size = json['size'] != null ? Size.fromJson(json['size']) : null;
     color = json['color'] != null ? ColorModel.fromJson(json['color']) : null;
     shade = json['shade'] != null ? Shade.fromJson(json['shade']) : null;
@@ -73,7 +79,9 @@ class CartModel {
     data['shade_id'] = shadeId;
     data['quantity'] = quantity;
     data['combo_product_id'] = comboProductId;
-    data['combo_info'] = comboInfo;
+    if (comboInfo != null) {
+      data['combo_info'] = comboInfo!.map((v) => v.toJson()).toList();
+    }
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (product != null) {
@@ -82,7 +90,9 @@ class CartModel {
     if (offers != null) {
       data['offers'] = offers!.map((v) => v.toJson()).toList();
     }
-    data['combo_product'] = comboProduct;
+    if (comboProduct != null) {
+      data['combo_product'] = comboProduct!.toJson();
+    }
     if (size != null) {
       data['size'] = size!.toJson();
     }
@@ -92,6 +102,37 @@ class CartModel {
     if (shade != null) {
       data['shade'] = shade!.toJson();
     }
+    return data;
+  }
+}
+
+class ComboInfo {
+  String? productId;
+  String? sizeId;
+  String? shadeId;
+  String? productName;
+  String? sizeName;
+  String? shadeName;
+
+  ComboInfo({this.productId, this.sizeId, this.productName, this.sizeName, this.shadeId, this.shadeName});
+
+  ComboInfo.fromJson(Map<String, dynamic> json) {
+    productId = json['product_id'].toString() == 'null' ? '' : json['product_id'].toString();
+    sizeId = json['size_id'].toString() == 'null' ? '' : json['size_id'].toString();
+    shadeId = json['shade_id'].toString() == 'null' ? '' : json['shade_id'].toString();
+    productName = json['product_name'].toString() == 'null' ? '' : json['product_name'].toString();
+    sizeName = json['size_name'].toString() == 'null' ? '' : json['size_name'].toString();
+    shadeName = json['shade_name'].toString() == 'null' ? '' : json['shade_name'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['product_id'] = productId;
+    data['size_id'] = sizeId;
+    data['shade_id'] = shadeId;
+    data['product_name'] = productName;
+    data['size_name'] = sizeName;
+    data['shade_name'] = shadeName;
     return data;
   }
 }

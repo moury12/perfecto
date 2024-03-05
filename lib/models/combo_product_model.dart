@@ -244,9 +244,9 @@ class ComboProductDetails {
   String? productId;
   String? createdAt;
   String? updatedAt;
-  List<ComboProductInfos>? comboProductInfos;
+  List<ComboProductInfos>? comboProductInfos; // 1ml, 2ml
   ProductModel? product;
-  String? variantId;
+  String? variantId; //1ml
 
   ComboProductDetails({this.id, this.comboProductId, this.productId, this.createdAt, this.updatedAt, this.comboProductInfos, this.product, this.variantId});
 
@@ -356,68 +356,6 @@ class ComboProductInfos {
     if (size != null) {
       data['size'] = size!.toJson();
     }
-    return data;
-  }
-}
-
-class Shade {
-  String? id;
-  String? name;
-  String? image;
-  String? status;
-  String? colorId;
-  String? createdAt;
-  String? updatedAt;
-
-  Shade({this.id, this.name, this.image, this.status, this.colorId, this.createdAt, this.updatedAt});
-
-  Shade.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    name = json['name'].toString() == 'null' ? '' : json['name'].toString();
-    image = json['image'].toString() == 'null' ? '' : json['image'].toString();
-    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
-    colorId = json['color_id'].toString() == 'null' ? '' : json['color_id'].toString();
-    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
-    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['image'] = image;
-    data['status'] = status;
-    data['color_id'] = colorId;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    return data;
-  }
-}
-
-class Size {
-  String? id;
-  String? name;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-
-  Size({this.id, this.name, this.status, this.createdAt, this.updatedAt});
-
-  Size.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    name = json['name'].toString() == 'null' ? '' : json['name'].toString();
-    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
-    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
-    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['status'] = status;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
     return data;
   }
 }
