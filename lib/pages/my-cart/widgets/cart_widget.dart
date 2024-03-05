@@ -5,6 +5,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/user_model.dart';
@@ -12,6 +13,8 @@ import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:super_banners/super_banners.dart';
+
+import '../cart_controller.dart';
 
 class CartWidget extends StatelessWidget {
   final bool iswish;
@@ -42,7 +45,7 @@ class CartWidget extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(border: Border.all(color: const Color(0xffCECECE), width: 0.2), borderRadius: BorderRadius.circular(4)),
                       child: CustomNetworkImage(
-                        networkImagePath: wishListModel?.product?.image ?? '',
+                        networkImagePath: wishListModel?.product?.image ?? cartModel?.product?.image ?? cartModel?.comboProduct?.image ?? '',
                         errorImagePath: AssetsConstant.megaDeals2,
                         borderRadius: 4,
                         height: 80,
@@ -349,7 +352,12 @@ class CouponsWidget extends StatelessWidget {
                             height: 12,
                           ),
                         )
-                      : const SizedBox.shrink()
+                      : Obx(() {
+                          return Text(
+                            HomeApiController.to.couponCode.value.isNotEmpty ? ' Applied' : ' Apply',
+                            style: TextStyle(color: HomeApiController.to.couponCode.value.isNotEmpty ? Colors.green : Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                          );
+                        }),
                 ],
               ),
               CustomSizedBox.space4H,

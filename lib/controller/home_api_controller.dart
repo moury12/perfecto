@@ -11,6 +11,7 @@ import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
+import 'package:perfecto/pages/my-cart/cart_controller.dart';
 import 'package:perfecto/services/home_service.dart';
 import 'package:perfecto/services/product_services.dart';
 import 'package:perfecto/utils.dart';
@@ -21,6 +22,8 @@ import '../models/product_model.dart';
 import '../models/trending_search_model.dart';
 
 class HomeApiController extends GetxController {
+  RxString couponCode = ''.obs;
+
   static HomeApiController get to => Get.find();
   RxList<OutletModel> outletList = <OutletModel>[].obs;
   RxList<ProductAttributeModel> colorList = <ProductAttributeModel>[].obs;
@@ -225,9 +228,11 @@ class HomeApiController extends GetxController {
     globalLogger.d(singleBlog.value.title, 'singleBlogList.value.title');
   }
 
-  Future<bool> addCouponCode(String couponCode) async {
-    final isCreated = await HomeService.addCuponCode({'coupon_code': couponCode});
+  Future<bool> addCouponCode(String coupon) async {
+    final isCreated = await HomeService.addCuponCode({'coupon_code': coupon});
     if (isCreated) {
+      couponCode.value = coupon;
+      CartController.to.couponController.text = '';
       showSnackBar(
         msg: 'Coupon Added successfully.',
       );

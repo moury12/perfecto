@@ -128,12 +128,12 @@ class CartScreen extends StatelessWidget {
                                 const Row(
                                   children: [
                                     Text(
-                                      'Shipping Fee',
+                                      'Cupon',
                                       style: AppTheme.textStyleMediumBlack10,
                                     ),
                                     Spacer(),
                                     Text(
-                                      '৳ 1,650',
+                                      '-৳ 1,650',
                                       style: AppTheme.textStyleMediumBlack12,
                                     )
                                   ],
