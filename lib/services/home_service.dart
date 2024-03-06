@@ -3,6 +3,7 @@ import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/models/combo_product_model.dart';
+import 'package:perfecto/models/coupon_model.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/offer_details_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
@@ -15,6 +16,7 @@ import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 
+import '../models/shipping_model.dart';
 import '../utils.dart';
 
 class HomeService {
@@ -508,19 +510,56 @@ class HomeService {
     }
   }
 
-  static Future<bool> addCuponCode(dynamic body) async {
+  static Future<CouponModel> addCouponCode(dynamic body) async {
     try {
+      CouponModel coupon = CouponModel();
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}coupon', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
       globalLogger.d(response, "coupon Route");
       if (response['status'] != null && response['status']) {
-        return response['status'];
+        coupon = CouponModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
-      return false;
+      return coupon;
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
-      return false; // Return an empty list or handle the error accordingly
+      return CouponModel(); // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //rewardPointCall
+  static Future<RewardPointModel> rewardPointCall() async {
+    try {
+      RewardPointModel rewardPoint = RewardPointModel();
+      final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}getRewardData', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "rewardPoint route");
+      if (response['status'] != null && response['status']) {
+        rewardPoint = RewardPointModel.fromJson(response['data']);
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return rewardPoint;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return RewardPointModel(); // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //shippingCall
+  static Future<ShippingModel> shippingCall() async {
+    try {
+      ShippingModel shipping = ShippingModel();
+      final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}getShippingCharge', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "shipping route");
+      if (response['status'] != null && response['status']) {
+        shipping = ShippingModel.fromJson(response['data']);
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return shipping;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return ShippingModel(); // Return an empty list or handle the error accordingly
     }
   }
 

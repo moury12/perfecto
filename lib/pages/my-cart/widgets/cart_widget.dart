@@ -8,6 +8,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/models/coupon_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -219,7 +220,7 @@ class CartWidget extends StatelessWidget {
                                     }
                                   },
                                   child: Padding(
-                                    padding: EdgeInsets.all(4),
+                                    padding: const EdgeInsets.all(4),
                                     child: Icon(
                                       Icons.remove,
                                       color: cartModel!.quantity == '1' ? AppColors.kAccentColor : AppColors.kPrimaryColor,
@@ -293,7 +294,7 @@ class CartWidget extends StatelessWidget {
             ),
           ),
           if (cartModel?.comboProduct != null)
-            CornerBanner(
+            const CornerBanner(
               bannerPosition: CornerBannerPosition.topLeft,
               bannerColor: Colors.blue,
               elevation: 2,
@@ -335,39 +336,81 @@ class CouponsWidget extends StatelessWidget {
             height: 32,
           ),
           CustomSizedBox.space12W,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    title ?? 'Coupons',
-                    style: AppTheme.textStyleMediumBlack12,
-                  ),
-                  isRewardPoint
-                      ? Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Image.asset(
-                            AssetsConstant.infoIcon,
-                            height: 12,
-                          ),
-                        )
-                      : Obx(() {
-                          return Text(
-                            HomeApiController.to.couponCode.value.isNotEmpty ? ' Applied' : ' Apply',
-                            style: TextStyle(color: HomeApiController.to.couponCode.value.isNotEmpty ? Colors.green : Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
-                          );
-                        }),
-                ],
-              ),
-              CustomSizedBox.space4H,
-              Text(
-                subtitle ?? 'Apply now and save extra!',
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.kDarkPrimaryColor),
-              )
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      title ?? 'Coupons',
+                      style: AppTheme.textStyleMediumBlack12,
+                    ),
+                    if (isRewardPoint) ...[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Image.asset(
+                          AssetsConstant.infoIcon,
+                          height: 12,
+                        ),
+                      ),
+                      Obx(() {
+                        return Text(
+                          HomeApiController.to.rewardPointApply.value != '0' ? ' Applied' : '',
+                          style: TextStyle(color: HomeApiController.to.rewardPointApply.value != '0' ? Colors.green : Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                        );
+                      }),
+                    ],
+                    if (!isRewardPoint)
+                      Obx(() {
+                        return Text(
+                          HomeApiController.to.couponCode.value.isNotEmpty ? ' Applied' : '',
+                          style: TextStyle(color: HomeApiController.to.couponCode.value.isNotEmpty ? Colors.green : Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                        );
+                      }),
+                  ],
+                ),
+                CustomSizedBox.space4H,
+                Text(
+                  subtitle ?? 'Apply now and save extra!',
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.kDarkPrimaryColor),
+                )
+              ],
+            ),
           ),
-          const Spacer(),
+          //cancel icon
+          Obx(
+            () => ((isRewardPoint && HomeApiController.to.rewardPointApply.value != '0') || (!isRewardPoint && HomeApiController.to.couponCode.value.isNotEmpty))
+                ? InkWell(
+                    onTap: () {
+                      if (isRewardPoint) {
+                        HomeApiController.to.rewardPointApply.value = '0';
+                      } else {
+                        HomeApiController.to.couponCode.value = '';
+                        HomeApiController.to.couponInfo.value = CouponModel();
+                      }
+                    },
+                    child: const Material(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.close,
+                              color: Colors.red,
+                              size: 16,
+                            ),
+                            Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
           const Icon(
             Icons.arrow_forward_ios,
             color: Colors.black,

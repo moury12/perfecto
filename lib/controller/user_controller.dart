@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
@@ -117,6 +119,7 @@ class UserController extends GetxController {
 
   Future<void> getCartListCall() async {
     cartList.value = await UserService.userCartListCall();
+    HomeApiController.to.changeRewardPointApply();
   }
 
   //add addToWish
@@ -133,6 +136,7 @@ class UserController extends GetxController {
     final isCreated = await UserService.updateCart(body, cartId);
     if (isCreated) {
       getCartListCall();
+
       // afterLogin(isCreated);
     }
   }
@@ -182,6 +186,22 @@ class UserController extends GetxController {
       }
     }
     return totalPrice;
+  }
+
+  //cart item total price calculation with coupon and reward point
+  double cartTotalPriceWithCouponAndReward() {
+    double totalPrice = 0;
+    totalPrice += cartTotalPrice();
+    totalPrice -= cartTotalDiscountPrice();
+    totalPrice -= (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble();
+    totalPrice -= rewardPointCalculation(HomeApiController.to.rewardPointInfo.value.rewardPointValue ?? '0', HomeApiController.to.rewardPointApply.value,
+        HomeApiController.to.rewardPointInfo.value.rewardPoint ?? '0');
+    return totalPrice;
+  }
+
+  //reward point calculation
+  double rewardPointCalculation(String rewardPointValue, String rewardPoint, String rewardUnit) {
+    return (rewardPointValue.toDouble() * (rewardPoint.toDouble() / rewardUnit.toDouble()));
   }
 
   Future<void> getReviewListCall() async {

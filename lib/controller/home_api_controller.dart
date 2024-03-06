@@ -2,14 +2,17 @@ import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/models/combo_product_model.dart';
+import 'package:perfecto/models/coupon_model.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/shade_model.dart';
+import 'package:perfecto/models/shipping_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 import 'package:perfecto/pages/my-cart/cart_controller.dart';
 import 'package:perfecto/services/home_service.dart';
@@ -23,6 +26,7 @@ import '../models/trending_search_model.dart';
 
 class HomeApiController extends GetxController {
   RxString couponCode = ''.obs;
+  RxString rewardPointApply = '0'.obs;
 
   static HomeApiController get to => Get.find();
   RxList<OutletModel> outletList = <OutletModel>[].obs;
@@ -58,6 +62,9 @@ class HomeApiController extends GetxController {
   Rx<ComboDetailsModel> comboProduct = ComboDetailsModel().obs;
   Rx<OfferDetailsModel> offerDetails = OfferDetailsModel().obs;
   Rx<OfferDetailsModel> singleCatOffer = OfferDetailsModel().obs;
+  Rx<CouponModel> couponInfo = CouponModel().obs;
+  Rx<ShippingModel> shippingInfo = ShippingModel().obs;
+  Rx<RewardPointModel> rewardPointInfo = RewardPointModel().obs;
 
   @override
   void onInit() async {
@@ -83,6 +90,8 @@ class HomeApiController extends GetxController {
     await shadeListCall();
     await sizeListCall();
     trendingSearchListCall();
+    rewardPointCall();
+    shippingCall();
 
     NavigationController.to.attributeListCall();
 
@@ -229,8 +238,14 @@ class HomeApiController extends GetxController {
   }
 
   Future<bool> addCouponCode(String coupon) async {
-    final isCreated = await HomeService.addCuponCode({'coupon_code': coupon});
-    if (isCreated) {
+    couponInfo.value = await HomeService.addCouponCode({'coupon_code': coupon});
+    if (couponInfo.value.couponCode != null) {
+      if (UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice() < couponInfo.value.minimumExpenses!.toDouble()) {
+        showSnackBar(msg: 'Minimum order amount should be ${couponInfo.value.minimumExpenses} to apply this coupon.');
+        return false;
+      }
+      changeRewardPointApply();
+
       couponCode.value = coupon;
       CartController.to.couponController.text = '';
       showSnackBar(
@@ -239,7 +254,47 @@ class HomeApiController extends GetxController {
       Get.back();
       // afterLogin(isCreated);
     }
-    return isCreated;
+    return couponInfo.value.couponCode != null;
+  }
+
+  changeRewardPointApply() {
+    if (rewardPointApply.value != '0') {
+      if ((rewardPointApply.value.toInt() /
+              HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt() *
+              HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) >
+          (UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice() - (couponInfo.value.amount ?? '0').toDouble())) {
+        final tk = UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice() - (couponInfo.value.amount ?? '0').toDouble();
+        rewardPointApply.value = ((tk / HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) * HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt())
+            .floor()
+            .toStringAsFixed(0);
+      }
+    }
+  }
+
+  //check reward point apply or not and reward point exceed to total price or not
+  Future<void> checkRewardPointApply(String rewardPoint) async {
+    if (rewardPoint.isNotEmpty) {
+      if (rewardPoint.toInt() > UserController.to.getUserInfo.rewardPoints!.toInt()) {
+        showSnackBar(msg: 'You have only ${UserController.to.getUserInfo.rewardPoints} reward points!');
+        return;
+      }
+      rewardPointApply.value = rewardPoint;
+      CartController.to.couponController.text = '';
+      showSnackBar(
+        msg: 'Reward Point Added successfully.',
+      );
+      Get.back();
+    }
+  }
+
+  //rewardPointCall
+  Future<void> rewardPointCall() async {
+    rewardPointInfo.value = await HomeService.rewardPointCall();
+  }
+
+  //shippingCall
+  Future<void> shippingCall() async {
+    shippingInfo.value = await HomeService.shippingCall();
   }
 
   void _addSuspensionTag(List<BrandModel> list) {

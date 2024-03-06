@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/checkout-page/checkout_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
@@ -43,12 +44,10 @@ class CartScreen extends StatelessWidget {
                     style: AppTheme.textStyleSemiBoldBlack16,
                   ),
                   CustomSizedBox.space4W,
-                  Obx(() {
-                    return Text(
-                      '(${UserController.to.cartList.length} Items)',
-                      style: AppTheme.textStyleNormalFadeBlack12,
-                    );
-                  })
+                  Text(
+                    '(${UserController.to.cartList.length} Items)',
+                    style: AppTheme.textStyleNormalFadeBlack12,
+                  ),
                 ],
               ),
               isSearchInclude: false,
@@ -72,11 +71,13 @@ class CartScreen extends StatelessWidget {
                         ),
                         GestureDetector(
                             onTap: () {
+                              CartController.to.couponController.text = HomeApiController.to.couponCode.value;
                               Get.toNamed(ApplyCupponRewardScreen.routeName, arguments: 'coupon');
                             },
                             child: const CouponsWidget()),
                         GestureDetector(
                           onTap: () {
+                            CartController.to.couponController.text = HomeApiController.to.rewardPointApply.value;
                             Get.toNamed(ApplyCupponRewardScreen.routeName);
                           },
                           child: const CouponsWidget(img: AssetsConstant.rewardIcon, title: 'Reward Points', isRewardPoint: true, subtitle: 'Apply now and save extra!'),
@@ -105,7 +106,7 @@ class CartScreen extends StatelessWidget {
                                     ])),
                                     const Spacer(),
                                     Text(
-                                      '৳ ${UserController.to.cartTotalPrice()}',
+                                      '৳ ${UserController.to.cartTotalPrice().toStringAsFixed(2)}',
                                       style: AppTheme.textStyleMediumBlack12,
                                     ),
                                   ],
@@ -119,39 +120,48 @@ class CartScreen extends StatelessWidget {
                                     ),
                                     const Spacer(),
                                     Text(
-                                      '-৳ ${UserController.to.cartTotalDiscountPrice()}',
+                                      '-৳ ${UserController.to.cartTotalDiscountPrice().toStringAsFixed(2)}',
                                       style: AppTheme.textStyleMediumBlack12,
                                     ),
                                   ],
                                 ),
                                 CustomSizedBox.space8H,
-                                const Row(
-                                  children: [
-                                    Text(
-                                      'Cupon',
-                                      style: AppTheme.textStyleMediumBlack10,
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      '-৳ 1,650',
-                                      style: AppTheme.textStyleMediumBlack12,
-                                    )
-                                  ],
-                                ),
-                                CustomSizedBox.space8H,
-                                const Row(
-                                  children: [
-                                    Text(
-                                      'Reward Points Discount',
-                                      style: AppTheme.textStyleMediumBlack10,
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      '-৳ 50',
-                                      style: AppTheme.textStyleMediumBlack12,
-                                    ),
-                                  ],
-                                ),
+                                if (HomeApiController.to.couponInfo.value.couponCode != null &&
+                                    HomeApiController.to.couponInfo.value.couponCode!.isNotEmpty &&
+                                    HomeApiController.to.couponInfo.value.minimumExpenses != null &&
+                                    HomeApiController.to.couponInfo.value.minimumExpenses!.isNotEmpty &&
+                                    (UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice()) >=
+                                        double.parse(HomeApiController.to.couponInfo.value.minimumExpenses!)) ...[
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Cupon',
+                                        style: AppTheme.textStyleMediumBlack10,
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        '-৳ ${HomeApiController.to.couponInfo.value.amount!}',
+                                        style: AppTheme.textStyleMediumBlack12,
+                                      )
+                                    ],
+                                  ),
+                                  CustomSizedBox.space8H,
+                                ],
+                                // if(HomeApiController.to.rewardPointInfo.value.rewardPointValue!=null && HomeApiController.to.rewardPointInfo.value.rewardPointValue!.isNotEmpty && UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice()>=double.parse(HomeApiController.to.rewardPointInfo.value.rewardPointValue!)
+                                if (HomeApiController.to.rewardPointApply.value != '0')
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Reward Points Discount',
+                                        style: AppTheme.textStyleMediumBlack10,
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        '-৳ ${UserController.to.rewardPointCalculation(HomeApiController.to.rewardPointInfo.value.rewardPointValue ?? '0', HomeApiController.to.rewardPointApply.value, HomeApiController.to.rewardPointInfo.value.rewardPoint ?? '0').toStringAsFixed(2)}',
+                                        style: AppTheme.textStyleMediumBlack12,
+                                      ),
+                                    ],
+                                  ),
                                 CustomSizedBox.space4H,
                                 const Divider(
                                   color: Color(0xffECECEC),
@@ -166,7 +176,7 @@ class CartScreen extends StatelessWidget {
                                     ),
                                     const Spacer(),
                                     Text(
-                                      '৳ 1,450',
+                                      '৳ ${UserController.to.cartTotalPriceWithCouponAndReward().toStringAsFixed(2)}',
                                       style: AppTheme.textStyleSemiBoldBlack14,
                                     ),
                                   ],
@@ -222,7 +232,7 @@ class CartScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Column(
+                    Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
@@ -230,7 +240,7 @@ class CartScreen extends StatelessWidget {
                           style: AppTheme.textStyleMediumBlack12,
                         ),
                         Text(
-                          '৳ 1,450',
+                          '৳ ${UserController.to.cartTotalPriceWithCouponAndReward().toStringAsFixed(2)}',
                           style: AppTheme.textStyleBoldBlack20,
                         )
                       ],

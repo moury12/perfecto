@@ -6,8 +6,9 @@ class UserModel {
   String? email;
   String? phone;
   String? avatar;
+  String? rewardPoints;
 
-  UserModel({this.name, this.email, this.phone, this.avatar});
+  UserModel({this.name, this.email, this.phone, this.avatar, this.rewardPoints});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -15,6 +16,7 @@ class UserModel {
     email = json['email'].toString() == 'null' ? '' : json['email'];
     phone = json['phone'].toString() == 'null' ? '' : json['phone'];
     avatar = json['avatar'].toString() == 'null' ? '' : json['avatar'];
+    rewardPoints = json['reward_points'].toString() == 'null' ? '0' : json['reward_points'];
   }
 
   Map<String, dynamic> toJson() {
@@ -24,6 +26,7 @@ class UserModel {
     data['email'] = email;
     data['phone'] = phone;
     data['avatar'] = avatar;
+    data['reward_points'] = rewardPoints;
     return data;
   }
 }

@@ -10,6 +10,7 @@ import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
 import 'package:perfecto/models/product_model.dart';
+import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
@@ -87,10 +88,13 @@ class HomeTopWidget extends StatelessWidget {
                               height: 12,
                             ),
                             CustomSizedBox.space4W,
-                            RichText(
-                                text: const TextSpan(
-                                    text: '',
-                                    children: [TextSpan(text: '0', style: AppTheme.textStyleBoldBlack12), TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)])),
+                            Obx(() {
+                              return RichText(
+                                  text: TextSpan(text: '', children: [
+                                TextSpan(text: AuthController.to.isLoggedIn.value ? UserController.to.getUserInfo.rewardPoints : '0', style: AppTheme.textStyleBoldBlack12),
+                                const TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)
+                              ]));
+                            }),
                           ],
                         ),
                       ),
@@ -140,7 +144,11 @@ class HomeTopWidget extends StatelessWidget {
                   : InkWell(
                       borderRadius: BorderRadius.circular(360),
                       onTap: () {
-                        Get.toNamed(CartScreen.routeName);
+                        if (AuthController.to.isLoggedIn.value) {
+                          Get.toNamed(CartScreen.routeName);
+                        } else {
+                          Get.toNamed(LoginScreen.routeName);
+                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16).copyWith(left: 0),
@@ -257,7 +265,7 @@ class HomeTopWidget extends StatelessWidget {
                                                                 NavigationController.to.update();
                                                               },
                                                               child: Padding(
-                                                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
                                                                 child: Text(
                                                                   HomeApiController.to.searchList[index].name!,
                                                                   style: AppTheme.textStyleMediumBlack14,
