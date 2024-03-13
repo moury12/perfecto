@@ -46,7 +46,8 @@ class CartWidget extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(border: Border.all(color: const Color(0xffCECECE), width: 0.2), borderRadius: BorderRadius.circular(4)),
                       child: CustomNetworkImage(
-                        networkImagePath: wishListModel?.product?.image ?? cartModel?.product?.image ?? cartModel?.comboProduct?.image ?? '',
+                        networkImagePath:
+                            wishListModel?.product?.image ?? cartModel?.product?.image ?? cartModel?.comboProduct?.image ?? cartModel?.buyGetInfo?.productForBuy?.image ?? '',
                         errorImagePath: AssetsConstant.megaDeals2,
                         borderRadius: 4,
                         height: 80,
@@ -55,18 +56,20 @@ class CartWidget extends StatelessWidget {
                       ),
                     ),
                     CustomSizedBox.space12W,
-                    Flexible(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            iswish ? wishListModel?.product?.name ?? '-' : cartModel?.product?.name ?? cartModel?.comboProduct?.name ?? '-',
+                            iswish
+                                ? wishListModel?.product?.name ?? '-'
+                                : cartModel?.product?.name ?? cartModel?.comboProduct?.name ?? cartModel?.buyGetInfo?.productForBuy?.name ?? '-',
                             style: AppTheme.textStyleMediumBlack14,
                           ),
                           if (iswish || (!iswish && cartModel?.product != null)) CustomSizedBox.space8H,
-                          if (iswish || (!iswish && cartModel?.product != null))
-                            Row(
-                              children: [
+                          Row(
+                            children: [
+                              if (iswish || (!iswish && cartModel?.product != null))
                                 RichText(
                                     text: TextSpan(children: [
                                   const TextSpan(text: 'Brand:', style: AppTheme.textStyleNormalFadeBlack12),
@@ -74,19 +77,21 @@ class CartWidget extends StatelessWidget {
                                       text: ' ${iswish ? wishListModel?.product?.brand?.name ?? '-' : cartModel?.product?.brand?.name ?? '-'}',
                                       style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
                                 ])),
-                                if (!iswish && cartModel?.size != null)
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 6),
-                                    height: 12,
-                                    width: 1,
-                                    color: const Color(0xffCECECE),
-                                  ),
-                                if (!iswish && cartModel?.product?.sizeId != null && cartModel!.product!.sizeId!.isNotEmpty)
-                                  Text('Size: ${cartModel?.size?.name ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
-                              ],
-                            ),
-                          if (!iswish && cartModel?.product?.shadeId != null && cartModel!.product!.shadeId!.isNotEmpty) CustomSizedBox.space4H,
-                          if (!iswish && cartModel?.product?.shadeId != null && cartModel!.product!.shadeId!.isNotEmpty)
+                              if (!iswish && cartModel?.size != null && !iswish && cartModel?.product != null)
+                                Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 6),
+                                  height: 12,
+                                  width: 1,
+                                  color: const Color(0xffCECECE),
+                                ),
+                              if (!iswish && cartModel?.product?.sizeId != null && cartModel!.product!.sizeId!.isNotEmpty)
+                                Text('Size: ${cartModel?.size?.name ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12)),
+                              if (cartModel?.buyGetInfo != null && cartModel?.sizeId != null && cartModel!.sizeId!.isNotEmpty)
+                                Text('Size: ${cartModel?.size?.name ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
+                            ],
+                          ),
+                          if (!iswish && cartModel!.shade != null && cartModel!.shade!.name!.isNotEmpty) CustomSizedBox.space4H,
+                          if (!iswish && cartModel!.shade != null && cartModel!.shade!.name!.isNotEmpty)
                             Row(
                               children: [
                                 CustomNetworkImage(
@@ -138,6 +143,37 @@ class CartWidget extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                            ),
+                          ],
+                          if (!iswish && cartModel?.buyGetInfo != null) ...[
+                            CustomSizedBox.space8H,
+                            Row(
+                              children: [
+                                CustomNetworkImage(
+                                  networkImagePath: cartModel?.buyGetInfo?.productForGet?.image ?? '',
+                                  errorImagePath: AssetsConstant.megaDeals2,
+                                  height: 24,
+                                  borderRadius: 2,
+                                  width: 24,
+                                ),
+                                CustomSizedBox.space8W,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(cartModel?.buyGetInfo?.productForGet?.name ?? '', style: AppTheme.textStyleMediumBlack12),
+                                      if (cartModel?.buyGetInfo?.sizeForGet != null) ...[
+                                        // CustomSizedBox.space4H,
+                                        Text('Size: ${cartModel?.buyGetInfo?.sizeForGet?.name ?? ''}', style: AppTheme.textStyleMediumBlack12),
+                                      ],
+                                      if (cartModel?.buyGetInfo?.shadeForGet != null) ...[
+                                        // CustomSizedBox.space4H,
+                                        Text('Shade: ${cartModel?.buyGetInfo?.shadeForGet?.name ?? ''}', style: AppTheme.textStyleMediumBlack12),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                           CustomSizedBox.space8H,
@@ -209,7 +245,7 @@ class CartWidget extends StatelessWidget {
                                   onTap: () {
                                     if (int.parse(cartModel!.quantity!) > 1) {
                                       final dynamic body = {
-                                        'product_id': cartModel!.productId!,
+                                        // 'product_id': cartModel!.productId!,
                                         'quantity': (int.parse(cartModel!.quantity!) - 1).toString(),
                                       };
                                       globalLogger.d(body, 'body');
@@ -253,8 +289,9 @@ class CartWidget extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     final dynamic body = {
-                                      'product_id': cartModel!.productId!,
-                                      'quantity': (int.parse(cartModel!.quantity!) + 1).toString(),
+                                      // 'product_id': cartModel!.productId!,
+                                      'quantity':
+                                          (int.parse(cartModel!.quantity!) + (cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : 1)).toString(),
                                     };
                                     globalLogger.d(body, 'body');
                                     UserController.to.updateCart(body, cartModel?.id ?? '');
@@ -302,6 +339,17 @@ class CartWidget extends StatelessWidget {
               child: Text(
                 "COMBO",
                 style: TextStyle(color: Colors.white),
+              ),
+            ),
+          if (cartModel?.buyGetInfo != null)
+            CornerBanner(
+              bannerPosition: CornerBannerPosition.topLeft,
+              bannerColor: AppColors.kOfferButtonColor,
+              elevation: 2,
+              shadowColor: Colors.black,
+              child: Text(
+                cartModel?.buyGetInfo?.offer?.name ?? "Buy Get",
+                style: const TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),
         ],

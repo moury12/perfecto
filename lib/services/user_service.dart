@@ -231,7 +231,7 @@ class UserService {
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}user/add-to-cart/list', httpMethod: HttpMethod.get);
       globalLogger.d(response, "CartModel route");
       if (response['status'] != null && response['status']) {
-        response['data'].forEach((dis) {
+        response['data']['cartData'].forEach((dis) {
           cartList.add(CartModel.fromJson(dis));
         });
       } else if (response['status'] != null && !response['status']) {
@@ -251,11 +251,13 @@ class UserService {
     globalLogger.d(response, "update cart Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
-        msg: response['message'],
+        msg: response['message'].runtimeType == bool ? response['data'] : response['message'],
       );
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+      ServiceAPI.showAlert(
+        response['message'].runtimeType == bool ? response['data'] : response['message'],
+      );
     }
     return false;
   }

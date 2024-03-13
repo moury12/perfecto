@@ -105,7 +105,12 @@ class HomeTopWidget extends StatelessWidget {
                   ? InkWell(
                       borderRadius: BorderRadius.circular(360),
                       onTap: () {
-                        Get.toNamed(WishListScreen.routeName);
+                        if (AuthController.to.isLoggedIn.value) {
+                          UserController.to.getWishListCall();
+                          Get.toNamed(WishListScreen.routeName);
+                        } else {
+                          Get.toNamed(LoginScreen.routeName);
+                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16).copyWith(left: 0),
@@ -124,17 +129,19 @@ class HomeTopWidget extends StatelessWidget {
                                 Positioned(
                                   top: -2,
                                   right: 0,
-                                  child: Obx(() {
-                                    return Container(
-                                      padding: const EdgeInsets.all(2.5),
-                                      height: 15,
-                                      width: 15,
-                                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                                      child: Center(
-                                          child: Text(UserController.to.wishList.length > 9 ? '9+' : UserController.to.wishList.length.toString(),
-                                              style: AppTheme.textStyleBoldWhite8)),
-                                    );
-                                  }),
+                                  child: Obx(
+                                    () {
+                                      return Container(
+                                        padding: const EdgeInsets.all(2.5),
+                                        height: 15,
+                                        width: 15,
+                                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                        child: Center(
+                                            child: Text(UserController.to.wishList.length > 9 ? '9+' : UserController.to.wishList.length.toString(),
+                                                style: AppTheme.textStyleBoldWhite8)),
+                                      );
+                                    },
+                                  ),
                                 )
                             ],
                           ),
@@ -145,6 +152,7 @@ class HomeTopWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(360),
                       onTap: () {
                         if (AuthController.to.isLoggedIn.value) {
+                          UserController.to.getCartListCall();
                           Get.toNamed(CartScreen.routeName);
                         } else {
                           Get.toNamed(LoginScreen.routeName);
@@ -166,17 +174,20 @@ class HomeTopWidget extends StatelessWidget {
                                 Positioned(
                                   top: -2,
                                   right: 0,
-                                  child: Obx(() {
-                                    return Container(
-                                      padding: const EdgeInsets.all(2.5),
-                                      height: 15,
-                                      width: 15,
-                                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                                      child: Center(
+                                  child: Obx(
+                                    () {
+                                      return Container(
+                                        padding: const EdgeInsets.all(2.5),
+                                        height: 15,
+                                        width: 15,
+                                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                        child: Center(
                                           child: Text(UserController.to.cartList.length > 9 ? '9+' : UserController.to.cartList.length.toString(),
-                                              style: AppTheme.textStyleBoldWhite8)),
-                                    );
-                                  }),
+                                              style: AppTheme.textStyleBoldWhite8),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 )
                             ],
                           ),

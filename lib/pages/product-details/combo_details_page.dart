@@ -320,7 +320,9 @@ class ComboDetailsScreen extends StatelessWidget {
                   .map((e) => {
                         "product_id": e.productId!,
                         if (e.product!.variationType == 'size') "size_id": e.variantId,
-                        if (e.product!.variationType == 'shade') "shade_id": e.variantId
+                        if (e.product!.variationType == 'size') "shade_id": null,
+                        if (e.product!.variationType == 'shade') "shade_id": e.variantId,
+                        if (e.product!.variationType == 'shade') "size_id": null
                       })
                   .toList()),
             };
