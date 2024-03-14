@@ -8,6 +8,7 @@ import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
+import 'package:perfecto/pages/profile/my-orders/controller/address_controller.dart';
 import 'package:perfecto/services/user_service.dart';
 
 class UserController extends GetxController {
@@ -47,6 +48,8 @@ class UserController extends GetxController {
     await getCartListCall();
     await getReviewListCall();
     await getWishListCall();
+
+    Get.put<AddressController>(AddressController(), permanent: true);
     super.onInit();
   }
 

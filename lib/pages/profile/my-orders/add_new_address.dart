@@ -120,56 +120,8 @@ class AddNewAddressScreen extends StatelessWidget {
                         hintText: 'Enter your email',
                         labelText: 'Email (Optional)',
                         focusColor: Colors.black,
-                        // errorMessage: AddressController.to.errorEmail.value!.isEmpty?null:AddressController.to.errorEmail.value,
-                        // focusNode: AddressController.to.emailFocusNode,
-                        // onChanged: (value) {
-                        //   if (value.isNotEmpty && value.isEmail) {
-                        //     AddressController.to.errorEmail.value = '';
-                        //   } else {
-                        //     if (value.isEmpty) {
-                        //       AddressController.to.errorEmail.value =
-                        //       'Enter a email address';
-                        //     } else if (!value.isEmail) {
-                        //       AddressController.to.errorEmail.value =
-                        //       'Enter a valid email address!';
-                        //     }
-                        //   }
-                        // },
-                        // onSubmitted: (p0) {
-                        //   if (AddressController.to.emailController.text.isEmpty) {
-                        //     AddressController.to.errorEmail.value =
-                        //     'Enter an email address';
-                        //   } else if (!AddressController.to.emailController.text.isEmail) {
-                        //     AddressController.to.errorEmail.value =
-                        //     'Enter a valid email address!';
-                        //   } else {
-                        //     AddressController.to.emailFocusNode.unfocus();
-                        //   }
-                        // },
                         controller: AddressController.to.emailController,
                       ),
-                      // Obx(() {
-                      //   return TitleDropdown(
-                      //     dwItems: AddressController.to.cityList,
-                      //     dwValue: AddressController.to.selectedCity.value.isEmpty ? null : AddressController.to.selectedCity.value,
-                      //     type: DropdownListType.object,
-                      //     onChange: (v) async {
-                      //       if (AddressController.to.selectedCity.value != v) {
-                      //         AddressController.to.selectedZone.value = '';
-                      //         AddressController.to.selectedCity.value = v;
-                      //         //TODO://
-                      //         await AddressController.to.getZoneAreaData(v, 'zone');
-                      //       }
-                      //       globalLogger.d(AddressController.to.selectedCity.value);
-                      //     },
-                      //     fillColor: AppColors.kborderColor,
-                      //     hintText: 'Select your city name',
-                      //     valueKey: 'city_id',
-                      //     viewKey: 'city_name',
-                      //     title: 'City',
-                      //     rightIconBgColor: Colors.transparent,
-                      //   );
-                      // }),
                       GetBuilder(builder: (AddressController controller) {
                         return Column(
                           children: [

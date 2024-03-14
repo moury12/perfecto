@@ -9,6 +9,7 @@ import 'package:perfecto/pages/checkout-page/checkout_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/my-cart/apply_cuppon_reward.dart';
 import 'package:perfecto/pages/my-cart/cart_controller.dart';
+import 'package:perfecto/pages/profile/my-orders/controller/address_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -253,6 +254,7 @@ class CartScreen extends StatelessWidget {
                       height: 50,
                       onPressed: () {
                         // CartController.to.isbagEmpty.value=true;
+                        AddressController.to.setData();
                         Get.toNamed(CheckoutScreen.routeName);
                       },
                       label: 'Proceed',

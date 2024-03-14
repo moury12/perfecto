@@ -462,7 +462,7 @@ class HomeService {
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}product/shade?color_id=2', httpMethod: HttpMethod.get);
       globalLogger.d(response, "shade route");
       if (response['status'] != null && response['status']) {
-        response['data'].forEach((dis) {
+        response['data']['Shades'].forEach((dis) {
           shadeList.add(ShadeModel.fromJson(dis));
         });
       } else if (response['status'] != null && !response['status']) {

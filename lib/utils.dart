@@ -17,3 +17,5 @@ enum OfferType {
   offer,
   combo,
 }
+
+enum PaymentType { cod, ssl }

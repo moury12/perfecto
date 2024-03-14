@@ -7,6 +7,8 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/address_model.dart';
 import 'package:perfecto/services/user_service.dart';
 
+import '../../../checkout-page/checkout_page.dart';
+
 class AddressController extends GetxController {
   static AddressController get to => Get.find();
   final _districtStatus = Rx<RxStatus>(RxStatus.empty());
@@ -48,10 +50,23 @@ class AddressController extends GetxController {
   RxList<AddressModel> get addressList => _addressList;
   RxBool isAddNew = false.obs;
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    getAddressCall();
+    await getAddressCall();
     getCityData();
+  }
+
+  setData() {
+    nameController.text = _addressList.firstWhere((element) => element.status == '1').name ?? '-';
+    emailController.text = _addressList.firstWhere((element) => element.status == '1').email ?? '';
+    phoneController.text = _addressList.firstWhere((element) => element.status == '1').phone ?? '';
+    addressController.text = _addressList.firstWhere((element) => element.status == '1').address ?? '';
+    selectedCity.value = _addressList.firstWhere((element) => element.status == '1').cityId ?? '';
+    getZoneAreaData(selectedCity.value, 'zone');
+    selectedZone.value = _addressList.firstWhere((element) => element.status == '1').zoneId ?? '';
+    getZoneAreaData(selectedZone.value, 'area');
+    selectedArea.value = _addressList.firstWhere((element) => element.status == '1').areaId ?? '';
+    update();
   }
 
   editAddress(AddressModel addressModel) {
@@ -81,6 +96,10 @@ class AddressController extends GetxController {
 
   Future<void> getAddressCall() async {
     _addressList.value = await UserService.userAddressCall();
+    globalLogger.d(Get.currentRoute, 'AddressController getAddressCall');
+    if (Get.currentRoute == CheckoutScreen.routeName) {
+      setData();
+    }
   }
 
   Future<void> getCityData() async {

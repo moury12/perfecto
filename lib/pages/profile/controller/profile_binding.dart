@@ -17,11 +17,9 @@ class ProfileBinding extends Bindings {
   }
 }
 
-class AddressBinding extends Bindings {
-  @override
-  void dependencies() {
-    Get.put<AddressController>(
-      AddressController(),
-    );
-  }
-}
+// class AddressBinding extends Bindings {
+//   @override
+//   void dependencies() {
+//     Get.put<AddressController>(AddressController(), permanent: true);
+//   }
+// }

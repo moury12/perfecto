@@ -13,6 +13,7 @@ import 'package:perfecto/pages/auth/change_password_page.dart';
 import 'package:perfecto/pages/chat/chat_controller.dart';
 import 'package:perfecto/pages/chat/chat_controller.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
+import 'package:perfecto/pages/profile/my-orders/controller/address_controller.dart';
 import 'package:perfecto/services/auth_service.dart';
 import '../DB/database_helper.dart';
 import '../main.dart';
@@ -127,6 +128,7 @@ class AuthController extends GetxController {
   Future<void> logoutFunc() async {
     _delete();
     Get.delete<UserController>(force: true);
+    Get.delete<AddressController>(force: true);
     Get.delete<ChatController>(force: true);
     Service.setAuthToken('');
     if (currentLoginType == LogInType.google) {

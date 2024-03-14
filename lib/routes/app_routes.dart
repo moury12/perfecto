@@ -141,7 +141,10 @@ class AppRoutes {
           name: BlogDetailsScreen.routeName,
           page: () => const BlogDetailsScreen(),
         ),
-        GetPage(name: MyAddressScreen.routeName, page: () => const MyAddressScreen(), binding: AddressBinding()),
+        GetPage(
+          name: MyAddressScreen.routeName,
+          page: () => const MyAddressScreen(), /* binding: AddressBinding()*/
+        ),
         GetPage(
           name: AddNewAddressScreen.routeName,
           page: () => const AddNewAddressScreen(), /* binding: ProfileBinding()*/
