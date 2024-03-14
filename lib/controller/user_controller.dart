@@ -165,11 +165,10 @@ class UserController extends GetxController {
     double totalPrice = 0;
     // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
     for (int i = 0; i < cartList.length; i++) {
-      if (cartList[i].comboProduct == null) {
-        totalPrice +=
-            double.parse(cartList[i].shade != null ? cartList[i].shade!.productShade!.shadePrice! : cartList[i].size!.productSize!.sizePrice!) * int.parse(cartList[i].quantity!);
+      if (cartList[i].product != null) {
+        totalPrice += double.parse(cartList[i].price ?? '0') * int.parse(cartList[i].quantity!);
       } else {
-        totalPrice += double.parse(cartList[i].comboProduct!.discountedPrice!) * int.parse(cartList[i].quantity!);
+        totalPrice += double.parse(cartList[i].discountedPrice!) * int.parse(cartList[i].quantity!);
       }
     }
     return totalPrice;

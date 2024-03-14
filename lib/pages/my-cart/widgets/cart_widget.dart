@@ -118,7 +118,7 @@ class CartWidget extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          cartModel?.comboInfo?[index].productName ?? '',
+                                          cartModel?.comboInfo?[index].product?.name ?? '',
                                           style: AppTheme.textStyleMediumBlack12,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -129,11 +129,21 @@ class CartWidget extends StatelessWidget {
                                   CustomSizedBox.space4H,
                                   Row(
                                     children: [
+                                      if (cartModel!.comboInfo![index].shadeId!.isNotEmpty) ...[
+                                        CustomNetworkImage(
+                                          networkImagePath: cartModel?.comboInfo?[index].shade?.image ?? '',
+                                          errorImagePath: AssetsConstant.lipstickShade,
+                                          height: 16,
+                                          borderRadius: 2,
+                                          width: 16,
+                                        ),
+                                        CustomSizedBox.space4W,
+                                      ],
                                       Expanded(
                                         child: Text(
                                           cartModel!.comboInfo![index].sizeId!.isNotEmpty
-                                              ? (cartModel?.comboInfo?[index].sizeName ?? '')
-                                              : cartModel?.comboInfo?[index].shadeName ?? '',
+                                              ? "Size: ${cartModel?.comboInfo?[index].size?.name ?? '-'}"
+                                              : cartModel?.comboInfo?[index].shade?.name ?? '',
                                           style: AppTheme.textStyleMediumBlack12,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -243,10 +253,11 @@ class CartWidget extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    if (int.parse(cartModel!.quantity!) > 1) {
+                                    if (int.parse(cartModel!.quantity!) > (cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : 1)) {
                                       final dynamic body = {
                                         // 'product_id': cartModel!.productId!,
-                                        'quantity': (int.parse(cartModel!.quantity!) - 1).toString(),
+                                        'quantity':
+                                            (int.parse(cartModel!.quantity!) - (cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : 1)).toString(),
                                       };
                                       globalLogger.d(body, 'body');
                                       UserController.to.updateCart(body, cartModel?.id ?? '');
@@ -259,7 +270,9 @@ class CartWidget extends StatelessWidget {
                                     padding: const EdgeInsets.all(4),
                                     child: Icon(
                                       Icons.remove,
-                                      color: cartModel!.quantity == '1' ? AppColors.kAccentColor : AppColors.kPrimaryColor,
+                                      color: int.parse(cartModel!.quantity!) == (cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : 1)
+                                          ? AppColors.kAccentColor
+                                          : AppColors.kPrimaryColor,
                                       size: 25,
                                     ),
                                   ),
@@ -312,14 +325,13 @@ class CartWidget extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                '৳ ${cartModel?.product != null ? (cartModel?.product?.variationType == 'shade' ? (cartModel?.shade?.productShade?.discountedPrice ?? '550') : (cartModel?.size?.productSize?.discountedPrice ?? '550')) : cartModel?.comboProduct?.discountedPrice ?? '550'}',
+                                '৳ ${cartModel?.discountedPrice ?? '550'}',
                                 style: AppTheme.textStyleSemiBoldBlack16,
                               ),
                               if (cartModel?.product != null) ...[
                                 CustomSizedBox.space4W,
                                 Text(
-                                  '৳ ${cartModel?.product?.variationType == 'shade' ? (cartModel?.shade?.productShade?.shadePrice ?? '550') : (cartModel?.size?.productSize?.sizePrice ?? '5'
-                                      '50')}',
+                                  '৳ ${cartModel?.price ?? '550'}',
                                   style: const TextStyle(color: Colors.black45, fontSize: 14, decoration: TextDecoration.lineThrough),
                                 ),
                               ],

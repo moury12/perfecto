@@ -130,32 +130,84 @@ class CartModel {
 }
 
 class ComboInfo {
+  String? id;
+  String? comboProductDetailId;
+  String? comboProductId;
+  String? categoryId;
   String? productId;
+  String? variantType;
+  String? price;
+  String? originalPrice;
   String? sizeId;
   String? shadeId;
-  String? productName;
-  String? sizeName;
-  String? shadeName;
+  String? quantity;
+  String? createdAt;
+  String? updatedAt;
+  ProductModel? product;
+  Shade? shade;
+  Size? size;
 
-  ComboInfo({this.productId, this.sizeId, this.productName, this.sizeName, this.shadeId, this.shadeName});
+  ComboInfo(
+      {this.id,
+      this.comboProductDetailId,
+      this.comboProductId,
+      this.categoryId,
+      this.productId,
+      this.variantType,
+      this.price,
+      this.originalPrice,
+      this.sizeId,
+      this.shadeId,
+      this.quantity,
+      this.createdAt,
+      this.updatedAt,
+      this.product,
+      this.shade,
+      this.size});
 
   ComboInfo.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    comboProductDetailId = json['combo_product_detail_id'].toString() == 'null' ? '' : json['combo_product_detail_id'].toString();
+    comboProductId = json['combo_product_id'].toString() == 'null' ? '' : json['combo_product_id'].toString();
+    categoryId = json['category_id'].toString() == 'null' ? '' : json['category_id'].toString();
     productId = json['product_id'].toString() == 'null' ? '' : json['product_id'].toString();
+    variantType = json['variant_type'].toString() == 'null' ? '' : json['variant_type'].toString();
+    price = json['price'].toString() == 'null' ? '' : json['price'].toString();
+    originalPrice = json['original_price'].toString() == 'null' ? '' : json['original_price'].toString();
     sizeId = json['size_id'].toString() == 'null' ? '' : json['size_id'].toString();
     shadeId = json['shade_id'].toString() == 'null' ? '' : json['shade_id'].toString();
-    productName = json['product_name'].toString() == 'null' ? '' : json['product_name'].toString();
-    sizeName = json['size_name'].toString() == 'null' ? '' : json['size_name'].toString();
-    shadeName = json['shade_name'].toString() == 'null' ? '' : json['shade_name'].toString();
+    quantity = json['quantity'].toString() == 'null' ? '' : json['quantity'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    product = json['product'] != null ? new ProductModel.fromJson(json['product']) : null;
+    shade = json['shade'] != null ? new Shade.fromJson(json['shade']) : null;
+    size = json['size'] != null ? new Size.fromJson(json['size']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['product_id'] = productId;
-    data['size_id'] = sizeId;
-    data['shade_id'] = shadeId;
-    data['product_name'] = productName;
-    data['size_name'] = sizeName;
-    data['shade_name'] = shadeName;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['combo_product_detail_id'] = this.comboProductDetailId;
+    data['combo_product_id'] = this.comboProductId;
+    data['category_id'] = this.categoryId;
+    data['product_id'] = this.productId;
+    data['variant_type'] = this.variantType;
+    data['price'] = this.price;
+    data['original_price'] = this.originalPrice;
+    data['size_id'] = this.sizeId;
+    data['shade_id'] = this.shadeId;
+    data['quantity'] = this.quantity;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.product != null) {
+      data['product'] = this.product!.toJson();
+    }
+    if (this.shade != null) {
+      data['shade'] = this.shade!.toJson();
+    }
+    if (this.size != null) {
+      data['size'] = this.size!.toJson();
+    }
     return data;
   }
 }
