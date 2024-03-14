@@ -428,6 +428,18 @@ class ProductDetails {
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
+  String? buyCategoryId;
+  String? buyProductId;
+  String? buyVariantType;
+  String? buyShadeId;
+  List<String>? buySizeId;
+  String? buyQuantity;
+  String? getCategoryId;
+  String? getProductId;
+  String? getVariantType;
+  String? getShadeId;
+  String? getSizeId;
+  String? getQuantity;
   Offer? offer;
   String? comboProductId;
   ComboProducts? comboProducts;
@@ -450,7 +462,19 @@ class ProductDetails {
       this.deletedAt,
       this.offer,
       this.comboProductId,
-      this.comboProducts});
+      this.comboProducts,
+      this.buyCategoryId,
+      this.buyProductId,
+      this.buyVariantType,
+      this.buyShadeId,
+      this.buySizeId,
+      this.buyQuantity,
+      this.getCategoryId,
+      this.getProductId,
+      this.getVariantType,
+      this.getShadeId,
+      this.getSizeId,
+      this.getQuantity});
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -468,6 +492,19 @@ class ProductDetails {
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     deletedAt = json['deleted_at'].toString() == 'null' ? '' : json['deleted_at'].toString();
+    buyCategoryId = json['buy_category_id'].toString() == 'null' ? '' : json['buy_category_id'].toString();
+    buyProductId = json['buy_product_id'].toString() == 'null' ? '' : json['buy_product_id'].toString();
+    buyVariantType = json['buy_variant_type'].toString() == 'null' ? '' : json['buy_variant_type'].toString();
+    buyShadeId = json['buy_shade_id'].toString() == 'null' ? '' : json['buy_shade_id'].toString();
+    buySizeId = json['buy_size_id'] != null ? json['buy_size_id'].cast<String>() : [];
+    buyQuantity = json['buy_quantity'].toString() == 'null' ? '' : json['buy_quantity'].toString();
+    getCategoryId = json['get_category_id'].toString() == 'null' ? '' : json['get_category_id'].toString();
+    getProductId = json['get_product_id'].toString() == 'null' ? '' : json['get_product_id'].toString();
+    getVariantType = json['get_variant_type'].toString() == 'null' ? '' : json['get_variant_type'].toString();
+    getShadeId = json['get_shade_id'].toString() == 'null' ? '' : json['get_shade_id'].toString();
+    getSizeId = json['get_size_id'].toString() == 'null' ? '' : json['get_size_id'].toString();
+    getQuantity = json['get_quantity'].toString() == 'null' ? '' : json['get_quantity'].toString();
+
     offer = json['offer'] != null ? Offer.fromJson(json['offer']) : null;
     comboProductId = json['combo_product_id'].toString() == 'null' ? '' : json['combo_product_id'].toString();
     comboProducts = json['combo_products'] != null ? ComboProducts.fromJson(json['combo_products']) : null;
@@ -490,6 +527,18 @@ class ProductDetails {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    data['buy_category_id'] = buyCategoryId;
+    data['buy_product_id'] = buyProductId;
+    data['buy_variant_type'] = buyVariantType;
+    data['buy_shade_id'] = buyShadeId;
+    data['buy_size_id'] = buySizeId;
+    data['buy_quantity'] = buyQuantity;
+    data['get_category_id'] = getCategoryId;
+    data['get_product_id'] = getProductId;
+    data['get_variant_type'] = getVariantType;
+    data['get_shade_id'] = getShadeId;
+    data['get_size_id'] = getSizeId;
+    data['get_quantity'] = getQuantity;
     if (offer != null) {
       data['offer'] = offer!.toJson();
     }

@@ -277,7 +277,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       vertical: 4,
                                     ).copyWith(right: 8),
                                     child: Text(
-                                      e.productDetails!.offer!.title1!,
+                                      e.productDetails!.offer!.offerTypeId == '3' ? e.productDetails!.offer!.name! : e.productDetails!.offer!.title1!,
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,

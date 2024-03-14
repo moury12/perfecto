@@ -186,14 +186,28 @@ class SingleCategoryProductWidget extends StatelessWidget {
                           style: AppTheme.textStyleNormalBlack12,
                         ),
                       CustomSizedBox.space4H,
-                      isOnSale
+                      product!.offers!.offerDetails!.where((element) => element.productDetails!.offer!.offerTypeId == '3').isNotEmpty
+                          ? Wrap(
+                              children: product!.offers!.offerDetails!
+                                  .where((element) => element.productDetails!.offer!.offerTypeId == '3')
+                                  .toList()
+                                  .map((e) => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                                        child: Container(
+                                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                                            decoration: BoxDecoration(color: AppColors.kOfferButtonColor, borderRadius: BorderRadius.circular(2)),
+                                            child: Text(e.productDetails!.offer!.name!, style: AppTheme.textStyleBoldWhite10)),
+                                      ))
+                                  .toList(),
+                            )
+                          : const SizedBox.shrink(),
+                      product!.isFreeDelivery == '1'
                           ? Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                               child: Container(
                                   padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                                  decoration:
-                                      BoxDecoration(color: isBuy1Get1 ? AppColors.kOfferButtonColor : AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
-                                  child: Text(isBuy1Get1 ? 'Buy 1 Get 1' : 'Free Delivery', style: AppTheme.textStyleBoldWhite10)),
+                                  decoration: BoxDecoration(color: AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
+                                  child: const Text('Free Delivery', style: AppTheme.textStyleBoldWhite10)),
                             )
                           : const SizedBox(
                               height: 27,
