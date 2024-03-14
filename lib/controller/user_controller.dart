@@ -6,6 +6,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/models/reward_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/profile/my-orders/controller/address_controller.dart';
@@ -40,6 +41,7 @@ class UserController extends GetxController {
   RxString pickedImagePath = ''.obs;
   RxString image = ''.obs;
   RxList<WishListModel> wishList = <WishListModel>[].obs;
+  RxList<RewardModel> rewardList = <RewardModel>[].obs;
   RxList<CartModel> cartList = <CartModel>[].obs;
   RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
   @override
@@ -50,6 +52,7 @@ class UserController extends GetxController {
     await getWishListCall();
 
     Get.put<AddressController>(AddressController(), permanent: true);
+    getRewardListCall();
     super.onInit();
   }
 
@@ -119,6 +122,11 @@ class UserController extends GetxController {
 
   Future<void> getWishListCall() async {
     wishList.value = await UserService.userWishListCall();
+  }
+
+  //rewardList
+  Future<void> getRewardListCall() async {
+    rewardList.value = await UserService.userRewardListCall();
   }
 
   Future<void> getCartListCall() async {

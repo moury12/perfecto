@@ -7,6 +7,7 @@ import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
+import '../models/reward_model.dart';
 import '../models/user_model.dart';
 
 class UserService {
@@ -239,6 +240,26 @@ class UserService {
         ServiceAPI.showAlert(response['message']);
       }
       return cartList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //RewardModel list
+  static Future<List<RewardModel>> userRewardListCall() async {
+    try {
+      List<RewardModel> rewardList = [];
+      final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}reward-history', httpMethod: HttpMethod.get);
+      globalLogger.d(response, "RewardModel route");
+      if (response['status'] != null && response['status']) {
+        response['data']['data'].forEach((dis) {
+          rewardList.add(RewardModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return rewardList;
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly

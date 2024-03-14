@@ -144,7 +144,7 @@ class MyPointsScreen extends StatelessWidget {
                     ),
                     CustomSizedBox.space12H,
                     ...List.generate(
-                        3,
+                        UserController.to.rewardList.length,
                         (index) => OutlinedCustomContainer(
                               widget: Column(
                                 children: [
