@@ -95,24 +95,28 @@ class AddressModel {
   String? phone;
   String? email;
   String? address;
-  String? districtId;
-  String? districtName;
   String? cityId;
   String? cityName;
+  String? zoneId;
+  String? zoneName;
+  String? areaId;
+  String? areaName;
   String? status;
 
-  AddressModel({this.id, this.name, this.phone, this.email, this.address, this.districtId, this.districtName, this.cityId, this.cityName, this.status});
+  AddressModel({this.id, this.name, this.phone, this.email, this.address, this.cityId, this.cityName, this.zoneId, this.zoneName, this.areaId, this.areaName, this.status});
 
   AddressModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
     name = json['name'].toString() == 'null' ? '' : json['name'].toString();
     phone = json['phone'].toString() == 'null' ? '' : json['phone'].toString();
-    email = json['email'].toString() == 'null' ? '' : json['email'].toString();
+    email = json['email'].toString() == 'null' ? '-' : json['email'].toString();
     address = json['address'].toString() == 'null' ? '' : json['address'].toString();
-    districtId = json['district_id'].toString() == 'null' ? '' : json['district_id'].toString();
-    districtName = json['district_name'].toString() == 'null' ? '' : json['district_name'].toString();
     cityId = json['city_id'].toString() == 'null' ? '' : json['city_id'].toString();
     cityName = json['city_name'].toString() == 'null' ? '' : json['city_name'].toString();
+    zoneId = json['zone_id'].toString() == 'null' ? '' : json['zone_id'].toString();
+    zoneName = json['zone_name'].toString() == 'null' ? '' : json['zone_name'].toString();
+    areaId = json['area_id'].toString() == 'null' ? '' : json['area_id'].toString();
+    areaName = json['area_name'].toString() == 'null' ? '' : json['area_name'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
   }
 
@@ -123,10 +127,12 @@ class AddressModel {
     data['phone'] = phone;
     data['email'] = email;
     data['address'] = address;
-    data['district_id'] = districtId;
-    data['district_name'] = districtName;
     data['city_id'] = cityId;
     data['city_name'] = cityName;
+    data['zone_id'] = zoneId;
+    data['zone_name'] = zoneName;
+    data['area_id'] = areaId;
+    data['area_name'] = areaName;
     data['status'] = status;
     return data;
   }

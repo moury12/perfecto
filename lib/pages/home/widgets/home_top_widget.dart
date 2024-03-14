@@ -170,25 +170,24 @@ class HomeTopWidget extends StatelessWidget {
                                 AssetsConstant.cartIcon,
                                 height: 25,
                               ),
-                              if (AuthController.to.isLoggedIn.value)
-                                Positioned(
-                                  top: -2,
-                                  right: 0,
-                                  child: Obx(
-                                    () {
-                                      return Container(
-                                        padding: const EdgeInsets.all(2.5),
-                                        height: 15,
-                                        width: 15,
-                                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                                        child: Center(
-                                          child: Text(UserController.to.cartList.length > 9 ? '9+' : UserController.to.cartList.length.toString(),
-                                              style: AppTheme.textStyleBoldWhite8),
+                              Obx(
+                                () => AuthController.to.isLoggedIn.value && UserController.to.cartList.isNotEmpty
+                                    ? Positioned(
+                                        top: -2,
+                                        right: 0,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(2.5),
+                                          height: 15,
+                                          width: 15,
+                                          decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                          child: Center(
+                                            child: Text(UserController.to.cartList.length > 9 ? '9+' : UserController.to.cartList.length.toString(),
+                                                style: AppTheme.textStyleBoldWhite8),
+                                          ),
                                         ),
-                                      );
-                                    },
-                                  ),
-                                )
+                                      )
+                                    : const SizedBox.shrink(),
+                              ),
                             ],
                           ),
                         ),

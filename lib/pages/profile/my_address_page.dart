@@ -80,6 +80,8 @@ class MyAddressScreen extends GetView<AddressController> {
                                         onPressed: () {
                                           final controller = Get.put(AddressController());
                                           controller.editAddress(address);
+                                          controller.getZoneAreaData(address.cityId, 'zone');
+                                          controller.getZoneAreaData(address.zoneId, 'area');
                                           Get.to(const AddNewAddressScreen());
                                         },
                                         primary: Colors.white,
@@ -176,7 +178,7 @@ class MyAddressScreen extends GetView<AddressController> {
                                       CustomSizedBox.space16W,
                                       Flexible(
                                         child: Text(
-                                          '${address.districtName ?? ''}, ${address.cityName ?? ''}, ${address.address ?? ''}',
+                                          '${address.areaName ?? ''}, ${address.zoneName ?? ''}, ${address.cityName ?? ''}',
                                           textAlign: TextAlign.left,
                                           style: AppTheme.textStyleBoldBlack14,
                                         ),
@@ -205,8 +207,12 @@ class MyAddressScreen extends GetView<AddressController> {
                                               name: address.name,
                                               phone: address.phone,
                                               email: address.email,
-                                              districtId: address.districtId,
                                               cityId: address.cityId,
+                                              cityName: address.cityName,
+                                              zoneId: address.zoneId,
+                                              zoneName: address.zoneName,
+                                              areaId: address.areaId,
+                                              areaName: address.areaName,
                                               address: address.address,
                                               status: '1',
                                               addressId: address.id!,

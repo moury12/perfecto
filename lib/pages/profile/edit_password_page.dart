@@ -53,6 +53,7 @@ class EditPasswordScreen extends StatelessWidget {
                   return Column(
                     children: [
                       CustomTextField(
+                        isPassword: true,
                         errorMessage: AuthController.to.errorOldPassword.value!.isEmpty ? null : AuthController.to.errorOldPassword.value,
                         focusNode: AuthController.to.passwordOldFocusNode,
                         onChanged: (value) {
@@ -84,6 +85,7 @@ class EditPasswordScreen extends StatelessWidget {
                       CustomTextField(
                         errorMessage: AuthController.to.errorForNewPassword.value!.isEmpty ? null : AuthController.to.errorForNewPassword.value,
                         focusNode: AuthController.to.passwordForNewFocusNode,
+                        isPassword: true,
                         onChanged: (value) {
                           if (value.isNotEmpty && value.length >= 8) {
                             AuthController.to.errorForNewPassword.value = '';
@@ -111,6 +113,7 @@ class EditPasswordScreen extends StatelessWidget {
                         focusColor: Colors.black,
                       ),
                       CustomTextField(
+                        isPassword: true,
                         focusNode: AuthController.to.confirmPasswordForNewFocusNode,
                         errorMessage: AuthController.to.errorForNewREPassword.value!.isEmpty ? null : AuthController.to.errorForNewREPassword.value,
                         onChanged: (value) {
@@ -141,18 +144,15 @@ class EditPasswordScreen extends StatelessWidget {
                       ),
                       CustomButton(
                         label: 'Change Password',
-                        onPressed: () {
+                        onPressed: () async {
                           if (AuthController.to.passwordOldController.text.isNotEmpty &&
                               AuthController.to.passwordOldController.text.length >= 8 &&
                               AuthController.to.passwordForNewController.text.isNotEmpty &&
                               AuthController.to.passwordForNewController.text.length >= 8 &&
                               AuthController.to.passwordForNewConfirmController.text.isNotEmpty &&
                               AuthController.to.passwordForNewConfirmController.text == AuthController.to.passwordForNewController.text) {
-                            UserController.to.editPassword(AuthController.to.passwordOldController.text, AuthController.to.passwordForNewController.text,
+                            await UserController.to.editPassword(AuthController.to.passwordOldController.text, AuthController.to.passwordForNewController.text,
                                 AuthController.to.passwordForNewConfirmController.text);
-                            AuthController.to.passwordForNewConfirmController.clear();
-                            AuthController.to.passwordForNewController.clear();
-                            AuthController.to.passwordOldController.clear();
                           } else {
                             if (AuthController.to.passwordForNewConfirmController.text.isEmpty) {
                               AuthController.to.errorForNewREPassword.value = 'Enter a Password';

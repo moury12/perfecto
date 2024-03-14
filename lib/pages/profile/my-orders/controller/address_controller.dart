@@ -2,13 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/address_model.dart';
 import 'package:perfecto/services/user_service.dart';
 
 class AddressController extends GetxController {
+  static AddressController get to => Get.find();
   final _districtStatus = Rx<RxStatus>(RxStatus.empty());
   final _areaStatus = Rx<RxStatus>(RxStatus.empty());
+  final _zoneStatus = Rx<RxStatus>(RxStatus.empty());
+  final _cityStatus = Rx<RxStatus>(RxStatus.empty());
   final _cityList = <CityModel>[].obs;
   final _zoneList = <ZoneModel>[].obs;
   final _areaList = <AreaModel>[].obs;
@@ -16,6 +20,7 @@ class AddressController extends GetxController {
   final _addressList = <AddressModel>[].obs;
   final selectedCity = ''.obs;
   final selectedArea = ''.obs;
+  final selectedZone = ''.obs;
   final sameAddress = false.obs;
   final address = AddressModel().obs;
 
@@ -34,6 +39,8 @@ class AddressController extends GetxController {
 
   RxStatus get districtStatus => _districtStatus.value;
   RxStatus get areaStatus => _areaStatus.value;
+  RxStatus get zoneStatus => _zoneStatus.value;
+  RxStatus get cityStatus => _cityStatus.value;
   RxList<CityModel> get cityList => _cityList;
   RxList<ZoneModel> get zoneList => _zoneList;
   RxList<AreaModel> get areaList => _areaList;
@@ -53,8 +60,9 @@ class AddressController extends GetxController {
     emailController.text = addressModel.email ?? '-';
     phoneController.text = addressModel.phone ?? '';
     addressController.text = addressModel.address ?? '';
-    selectedCity.value = addressModel.districtId ?? '';
-    selectedArea.value = addressModel.cityId ?? '';
+    selectedCity.value = addressModel.cityId ?? '';
+    selectedArea.value = addressModel.areaId ?? '';
+    selectedZone.value = addressModel.zoneId ?? '';
     sameAddress.value = addressModel.status == '1' ? true : false;
     //TODO: //
     // getAreaData(selectedCity.value);
@@ -76,21 +84,40 @@ class AddressController extends GetxController {
   }
 
   Future<void> getCityData() async {
-    _cityList.value = await UserService.getCityData();
+    try {
+      _cityStatus.value = RxStatus.loading();
+      _cityList.value = await UserService.getCityData();
+    } finally {
+      _cityStatus.value = RxStatus.success();
+    }
     cityList.refresh();
     update();
   }
 
   Future<void> getZoneAreaData(String id, String type) async {
-    _areaList.clear();
+    try {
+      if (type == 'zone') {
+        _zoneStatus.value = RxStatus.loading();
+      } else {
+        _areaStatus.value = RxStatus.loading();
+      }
+      final areas = await UserService.getAreaData(id, type);
+      if (type == 'zone') {
+        _zoneList.value = areas as List<ZoneModel>;
+        // zoneList.refresh();
+        update();
+      } else {
+        _areaList.value = areas as List<AreaModel>;
+      }
+    } finally {
+      if (type == 'zone') {
+        _zoneStatus.value = RxStatus.success();
+      } else {
+        _areaStatus.value = RxStatus.success();
+      }
 
-    final areas = await UserService.getAreaData(id, type);
-    if (type == 'zone') {
-      _zoneList.assignAll(areas as List<ZoneModel>);
-    } else {
-      _areaList.assignAll(areas as List<AreaModel>);
+      update();
     }
-    update();
   }
 
   Future<bool> deleteAddress(String addressId) async {
@@ -105,13 +132,18 @@ class AddressController extends GetxController {
     return isDeleted;
   }
 
-  Future<bool> addAddressRequest(String name, String phone, String email, String districtId, String cityId, String address, String status) async {
+  Future<bool> addAddressRequest(String name, String phone, String email, String cityId, String cityName, String zoneId, String zoneName, String areaId, String areaName,
+      String address, String status) async {
     final isCreated = await UserService.addNewAddress({
       "name": name,
       "phone": phone,
       "email": email,
-      "district_id": districtId,
       "city_id": cityId,
+      "city_name": cityName,
+      "zone_id": zoneId,
+      "zone_name": zoneName,
+      "area_id": areaId,
+      "area_name": areaName,
       "address": address,
       "status": status,
     });
@@ -127,12 +159,28 @@ class AddressController extends GetxController {
   }
 
   Future<bool> updateAddressRequest(
-      {String? name, String? phone, String? email, String? districtId, String? cityId, String? address, String? status, String? addressId, bool fromEdit = true}) async {
+      {String? name,
+      String? phone,
+      String? email,
+      String? cityId,
+      String? cityName,
+      String? zoneId,
+      String? zoneName,
+      String? areaId,
+      String? areaName,
+      String? address,
+      String? status,
+      String? addressId,
+      bool fromEdit = true}) async {
     final isCreated = await UserService.updateAddress({
       if (name != null) "name": name,
       if (phone != null) "phone": phone,
-      if (districtId != null) "district_id": districtId,
       if (cityId != null) "city_id": cityId,
+      if (cityName != null) "city_name": cityName,
+      if (zoneId != null) "zone_id": zoneId,
+      if (zoneName != null) "zone_name": zoneName,
+      if (areaId != null) "area_id": areaId,
+      if (areaName != null) "area_name": areaName,
       if (address != null) "address": address,
       if (status != null) "status": status,
       if (email != null) "email": email,

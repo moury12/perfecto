@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/user_model.dart';
@@ -165,8 +166,8 @@ class UserController extends GetxController {
     double totalPrice = 0;
     // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
     for (int i = 0; i < cartList.length; i++) {
-      if (cartList[i].product != null) {
-        totalPrice += double.parse(cartList[i].price ?? '0') * int.parse(cartList[i].quantity!);
+      if (cartList[i].product != null || cartList[i].buyGetInfo != null) {
+        totalPrice += double.parse(cartList[i].price!) * int.parse(cartList[i].quantity!);
       } else {
         totalPrice += double.parse(cartList[i].discountedPrice!) * int.parse(cartList[i].quantity!);
       }
@@ -180,8 +181,7 @@ class UserController extends GetxController {
     // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
     for (int i = 0; i < cartList.length; i++) {
       if (cartList[i].comboProduct == null) {
-        totalPrice += (double.parse(cartList[i].shade != null ? cartList[i].shade!.productShade!.flatDiscount! : cartList[i].size!.productSize!.flatDiscount!) *
-            int.parse(cartList[i].quantity!));
+        totalPrice += ((double.parse(cartList[i].price!) - double.parse(cartList[i].discountedPrice!)) * int.parse(cartList[i].quantity!));
       }
     }
     return totalPrice;
@@ -255,6 +255,9 @@ class UserController extends GetxController {
       "c_password": cPassword,
     });
     if (isVerified) {
+      AuthController.to.passwordForNewConfirmController.clear();
+      AuthController.to.passwordForNewController.clear();
+      AuthController.to.passwordOldController.clear();
       Get.back();
     }
   }

@@ -328,7 +328,7 @@ class CartWidget extends StatelessWidget {
                                 '৳ ${cartModel?.discountedPrice ?? '550'}',
                                 style: AppTheme.textStyleSemiBoldBlack16,
                               ),
-                              if (cartModel?.product != null) ...[
+                              if (cartModel?.product != null || cartModel?.buyGetInfo != null) ...[
                                 CustomSizedBox.space4W,
                                 Text(
                                   '৳ ${cartModel?.price ?? '550'}',

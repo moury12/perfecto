@@ -48,6 +48,7 @@ class UserService {
   }
 
   static Future<bool> addNewAddress(dynamic body) async {
+    globalLogger.d(body, "add address body");
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}add_address', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
     globalLogger.d(response, "add address Route");
     if (response['status'] != null && response['status']) {
@@ -146,7 +147,7 @@ class UserService {
       globalLogger.d(response, "Get City List Route");
       // Get.back();
       if (response['status'] != null && response['status']) {
-        response['data']['districts'].forEach((dis) {
+        response['data'].forEach((dis) {
           cityList.add(CityModel.fromJson(dis));
         });
       } else if (response['status'] != null && !response['status']) {
@@ -304,7 +305,6 @@ class UserService {
       showSnackBar(msg: response['message']);
       return true;
     } else if (response['status'] != null && !response['status']) {
-      Get.back();
       ServiceAPI.showAlert(response['message']);
     }
     return false;

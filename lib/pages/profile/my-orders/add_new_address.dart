@@ -23,7 +23,7 @@ class AddNewAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AddressController());
+    // final controller = Get.put(AddressController());
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
       body: Column(
@@ -66,24 +66,24 @@ class AddNewAddressScreen extends StatelessWidget {
                         labelText: 'Full Name',
                         isRequired: true,
                         focusColor: Colors.black,
-                        errorMessage: controller.errorName.value!.isEmpty ? null : controller.errorName.value,
-                        controller: controller.nameController,
+                        errorMessage: AddressController.to.errorName.value!.isEmpty ? null : AddressController.to.errorName.value,
+                        controller: AddressController.to.nameController,
                         onChanged: (value) {
                           if (value.isNotEmpty && value.length >= 3) {
-                            controller.errorName.value = '';
+                            AddressController.to.errorName.value = '';
                           } else {
                             if (value.isEmpty) {
-                              controller.errorName.value = 'Enter a name';
+                              AddressController.to.errorName.value = 'Enter a name';
                             } else if (value.length < 3) {
-                              controller.errorName.value = 'Enter minimum 3 character of your name!';
+                              AddressController.to.errorName.value = 'Enter minimum 3 character of your name!';
                             }
                           }
                         },
                         onSubmitted: (p0) {
-                          if (controller.nameController.text.isEmpty) {
-                            controller.errorName.value = 'Enter A name';
-                          } else if (controller.nameController.text.length < 3) {
-                            controller.errorName.value = 'Enter minimum 3 character of your name!';
+                          if (AddressController.to.nameController.text.isEmpty) {
+                            AddressController.to.errorName.value = 'Enter A name';
+                          } else if (AddressController.to.nameController.text.length < 3) {
+                            AddressController.to.errorName.value = 'Enter minimum 3 character of your name!';
                           }
                         },
                       ),
@@ -93,124 +93,215 @@ class AddNewAddressScreen extends StatelessWidget {
                         labelText: 'Phone',
                         isRequired: true,
                         focusColor: Colors.black,
-                        errorMessage: controller.errorPhone.value!.isEmpty ? null : controller.errorPhone.value,
+                        errorMessage: AddressController.to.errorPhone.value!.isEmpty ? null : AddressController.to.errorPhone.value,
                         keyboardType: TextInputType.phone,
                         onChanged: (value) {
                           if (value.isNotEmpty && value.isPhoneNumber) {
-                            controller.errorPhone.value = '';
+                            AddressController.to.errorPhone.value = '';
                           } else {
                             if (value.isEmpty) {
-                              controller.errorPhone.value = 'Enter a phone number';
+                              AddressController.to.errorPhone.value = 'Enter a phone number';
                             } else if (value.length < 3) {
-                              controller.errorPhone.value = 'Enter a valid phone number!';
+                              AddressController.to.errorPhone.value = 'Enter a valid phone number!';
                             }
                           }
                         },
                         onSubmitted: (p0) {
-                          if (controller.phoneController.text.isEmpty) {
-                            controller.errorPhone.value = 'Enter A phone number';
-                          } else if (!controller.phoneController.text.isPhoneNumber) {
-                            controller.errorPhone.value = 'Enter a valid phone number!';
+                          if (AddressController.to.phoneController.text.isEmpty) {
+                            AddressController.to.errorPhone.value = 'Enter A phone number';
+                          } else if (!AddressController.to.phoneController.text.isPhoneNumber) {
+                            AddressController.to.errorPhone.value = 'Enter a valid phone number!';
                           }
                         },
-                        controller: controller.phoneController,
+                        controller: AddressController.to.phoneController,
                       ),
                       CustomTextField(
                         marginVertical: 6,
                         hintText: 'Enter your email',
                         labelText: 'Email (Optional)',
                         focusColor: Colors.black,
-                        // errorMessage: controller.errorEmail.value!.isEmpty?null:controller.errorEmail.value,
-                        // focusNode: controller.emailFocusNode,
+                        // errorMessage: AddressController.to.errorEmail.value!.isEmpty?null:AddressController.to.errorEmail.value,
+                        // focusNode: AddressController.to.emailFocusNode,
                         // onChanged: (value) {
                         //   if (value.isNotEmpty && value.isEmail) {
-                        //     controller.errorEmail.value = '';
+                        //     AddressController.to.errorEmail.value = '';
                         //   } else {
                         //     if (value.isEmpty) {
-                        //       controller.errorEmail.value =
+                        //       AddressController.to.errorEmail.value =
                         //       'Enter a email address';
                         //     } else if (!value.isEmail) {
-                        //       controller.errorEmail.value =
+                        //       AddressController.to.errorEmail.value =
                         //       'Enter a valid email address!';
                         //     }
                         //   }
                         // },
                         // onSubmitted: (p0) {
-                        //   if (controller.emailController.text.isEmpty) {
-                        //     controller.errorEmail.value =
+                        //   if (AddressController.to.emailController.text.isEmpty) {
+                        //     AddressController.to.errorEmail.value =
                         //     'Enter an email address';
-                        //   } else if (!controller.emailController.text.isEmail) {
-                        //     controller.errorEmail.value =
+                        //   } else if (!AddressController.to.emailController.text.isEmail) {
+                        //     AddressController.to.errorEmail.value =
                         //     'Enter a valid email address!';
                         //   } else {
-                        //     controller.emailFocusNode.unfocus();
+                        //     AddressController.to.emailFocusNode.unfocus();
                         //   }
                         // },
-                        controller: controller.emailController,
+                        controller: AddressController.to.emailController,
                       ),
-                      Obx(() {
-                        return TitleDropdown(
-                          dwItems: controller.cityList,
-                          dwValue: controller.selectedCity.value!.isEmpty ? null : controller.selectedCity.value,
-                          type: DropdownListType.object,
-                          onChange: (v) async {
-                            if (controller.selectedCity.value != v) {
-                              controller.selectedArea.value = '';
-                              controller.selectedCity.value = v;
-                              //TODO://
-                              // await controller.getAreaData(v);
-                            }
-                            globalLogger.d(controller.selectedCity.value);
-                          },
-                          fillColor: AppColors.kborderColor,
-                          hintText: 'Select your district',
-                          valueKey: 'id',
-                          viewKey: 'name',
-                          title: 'District / State',
-                          rightIconBgColor: Colors.transparent,
+                      // Obx(() {
+                      //   return TitleDropdown(
+                      //     dwItems: AddressController.to.cityList,
+                      //     dwValue: AddressController.to.selectedCity.value.isEmpty ? null : AddressController.to.selectedCity.value,
+                      //     type: DropdownListType.object,
+                      //     onChange: (v) async {
+                      //       if (AddressController.to.selectedCity.value != v) {
+                      //         AddressController.to.selectedZone.value = '';
+                      //         AddressController.to.selectedCity.value = v;
+                      //         //TODO://
+                      //         await AddressController.to.getZoneAreaData(v, 'zone');
+                      //       }
+                      //       globalLogger.d(AddressController.to.selectedCity.value);
+                      //     },
+                      //     fillColor: AppColors.kborderColor,
+                      //     hintText: 'Select your city name',
+                      //     valueKey: 'city_id',
+                      //     viewKey: 'city_name',
+                      //     title: 'City',
+                      //     rightIconBgColor: Colors.transparent,
+                      //   );
+                      // }),
+                      GetBuilder(builder: (AddressController controller) {
+                        return Column(
+                          children: [
+                            Stack(
+                              children: [
+                                TitleDropdown(
+                                  dwItems: controller.cityList,
+                                  dwValue: controller.selectedCity.value.isEmpty ? null : controller.selectedCity.value,
+                                  type: DropdownListType.object,
+                                  onChange: (v) async {
+                                    if (controller.selectedCity.value != v) {
+                                      controller.selectedZone.value = '';
+                                      controller.selectedArea.value = '';
+                                      controller.selectedCity.value = v;
+                                      controller.update();
+                                      //TODO://
+                                      await controller.getZoneAreaData(v, 'zone');
+
+                                      controller.update();
+                                    }
+                                    globalLogger.d(controller.selectedCity.value);
+                                  },
+                                  fillColor: AppColors.kborderColor,
+                                  hintText: 'Select your city name',
+                                  valueKey: 'city_id',
+                                  viewKey: 'city_name',
+                                  title: 'City',
+                                  rightIconBgColor: Colors.transparent,
+                                ),
+                                Positioned(
+                                    top: 10,
+                                    right: 16,
+                                    child: controller.cityStatus.isLoading ? SizedBox(height: 20, width: 20, child: const CircularProgressIndicator()) : const SizedBox.shrink()),
+                              ],
+                            ),
+                            Stack(
+                              children: [
+                                TitleDropdown(
+                                  dwItems: controller.zoneList,
+                                  dwValue: controller.selectedZone.value.isEmpty || controller.zoneStatus.isLoading ? null : controller.selectedZone.value,
+                                  type: DropdownListType.object,
+                                  onChange: (v) async {
+                                    if (controller.selectedZone.value != v) {
+                                      controller.selectedArea.value = '';
+                                      controller.selectedZone.value = v;
+                                      controller.update();
+                                      //TODO://
+                                      await controller.getZoneAreaData(v, 'area');
+                                      controller.update();
+                                    }
+                                    globalLogger.d(controller.selectedCity.value);
+                                  },
+                                  fillColor: AppColors.kborderColor,
+                                  hintText: 'Select your zone name',
+                                  valueKey: 'zone_id',
+                                  viewKey: 'zone_name',
+                                  title: 'Zone',
+                                  rightIconBgColor: Colors.transparent,
+                                ),
+                                Positioned(
+                                    top: 10,
+                                    right: 16,
+                                    child: controller.zoneStatus.isLoading ? SizedBox(height: 20, width: 20, child: const CircularProgressIndicator()) : const SizedBox.shrink()),
+                              ],
+                            ),
+                            Stack(
+                              children: [
+                                TitleDropdown(
+                                  dwItems: controller.areaList,
+                                  dwValue: controller.selectedArea.value.isEmpty || controller.areaStatus.isLoading ? null : controller.selectedArea.value,
+                                  type: DropdownListType.object,
+                                  onChange: (v) {
+                                    controller.selectedArea.value = v;
+                                    controller.update();
+                                  },
+                                  fillColor: AppColors.kborderColor,
+                                  hintText: 'Select your zone name',
+                                  valueKey: 'area_id',
+                                  viewKey: 'area_name',
+                                  title: 'Area',
+                                  rightIconBgColor: Colors.transparent,
+                                ),
+                                Positioned(
+                                    top: 10,
+                                    right: 16,
+                                    child: controller.areaStatus.isLoading ? SizedBox(height: 20, width: 20, child: const CircularProgressIndicator()) : const SizedBox.shrink()),
+                              ],
+                            ),
+                          ],
                         );
                       }),
-                      Obx(() {
-                        // final _areas = controller.areaList.isNotEmpty ? controller.areaList : [];
-                        return TitleDropdown(
-                          dwItems: controller.areaList,
-                          dwValue: controller.selectedArea.value!.isEmpty ? null : controller.selectedArea.value,
-                          type: DropdownListType.object,
-                          onChange: (v) {
-                            controller.selectedArea.value = v;
-                          },
-                          fillColor: AppColors.kborderColor,
-                          hintText: 'Select your city name',
-                          valueKey: 'id',
-                          viewKey: 'name',
-                          title: 'City',
-                          rightIconBgColor: Colors.transparent,
-                        );
-                      }),
+                      // Obx(() {
+                      //   // final _areas = AddressController.to.areaList.isNotEmpty ? AddressController.to.areaList : [];
+                      //   return TitleDropdown(
+                      //     dwItems: AddressController.to.zoneList,
+                      //     dwValue: AddressController.to.selectedZone.value.isEmpty ? null : AddressController.to.selectedZone.value,
+                      //     type: DropdownListType.object,
+                      //     onChange: (v) {
+                      //       AddressController.to.selectedZone.value = v;
+                      //     },
+                      //     fillColor: AppColors.kborderColor,
+                      //     hintText: 'Select your zone name',
+                      //     valueKey: 'zone_id',
+                      //     viewKey: 'zone_name',
+                      //     title: 'Zone',
+                      //     rightIconBgColor: Colors.transparent,
+                      //   );
+                      // }),
                       CustomTextField(
                         marginVertical: 6,
                         hintText: 'Enter your Address',
                         labelText: 'Address',
                         isRequired: true,
                         focusColor: Colors.black,
-                        errorMessage: controller.errorAddress.value!.isEmpty ? null : controller.errorAddress.value,
-                        controller: controller.addressController,
+                        errorMessage: AddressController.to.errorAddress.value!.isEmpty ? null : AddressController.to.errorAddress.value,
+                        controller: AddressController.to.addressController,
                         onChanged: (value) {
                           if (value.isNotEmpty && value.length >= 3) {
-                            controller.errorAddress.value = '';
+                            AddressController.to.errorAddress.value = '';
                           } else {
                             if (value.isEmpty) {
-                              controller.errorAddress.value = 'Enter a name';
+                              AddressController.to.errorAddress.value = 'Enter a name';
                             } else if (value.length < 3) {
-                              controller.errorAddress.value = 'Enter minimum 3 character of your name!';
+                              AddressController.to.errorAddress.value = 'Enter minimum 3 character of your name!';
                             }
                           }
                         },
                         onSubmitted: (p0) {
-                          if (controller.addressController.text.isEmpty) {
-                            controller.errorAddress.value = 'Enter An address';
-                          } else if (controller.addressController.text.length < 3) {
-                            controller.errorAddress.value = 'Enter minimum 3 character of your Address!';
+                          if (AddressController.to.addressController.text.isEmpty) {
+                            AddressController.to.errorAddress.value = 'Enter An address';
+                          } else if (AddressController.to.addressController.text.length < 3) {
+                            AddressController.to.errorAddress.value = 'Enter minimum 3 character of your Address!';
                           }
                         },
                       ),
@@ -222,17 +313,17 @@ class AddNewAddressScreen extends StatelessWidget {
                             Obx(() {
                               return GestureDetector(
                                 onTap: () {
-                                  controller.sameAddress.value = !controller.sameAddress.value;
+                                  AddressController.to.sameAddress.value = !AddressController.to.sameAddress.value;
                                 },
                                 child: Container(
                                   height: 18,
                                   width: 18,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(2),
-                                      color: controller.sameAddress.value ? AppColors.kPrimaryColor : Colors.white,
-                                      border: Border.all(width: 0.5, color: controller.sameAddress.value ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
+                                      color: AddressController.to.sameAddress.value ? AppColors.kPrimaryColor : Colors.white,
+                                      border: Border.all(width: 0.5, color: AddressController.to.sameAddress.value ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
                                   alignment: Alignment.center,
-                                  child: controller.sameAddress.value
+                                  child: AddressController.to.sameAddress.value
                                       ? const Icon(
                                           Icons.check_rounded,
                                           color: Colors.white,
@@ -253,53 +344,70 @@ class AddNewAddressScreen extends StatelessWidget {
                       CustomButton(
                         label: 'Save',
                         onPressed: () {
-                          if (controller.nameController.text.length >= 3 &&
-                              controller.nameController.text.isNotEmpty &&
-                              controller.phoneController.text.length >= 11 &&
-                              controller.phoneController.text.isNotEmpty &&
-                              controller.addressController.text.isNotEmpty &&
-                              controller.addressController.text.length >= 3 &&
-                              controller.nameController.text.isNotEmpty &&
-                              controller.selectedArea.value.isNotEmpty &&
-                              controller.selectedCity.value.isNotEmpty) {
-                            if (controller.isAddNew.value) {
-                              controller.addAddressRequest(controller.nameController.text, controller.phoneController.text, controller.emailController.text,
-                                  controller.selectedCity.value, controller.selectedArea.value, controller.addressController.text, controller.sameAddress.value ? '1' : '0');
+                          if (AddressController.to.nameController.text.length >= 3 &&
+                              AddressController.to.nameController.text.isNotEmpty &&
+                              AddressController.to.phoneController.text.length >= 11 &&
+                              AddressController.to.phoneController.text.isNotEmpty &&
+                              AddressController.to.addressController.text.isNotEmpty &&
+                              AddressController.to.addressController.text.length >= 3 &&
+                              AddressController.to.nameController.text.isNotEmpty &&
+                              AddressController.to.selectedArea.value.isNotEmpty &&
+                              AddressController.to.selectedCity.value.isNotEmpty) {
+                            if (AddressController.to.isAddNew.value) {
+                              AddressController.to.addAddressRequest(
+                                  AddressController.to.nameController.text,
+                                  AddressController.to.phoneController.text,
+                                  AddressController.to.emailController.text,
+                                  AddressController.to.selectedCity.value,
+                                  AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!,
+                                  AddressController.to.selectedZone.value,
+                                  AddressController.to.zoneList.firstWhere((element) => element.zoneId == AddressController.to.selectedZone.value).zoneName!,
+                                  AddressController.to.selectedArea.value,
+                                  AddressController.to.areaList.firstWhere((element) => element.areaId == AddressController.to.selectedArea.value).areaName!,
+                                  AddressController.to.addressController.text,
+                                  AddressController.to.sameAddress.value ? '1' : '0');
                               globalLogger.d('Add new Address');
                             } else {
-                              controller.updateAddressRequest(
-                                  name: controller.nameController.text,
-                                  phone: controller.phoneController.text,
-                                  email: controller.emailController.text,
-                                  districtId: controller.selectedCity.value,
-                                  cityId: controller.selectedArea.value,
-                                  address: controller.addressController.text,
-                                  status: controller.sameAddress.value ? '1' : '0',
-                                  addressId: controller.address.value.id!);
+                              AddressController.to.updateAddressRequest(
+                                  name: AddressController.to.nameController.text,
+                                  phone: AddressController.to.phoneController.text,
+                                  email: AddressController.to.emailController.text,
+                                  cityId: AddressController.to.selectedArea.value,
+                                  cityName: AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!,
+                                  zoneId: AddressController.to.selectedZone.value,
+                                  zoneName: AddressController.to.zoneList.firstWhere((element) => element.zoneId == AddressController.to.selectedZone.value).zoneName!,
+                                  areaId: AddressController.to.selectedArea.value,
+                                  areaName: AddressController.to.areaList.firstWhere((element) => element.areaId == AddressController.to.selectedArea.value).areaName!,
+                                  address: AddressController.to.addressController.text,
+                                  status: AddressController.to.sameAddress.value ? '1' : '0',
+                                  addressId: AddressController.to.address.value.id!);
                             }
                           } else {
-                            if (controller.addressController.text.isEmpty) {
-                              controller.errorAddress.value = 'Enter An address';
+                            if (AddressController.to.addressController.text.isEmpty) {
+                              AddressController.to.errorAddress.value = 'Enter An address';
                             }
-                            if (controller.addressController.text.length < 3) {
-                              controller.errorAddress.value = 'Enter minimum 3 character of your !';
+                            if (AddressController.to.addressController.text.length < 3) {
+                              AddressController.to.errorAddress.value = 'Enter minimum 3 character of your !';
                             }
-                            if (controller.nameController.text.isEmpty) {
-                              controller.errorName.value = 'Enter A name';
+                            if (AddressController.to.nameController.text.isEmpty) {
+                              AddressController.to.errorName.value = 'Enter A name';
                             }
-                            if (controller.nameController.text.length < 3) {
-                              controller.errorName.value = 'Enter minimum 3 character of your name!';
+                            if (AddressController.to.nameController.text.length < 3) {
+                              AddressController.to.errorName.value = 'Enter minimum 3 character of your name!';
                             }
-                            if (controller.phoneController.text.isEmpty) {
-                              controller.errorPhone.value = 'Enter A phone number';
+                            if (AddressController.to.phoneController.text.isEmpty) {
+                              AddressController.to.errorPhone.value = 'Enter A phone number';
                             }
-                            if (controller.phoneController.text.length < 11) {
-                              controller.errorPhone.value = 'Enter a valid phone number!';
+                            if (AddressController.to.phoneController.text.length < 11) {
+                              AddressController.to.errorPhone.value = 'Enter a valid phone number!';
                             }
-                            if (controller.selectedCity.value!.isEmpty) {
-                              showSnackBar(msg: 'Please select a District');
+                            if (AddressController.to.selectedCity.value.isEmpty) {
+                              showSnackBar(msg: 'Please select a City');
                             }
-                            if (controller.selectedArea.value!.isEmpty) {
+                            if (AddressController.to.selectedZone.value.isEmpty) {
+                              showSnackBar(msg: 'Please select a Zone');
+                            }
+                            if (AddressController.to.selectedArea.value.isEmpty) {
                               showSnackBar(msg: 'Please select an Area');
                             }
                           }
