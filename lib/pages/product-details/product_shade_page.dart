@@ -483,35 +483,50 @@ class BottomCalculationTotalWidget extends StatelessWidget {
       child: Column(
         children: [
           CustomSizedBox.space8H,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-            child: Row(
-              children: [
-                Text(
-                  isSelectSize ? '180ml' : 'Nude Shade Color',
-                  style: AppTheme.textStyleBoldFadeBlack14,
-                ),
-                const Spacer(),
-                RichText(
-                    text: const TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                  TextSpan(text: '৳ 550  ', style: AppTheme.textStyleBoldBlack20, children: [
+          Obx(() {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+              child: Row(
+                children: [
+                  Text(
+                    isSelectSize
+                        ? ProductDetailsController.to.product.value.productSizes!
+                            .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                            .size!
+                            .name!
+                        : ProductDetailsController.to.product.value.productShades!
+                            .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                            .shade!
+                            .name!,
+                    style: AppTheme.textStyleBoldFadeBlack14,
+                  ),
+                  const Spacer(),
+                  RichText(
+                      text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
                     TextSpan(
-                      text: '৳550',
-                      style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 14, fontWeight: FontWeight.normal),
-                    ),
-                    TextSpan(
-                      text: ' | ',
-                      style: AppTheme.textStyleNormalFadeBlack14,
-                    ),
-                    TextSpan(
-                      text: '(-25% Off)',
-                      style: TextStyle(color: Color(0xff02792A), fontSize: 14, fontWeight: FontWeight.bold),
-                    )
-                  ]),
-                ])),
-              ],
-            ),
-          ),
+                        text: '৳ ${ProductDetailsController.to.getPrice()}  ',
+                        style: AppTheme.textStyleBoldBlack20,
+                        children: ProductDetailsController.to.discountPercent() == 0
+                            ? []
+                            : [
+                                TextSpan(
+                                  text: '৳${ProductDetailsController.to.getActualPrice()}',
+                                  style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 14, fontWeight: FontWeight.normal),
+                                ),
+                                const TextSpan(
+                                  text: ' | ',
+                                  style: AppTheme.textStyleNormalFadeBlack14,
+                                ),
+                                TextSpan(
+                                  text: '(-${ProductDetailsController.to.discountPercent().toStringAsFixed(1)}% Off)',
+                                  style: const TextStyle(color: Color(0xff02792A), fontSize: 14, fontWeight: FontWeight.bold),
+                                )
+                              ]),
+                  ])),
+                ],
+              ),
+            );
+          }),
           FittedBox(
             child: Row(
               children: [
