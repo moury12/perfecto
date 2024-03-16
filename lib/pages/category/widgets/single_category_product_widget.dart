@@ -221,7 +221,10 @@ class SingleCategoryProductWidget extends StatelessWidget {
                               text:
                                   '৳ ${product?.variationType == 'shade' ? (product?.productShades?[0].discountedPrice ?? '550') : (product?.productSizes?[0].discountedPrice ?? '550')}  ',
                               style: AppTheme.textStyleBoldBlack14,
-                              children: double.parse(product?.discountPercent ?? '0') > 0
+                              children: (double.parse(product?.variationType == 'shade'
+                                          ? (product?.productShades?[0].discountPercent ?? '0')
+                                          : (product?.productSizes?[0].discountPercent ?? '0')) >
+                                      0)
                                   ? [
                                       TextSpan(
                                         text:
@@ -234,7 +237,8 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                         style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200, color: Colors.black45),
                                       ),
                                       TextSpan(
-                                        text: '(-${product?.discountPercent ?? '25'}% Off)',
+                                        text:
+                                            '(-${double.parse(product?.variationType == 'shade' ? (product?.productShades?[0].discountPercent ?? '0') : (product?.productSizes?[0].discountPercent ?? '0'))}% Off)',
                                         style: const TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.w700),
                                       )
                                     ]
