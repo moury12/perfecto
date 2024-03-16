@@ -84,10 +84,10 @@ class CartWidget extends StatelessWidget {
                                   width: 1,
                                   color: const Color(0xffCECECE),
                                 ),
-                              if (!iswish && cartModel?.product?.sizeId != null && cartModel!.product!.sizeId!.isNotEmpty)
+                              if (!iswish && cartModel?.size != null && cartModel!.size!.name!.isNotEmpty)
                                 Text('Size: ${cartModel?.size?.name ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12)),
-                              if (cartModel?.buyGetInfo != null && cartModel?.sizeId != null && cartModel!.sizeId!.isNotEmpty)
-                                Text('Size: ${cartModel?.size?.name ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
+                              // if (cartModel?.buyGetInfo != null && cartModel?.sizeId != null && cartModel!.sizeId!.isNotEmpty)
+                              //   Text('Size: ${cartModel?.size?.name ?? '-'}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12))
                             ],
                           ),
                           if (!iswish && cartModel!.shade != null && cartModel!.shade!.name!.isNotEmpty) CustomSizedBox.space4H,
@@ -112,46 +112,57 @@ class CartWidget extends StatelessWidget {
                             CustomSizedBox.space8H,
                             ...List.generate(
                               cartModel?.comboInfo?.length ?? 0,
-                              (index) => Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          cartModel?.comboInfo?[index].product?.name ?? '',
-                                          style: AppTheme.textStyleMediumBlack12,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                              (index) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                                child: Row(
+                                  children: [
+                                    CustomNetworkImage(
+                                      networkImagePath: cartModel?.comboInfo?[index].product?.image ?? '',
+                                      errorImagePath: AssetsConstant.megaDeals2,
+                                      height: 24,
+                                      borderRadius: 2,
+                                      width: 24,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            cartModel?.comboInfo?[index].product?.name ?? '',
+                                            style: AppTheme.textStyleMediumBlack12,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          CustomSizedBox.space4H,
+                                          Row(
+                                            children: [
+                                              // if (cartModel!.comboInfo![index].shadeId!.isNotEmpty) ...[
+                                              //   CustomNetworkImage(
+                                              //     networkImagePath: cartModel?.comboInfo?[index].shade?.image ?? '',
+                                              //     errorImagePath: AssetsConstant.lipstickShade,
+                                              //     height: 12,
+                                              //     borderRadius: 2,
+                                              //     width: 12,
+                                              //   ),
+                                              //   CustomSizedBox.space4W,
+                                              // ],
+                                              Expanded(
+                                                child: Text(
+                                                  cartModel!.comboInfo![index].sizeId!.isNotEmpty
+                                                      ? "Size: ${cartModel?.comboInfo?[index].size?.name ?? '-'}"
+                                                      : "Shade: ${cartModel?.comboInfo?[index].shade?.name ?? '-'}",
+                                                  style: AppTheme.textStyleMediumBlack12,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  CustomSizedBox.space4H,
-                                  Row(
-                                    children: [
-                                      if (cartModel!.comboInfo![index].shadeId!.isNotEmpty) ...[
-                                        CustomNetworkImage(
-                                          networkImagePath: cartModel?.comboInfo?[index].shade?.image ?? '',
-                                          errorImagePath: AssetsConstant.lipstickShade,
-                                          height: 16,
-                                          borderRadius: 2,
-                                          width: 16,
-                                        ),
-                                        CustomSizedBox.space4W,
-                                      ],
-                                      Expanded(
-                                        child: Text(
-                                          cartModel!.comboInfo![index].sizeId!.isNotEmpty
-                                              ? "Size: ${cartModel?.comboInfo?[index].size?.name ?? '-'}"
-                                              : cartModel?.comboInfo?[index].shade?.name ?? '',
-                                          style: AppTheme.textStyleMediumBlack12,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -174,11 +185,15 @@ class CartWidget extends StatelessWidget {
                                       Text(cartModel?.buyGetInfo?.productForGet?.name ?? '', style: AppTheme.textStyleMediumBlack12),
                                       if (cartModel?.buyGetInfo?.sizeForGet != null) ...[
                                         // CustomSizedBox.space4H,
-                                        Text('Size: ${cartModel?.buyGetInfo?.sizeForGet?.name ?? ''}', style: AppTheme.textStyleMediumBlack12),
+                                        Text(
+                                            'Size: ${cartModel?.buyGetInfo?.sizeForGet?.name ?? ''} [Get QTY- ${(cartModel!.buyGetInfo!.getQuantity!.toInt() * (cartModel!.quantity!.toDouble() / cartModel!.buyGetInfo!.buyQuantity!.toInt()).floor()).toStringAsFixed(0)}]',
+                                            style: AppTheme.textStyleMediumBlack12),
                                       ],
                                       if (cartModel?.buyGetInfo?.shadeForGet != null) ...[
                                         // CustomSizedBox.space4H,
-                                        Text('Shade: ${cartModel?.buyGetInfo?.shadeForGet?.name ?? ''}', style: AppTheme.textStyleMediumBlack12),
+                                        Text(
+                                            'Shade: ${cartModel?.buyGetInfo?.shadeForGet?.name ?? ''} [Get QTY- ${(cartModel!.buyGetInfo!.getQuantity!.toInt() * (cartModel!.quantity!.toDouble() / cartModel!.buyGetInfo!.buyQuantity!.toInt()).floor()).toStringAsFixed(0)}]',
+                                            style: AppTheme.textStyleMediumBlack12),
                                       ],
                                     ],
                                   ),
@@ -253,11 +268,11 @@ class CartWidget extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    if (int.parse(cartModel!.quantity!) > (cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : 1)) {
+                                    if (int.parse(cartModel!.quantity!) > (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : */ 1)) {
                                       final dynamic body = {
                                         // 'product_id': cartModel!.productId!,
-                                        'quantity':
-                                            (int.parse(cartModel!.quantity!) - (cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : 1)).toString(),
+                                        'quantity': (int.parse(cartModel!.quantity!) - (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) :*/ 1))
+                                            .toString(),
                                       };
                                       globalLogger.d(body, 'body');
                                       UserController.to.updateCart(body, cartModel?.id ?? '');
@@ -270,7 +285,7 @@ class CartWidget extends StatelessWidget {
                                     padding: const EdgeInsets.all(4),
                                     child: Icon(
                                       Icons.remove,
-                                      color: int.parse(cartModel!.quantity!) == (cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : 1)
+                                      color: int.parse(cartModel!.quantity!) == (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) :*/ 1)
                                           ? AppColors.kAccentColor
                                           : AppColors.kPrimaryColor,
                                       size: 25,
@@ -303,8 +318,8 @@ class CartWidget extends StatelessWidget {
                                   onTap: () {
                                     final dynamic body = {
                                       // 'product_id': cartModel!.productId!,
-                                      'quantity':
-                                          (int.parse(cartModel!.quantity!) + (cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : 1)).toString(),
+                                      'quantity': (int.parse(cartModel!.quantity!) + (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : */ 1))
+                                          .toString(),
                                     };
                                     globalLogger.d(body, 'body');
                                     UserController.to.updateCart(body, cartModel?.id ?? '');

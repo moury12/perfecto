@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
 import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
@@ -336,7 +339,7 @@ class CheckoutScreen extends StatelessWidget {
                             ),
                             CustomSizedBox.space12W,
                             Text(
-                              'Inside Dhaka (Delivery charge: ৳ 60)',
+                              'Inside Dhaka (Delivery charge: ৳ ${HomeApiController.to.shippingInfo.value.insideCity ?? '0'})',
                               style: cityName == 'dhaka' ? AppTheme.textStyleSemiBoldBlack14 : AppTheme.textStyleNormalBlack14,
                             )
                           ],
@@ -367,7 +370,7 @@ class CheckoutScreen extends StatelessWidget {
                             ),
                             CustomSizedBox.space12W,
                             Text(
-                              'Outside Dhaka (Delivery charge: ৳ 100)',
+                              'Outside Dhaka (Delivery charge: ৳  ${HomeApiController.to.shippingInfo.value.outsideCity ?? '0'})',
                               style: cityName != 'dhaka' ? AppTheme.textStyleSemiBoldBlack14 : AppTheme.textStyleNormalBlack14,
                             )
                           ],
@@ -383,7 +386,8 @@ class CheckoutScreen extends StatelessWidget {
               Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
-                  child: const CustomTextField(
+                  child: CustomTextField(
+                    controller: UserController.to.orderNoteController,
                     labelText: 'Order Notes (Optional)',
                     hintText: 'Enter order notes',
                     marginHorizontal: 16,
@@ -491,133 +495,385 @@ class CheckoutScreen extends StatelessWidget {
                 title: 'Choose Payment Method',
               ),
               CustomSizedBox.space8H,
-              CheckoutWidget(
-                widget: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Column(
-                    children: [
-                      ...List.generate(
-                          UserController.to.cartList.length,
-                          (index) => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+              Obx(() {
+                return CheckoutWidget(
+                  widget: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      children: [
+                        ...List.generate(UserController.to.cartList.length, (index) {
+                          final cartModel = UserController.to.cartList[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Row(
                                   children: [
-                                    Text(
-                                      UserController.to.cartList[index].product?.name ??
-                                          UserController.to.cartList[index].buyGetInfo?.productForBuy?.name ??
-                                          UserController.to.cartList[index].comboProduct?.name ??
-                                          '',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppTheme.textStyleMediumBlack14,
+                                    Container(
+                                      decoration: BoxDecoration(border: Border.all(color: const Color(0xffCECECE), width: 0.2), borderRadius: BorderRadius.circular(4)),
+                                      child: CustomNetworkImage(
+                                        networkImagePath: cartModel.product?.image ?? cartModel.comboProduct?.image ?? cartModel.buyGetInfo?.productForBuy?.image ?? '',
+                                        errorImagePath: AssetsConstant.megaDeals2,
+                                        borderRadius: 4,
+                                        height: 80,
+                                        width: 80,
+                                        fit: BoxFit.fitHeight,
+                                      ),
                                     ),
-                                    CustomSizedBox.space8H,
-                                    Row(
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(text: 'Qty: ', style: AppTheme.textStyleNormalBlack14, children: [
-                                            TextSpan(
-                                              text: UserController.to.cartList[index].quantity ?? '1',
-                                              style: AppTheme.textStyleBoldBlack14,
-                                            )
-                                          ]),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                          child: Container(
-                                            color: Colors.black.withOpacity(.2),
-                                            height: 15,
-                                            width: 1,
+                                    CustomSizedBox.space8W,
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  UserController.to.cartList[index].product?.name ??
+                                                      UserController.to.cartList[index].buyGetInfo?.productForBuy?.name ??
+                                                      UserController.to.cartList[index].comboProduct?.name ??
+                                                      '',
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: AppTheme.textStyleMediumBlack14,
+                                                ),
+                                              ),
+                                              if (UserController.to.cartList[index].buyGetInfo != null || UserController.to.cartList[index].comboProduct != null)
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                                  decoration: BoxDecoration(
+                                                    color: UserController.to.cartList[index].buyGetInfo != null
+                                                        ? AppColors.kOfferButtonColor.withOpacity(.1)
+                                                        : AppColors.kDarkPrimaryColor.withOpacity(.1),
+                                                    borderRadius: BorderRadius.circular(4),
+                                                  ),
+                                                  child: Text(
+                                                    UserController.to.cartList[index].buyGetInfo != null
+                                                        ? '(Buy ${UserController.to.cartList[index].buyGetInfo?.buyQuantity} Get ${UserController.to.cartList[index].buyGetInfo?.getQuantity})'
+                                                        : UserController.to.cartList[index].comboProduct != null
+                                                            ? '(Combo)'
+                                                            : '',
+                                                    style: TextStyle(
+                                                      color: UserController.to.cartList[index].buyGetInfo != null ? AppColors.kOfferButtonColor : AppColors.kDarkPrimaryColor,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
                                           ),
-                                        ),
-                                        RichText(
-                                          text: const TextSpan(text: 'Size: ', style: AppTheme.textStyleNormalBlack14, children: [
-                                            TextSpan(
-                                              text: '3.4ml',
-                                              style: AppTheme.textStyleBoldBlack14,
-                                            )
-                                          ]),
-                                        ),
-                                        const Spacer(),
-                                        const Text(
-                                          '৳ 1,450',
-                                          style: AppTheme.textStyleBoldBlack14,
-                                        )
-                                      ],
-                                    ),
-                                    CustomSizedBox.space12H,
-                                    const Divider(
-                                      color: AppColors.kborderColor,
-                                      thickness: 2,
-                                      height: 2,
+                                          CustomSizedBox.space8H,
+                                          if (cartModel.comboProduct != null) ...[
+                                            CustomSizedBox.space8H,
+                                            ...List.generate(
+                                              cartModel.comboInfo?.length ?? 0,
+                                              (index) => Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                                                child: Row(
+                                                  children: [
+                                                    CustomNetworkImage(
+                                                      networkImagePath: cartModel.comboInfo?[index].product?.image ?? '',
+                                                      errorImagePath: AssetsConstant.megaDeals2,
+                                                      height: 24,
+                                                      borderRadius: 2,
+                                                      width: 24,
+                                                    ),
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            cartModel.comboInfo?[index].product?.name ?? '',
+                                                            style: AppTheme.textStyleMediumBlack12,
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                          CustomSizedBox.space4H,
+                                                          Row(
+                                                            children: [
+                                                              // if (cartModel!.comboInfo![index].shadeId!.isNotEmpty) ...[
+                                                              //   CustomNetworkImage(
+                                                              //     networkImagePath: cartModel.comboInfo?[index].shade?.image ?? '',
+                                                              //     errorImagePath: AssetsConstant.lipstickShade,
+                                                              //     height: 12,
+                                                              //     borderRadius: 2,
+                                                              //     width: 12,
+                                                              //   ),
+                                                              //   CustomSizedBox.space4W,
+                                                              // ],
+                                                              Expanded(
+                                                                child: Text(
+                                                                  cartModel.comboInfo![index].sizeId!.isNotEmpty
+                                                                      ? "Size: ${cartModel.comboInfo?[index].size?.name ?? '-'}"
+                                                                      : "Shade: ${cartModel.comboInfo?[index].shade?.name ?? '-'}",
+                                                                  style: AppTheme.textStyleMediumBlack12,
+                                                                  maxLines: 1,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                          if (cartModel.buyGetInfo != null) ...[
+                                            CustomSizedBox.space8H,
+                                            Row(
+                                              children: [
+                                                CustomNetworkImage(
+                                                  networkImagePath: cartModel.buyGetInfo?.productForGet?.image ?? '',
+                                                  errorImagePath: AssetsConstant.megaDeals2,
+                                                  height: 24,
+                                                  borderRadius: 2,
+                                                  width: 24,
+                                                ),
+                                                CustomSizedBox.space8W,
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(cartModel.buyGetInfo?.productForGet?.name ?? '', style: AppTheme.textStyleMediumBlack12),
+                                                      if (cartModel.buyGetInfo?.sizeForGet != null) ...[
+                                                        // CustomSizedBox.space4H,
+                                                        Text('Size: ${cartModel.buyGetInfo?.sizeForGet?.name ?? ''}', style: AppTheme.textStyleMediumBlack12),
+                                                      ],
+                                                      if (cartModel.buyGetInfo?.shadeForGet != null) ...[
+                                                        // CustomSizedBox.space4H,
+                                                        Text('Shade: ${cartModel.buyGetInfo?.shadeForGet?.name ?? ''}', style: AppTheme.textStyleMediumBlack12),
+                                                      ],
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                          CustomSizedBox.space8H,
+                                          Row(
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(text: 'Qty: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                                  TextSpan(
+                                                    text: UserController.to.cartList[index].quantity ?? '1',
+                                                    style: AppTheme.textStyleBoldBlack14,
+                                                  )
+                                                ]),
+                                              ),
+                                              if (cartModel.comboInfo == null)
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                  child: Container(
+                                                    color: Colors.black.withOpacity(.2),
+                                                    height: 15,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                              if (cartModel.comboInfo == null)
+                                                RichText(
+                                                  text: TextSpan(text: cartModel.size != null ? "Size: " : "Shade: ", style: AppTheme.textStyleNormalBlack14, children: [
+                                                    TextSpan(
+                                                      text: cartModel.size != null ? cartModel.size!.name ?? '-' : cartModel.shade!.name ?? '-',
+                                                      style: AppTheme.textStyleBoldBlack14,
+                                                    )
+                                                  ]),
+                                                ),
+                                              const Spacer(),
+                                              Text(
+                                                '৳ ${UserController.to.cartList[index].price ?? UserController.to.cartList[index].discountedPrice}',
+                                                style: TextStyle(
+                                                  decoration: TextDecoration.lineThrough,
+                                                  color: Colors.black.withOpacity(.5),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              Text(
+                                                ' ৳ ${UserController.to.cartList[index].discountedPrice}',
+                                                style: AppTheme.textStyleBoldBlack14,
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                              )),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Items Subtotal',
-                              style: AppTheme.textStyleMediumBlack14,
+                                CustomSizedBox.space12H,
+                                const Divider(
+                                  color: AppColors.kborderColor,
+                                  thickness: 2,
+                                  height: 2,
+                                ),
+                              ],
                             ),
-                            Spacer(),
-                            Text(
-                              '৳ 1,450',
-                              style: AppTheme.textStyleMediumBlack14,
-                            )
-                          ],
+                          );
+                        }),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Items Subtotal',
+                                style: AppTheme.textStyleMediumBlack14,
+                              ),
+                              Spacer(),
+                              Text(
+                                '৳ ${UserController.to.cartTotalPrice()}',
+                                style: AppTheme.textStyleMediumBlack14,
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Shipping Fee',
-                              style: AppTheme.textStyleMediumBlack14,
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                          ),
+                          child: Row(
+                            children: [
+                              const Text(
+                                'Discount',
+                                style: AppTheme.textStyleMediumBlack14,
+                              ),
+                              const Spacer(),
+                              Text(
+                                '-৳ ${UserController.to.cartTotalDiscountPrice().toStringAsFixed(2)}',
+                                style: AppTheme.textStyleMediumBlack14,
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (UserController.to.upToDiscount.value != '0')
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  'Discount (Upto Sale Offer)',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                ),
+                                const Spacer(),
+                                Text(
+                                  '-৳ ${UserController.to.upToDiscount.value.toDouble().toStringAsFixed(2)}',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                ),
+                              ],
                             ),
-                            Spacer(),
-                            Text(
-                              '৳ 1,450',
-                              style: AppTheme.textStyleMediumBlack14,
-                            )
-                          ],
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Divider(
-                          color: AppColors.kborderColor,
-                          thickness: 2,
-                          height: 2,
-                        ),
-                      ),
-                      CustomSizedBox.space8H,
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Grand Total',
-                              style: AppTheme.textStyleSemiBoldBlack16,
+                          ),
+                        if (HomeApiController.to.couponInfo.value.couponCode != null &&
+                            HomeApiController.to.couponInfo.value.couponCode!.isNotEmpty &&
+                            HomeApiController.to.couponInfo.value.minimumExpenses != null &&
+                            HomeApiController.to.couponInfo.value.minimumExpenses!.isNotEmpty &&
+                            (UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice()) >=
+                                double.parse(HomeApiController.to.couponInfo.value.minimumExpenses!)) ...[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Cupon',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                ),
+                                Spacer(),
+                                Text(
+                                  '-৳ ${HomeApiController.to.couponInfo.value.amount!}',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                )
+                              ],
                             ),
-                            Spacer(),
-                            Text(
-                              '৳ 1,450',
-                              style: AppTheme.textStyleSemiBoldBlack16,
-                            )
-                          ],
+                          ),
+                        ],
+                        // if(HomeApiController.to.rewardPointInfo.value.rewardPointValue!=null && HomeApiController.to.rewardPointInfo.value.rewardPointValue!.isNotEmpty && UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice()>=double.parse(HomeApiController.to.rewardPointInfo.value.rewardPointValue!)
+                        if (HomeApiController.to.rewardPointApply.value != '0')
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Reward Points Discount',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                ),
+                                Spacer(),
+                                Text(
+                                  '-৳ ${UserController.to.rewardPointCalculation(HomeApiController.to.rewardPointInfo.value.rewardPointValue ?? '0', HomeApiController.to.rewardPointApply.value, HomeApiController.to.rewardPointInfo.value.rewardPoint ?? '0').toStringAsFixed(2)}',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                ),
+                              ],
+                            ),
+                          ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Shipping Fee',
+                                style: AppTheme.textStyleMediumBlack14,
+                              ),
+                              Spacer(),
+                              Text(
+                                '৳ ${AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0'}',
+                                style: AppTheme.textStyleMediumBlack14,
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      CustomSizedBox.space8H,
-                    ],
+                        if (UserController.to.eligibleDeliveryFree.value)
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Shipping Discount',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                ),
+                                Spacer(),
+                                Text(
+                                  '-৳ ${AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0'}',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                )
+                              ],
+                            ),
+                          ),
+                        CustomSizedBox.space8H,
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Divider(
+                            color: AppColors.kborderColor,
+                            thickness: 2,
+                            height: 2,
+                          ),
+                        ),
+                        CustomSizedBox.space8H,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Grand Total',
+                                style: AppTheme.textStyleSemiBoldBlack16,
+                              ),
+                              Spacer(),
+                              Text(
+                                '৳ ${UserController.to.cartTotalPriceWithCouponAndReward((AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0').toDouble()).toStringAsFixed(2)}',
+                                style: AppTheme.textStyleSemiBoldBlack16,
+                              )
+                            ],
+                          ),
+                        ),
+                        CustomSizedBox.space8H,
+                      ],
+                    ),
                   ),
-                ),
-                title: 'Your Order Summary',
-              ),
+                  title: 'Your Order Summary',
+                );
+              }),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
                 child: Row(
@@ -677,7 +933,7 @@ class CheckoutScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Column(
+            Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
@@ -685,7 +941,7 @@ class CheckoutScreen extends StatelessWidget {
                   style: AppTheme.textStyleMediumBlack12,
                 ),
                 Text(
-                  '৳ 1,450',
+                  '৳ ${UserController.to.cartTotalPriceWithCouponAndReward((AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0').toDouble()).toStringAsFixed(2)}',
                   style: AppTheme.textStyleBoldBlack20,
                 )
               ],
@@ -697,8 +953,36 @@ class CheckoutScreen extends StatelessWidget {
               width: 200,
               height: 50,
               onPressed: () {
-                // CartController.to.isbagEmpty.value=true;
-                Get.toNamed(CheckoutScreen.routeName);
+                // CartController.to.isbagEmpty.value = true;
+                // Get.toNamed(CheckoutScreen.routeName);
+                final data = {
+                  "order_details": UserController.to.cartList.map((e) => e.id).toList().toString().replaceAll(' ', ''),
+                  "billing_shipping_details": json.encode({
+                    "name": AddressController.to.nameController.text,
+                    "phone": AddressController.to.phoneController.text,
+                    "email": AddressController.to.emailController.text,
+                    "city_id": AddressController.to.selectedArea.value,
+                    "city_name": AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!,
+                    "zone_id": AddressController.to.selectedZone.value,
+                    "zone_name": AddressController.to.zoneList.firstWhere((element) => element.zoneId == AddressController.to.selectedZone.value).zoneName!,
+                    "area_id": AddressController.to.selectedArea.value,
+                    "area_name": AddressController.to.areaList.firstWhere((element) => element.areaId == AddressController.to.selectedArea.value).areaName!,
+                    "address": AddressController.to.addressController.text
+                  }),
+                  "order_notes": UserController.to.orderNoteController.text,
+                  "coupon_code": HomeApiController.to.couponCode.value,
+                  "reward_point": HomeApiController.to.rewardPointApply.value,
+                  "payment_status": "pending",
+                  "payment_method": CheckOutController.to.paymentType.value == PaymentType.ssl ? "SSL" : "COD",
+                  "shipping_charge":
+                      AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
+                          ? HomeApiController.to.shippingInfo.value.outsideCity!
+                          : HomeApiController.to.shippingInfo.value.insideCity!,
+                  "store_address": CheckOutController.to.checked.value ? "1" : "0",
+                };
+                globalLogger.d(data);
+
+                UserController.to.orderStore(data);
               },
               label: 'Place Order',
             )

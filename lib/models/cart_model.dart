@@ -249,7 +249,7 @@ class BuyGetInfo {
   String? buyCategoryId;
   String? buyProductId;
   String? buyVariantType;
-  String? buyShadeId;
+  List<String>? buyShadeId;
   List<String>? buySizeId;
   String? buyQuantity;
   String? getCategoryId;
@@ -295,8 +295,8 @@ class BuyGetInfo {
     buyCategoryId = json['buy_category_id'].toString() == 'null' ? '' : json['buy_category_id'].toString();
     buyProductId = json['buy_product_id'].toString() == 'null' ? '' : json['buy_product_id'].toString();
     buyVariantType = json['buy_variant_type'].toString() == 'null' ? '' : json['buy_variant_type'].toString();
-    buyShadeId = json['buy_shade_id'].toString() == 'null' ? '' : json['buy_shade_id'].toString();
-    buySizeId = json['buy_size_id'].cast<String>();
+    buyShadeId = json['buy_shade_id'] == null ? [] : json['buy_shade_id'].cast<String>();
+    buySizeId = json['buy_size_id'] == null ? [] : json['buy_size_id'].cast<String>();
     buyQuantity = json['buy_quantity'].toString() == 'null' ? '' : json['buy_quantity'].toString();
     getCategoryId = json['get_category_id'].toString() == 'null' ? '' : json['get_category_id'].toString();
     getProductId = json['get_product_id'].toString() == 'null' ? '' : json['get_product_id'].toString();

@@ -94,10 +94,10 @@ class AddressController extends GetxController {
     isAddNew.value = true;
   }
 
-  Future<void> getAddressCall() async {
+  Future<void> getAddressCall([bool formCheckout = true]) async {
     _addressList.value = await UserService.userAddressCall();
     globalLogger.d(Get.currentRoute, 'AddressController getAddressCall');
-    if (Get.currentRoute == CheckoutScreen.routeName) {
+    if (Get.currentRoute == CheckoutScreen.routeName || formCheckout) {
       setData();
     }
   }
@@ -212,10 +212,10 @@ class AddressController extends GetxController {
         Get.back();
       } else {
         showSnackBar(
-          msg: 'Default Address Set successfully.',
+          msg: 'Default Address Set successfully.n',
         );
       }
-      getAddressCall();
+      await getAddressCall();
       // afterLogin(isCreated);
     }
     return isCreated;

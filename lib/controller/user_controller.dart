@@ -40,10 +40,13 @@ class UserController extends GetxController {
   FocusNode phoneFocusNode = FocusNode();
   RxString pickedImagePath = ''.obs;
   RxString image = ''.obs;
+  RxString upToDiscount = '0'.obs;
+  RxBool eligibleDeliveryFree = false.obs;
   RxList<WishListModel> wishList = <WishListModel>[].obs;
   RxList<RewardModel> rewardList = <RewardModel>[].obs;
   RxList<CartModel> cartList = <CartModel>[].obs;
   RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
+  TextEditingController orderNoteController = TextEditingController();
   @override
   Future<void> onInit() async {
     await getUserInfoCall();
@@ -177,10 +180,12 @@ class UserController extends GetxController {
     double totalPrice = 0;
     // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
     for (int i = 0; i < cartList.length; i++) {
-      if (cartList[i].product != null || cartList[i].buyGetInfo != null) {
-        totalPrice += double.parse(cartList[i].price!) * int.parse(cartList[i].quantity!);
-      } else {
-        totalPrice += double.parse(cartList[i].discountedPrice!) * int.parse(cartList[i].quantity!);
+      if (cartList[i].stockStatus == '1') {
+        if (cartList[i].product != null || cartList[i].buyGetInfo != null) {
+          totalPrice += double.parse(cartList[i].price!) * int.parse(cartList[i].quantity!);
+        } else {
+          totalPrice += double.parse(cartList[i].discountedPrice!) * int.parse(cartList[i].quantity!);
+        }
       }
     }
     return totalPrice;
@@ -191,21 +196,25 @@ class UserController extends GetxController {
     double totalPrice = 0;
     // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
     for (int i = 0; i < cartList.length; i++) {
-      if (cartList[i].comboProduct == null) {
-        totalPrice += ((double.parse(cartList[i].price!) - double.parse(cartList[i].discountedPrice!)) * int.parse(cartList[i].quantity!));
+      if (cartList[i].stockStatus == '1') {
+        if (cartList[i].comboProduct == null) {
+          totalPrice += ((double.parse(cartList[i].price!) - double.parse(cartList[i].discountedPrice!)) * int.parse(cartList[i].quantity!));
+        }
       }
     }
     return totalPrice;
   }
 
   //cart item total price calculation with coupon and reward point
-  double cartTotalPriceWithCouponAndReward() {
+  double cartTotalPriceWithCouponAndReward([double shippingCost = 0]) {
     double totalPrice = 0;
     totalPrice += cartTotalPrice();
     totalPrice -= cartTotalDiscountPrice();
+    totalPrice -= upToDiscount.value.toDouble();
     totalPrice -= (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble();
     totalPrice -= rewardPointCalculation(HomeApiController.to.rewardPointInfo.value.rewardPointValue ?? '0', HomeApiController.to.rewardPointApply.value,
         HomeApiController.to.rewardPointInfo.value.rewardPoint ?? '0');
+    if (UserController.to.eligibleDeliveryFree.value) totalPrice += shippingCost;
     return totalPrice;
   }
 
@@ -221,6 +230,18 @@ class UserController extends GetxController {
   Future<void> getUserInfoCall() async {
     userInfo.value = await UserService.userProfileCall();
     update();
+  }
+
+  //order-store
+  Future<void> orderStore(dynamic body) async {
+    final isCreated = await UserService.orderStore(body);
+    if (isCreated) {
+      showSnackBar(
+        msg: 'Order Placed Successfully',
+      );
+      getCartListCall();
+      // afterLogin(isCreated);
+    }
   }
 
   Future<bool> updateUser(String name, String email, String phone) async {

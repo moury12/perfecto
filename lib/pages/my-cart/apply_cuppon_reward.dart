@@ -93,11 +93,13 @@ class ApplyCupponRewardScreen extends StatelessWidget {
                                       HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) <=
                                   (UserController.to.cartTotalPrice() -
                                       UserController.to.cartTotalDiscountPrice() -
+                                      UserController.to.upToDiscount.value.toDouble() -
                                       (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble())) {
                                 CartController.to.couponController.text = value;
                               } else {
                                 CartController.to.couponController.text = (((UserController.to.cartTotalPrice() -
                                                 UserController.to.cartTotalDiscountPrice() -
+                                                UserController.to.upToDiscount.value.toDouble() -
                                                 (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble()) /
                                             HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) *
                                         HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt())

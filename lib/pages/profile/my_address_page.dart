@@ -5,6 +5,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/pages/checkout-page/checkout_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/profile/controller/profile_controller.dart';
 import 'package:perfecto/pages/profile/edit_my_address_page.dart';
@@ -50,7 +51,7 @@ class MyAddressScreen extends GetView<AddressController> {
           Expanded(child: Obx(() {
             return RefreshIndicator(
                 onRefresh: () async {
-                  controller.getAddressCall();
+                  controller.getAddressCall(Get.previousRoute == CheckoutScreen.routeName);
                 },
                 child: controller.addressList.isEmpty
                     ? const Center(child: Text('There is no address'))

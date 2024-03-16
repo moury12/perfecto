@@ -53,7 +53,7 @@ class CartScreen extends StatelessWidget {
               ),
               isSearchInclude: false,
             ),
-            !CartController.to.isbagEmpty.value
+            UserController.to.cartList.isNotEmpty
                 ? Expanded(
                     child: ListView(
                       padding: EdgeInsets.zero,
@@ -122,6 +122,20 @@ class CartScreen extends StatelessWidget {
                                     const Spacer(),
                                     Text(
                                       '-৳ ${UserController.to.cartTotalDiscountPrice().toStringAsFixed(2)}',
+                                      style: AppTheme.textStyleMediumBlack12,
+                                    ),
+                                  ],
+                                ),
+                                CustomSizedBox.space8H,
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Discount (Upto Sale Offer)',
+                                      style: AppTheme.textStyleMediumBlack10,
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      '-৳ ${UserController.to.upToDiscount.value.toDouble().toStringAsFixed(2)}',
                                       style: AppTheme.textStyleMediumBlack12,
                                     ),
                                   ],
@@ -223,7 +237,7 @@ class CartScreen extends StatelessWidget {
             // CustomSizedBox.space8H,
           ],
         ),
-        bottomNavigationBar: !CartController.to.isbagEmpty.value
+        bottomNavigationBar: UserController.to.cartList.isNotEmpty
             ? Container(
                 margin: EdgeInsets.zero,
                 height: 100,

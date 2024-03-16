@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/address_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
@@ -234,8 +235,14 @@ class UserService {
       globalLogger.d(response, "CartModel route");
       if (response['status'] != null && response['status']) {
         response['data']['cartData'].forEach((dis) {
-          cartList.add(CartModel.fromJson(dis));
+          try {
+            cartList.add(CartModel.fromJson(dis));
+          } catch (e) {
+            globalLogger.e("Error occurred in CartModel: $e");
+          }
         });
+        UserController.to.upToDiscount.value = response['data']['uptoSaleDiscount'].toString();
+        UserController.to.eligibleDeliveryFree.value = response['data']['eligible_delivery_free'];
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
@@ -288,6 +295,21 @@ class UserService {
   static Future<bool> removeFromCart(String cartId) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}user/remove-form-cart/$cartId', httpMethod: HttpMethod.multipartFilePost, isLoadingEnable: true);
     globalLogger.d(response, "remove from cart Route");
+    if (response['status'] != null && response['status']) {
+      showSnackBar(
+        msg: response['message'],
+      );
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  //order-store
+  static Future<bool> orderStore(dynamic body) async {
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-store', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d(response, "order store Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
