@@ -158,19 +158,17 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
 
   double getPrice() {
     if (product.value.variationType == 'shade') {
-      return (double.tryParse(product.value.discountPercent!) ?? 0) == 0
-          ? double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).shadePrice!) ?? 0
-          : (double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).shadePrice!) ?? 0) -
-              ((double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).shadePrice!) ?? 0) *
-                  (double.tryParse(product.value.discountPercent!) ?? 0) /
-                  100);
+      return double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).discountedPrice!) ?? 0;
     } else {
-      return (double.tryParse(product.value.discountPercent!) ?? 0) == 0
-          ? double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).sizePrice!) ?? 0
-          : (double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).sizePrice!) ?? 0) -
-              ((double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).sizePrice!) ?? 0) *
-                  (double.tryParse(product.value.discountPercent!) ?? 0) /
-                  100);
+      return double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).discountedPrice!) ?? 0;
+    }
+  }
+
+  double discountPercent() {
+    if (product.value.variationType == 'shade') {
+      return double.tryParse(product.value.productShades!.firstWhere((element) => element.shadeId == selectedVariation.value).discountPercent!) ?? 0;
+    } else {
+      return double.tryParse(product.value.productSizes!.firstWhere((element) => element.sizeId == selectedVariation.value).discountPercent!) ?? 0;
     }
   }
 

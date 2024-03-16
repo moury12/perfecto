@@ -198,7 +198,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           TextSpan(
                               text: '৳ ${ProductDetailsController.to.getPrice()}  ',
                               style: AppTheme.textStyleBoldBlack20,
-                              children: (double.tryParse(ProductDetailsController.to.product.value.discountPercent!) ?? 0) == 0
+                              children: ProductDetailsController.to.discountPercent() == 0
                                   ? []
                                   : [
                                       TextSpan(
@@ -210,7 +210,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                         style: AppTheme.textStyleNormalFadeBlack14,
                                       ),
                                       TextSpan(
-                                        text: '(-${(double.tryParse(ProductDetailsController.to.product.value.discountPercent!) ?? 0).toStringAsFixed(1)}% Off)',
+                                        text: '(-${ProductDetailsController.to.discountPercent().toStringAsFixed(1)}% Off)',
                                         style: const TextStyle(color: Color(0xff02792A), fontSize: 14, fontWeight: FontWeight.bold),
                                       )
                                     ]),
