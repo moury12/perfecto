@@ -311,15 +311,15 @@ class CheckoutScreen extends StatelessWidget {
                 }),
               ),
               CustomSizedBox.space8H,
-              CheckoutWidget(
-                widget: Column(
-                  children: [
-                    CustomSizedBox.space8H,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                      child: Obx(() {
-                        final cityName = AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase();
-                        return Row(
+              Obx(() {
+                final cityName = AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase();
+                return CheckoutWidget(
+                  widget: Column(
+                    children: [
+                      CustomSizedBox.space8H,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                        child: Row(
                           children: [
                             Container(
                               height: 18,
@@ -343,14 +343,11 @@ class CheckoutScreen extends StatelessWidget {
                               style: cityName == 'dhaka' ? AppTheme.textStyleSemiBoldBlack14 : AppTheme.textStyleNormalBlack14,
                             )
                           ],
-                        );
-                      }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                      child: Obx(() {
-                        final cityName = AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase();
-                        return Row(
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                        child: Row(
                           children: [
                             Container(
                               height: 18,
@@ -374,14 +371,14 @@ class CheckoutScreen extends StatelessWidget {
                               style: cityName != 'dhaka' ? AppTheme.textStyleSemiBoldBlack14 : AppTheme.textStyleNormalBlack14,
                             )
                           ],
-                        );
-                      }),
-                    ),
-                    CustomSizedBox.space12H
-                  ],
-                ),
-                title: 'Choose Shipping Method',
-              ),
+                        ),
+                      ),
+                      CustomSizedBox.space12H
+                    ],
+                  ),
+                  title: 'Choose Shipping Method',
+                );
+              }),
               CustomSizedBox.space8H,
               Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),

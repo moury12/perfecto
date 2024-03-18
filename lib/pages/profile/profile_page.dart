@@ -85,9 +85,10 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           CustomSizedBox.space4W,
                           RichText(
-                              text: const TextSpan(
-                                  text: '',
-                                  children: [TextSpan(text: '0', style: AppTheme.textStyleBoldBlack12), TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)])),
+                              text: TextSpan(text: '', children: [
+                            TextSpan(text: UserController.to.getUserInfo.rewardPoints, style: AppTheme.textStyleBoldBlack12),
+                            const TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)
+                          ])),
                         ],
                       ),
                     ),
@@ -96,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
                       width: double.infinity,
                       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [const BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)], borderRadius: BorderRadius.circular(8)),
+                          BoxDecoration(color: Colors.white, boxShadow: const [BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)], borderRadius: BorderRadius.circular(8)),
                       child: Column(
                         children: [
                           ProfileItemWidget(

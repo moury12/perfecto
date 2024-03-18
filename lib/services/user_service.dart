@@ -8,8 +8,10 @@ import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/models/order_model.dart';
 import '../models/reward_model.dart';
 import '../models/user_model.dart';
+import 'package:collection/collection.dart';
 
 class UserService {
   static Future<UserModel> userProfileCall() async {
@@ -247,6 +249,53 @@ class UserService {
         ServiceAPI.showAlert(response['message']);
       }
       return cartList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //OrderModel list with pagination
+  static Future<List<OrderModel>> userOrderListCall({bool initialCall = true}) async {
+    try {
+      List<OrderModel> orderList = [];
+      final response = await ServiceAPI.genericCall(url: initialCall ? '${Service.apiUrl}order-details' : UserController.to.orderPaginateURL.value, httpMethod: HttpMethod.get);
+      globalLogger.d(response, "OrderModel route");
+      if (response['status'] != null && response['status']) {
+        response['data']['orders']['data'].forEach((order) {
+          var od = [];
+          if (order['order_details'] != null && order['order_details'].length > 0) {
+            order['order_details'].forEach((element) {
+              if (element['combo_id'] == null && element['buy_get_id'] == null) {
+                od.add([element]);
+              } else {
+                if (element['combo_id'] != null) {
+                  if (od.map((el) => el.where((e) => e['combo_id'] == element['combo_id']).toList().length.toString().toInt()).toList().sum == 0) {
+                    od.add(order['order_details'].where((el) => el['combo_id'] == element['combo_id']).toList());
+                  }
+                } else if (element['buy_get_id'] != null) {
+                  if (od.map((el) => el.where((e) => e['buy_get_id'] == element['buy_get_id']).toList().length.toString().toInt()).toList().sum == 0) {
+                    od.add(order['order_details'].where((el) => el['buy_get_id'] == element['buy_get_id']).toList());
+                  }
+                }
+              }
+            });
+          }
+          globalLogger.d(od, "Order Details");
+          order['order_details'] = od;
+
+          globalLogger.d(order, "Order Details 1");
+          orderList.add(OrderModel.fromJson(order));
+        });
+        if (response['data']['orders']['next_page_url'] != null) {
+          UserController.to.orderPaginateURL.value = response['data']['orders']['next_page_url'];
+        } else {
+          UserController.to.orderPaginateURL.value = '';
+        }
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return orderList;
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly

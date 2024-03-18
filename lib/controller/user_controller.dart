@@ -6,6 +6,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/models/order_model.dart';
 import 'package:perfecto/models/reward_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
@@ -45,6 +46,9 @@ class UserController extends GetxController {
   RxList<WishListModel> wishList = <WishListModel>[].obs;
   RxList<RewardModel> rewardList = <RewardModel>[].obs;
   RxList<CartModel> cartList = <CartModel>[].obs;
+  RxList<OrderModel> orderList = <OrderModel>[].obs;
+  RxStatus orderStatus = RxStatus.empty();
+  RxString orderPaginateURL = ''.obs;
   RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
   TextEditingController orderNoteController = TextEditingController();
   @override
@@ -53,7 +57,7 @@ class UserController extends GetxController {
     await getCartListCall();
     await getReviewListCall();
     await getWishListCall();
-
+    getOrderListCall();
     Get.put<AddressController>(AddressController(), permanent: true);
     getRewardListCall();
     super.onInit();
@@ -137,6 +141,18 @@ class UserController extends GetxController {
     HomeApiController.to.changeRewardPointApply();
   }
 
+  //OrderModel list with pagination
+  Future<void> getOrderListCall({bool initialCall = true}) async {
+    orderStatus = RxStatus.loading();
+    final data = await UserService.userOrderListCall(initialCall: initialCall);
+    if (data.isNotEmpty) {
+      orderList.addAll(data);
+      orderStatus = RxStatus.success();
+    } else {
+      orderStatus = RxStatus.error('No Data Found');
+    }
+  }
+
   //add addToWish
   Future<void> addToWish(String productId) async {
     final isCreated = await UserService.addToWish({'product_id': productId});
@@ -214,7 +230,8 @@ class UserController extends GetxController {
     totalPrice -= (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble();
     totalPrice -= rewardPointCalculation(HomeApiController.to.rewardPointInfo.value.rewardPointValue ?? '0', HomeApiController.to.rewardPointApply.value,
         HomeApiController.to.rewardPointInfo.value.rewardPoint ?? '0');
-    if (UserController.to.eligibleDeliveryFree.value) totalPrice += shippingCost;
+    totalPrice += shippingCost;
+    if (UserController.to.eligibleDeliveryFree.value) totalPrice -= shippingCost;
     return totalPrice;
   }
 
@@ -239,7 +256,9 @@ class UserController extends GetxController {
       showSnackBar(
         msg: 'Order Placed Successfully',
       );
+      Get.back();
       getCartListCall();
+      getOrderListCall();
       // afterLogin(isCreated);
     }
   }

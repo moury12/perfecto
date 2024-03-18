@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/models/order_model.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/profile/controller/profile_controller.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_details_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
+import 'package:collection/collection.dart';
 
 class OrderWidget extends StatelessWidget {
   final Widget? status;
@@ -15,6 +18,7 @@ class OrderWidget extends StatelessWidget {
   final bool tagForReturnCancel;
   final String? tagTitle;
   final Color? tagBackgroundColor;
+  final OrderModel order;
   const OrderWidget({
     super.key,
     this.status,
@@ -22,12 +26,13 @@ class OrderWidget extends StatelessWidget {
     this.tagForReturnCancel = false,
     this.tagTitle,
     this.tagBackgroundColor,
+    required this.order,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(border: Border.all(color: AppColors.kborderColor, width: 0.5), color: Colors.white, borderRadius: BorderRadius.circular(4)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,15 +45,15 @@ class OrderWidget extends StatelessWidget {
                   'Order Number',
                   style: AppTheme.textStyleSemiBoldFadeDarkBlack14,
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
-                  '#65675',
+                  '#${order.orderNo}',
                   style: AppTheme.textStyleSemiBoldBlack16,
                 )
               ],
             ),
           ),
-          Divider(
+          const Divider(
             color: AppColors.kborderColor,
             thickness: 2,
             height: 2,
@@ -65,9 +70,9 @@ class OrderWidget extends StatelessWidget {
                           'Status',
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
-                          'Shipped',
+                          order.status ?? 'Pending',
                           style: AppTheme.textStyleSemiBoldBlack14,
                         )
                       ],
@@ -81,9 +86,9 @@ class OrderWidget extends StatelessWidget {
                           'Estimated Delivery',
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
-                          '04 Nov, 2023',
+                          DateFormat('dd MMM, yyyy').format(DateTime.parse(order.createdAt!).add(Duration(days: 2))),
                           style: AppTheme.textStyleSemiBoldBlack14,
                         )
                       ],
@@ -97,9 +102,9 @@ class OrderWidget extends StatelessWidget {
                           'Total Amount',
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
-                          '৳ 1450.00',
+                          '৳ ${order.grandTotal!.toDouble().toStringAsFixed(2)}',
                           style: AppTheme.textStyleSemiBoldBlack14,
                         )
                       ],
@@ -108,8 +113,8 @@ class OrderWidget extends StatelessWidget {
                 ],
               ),
           CustomSizedBox.space12H,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: CustomDividerWidget(),
           ),
           CustomSizedBox.space8H,
@@ -118,10 +123,11 @@ class OrderWidget extends StatelessWidget {
             child: Column(
               children: [
                 ...List.generate(
-                    3,
+                    order.orderDetails!.length,
                     (index) => Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ProductDetailsWidget(
+                          orderDetails: order.orderDetails![index],
                           index: index,
                           tagForReturnCancel: tagForReturnCancel,
                           tagBackgroundColor: tagBackgroundColor,
@@ -131,7 +137,7 @@ class OrderWidget extends StatelessWidget {
               ],
             ),
           ),
-          Divider(
+          const Divider(
             color: AppColors.kborderColor,
             thickness: 2,
             height: 2,
@@ -159,6 +165,7 @@ class ProductDetailsWidget extends StatelessWidget {
   final bool needCheckbox;
   final bool tagForReturnCancel;
   final String? text;
+  final List<OrderDetails> orderDetails;
   const ProductDetailsWidget({
     super.key,
     this.index,
@@ -167,6 +174,7 @@ class ProductDetailsWidget extends StatelessWidget {
     this.tagForReturnCancel = false,
     this.text,
     this.tagBackgroundColor,
+    required this.orderDetails,
   });
 
   @override
@@ -186,27 +194,27 @@ class ProductDetailsWidget extends StatelessWidget {
                       child: Container(
                         height: 18,
                         width: 18,
-                        margin: EdgeInsets.only(right: 12),
+                        margin: const EdgeInsets.only(right: 12),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(2),
                             color: ProfileController.to.checked[index!] ? AppColors.kPrimaryColor : Colors.white,
                             border: Border.all(width: 0.5, color: ProfileController.to.checked[index!] ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
                         alignment: Alignment.center,
                         child: ProfileController.to.checked[index!]
-                            ? Icon(
+                            ? const Icon(
                                 Icons.check_rounded,
                                 color: Colors.white,
                                 size: 15,
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                       ),
                     );
                   })
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
             Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: AppColors.kborderColor, width: .5)),
                 child: CustomNetworkImage(
-                  networkImagePath: '',
+                  networkImagePath: orderDetails.first.productImage ?? '',
                   errorImagePath: AssetsConstant.megaDeals2,
                   height: 100,
                   width: 90,
@@ -219,47 +227,130 @@ class ProductDetailsWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Li...',
-                    style: AppTheme.textStyleMediumBlack14,
-                    textAlign: TextAlign.left,
-                  ),
-                  CustomSizedBox.space4H,
                   Row(
                     children: [
-                      RichText(
-                        text: TextSpan(text: 'Brand: ', style: AppTheme.textStyleNormalBlack14, children: [
-                          TextSpan(
-                            text: 'Lakme',
-                            style: AppTheme.textStyleBoldBlack14,
-                          )
-                        ]),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Container(
-                          color: Colors.black.withOpacity(.2),
-                          height: 15,
-                          width: 1,
+                      Expanded(
+                        child: Text(
+                          orderDetails.first.comboId!.isNotEmpty ? orderDetails.first.combo!.name ?? '' : orderDetails.first.productName ?? '',
+                          style: AppTheme.textStyleMediumBlack14,
+                          textAlign: TextAlign.left,
                         ),
                       ),
-                      RichText(
-                        text: TextSpan(text: 'Size: ', style: AppTheme.textStyleNormalBlack14, children: [
-                          TextSpan(
-                            text: '3.4ml',
-                            style: AppTheme.textStyleBoldBlack14,
-                          )
-                        ]),
-                      ),
+                      if (orderDetails.first.buyGetId!.isNotEmpty || orderDetails.first.comboId!.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: orderDetails.first.buyGetId!.isNotEmpty ? AppColors.kOfferButtonColor.withOpacity(.1) : AppColors.kDarkPrimaryColor.withOpacity(.1),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            orderDetails.first.buyGetId!.isNotEmpty ? '(Buy Get)' : '(Combo)',
+                            style: TextStyle(
+                              color: orderDetails.first.buyGetId!.isNotEmpty ? AppColors.kOfferButtonColor : AppColors.kDarkPrimaryColor,
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
                     ],
                   ),
-                  CustomSizedBox.space8H,
+                  CustomSizedBox.space4H,
+                  if (orderDetails.first.comboId!.isNotEmpty)
+                    ...orderDetails
+                        .map(
+                          (e) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                e.productName ?? '',
+                                style: AppTheme.textStyleMediumBlack14,
+                                textAlign: TextAlign.left,
+                              ),
+                              CustomSizedBox.space4H,
+                              RichText(
+                                text: TextSpan(text: e.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                  TextSpan(
+                                    text: e.size!.isNotEmpty ? e.size ?? '' : e.shade ?? '',
+                                    style: AppTheme.textStyleBoldBlack14,
+                                  )
+                                ]),
+                              ),
+                              CustomSizedBox.space4H,
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  if (orderDetails.first.comboId!.isEmpty) ...[
+                    Row(
+                      children: [
+                        RichText(
+                          text: const TextSpan(text: 'Brand: ', style: AppTheme.textStyleNormalBlack14, children: [
+                            TextSpan(
+                              text: 'Lakme',
+                              style: AppTheme.textStyleBoldBlack14,
+                            )
+                          ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Container(
+                            color: Colors.black.withOpacity(.2),
+                            height: 15,
+                            width: 1,
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(text: orderDetails.first.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
+                            TextSpan(
+                              text: orderDetails.first.size!.isNotEmpty ? orderDetails.first.size ?? '' : orderDetails.first.shade ?? '',
+                              style: AppTheme.textStyleBoldBlack14,
+                            )
+                          ]),
+                        ),
+                      ],
+                    ),
+                    CustomSizedBox.space8H,
+                  ],
+                  if (orderDetails.first.buyGetId!.isNotEmpty)
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: AppColors.kOfferButtonColor, width: .1),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  orderDetails.last.productName ?? '',
+                                  style: AppTheme.textStyleMediumBlack14,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ],
+                          ),
+                          CustomSizedBox.space4H,
+                          RichText(
+                            text: TextSpan(text: orderDetails.last.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
+                              TextSpan(
+                                text: orderDetails.last.size!.isNotEmpty ? orderDetails.last.size ?? '' : orderDetails.last.shade ?? '',
+                                style: AppTheme.textStyleBoldBlack14,
+                              )
+                            ]),
+                          ),
+                          CustomSizedBox.space4H,
+                        ],
+                      ),
+                    ),
+                  CustomSizedBox.space4H,
                   Row(
                     children: [
                       RichText(
                         text: TextSpan(text: 'Qty: ', style: AppTheme.textStyleNormalBlack14, children: [
                           TextSpan(
-                            text: '1',
+                            text: orderDetails.first.quantity ?? '1',
                             style: AppTheme.textStyleBoldBlack14,
                           )
                         ]),
@@ -273,24 +364,29 @@ class ProductDetailsWidget extends StatelessWidget {
                         ),
                       ),
                       RichText(
-                        text: TextSpan(text: 'Amount: ', style: AppTheme.textStyleNormalBlack14, children: [
-                          TextSpan(
-                            text: '৳550',
-                            style: AppTheme.textStyleBoldBlack14,
-                          )
-                        ]),
+                        text: TextSpan(
+                          text: 'Amount: ',
+                          style: AppTheme.textStyleNormalBlack14,
+                          children: [
+                            TextSpan(
+                              text:
+                                  '৳${orderDetails.first.comboId!.isNotEmpty ? orderDetails.map((e) => e.discountedPrice!.toDouble()).toList().sum.toStringAsFixed(2) : orderDetails.first.price}',
+                              style: AppTheme.textStyleBoldBlack14,
+                            )
+                          ],
+                        ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       tagForReturnCancel
                           ? Container(
                               decoration: BoxDecoration(color: tagBackgroundColor, borderRadius: BorderRadius.circular(4)),
-                              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                               child: Text(
                                 text ?? 'Returned',
                                 style: AppTheme.textStyleMediumBlack10,
                               ),
                             )
-                          : SizedBox.shrink()
+                          : const SizedBox.shrink()
                     ],
                   ),
                   CustomSizedBox.space12H,
@@ -299,10 +395,10 @@ class ProductDetailsWidget extends StatelessWidget {
             ),
           ],
         ),
-        index == (3 - 1) || !isDivider ? SizedBox.shrink() : CustomSizedBox.space12H,
+        index == (3 - 1) || !isDivider ? const SizedBox.shrink() : CustomSizedBox.space12H,
         index == (3 - 1) || !isDivider
-            ? SizedBox.shrink()
-            : Divider(
+            ? const SizedBox.shrink()
+            : const Divider(
                 height: 1,
                 thickness: 1,
                 color: AppColors.kborderColor,
@@ -319,7 +415,7 @@ class CustomDividerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(
+    return const Divider(
       height: 1,
       thickness: 1,
       color: AppColors.kborderColor,

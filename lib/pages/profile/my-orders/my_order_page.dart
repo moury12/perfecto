@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/profile/my-orders/widgets/order_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -30,7 +31,7 @@ class MyOrdersScreen extends StatelessWidget {
                   },
                 ),
                 CustomSizedBox.space8W,
-                Text(
+                const Text(
                   'My Orders',
                   style: AppTheme.textStyleSemiBoldBlack16,
                 ),
@@ -40,11 +41,17 @@ class MyOrdersScreen extends StatelessWidget {
             isSearchInclude: false,
           ),
           Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await UserController.to.getOrderListCall();
+              },
               child: ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            itemBuilder: (context, index) => OrderWidget(),
-            itemCount: 5,
-          ))
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemBuilder: (context, index) => OrderWidget(order: UserController.to.orderList[index]),
+                itemCount: UserController.to.orderList.length,
+              ),
+            ),
+          )
         ],
       ),
     );

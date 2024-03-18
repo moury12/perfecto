@@ -262,8 +262,14 @@ class HomeApiController extends GetxController {
       if ((rewardPointApply.value.toInt() /
               HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt() *
               HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) >
-          (UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice() - (couponInfo.value.amount ?? '0').toDouble())) {
-        final tk = UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice() - (couponInfo.value.amount ?? '0').toDouble();
+          (UserController.to.cartTotalPrice() -
+              UserController.to.cartTotalDiscountPrice() -
+              UserController.to.upToDiscount.value.toDouble() -
+              (couponInfo.value.amount ?? '0').toDouble())) {
+        final tk = UserController.to.cartTotalPrice() -
+            UserController.to.cartTotalDiscountPrice() -
+            UserController.to.upToDiscount.value.toDouble() -
+            (couponInfo.value.amount ?? '0').toDouble();
         rewardPointApply.value = ((tk / HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) * HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt())
             .floor()
             .toStringAsFixed(0);

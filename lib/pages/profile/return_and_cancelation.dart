@@ -41,80 +41,80 @@ class ReturnAndCancelScreen extends StatelessWidget {
             isSearchInclude: false,
           ),
 
-          Expanded(
-              child: ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 8 ),
-            itemBuilder: (context, index) => OrderWidget(
-              status: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Status',
-                          style: AppTheme.textStyleSemiBoldFadeBlack14,
-                        ),
-                        Spacer(),
-                        Text(
-                          index % 2 == 0 ? 'Return Started' : 'Cancellation',
-                          style: AppTheme.textStyleSemiBoldBlack14,
-                        )
-                      ],
-                    ),
-                  ),
-                  index % 2 == 0
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 6),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Estimated Delivery',
-                                style: AppTheme.textStyleSemiBoldFadeBlack14,
-                              ),
-                              Spacer(),
-                              Text(
-                                '04 Nov, 2023',
-                                style: AppTheme.textStyleSemiBoldBlack14,
-                              )
-                            ],
-                          ),
-                        )
-                      : SizedBox.shrink(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 6),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Total Amount',
-                          style: AppTheme.textStyleSemiBoldFadeBlack14,
-                        ),
-                        Spacer(),
-                        Text(
-                          '৳ 1450.00',
-                          style: AppTheme.textStyleSemiBoldBlack14,
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              tagForReturnCancel: true,
-              tagBackgroundColor: index % 2==0 ?AppColors.klightAccentColor:Color(0xffFEE8E8) ,
-              tagTitle:index % 2==0 ?null:'Canceled' ,
-              function: () {
-                index % 2 == 0
-                    ? Get.toNamed(
-                        ReturnProcess.routeName,
-                      )
-                    : Get.toNamed(ReturnProcess.routeName, arguments: 'cancel');
-              },
-            ),
-            itemCount: 5,
-          ))
+          // Expanded(
+          //     child: ListView.builder(
+          //   padding: EdgeInsets.symmetric(vertical: 8 ),
+          //   itemBuilder: (context, index) => OrderWidget(
+          //     status: Column(
+          //       children: [
+          //         Padding(
+          //           padding: const EdgeInsets.symmetric(
+          //               horizontal: 16.0, vertical: 8),
+          //           child: Row(
+          //             children: [
+          //               Text(
+          //                 'Status',
+          //                 style: AppTheme.textStyleSemiBoldFadeBlack14,
+          //               ),
+          //               Spacer(),
+          //               Text(
+          //                 index % 2 == 0 ? 'Return Started' : 'Cancellation',
+          //                 style: AppTheme.textStyleSemiBoldBlack14,
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //         index % 2 == 0
+          //             ? Padding(
+          //                 padding: const EdgeInsets.symmetric(
+          //                     horizontal: 16.0, vertical: 6),
+          //                 child: Row(
+          //                   children: [
+          //                     Text(
+          //                       'Estimated Delivery',
+          //                       style: AppTheme.textStyleSemiBoldFadeBlack14,
+          //                     ),
+          //                     Spacer(),
+          //                     Text(
+          //                       '04 Nov, 2023',
+          //                       style: AppTheme.textStyleSemiBoldBlack14,
+          //                     )
+          //                   ],
+          //                 ),
+          //               )
+          //             : SizedBox.shrink(),
+          //         Padding(
+          //           padding: const EdgeInsets.symmetric(
+          //               horizontal: 16.0, vertical: 6),
+          //           child: Row(
+          //             children: [
+          //               Text(
+          //                 'Total Amount',
+          //                 style: AppTheme.textStyleSemiBoldFadeBlack14,
+          //               ),
+          //               Spacer(),
+          //               Text(
+          //                 '৳ 1450.00',
+          //                 style: AppTheme.textStyleSemiBoldBlack14,
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //     tagForReturnCancel: true,
+          //     tagBackgroundColor: index % 2==0 ?AppColors.klightAccentColor:Color(0xffFEE8E8) ,
+          //     tagTitle:index % 2==0 ?null:'Canceled' ,
+          //     function: () {
+          //       index % 2 == 0
+          //           ? Get.toNamed(
+          //               ReturnProcess.routeName,
+          //             )
+          //           : Get.toNamed(ReturnProcess.routeName, arguments: 'cancel');
+          //     },
+          //   ),
+          //   itemCount: 5,
+          // ))
         ],
       ),
     );
