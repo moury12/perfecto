@@ -302,6 +302,55 @@ class UserService {
     }
   }
 
+  //order-details/3 OrderModel
+  static Future<OrderModel> orderDetailsCall(String orderId) async {
+    OrderModel orderModel = OrderModel();
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-details/$orderId', httpMethod: HttpMethod.get, isLoadingEnable: true);
+    globalLogger.d(response, "Order Details route");
+    if (response['status'] != null && response['status']) {
+      var od = [];
+      if (response['data']['order_details'] != null && response['data']['order_details'].length > 0) {
+        response['data']['order_details'].forEach((element) {
+          if (element['combo_id'] == null && element['buy_get_id'] == null) {
+            od.add([element]);
+          } else {
+            if (element['combo_id'] != null) {
+              if (od.map((el) => el.where((e) => e['combo_id'] == element['combo_id']).toList().length.toString().toInt()).toList().sum == 0) {
+                od.add(response['data']['order_details'].where((el) => el['combo_id'] == element['combo_id']).toList());
+              }
+            } else if (element['buy_get_id'] != null) {
+              if (od.map((el) => el.where((e) => e['buy_get_id'] == element['buy_get_id']).toList().length.toString().toInt()).toList().sum == 0) {
+                od.add(response['data']['order_details'].where((el) => el['buy_get_id'] == element['buy_get_id']).toList());
+              }
+            }
+          }
+        });
+      }
+      globalLogger.d(od, "Order Details");
+      response['data']['order_details'] = od;
+
+      orderModel = OrderModel.fromJson(response['data']);
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return orderModel;
+  }
+
+  //order-destroy/1
+  static Future<bool> cancelOrder(String orderId) async {
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-destroy/$orderId', httpMethod: HttpMethod.post, isLoadingEnable: true);
+    globalLogger.d(response, "order destroy Route");
+    if (response['status'] != null && response['status']) {
+      showSnackBar(
+        msg: response['message'],
+      );
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
   //RewardModel list
   static Future<List<RewardModel>> userRewardListCall() async {
     try {

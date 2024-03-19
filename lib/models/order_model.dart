@@ -1,3 +1,6 @@
+import 'package:perfecto/models/product_model.dart';
+import 'package:perfecto/models/user_model.dart';
+
 class OrderModel {
   String? id;
   String? userId;
@@ -13,13 +16,16 @@ class OrderModel {
   String? subTotal;
   String? grandTotal;
   String? taxAmount;
-  String? rewardPoStrings;
+  String? rewardPoints;
+  String? rewardDiscountAmount;
   String? paymentMethod;
   String? paymentStatus;
   String? status;
   String? createdAt;
   String? updatedAt;
   List<List<OrderDetails>>? orderDetails;
+  Shipping? shipping;
+  UserModel? user;
 
   OrderModel(
       {this.id,
@@ -36,13 +42,16 @@ class OrderModel {
       this.subTotal,
       this.grandTotal,
       this.taxAmount,
-      this.rewardPoStrings,
+      this.rewardPoints,
+      this.rewardDiscountAmount,
       this.paymentMethod,
       this.paymentStatus,
       this.status,
       this.createdAt,
       this.updatedAt,
-      this.orderDetails});
+      this.orderDetails,
+      this.shipping,
+      this.user});
 
   OrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -59,7 +68,8 @@ class OrderModel {
     subTotal = json['sub_total'].toString() == 'null' ? '' : json['sub_total'].toString();
     grandTotal = json['grand_total'].toString() == 'null' ? '' : json['grand_total'].toString();
     taxAmount = json['tax_amount'].toString() == 'null' ? '' : json['tax_amount'].toString();
-    rewardPoStrings = json['reward_poStrings'].toString() == 'null' ? '' : json['reward_poStrings'].toString();
+    rewardPoints = json['reward_points'].toString() == 'null' ? '' : json['reward_points'].toString();
+    rewardDiscountAmount = json['reward_discount_amount'].toString() == 'null' ? '' : json['reward_discount_amount'].toString();
     paymentMethod = json['payment_method'].toString() == 'null' ? '' : json['payment_method'].toString();
     paymentStatus = json['payment_status'].toString() == 'null' ? '' : json['payment_status'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
@@ -74,6 +84,8 @@ class OrderModel {
         });
       }
     }
+    shipping = json['shipping'] != null ? Shipping.fromJson(json['shipping']) : null;
+    user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -92,7 +104,8 @@ class OrderModel {
     data['sub_total'] = subTotal;
     data['grand_total'] = grandTotal;
     data['tax_amount'] = taxAmount;
-    data['reward_poStrings'] = rewardPoStrings;
+    data['reward_points'] = rewardPoints;
+    data['reward_discount_amount'] = rewardDiscountAmount;
     data['payment_method'] = paymentMethod;
     data['payment_status'] = paymentStatus;
     data['status'] = status;
@@ -100,6 +113,12 @@ class OrderModel {
     data['updated_at'] = updatedAt;
     if (orderDetails != null) {
       data['order_details'] = orderDetails!.map((v) => v.map((e) => e.toJson()).toList()).toList();
+    }
+    if (shipping != null) {
+      data['shipping'] = shipping!.toJson();
+    }
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -131,6 +150,7 @@ class OrderDetails {
   String? createdAt;
   String? updatedAt;
   Combo? combo;
+  ProductModel? product;
 
   OrderDetails(
       {this.id,
@@ -157,7 +177,8 @@ class OrderDetails {
       this.shade,
       this.createdAt,
       this.updatedAt,
-      this.combo});
+      this.combo,
+      this.product});
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -185,6 +206,7 @@ class OrderDetails {
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     combo = json['combo'] != null ? Combo.fromJson(json['combo']) : null;
+    product = json['product'] != null ? ProductModel.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -215,6 +237,9 @@ class OrderDetails {
     data['updated_at'] = updatedAt;
     if (combo != null) {
       data['combo'] = combo!.toJson();
+    }
+    if (product != null) {
+      data['product'] = product!.toJson();
     }
     return data;
   }
@@ -262,6 +287,75 @@ class Combo {
     data['is_combo'] = isCombo;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class Shipping {
+  String? id;
+  String? orderId;
+  String? name;
+  String? phone;
+  String? email;
+  String? address;
+  String? createdAt;
+  String? updatedAt;
+  String? cityId;
+  String? cityName;
+  String? zoneId;
+  String? zoneName;
+  String? areaId;
+  String? areaName;
+
+  Shipping(
+      {this.id,
+      this.orderId,
+      this.name,
+      this.phone,
+      this.email,
+      this.address,
+      this.createdAt,
+      this.updatedAt,
+      this.cityId,
+      this.cityName,
+      this.zoneId,
+      this.zoneName,
+      this.areaId,
+      this.areaName});
+
+  Shipping.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString() == 'null' ? '' : json['id'].toString();
+    orderId = json['order_id'].toString() == 'null' ? '' : json['order_id'].toString();
+    name = json['name'].toString() == 'null' ? '' : json['name'].toString();
+    phone = json['phone'].toString() == 'null' ? '' : json['phone'].toString();
+    email = json['email'].toString() == 'null' ? '' : json['email'].toString();
+    address = json['address'].toString() == 'null' ? '' : json['address'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    cityId = json['city_id'].toString() == 'null' ? '' : json['city_id'].toString();
+    cityName = json['city_name'].toString() == 'null' ? '' : json['city_name'].toString();
+    zoneId = json['zone_id'].toString() == 'null' ? '' : json['zone_id'].toString();
+    zoneName = json['zone_name'].toString() == 'null' ? '' : json['zone_name'].toString();
+    areaId = json['area_id'].toString() == 'null' ? '' : json['area_id'].toString();
+    areaName = json['area_name'].toString() == 'null' ? '' : json['area_name'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['order_id'] = orderId;
+    data['name'] = name;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['address'] = address;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['city_id'] = cityId;
+    data['city_name'] = cityName;
+    data['zone_id'] = zoneId;
+    data['zone_name'] = zoneName;
+    data['area_id'] = areaId;
+    data['area_name'] = areaName;
     return data;
   }
 }

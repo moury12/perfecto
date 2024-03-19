@@ -127,20 +127,22 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 CustomSizedBox.space8H,
-                                Row(
-                                  children: [
-                                    const Text(
-                                      'Discount (Upto Sale Offer)',
-                                      style: AppTheme.textStyleMediumBlack10,
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      '-৳ ${UserController.to.upToDiscount.value.toDouble().toStringAsFixed(2)}',
-                                      style: AppTheme.textStyleMediumBlack12,
-                                    ),
-                                  ],
-                                ),
-                                CustomSizedBox.space8H,
+                                if (UserController.to.upToDiscount.value.toDouble() > 0) ...[
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        'Discount (Upto Sale Offer)',
+                                        style: AppTheme.textStyleMediumBlack10,
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        '-৳ ${UserController.to.upToDiscount.value.toDouble().toStringAsFixed(2)}',
+                                        style: AppTheme.textStyleMediumBlack12,
+                                      ),
+                                    ],
+                                  ),
+                                  CustomSizedBox.space8H,
+                                ],
                                 if (HomeApiController.to.couponInfo.value.couponCode != null &&
                                     HomeApiController.to.couponInfo.value.couponCode!.isNotEmpty &&
                                     HomeApiController.to.couponInfo.value.minimumExpenses != null &&
@@ -163,7 +165,7 @@ class CartScreen extends StatelessWidget {
                                   CustomSizedBox.space8H,
                                 ],
                                 // if(HomeApiController.to.rewardPointInfo.value.rewardPointValue!=null && HomeApiController.to.rewardPointInfo.value.rewardPointValue!.isNotEmpty && UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice()>=double.parse(HomeApiController.to.rewardPointInfo.value.rewardPointValue!)
-                                if (HomeApiController.to.rewardPointApply.value != '0')
+                                if (HomeApiController.to.rewardPointApply.value != '0') ...[
                                   Row(
                                     children: [
                                       Text(
@@ -177,7 +179,8 @@ class CartScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                CustomSizedBox.space4H,
+                                  CustomSizedBox.space4H,
+                                ],
                                 const Divider(
                                   color: Color(0xffECECEC),
                                   thickness: 1,

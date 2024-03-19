@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/order_model.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/profile/controller/profile_controller.dart';
@@ -14,7 +15,7 @@ import 'package:collection/collection.dart';
 
 class OrderWidget extends StatelessWidget {
   final Widget? status;
-  final Function()? function;
+  final Function()? onPressed;
   final bool tagForReturnCancel;
   final String? tagTitle;
   final Color? tagBackgroundColor;
@@ -22,7 +23,7 @@ class OrderWidget extends StatelessWidget {
   const OrderWidget({
     super.key,
     this.status,
-    this.function,
+    this.onPressed,
     this.tagForReturnCancel = false,
     this.tagTitle,
     this.tagBackgroundColor,
@@ -72,7 +73,7 @@ class OrderWidget extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          order.status ?? 'Pending',
+                          UserController.to.processesMap[order.status] ?? 'Pending',
                           style: AppTheme.textStyleSemiBoldBlack14,
                         )
                       ],
@@ -83,12 +84,18 @@ class OrderWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Estimated Delivery',
+                          order.status == '4'
+                              ? 'Delivered'
+                              : order.status == '5'
+                                  ? 'Cancelled'
+                                  : 'Estimated Delivery',
                           style: AppTheme.textStyleSemiBoldFadeBlack14,
                         ),
                         const Spacer(),
                         Text(
-                          DateFormat('dd MMM, yyyy').format(DateTime.parse(order.createdAt!).add(Duration(days: 2))),
+                          order.status == '4' || order.status == '5'
+                              ? DateFormat('dd MMM, yyyy').format(DateTime.parse(order.updatedAt!))
+                              : DateFormat('dd MMM, yyyy').format(DateTime.parse(order.createdAt!).add(const Duration(days: 2))),
                           style: AppTheme.textStyleSemiBoldBlack14,
                         )
                       ],
@@ -147,8 +154,9 @@ class OrderWidget extends StatelessWidget {
             labelColor: Colors.white,
             marginVertical: 16,
             marginHorizontal: 16,
-            onPressed: function ??
-                () {
+            onPressed: onPressed ??
+                () async {
+                  await UserController.to.getOrderDetailsCall(order.id!);
                   Get.toNamed(MyOrderDetailsScreen.routeName);
                 },
           )
@@ -240,13 +248,13 @@ class ProductDetailsWidget extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                           decoration: BoxDecoration(
-                            color: orderDetails.first.buyGetId!.isNotEmpty ? AppColors.kOfferButtonColor.withOpacity(.1) : AppColors.kDarkPrimaryColor.withOpacity(.1),
+                            color: orderDetails.first.buyGetId!.isNotEmpty ? const Color(0xfff25c9b).withOpacity(.1) : AppColors.kDarkPrimaryColor.withOpacity(.1),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
                             orderDetails.first.buyGetId!.isNotEmpty ? '(Buy Get)' : '(Combo)',
                             style: TextStyle(
-                              color: orderDetails.first.buyGetId!.isNotEmpty ? AppColors.kOfferButtonColor : AppColors.kDarkPrimaryColor,
+                              color: orderDetails.first.buyGetId!.isNotEmpty ? const Color(0xfff25c9b) : AppColors.kDarkPrimaryColor,
                               fontSize: 12,
                             ),
                           ),
@@ -314,6 +322,7 @@ class ProductDetailsWidget extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
+                        // color: AppColors.kOfferButtonColor.withOpacity(.1),
                         border: Border.all(color: AppColors.kOfferButtonColor, width: .1),
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),

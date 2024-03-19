@@ -281,7 +281,8 @@ class ReturnScreen extends StatelessWidget {
         marginHorizontal: 16,
         marginVertical: 20,
         onPressed: () {
-          Get.toNamed(ReturnProcess.routeName);
+          Get.back();
+          // Get.toNamed(ReturnProcess.routeName);
         },
       ),
     );

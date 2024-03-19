@@ -47,10 +47,20 @@ class UserController extends GetxController {
   RxList<RewardModel> rewardList = <RewardModel>[].obs;
   RxList<CartModel> cartList = <CartModel>[].obs;
   RxList<OrderModel> orderList = <OrderModel>[].obs;
+  Rx<OrderModel> orderDetails = OrderModel().obs;
   RxStatus orderStatus = RxStatus.empty();
   RxString orderPaginateURL = ''.obs;
   RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
   TextEditingController orderNoteController = TextEditingController();
+
+  var processesMap = {
+    '1': 'Ordered',
+    '2': 'Accepted',
+    '3': 'Shipped',
+    '4': 'Delivered',
+    '5': 'Cancelled',
+  };
+
   @override
   Future<void> onInit() async {
     await getUserInfoCall();
@@ -146,10 +156,28 @@ class UserController extends GetxController {
     orderStatus = RxStatus.loading();
     final data = await UserService.userOrderListCall(initialCall: initialCall);
     if (data.isNotEmpty) {
-      orderList.addAll(data);
+      if (initialCall) {
+        orderList.value = data;
+      } else {
+        orderList.addAll(data);
+      }
       orderStatus = RxStatus.success();
     } else {
       orderStatus = RxStatus.error('No Data Found');
+    }
+  }
+
+  //orderDetails call
+  Future<void> getOrderDetailsCall(String orderId) async {
+    orderDetails.value = await UserService.orderDetailsCall(orderId);
+  }
+
+  //orderDestroy
+  Future<void> cancelOrder(String orderId) async {
+    final isCreated = await UserService.cancelOrder(orderId);
+    if (isCreated) {
+      getOrderListCall();
+      // afterLogin(isCreated);
     }
   }
 

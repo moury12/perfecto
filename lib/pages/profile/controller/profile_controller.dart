@@ -12,15 +12,14 @@ class ProfileController extends GetxController {
   RxList<bool> checked = [false, false, false].obs;
   RxList<Process> processes = [
     Process(name: '1', isComplete: true, topic: 'Ordered'),
-    Process(name: '2', isComplete: false, topic: 'Processing'),
+    Process(name: '2', isComplete: false, topic: 'Accepted'),
     Process(name: '3', isComplete: false, topic: 'Shipped'),
     Process(name: '4', isComplete: false, topic: 'Estimated Delivery'),
   ].obs;
+
   RxList<Process> cancelProcesses = [
     Process(name: '1', isComplete: true, topic: 'Ordered'),
-    Process(name: '2', isComplete: false, topic: 'Processing'),
-    Process(name: '3', isComplete: false, topic: 'Cancellation Requested'),
-    Process(name: '4', isComplete: false, topic: 'Cancelled Order'),
+    Process(name: '5', isComplete: false, topic: 'Cancelled Order'),
   ].obs;
   RxList<Process> Returnprocesses = [
     Process(name: '1', isComplete: true, topic: 'Return Started'),
