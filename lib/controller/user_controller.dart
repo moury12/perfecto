@@ -200,6 +200,31 @@ class UserController extends GetxController {
     }
   }
 
+  Future<void> checkAndAddCart(dynamic body) async {
+    for (var element in cartList) {
+      if (element.product != null && element.product!.id == body['product_id'] && element.product!.variationType == 'shade'
+          ? element.shadeId == body['shade_id']
+          : element.sizeId == body['size_id']) {
+        updateCart({
+          'quantity': (element.quantity!.toInt() + 1).toString(),
+        }, element.id!);
+      } else {
+        await addToCart(body);
+      }
+    }
+  }
+
+  CartModel? checkCart() {
+    for (var element in cartList) {
+      if (element.product != null && element.product!.id == ProductDetailsController.to.product.value.id! && element.product!.variationType == 'shade'
+          ? element.shadeId == ProductDetailsController.to.selectedVariation.value
+          : element.sizeId == ProductDetailsController.to.selectedVariation.value) {
+        return element;
+      }
+    }
+    return null;
+  }
+
   //add addToCart
   Future<void> addToCart(dynamic body) async {
     final isCreated = await UserService.addToCart(body);

@@ -9,6 +9,7 @@ import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
+import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -284,11 +285,17 @@ class BestSellerListWidget extends StatelessWidget {
                     ),
                   ),
                   CustomButton(
-                    label: 'ADD TO BAG',
+                    label: product?.variationType == 'shade' ? 'SELECT SHADE' : 'SELECT SIZE',
                     marginHorizontal: 8,
                     marginVertical: 8,
                     height: 39,
-                    onPressed: () {},
+                    onPressed: () async {
+                      Get.put(ProductDetailsController());
+                      await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
+                      Get.to(ProductShadeScreen(
+                        isSelectSize: product?.variationType == 'shade' ? false : true,
+                      ));
+                    },
                   )
                 ],
               ),

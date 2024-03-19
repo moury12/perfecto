@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/auth_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
+import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -527,46 +531,148 @@ class BottomCalculationTotalWidget extends StatelessWidget {
               ),
             );
           }),
-          FittedBox(
-            child: Row(
-              children: [
-                Obx(() {
-                  return GestureDetector(
-                    onTap: () {
-                      ProductDetailsController.to.isFavourite.value = !ProductDetailsController.to.isFavourite.value;
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      margin: const EdgeInsets.only(left: 8),
-                      decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
-                      child: ProductDetailsController.to.isFavourite.value
-                          ? Image.asset(
-                              AssetsConstant.favIconFill,
-                              height: 24,
-                            )
-                          : Image.asset(
-                              AssetsConstant.favIcon,
-                              height: 26,
-                            ),
-                    ),
-                  );
+          Row(
+            children: [
+              CustomSizedBox.space8W,
+              Obx(() {
+                return GestureDetector(
+                  onTap: () {
+                    ProductDetailsController.to.isFavourite.value = !ProductDetailsController.to.isFavourite.value;
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    margin: const EdgeInsets.only(left: 8),
+                    decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
+                    child: ProductDetailsController.to.isFavourite.value
+                        ? Image.asset(
+                            AssetsConstant.favIconFill,
+                            height: 24,
+                          )
+                        : Image.asset(
+                            AssetsConstant.favIcon,
+                            height: 26,
+                          ),
+                  ),
+                );
+              }),
+              CustomSizedBox.space4W,
+              Expanded(
+                child: Obx(() {
+                  final cartModel = AuthController.to.isLoggedIn.value ? UserController.to.checkCart() : true;
+
+                  return (cartModel == null || cartModel == true)
+                      ? CustomButton(
+                          label: 'Add To Bag',
+                          marginHorizontal: 8,
+                          marginVertical: 4,
+                          height: 46,
+                          prefixImage: AssetsConstant.cartIcon,
+                          prefixImageColor: Colors.white,
+                          prefixImageHeight: 20,
+                          primary: AppColors.kPrimaryColor,
+                          width: MediaQuery.of(context).size.width / 1.3,
+                          onPressed: () {
+                            final data = {
+                              "product_id": ProductDetailsController.to.product.value.id!,
+                              if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
+                              if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
+                              "quantity": '1',
+                            };
+                            globalLogger.d(data);
+
+                            UserController.to.addToCart(data);
+                          },
+                        )
+                      : Container(
+                          height: 48,
+                          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: AppColors.kPrimaryColor,
+                                width: 1,
+                              ),
+                              color: AppColors.kPrimaryColor,
+                              borderRadius: BorderRadius.circular(4)),
+                          // padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (int.parse((cartModel).quantity!) >
+                                      (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) : */ 1)) {
+                                    final dynamic body = {
+                                      // 'product_id': (cartModel as CartModel)!.productId!,
+                                      'quantity': (int.parse((cartModel).quantity!) -
+                                              (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) :*/ 1))
+                                          .toString(),
+                                    };
+                                    globalLogger.d(body, 'body');
+                                    UserController.to.updateCart(body, (cartModel).id ?? '');
+                                  } else {
+                                    // UserController.to.removeFromCart((cartModel as CartModel)?.id ?? '');
+                                    showSnackBar(msg: 'One Quantity is minimum');
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4),
+                                  child: Icon(
+                                    Icons.remove,
+                                    color: int.parse((cartModel as CartModel).quantity!) ==
+                                            (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) :*/ 1)
+                                        ? AppColors.kAccentColor
+                                        : Colors.white,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 20,
+                                width: .5,
+                                color: AppColors.kPrimaryColor,
+                                // margin: const EdgeInsets.symmetric(horizontal: 8),
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    '${(cartModel).quantity} Added',
+                                    style: AppTheme.textStyleMediumWhite14,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 20,
+                                width: .5,
+                                color: AppColors.kPrimaryColor,
+                                // margin: const EdgeInsets.symmetric(horizontal: 8),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  final dynamic body = {
+                                    // 'product_id': (cartModel as CartModel)!.productId!,
+                                    'quantity': (int.parse((cartModel).quantity!) +
+                                            (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) : */ 1))
+                                        .toString(),
+                                  };
+                                  globalLogger.d(body, 'body');
+                                  UserController.to.updateCart(body, (cartModel).id ?? '');
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(4),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                 }),
-                CustomSizedBox.space4W,
-                CustomButton(
-                  label: 'Add To Bag',
-                  marginHorizontal: 8,
-                  marginVertical: 4,
-                  height: 50,
-                  prefixImage: AssetsConstant.cartIcon,
-                  prefixImageColor: Colors.white,
-                  prefixImageHeight: 20,
-                  primary: AppColors.kPrimaryColor,
-                  width: MediaQuery.of(context).size.width / 1.3,
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          )
+              ),
+              CustomSizedBox.space8W,
+            ],
+          ),
         ],
       ),
     );
