@@ -162,7 +162,11 @@ class ProductShadeScreen extends StatelessWidget {
                                 final data = ProductDetailsController.to.product.value.productSizes![index];
                                 return GestureDetector(
                                   onTap: () {
-                                    ProductDetailsController.to.selectedVariation.value = data.sizeId!;
+                                    if (data.stock!.toInt() != 0) {
+                                      ProductDetailsController.to.selectedVariation.value = data.sizeId!;
+                                    } else {
+                                      showSnackBar(msg: 'Out of Stock');
+                                    }
                                   },
                                   child: Obx(() {
                                     return Container(
@@ -170,7 +174,7 @@ class ProductShadeScreen extends StatelessWidget {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           color: ProductDetailsController.to.selectedVariation.value == data.sizeId ? AppColors.kPrimaryColor : Colors.transparent,
-                                          border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
+                                          border: Border.all(color: data.stock!.toInt() == 0 ? Colors.red : AppColors.kPrimaryColor, width: 1.5),
                                           borderRadius: BorderRadius.circular(4)),
                                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                       child: Text(
@@ -184,6 +188,24 @@ class ProductShadeScreen extends StatelessWidget {
                                   }),
                                 );
                               },
+                            ),
+                          ),
+                          CustomSizedBox.space8H,
+                          Obx(
+                            () => RichText(
+                              text: TextSpan(
+                                text: "Available stock: ",
+                                style: AppTheme.textStyleNormalBlack14,
+                                children: [
+                                  TextSpan(
+                                    text: ProductDetailsController.to.product.value.productSizes!
+                                        .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                        .stock
+                                        .toString(),
+                                    style: AppTheme.textStyleBoldBlack14,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -236,7 +258,11 @@ class ProductShadeScreen extends StatelessWidget {
                                       child: Obx(() {
                                         return GestureDetector(
                                           onTap: () {
-                                            ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                                            if (shade.stock!.toInt() != 0) {
+                                              ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                                            } else {
+                                              showSnackBar(msg: 'Out of Stock');
+                                            }
                                           },
                                           child: Stack(
                                             alignment: Alignment.center,
@@ -253,6 +279,20 @@ class ProductShadeScreen extends StatelessWidget {
                                                       Icons.check,
                                                       color: Colors.white,
                                                     )
+                                                  : const SizedBox.shrink(),
+                                              shade.stock!.toInt() == 0
+                                                  ? Column(
+                                                      children: [
+                                                        const Icon(
+                                                          Icons.close,
+                                                          color: Colors.white,
+                                                        ),
+                                                        Text(
+                                                          'Out of Stock',
+                                                          style: AppTheme.textStyleNormalRed12.copyWith(fontSize: 8),
+                                                        ),
+                                                      ],
+                                                    )
                                                   : const SizedBox.shrink()
                                             ],
                                           ),
@@ -260,6 +300,24 @@ class ProductShadeScreen extends StatelessWidget {
                                       }),
                                     ))
                                 .toList(),
+                          ),
+
+                          Obx(
+                            () => RichText(
+                              text: TextSpan(
+                                text: "Available stock: ",
+                                style: AppTheme.textStyleNormalBlack14,
+                                children: [
+                                  TextSpan(
+                                    text: ProductDetailsController.to.product.value.productShades!
+                                        .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                        .stock
+                                        .toString(),
+                                    style: AppTheme.textStyleBoldBlack14,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           // SizedBox(
                           //   height: 100,
@@ -341,133 +399,133 @@ class ProductShadeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildwidget(int tabIndex) {
-    switch (tabIndex) {
-      case 0:
-        return GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
-          shrinkWrap: true,
-          primary: false,
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const CustomNetworkImage(
-                      networkImagePath: '',
-                      borderRadius: 5,
-                      height: 52,
-                      width: 52,
-                      errorImagePath: AssetsConstant.lipstickShade,
-                      fit: BoxFit.fitHeight,
-                    ),
-                    index == 0
-                        ? const Icon(
-                            Icons.check_rounded,
-                            color: Colors.white,
-                          )
-                        : index == 9
-                            ? const Icon(
-                                CupertinoIcons.multiply,
-                                color: Colors.white,
-                              )
-                            : const SizedBox.shrink()
-                  ],
-                ),
-                CustomSizedBox.space8W,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Nude Shade Color',
-                      style: AppTheme.textStyleNormalBlack14,
-                    ),
-                    index == 9
-                        ? const Text(
-                            'Out of Stock',
-                            style: AppTheme.textStyleNormalRed12,
-                          )
-                        : const SizedBox.shrink(),
-                  ],
-                )
-              ],
-            );
-          },
-        );
-
-      case 1:
-        return GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
-          shrinkWrap: true,
-          primary: false,
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const CustomNetworkImage(
-                      networkImagePath: '',
-                      borderRadius: 5,
-                      height: 42,
-                      width: 42,
-                      errorImagePath: AssetsConstant.lipstickShade,
-                      fit: BoxFit.fitHeight,
-                    ),
-                    index == 0
-                        ? const Icon(
-                            Icons.check_rounded,
-                            color: Colors.white,
-                          )
-                        : index == 9
-                            ? const Icon(
-                                CupertinoIcons.multiply,
-                                color: Colors.white,
-                              )
-                            : const SizedBox.shrink()
-                  ],
-                ),
-                CustomSizedBox.space8W,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Nude Shade Color',
-                      style: AppTheme.textStyleNormalBlack14,
-                    ),
-                    index == 9
-                        ? const Text(
-                            'Out of Stock',
-                            style: AppTheme.textStyleNormalRed12,
-                          )
-                        : const SizedBox.shrink(),
-                  ],
-                )
-              ],
-            );
-          },
-        );
-
-      default:
-        return const Center(
-          child: Text(
-            'Unknown Tab',
-            style: TextStyle(fontSize: 10),
-          ),
-        );
-    }
-  }
+  // Widget buildwidget(int tabIndex) {
+  //   switch (tabIndex) {
+  //     case 0:
+  //       return GridView.builder(
+  //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+  //         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
+  //         shrinkWrap: true,
+  //         primary: false,
+  //         itemCount: 10,
+  //         itemBuilder: (context, index) {
+  //           return Row(
+  //             mainAxisSize: MainAxisSize.min,
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: [
+  //               Stack(
+  //                 alignment: Alignment.center,
+  //                 children: [
+  //                   const CustomNetworkImage(
+  //                     networkImagePath: '',
+  //                     borderRadius: 5,
+  //                     height: 52,
+  //                     width: 52,
+  //                     errorImagePath: AssetsConstant.lipstickShade,
+  //                     fit: BoxFit.fitHeight,
+  //                   ),
+  //                   index == 0
+  //                       ? const Icon(
+  //                           Icons.check_rounded,
+  //                           color: Colors.white,
+  //                         )
+  //                       : index == 9
+  //                           ? const Icon(
+  //                               CupertinoIcons.multiply,
+  //                               color: Colors.white,
+  //                             )
+  //                           : const SizedBox.shrink()
+  //                 ],
+  //               ),
+  //               CustomSizedBox.space8W,
+  //               Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   const Text(
+  //                     'Nude Shade Color',
+  //                     style: AppTheme.textStyleNormalBlack14,
+  //                   ),
+  //                   index == 9
+  //                       ? const Text(
+  //                           'Out of Stock',
+  //                           style: AppTheme.textStyleNormalRed12,
+  //                         )
+  //                       : const SizedBox.shrink(),
+  //                 ],
+  //               )
+  //             ],
+  //           );
+  //         },
+  //       );
+  //
+  //     case 1:
+  //       return GridView.builder(
+  //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  //         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
+  //         shrinkWrap: true,
+  //         primary: false,
+  //         itemCount: 10,
+  //         itemBuilder: (context, index) {
+  //           return Row(
+  //             mainAxisSize: MainAxisSize.min,
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             children: [
+  //               Stack(
+  //                 alignment: Alignment.center,
+  //                 children: [
+  //                   const CustomNetworkImage(
+  //                     networkImagePath: '',
+  //                     borderRadius: 5,
+  //                     height: 42,
+  //                     width: 42,
+  //                     errorImagePath: AssetsConstant.lipstickShade,
+  //                     fit: BoxFit.fitHeight,
+  //                   ),
+  //                   index == 0
+  //                       ? const Icon(
+  //                           Icons.check_rounded,
+  //                           color: Colors.white,
+  //                         )
+  //                       : index == 9
+  //                           ? const Icon(
+  //                               CupertinoIcons.multiply,
+  //                               color: Colors.white,
+  //                             )
+  //                           : const SizedBox.shrink()
+  //                 ],
+  //               ),
+  //               CustomSizedBox.space8W,
+  //               Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   const Text(
+  //                     'Nude Shade Color',
+  //                     style: AppTheme.textStyleNormalBlack14,
+  //                   ),
+  //                   index == 9
+  //                       ? const Text(
+  //                           'Out of Stock',
+  //                           style: AppTheme.textStyleNormalRed12,
+  //                         )
+  //                       : const SizedBox.shrink(),
+  //                 ],
+  //               )
+  //             ],
+  //           );
+  //         },
+  //       );
+  //
+  //     default:
+  //       return const Center(
+  //         child: Text(
+  //           'Unknown Tab',
+  //           style: TextStyle(fontSize: 10),
+  //         ),
+  //       );
+  //   }
+  // }
 }
 
 class BottomCalculationTotalWidget extends StatelessWidget {

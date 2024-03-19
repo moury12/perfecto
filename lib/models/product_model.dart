@@ -229,7 +229,7 @@ class ProductModel {
     offers = json['offers'] != null ? OffersMain.fromJson(json['offers']) : null;
     allShadesCount = json['all_shades_count'].toString() == 'null' ? '0' : json['all_shades_count'].toString();
     allSizesCount = json['all_sizes_count'].toString() == 'null' ? '0' : json['all_sizes_count'].toString();
-    totalStock = json['total_stock'].toString() == 'null' ? '' : json['total_stock'].toString();
+    totalStock = json['total_stock'].toString() == 'null' ? '0' : json['total_stock'].toString();
     if (json['product_shades'] != null) {
       productShades = <ProductShades>[];
       json['product_shades'].forEach((v) {
@@ -625,6 +625,7 @@ class ProductShades {
   String? flatDiscount;
   String? createdAt;
   String? updatedAt;
+  String? stock;
   List<Offers>? offers;
   List<ProductShadeImages>? productShadeImages;
   Shade? shade;
@@ -639,6 +640,7 @@ class ProductShades {
       this.flatDiscount,
       this.createdAt,
       this.updatedAt,
+      this.stock,
       this.offers,
       this.productShadeImages,
       this.shade});
@@ -653,6 +655,7 @@ class ProductShades {
     flatDiscount = json['flat_discount'].toString() == 'null' ? "" : json['flat_discount'].toString();
     createdAt = json['created_at'].toString() == 'null' ? "" : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? "" : json['updated_at'].toString();
+    stock = json['stock'].toString() == 'null' ? "0" : json['stock'].toString();
     if (json['offers'] != null) {
       offers = <Offers>[];
       json['offers'].forEach((v) {
@@ -679,6 +682,7 @@ class ProductShades {
     data['flat_discount'] = flatDiscount;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['stock'] = stock;
     if (offers != null) {
       data['offers'] = offers!.map((v) => v.toJson()).toList();
     }
@@ -882,6 +886,7 @@ class ProductSizes {
   String? updatedAt;
   List<Offers>? offers;
   String? bestSale;
+  String? stock;
   List<ProductSizeImages>? productSizeImages;
   Size? size;
 
@@ -897,6 +902,7 @@ class ProductSizes {
       this.updatedAt,
       this.offers,
       this.bestSale,
+      this.stock,
       this.productSizeImages,
       this.size});
 
@@ -910,6 +916,7 @@ class ProductSizes {
     flatDiscount = json['flat_discount'].toString() == 'null' ? '' : json['flat_discount'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    stock = json['stock'].toString() == 'null' ? '0' : json['stock'].toString();
     if (json['offers'] != null) {
       offers = <Offers>[];
       json['offers'].forEach((v) {
@@ -937,6 +944,7 @@ class ProductSizes {
     data['flat_discount'] = flatDiscount;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['stock'] = stock;
     if (offers != null) {
       data['offers'] = offers!.map((v) => v.toJson()).toList();
     }

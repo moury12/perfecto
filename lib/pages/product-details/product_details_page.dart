@@ -354,7 +354,11 @@ class ProductDetailsScreen extends StatelessWidget {
                                     child: Obx(() {
                                       return GestureDetector(
                                         onTap: () {
-                                          ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                                          if (shade.stock!.toInt() != 0) {
+                                            ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                                          } else {
+                                            showSnackBar(msg: 'Out of Stock');
+                                          }
                                         },
                                         child: Stack(
                                           alignment: Alignment.center,
@@ -371,6 +375,21 @@ class ProductDetailsScreen extends StatelessWidget {
                                                     Icons.check,
                                                     color: Colors.white,
                                                   )
+                                                : const SizedBox.shrink(),
+                                            shade.stock!.toInt() == 0
+                                                ? Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.close,
+                                                        color: Colors.white,
+                                                      ),
+                                                      Text(
+                                                        'Out of Stock',
+                                                        style: AppTheme.textStyleNormalRed12.copyWith(fontSize: 8),
+                                                      ),
+                                                    ],
+                                                  )
                                                 : const SizedBox.shrink()
                                           ],
                                         ),
@@ -379,6 +398,23 @@ class ProductDetailsScreen extends StatelessWidget {
                                   );
                                 },
                                 itemCount: ProductDetailsController.to.product.value.productShades!.length,
+                              ),
+                            ),
+                            Obx(
+                              () => RichText(
+                                text: TextSpan(
+                                  text: "Available stock: ",
+                                  style: AppTheme.textStyleNormalBlack14,
+                                  children: [
+                                    TextSpan(
+                                      text: ProductDetailsController.to.product.value.productShades!
+                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                          .stock
+                                          .toString(),
+                                      style: AppTheme.textStyleBoldBlack14,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ]
@@ -414,14 +450,18 @@ class ProductDetailsScreen extends StatelessWidget {
                                     return Obx(() {
                                       return GestureDetector(
                                         onTap: () {
-                                          ProductDetailsController.to.selectedVariation.value = ProductDetailsController.to.product.value.productSizes![index].sizeId!;
+                                          if (size.stock!.toInt() != 0) {
+                                            ProductDetailsController.to.selectedVariation.value = ProductDetailsController.to.product.value.productSizes![index].sizeId!;
+                                          } else {
+                                            showSnackBar(msg: 'Out of Stock');
+                                          }
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.symmetric(horizontal: 6),
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                             color: size.sizeId == ProductDetailsController.to.selectedVariation.value ? AppColors.kPrimaryColor : Colors.transparent,
-                                            border: Border.all(color: AppColors.kPrimaryColor, width: 1.5),
+                                            border: Border.all(color: size.stock!.toInt() == 0 ? Colors.red : AppColors.kPrimaryColor, width: 1.5),
                                             borderRadius: BorderRadius.circular(4),
                                           ),
                                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -450,6 +490,24 @@ class ProductDetailsScreen extends StatelessWidget {
                                     //   ),
                                     // );
                                   },
+                                ),
+                              ),
+                            ),
+                            CustomSizedBox.space8H,
+                            Obx(
+                              () => RichText(
+                                text: TextSpan(
+                                  text: "Available stock: ",
+                                  style: AppTheme.textStyleNormalBlack14,
+                                  children: [
+                                    TextSpan(
+                                      text: ProductDetailsController.to.product.value.productSizes!
+                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                          .stock
+                                          .toString(),
+                                      style: AppTheme.textStyleBoldBlack14,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

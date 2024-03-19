@@ -285,7 +285,11 @@ class BestSellerListWidget extends StatelessWidget {
                     ),
                   ),
                   CustomButton(
-                    label: product?.variationType == 'shade' ? 'SELECT SHADE' : 'SELECT SIZE',
+                    label: product?.totalStock != '0'
+                        ? "OUT OF STOCK"
+                        : product?.variationType == 'shade'
+                            ? 'SELECT SHADE'
+                            : 'SELECT SIZE',
                     marginHorizontal: 8,
                     marginVertical: 8,
                     height: 39,
