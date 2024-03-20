@@ -6,6 +6,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
@@ -58,6 +59,9 @@ class CategoryCard extends StatelessWidget {
         await HomeApiController.to.productListWithCategoryCall({
           'category': [category.id!].toString(),
         });
+        NavigationController.to.addAttribute = {
+          'category': [category.id!].toString(),
+        };
         Get.toNamed(SingleCatergoryWiseScreen.routeName);
       },
       child: Container(

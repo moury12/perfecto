@@ -23,6 +23,7 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         NavigationController.to.resetFilters();
+        NavigationController.to.addAttribute = {};
         return true;
       },
       child: Scaffold(
@@ -33,43 +34,40 @@ class SingleCatergoryWiseScreen extends StatelessWidget {
             children: [
               HomeTopWidget(isNeedFilter: true),
               Expanded(
-                  child: Center(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    CustomSizedBox.space8H,
-                    GridView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      shrinkWrap: true,
-                      primary: false,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 202, mainAxisExtent: 380, crossAxisSpacing: 8, mainAxisSpacing: 12),
-                      itemCount: HomeApiController.to.productList.length,
-                      itemBuilder: (context, index) {
-                        // final data = CategoryController.to.categoryWiseITem[index];
-                        return SingleCategoryProductWidget(
-                          product: HomeApiController.to.productList[index],
-                          // name: data['name'],
-                          // rating: data['rating'],
-                          // img: data['img'],
-                          // price: data['price'],
-                          // // buttonText: data['buttonText'],
-                          // previousPrice: data['previousPrice'],
-                          // isBestSeller: data['isBestSeller'],
-                          // isStacked: data['isStacked'],
-                          // isBuy1Get1: data['isbuy1Get1'],
-                          // isDiscount: data['isDiscount'],
-                          // isFavourite: data['isFavourite'],
-                          // isFeatured: data['isFeatured'],
-                          // isOnSale: data['isOnSale'],
-                          // isOutofStock: data['isOutofStock'],
-                          // isShadeSwatch: data['shade'],
-                        );
-                      },
-                    ),
-                    CustomSizedBox.space8H,
-                  ],
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
+                  },
+                  child: GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    shrinkWrap: true,
+                    primary: false,
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 202, mainAxisExtent: 380, crossAxisSpacing: 8, mainAxisSpacing: 12),
+                    itemCount: HomeApiController.to.productList.length,
+                    itemBuilder: (context, index) {
+                      // final data = CategoryController.to.categoryWiseITem[index];
+                      return SingleCategoryProductWidget(
+                        product: HomeApiController.to.productList[index],
+                        // name: data['name'],
+                        // rating: data['rating'],
+                        // img: data['img'],
+                        // price: data['price'],
+                        // // buttonText: data['buttonText'],
+                        // previousPrice: data['previousPrice'],
+                        // isBestSeller: data['isBestSeller'],
+                        // isStacked: data['isStacked'],
+                        // isBuy1Get1: data['isbuy1Get1'],
+                        // isDiscount: data['isDiscount'],
+                        // isFavourite: data['isFavourite'],
+                        // isFeatured: data['isFeatured'],
+                        // isOnSale: data['isOnSale'],
+                        // isOutofStock: data['isOutofStock'],
+                        // isShadeSwatch: data['shade'],
+                      );
+                    },
+                  ),
                 ),
-              ))
+              )
             ],
           );
         }),

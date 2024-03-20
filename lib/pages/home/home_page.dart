@@ -388,21 +388,45 @@ class HomeScreen extends StatelessWidget {
                                 child: Center(
                                   child: Text('Check'),*--*
                                 ))*/
-                                SizedBox(
-                                  width: Get.width * .9,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(10),
-                                          child: VideoPlayerWidgetV2(
-                                            videoList: [data.link ?? 'https://www.youtube.com/watch?v=gJLVTKhTnog'],
-                                            width: Get.width * .8,
+                                Stack(
+                                  children: [
+                                    SizedBox(
+                                      width: Get.width * .9,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(10),
+                                              child: VideoPlayerWidgetV2(
+                                                videoList: [data.link ?? 'https://www.youtube.com/watch?v=gJLVTKhTnog'],
+                                                width: Get.width * .8,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        icon: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white10,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: const Icon(
+                                            Icons.close,
+                                            color: Colors.black,
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -468,16 +492,21 @@ class HomeScreen extends StatelessWidget {
         const HomeTopWidget(),
         Expanded(
           child: Obx(() {
-            return ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: controller.homeData.length,
-                itemBuilder: (context, index) {
-                  // globalLogger.d(controller.homeData[index].id);
-                  return switchHomeWidget(
-                    controller.homeData[index],
-                    context,
-                  );
-                });
+            return RefreshIndicator(
+              onRefresh: () async {
+                await HomeController.to.getHomeCall();
+              },
+              child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: controller.homeData.length,
+                  itemBuilder: (context, index) {
+                    // globalLogger.d(controller.homeData[index].id);
+                    return switchHomeWidget(
+                      controller.homeData[index],
+                      context,
+                    );
+                  }),
+            );
           }),
           // ListView(
           //   padding: EdgeInsets.zero,

@@ -10,6 +10,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
+import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
@@ -870,15 +871,19 @@ class ProductDetailsScreen extends StatelessWidget {
                         primary: AppColors.kPrimaryColor,
                         width: MediaQuery.of(context).size.width / 1.3,
                         onPressed: () {
-                          final data = {
-                            "product_id": ProductDetailsController.to.product.value.id!,
-                            if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
-                            if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
-                            "quantity": '1',
-                          };
-                          globalLogger.d(data);
+                          if (AuthController.to.isLoggedIn.value) {
+                            final data = {
+                              "product_id": ProductDetailsController.to.product.value.id!,
+                              if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
+                              if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
+                              "quantity": '1',
+                            };
+                            globalLogger.d(data);
 
-                          UserController.to.addToCart(data);
+                            UserController.to.addToCart(data);
+                          } else {
+                            Get.toNamed(LoginScreen.routeName);
+                          }
                         },
                       )
                     : Container(

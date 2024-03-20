@@ -17,26 +17,26 @@ import 'package:perfecto/theme/theme_data.dart';
 import 'dart:ui' as sz;
 
 class MegaDealsWidget extends StatelessWidget {
-  final String name;
+  // final String name;
 
   final String img;
 
   final ProductModel? product;
-  final int rate;
-  final String price;
-  final String previousPrice;
-  final bool isStacked;
-  final bool isBestSeller;
-  final bool isBuy1Get1;
+  // final int rate;
+  // final String price;
+  // final String previousPrice;
+  // final bool isStacked;
+  // final bool isBestSeller;
+  // final bool isBuy1Get1;
   const MegaDealsWidget({
     super.key,
-    required this.name,
-    required this.rate,
-    required this.price,
-    required this.previousPrice,
-    this.isStacked = false,
-    this.isBestSeller = false,
-    this.isBuy1Get1 = true,
+    // required this.name,
+    // required this.rate,
+    // required this.price,
+    // required this.previousPrice,
+    // this.isStacked = false,
+    // this.isBestSeller = false,
+    // this.isBuy1Get1 = true,
     required this.img,
     this.product,
   });
@@ -79,7 +79,7 @@ class MegaDealsWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    product?.name ?? name,
+                    product?.name ?? '-',
                     style: AppTheme.textStyleBoldBlack12.copyWith(fontFamily: 'InriaSans', fontSize: 14),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -147,7 +147,7 @@ class MegaDealsWidget extends StatelessWidget {
                         ),
 
                       if (product!.variationType!.isNotEmpty)
-                        Text('(${product?.reviewsCount ?? rate})', style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 10))
+                        Text('(${product?.reviewsCount ?? '0'})', style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 10))
                     ],
                   ),
                 ),
@@ -157,7 +157,7 @@ class MegaDealsWidget extends StatelessWidget {
                       text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
                     TextSpan(
                       text:
-                          '৳ ${product?.variationType == 'shade' ? (product?.productShades?[0].discountedPrice ?? '550') : (product?.productSizes?[0].discountedPrice ?? '550')}  ',
+                          '৳ ${product!.variationType!.isNotEmpty ? product?.variationType == 'shade' ? (product?.productShades?[0].discountedPrice ?? '550') : (product?.productSizes?[0].discountedPrice ?? '550') : product!.comboPrice ?? '0'}  ',
                       style: AppTheme.textStyleBoldBlack14,
                     ),
                     if (product!.variationType!.isNotEmpty)
@@ -344,13 +344,13 @@ class GridItemWidget extends StatelessWidget {
                       ),
                       child: MegaDealsWidget(
                         product: product,
-                        name: dataItem['name'],
-                        isBestSeller: dataItem['isBestSeller'],
-                        isBuy1Get1: dataItem['isbuy1Get1'],
-                        isStacked: dataItem['isStacked'],
-                        rate: dataItem['rating'],
-                        price: dataItem['price'],
-                        previousPrice: dataItem['previousPrice'],
+                        // name: dataItem['name'],
+                        // isBestSeller: dataItem['isBestSeller'],
+                        // isBuy1Get1: dataItem['isbuy1Get1'],
+                        // isStacked: dataItem['isStacked'],
+                        // rate: dataItem['rating'],
+                        // price: dataItem['price'],
+                        // previousPrice: dataItem['previousPrice'],
                         img: dataItem['img'],
                       ),
                     );

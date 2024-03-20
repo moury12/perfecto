@@ -6,6 +6,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
@@ -54,12 +55,12 @@ class _BrandScreenState extends State<BrandScreen> {
           const HomeTopWidget(),
           const TitleTextWidget(tileText: 'Popular Brands'),
           Obx(() => HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.all(16.0),
+              ? const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Center(
                     child: Text(
                       "There is no popular brand right now",
-                      style: const TextStyle(fontSize: 10, color: Color(0xFF666666)),
+                      style: TextStyle(fontSize: 10, color: Color(0xFF666666)),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -120,7 +121,7 @@ class _BrandScreenState extends State<BrandScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       subData.susTag == null
-                          ? SizedBox.shrink()
+                          ? const SizedBox.shrink()
                           : Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4.0),
                               child: Text(
@@ -147,6 +148,9 @@ class _BrandScreenState extends State<BrandScreen> {
                           await HomeApiController.to.productListWithCategoryCall({
                             'brand': [subData.id!].toString(),
                           });
+                          NavigationController.to.addAttribute = {
+                            'brand': [subData.id!].toString(),
+                          };
                           Get.toNamed(SingleCatergoryWiseScreen.routeName);
                         },
                       ),

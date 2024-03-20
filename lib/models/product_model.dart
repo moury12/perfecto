@@ -29,6 +29,7 @@ class ProductModel {
   String? discountAmount;
   String? discountPercent;
   String? discountPrice;
+  String? comboPrice;
   String? image;
   String? tax;
   String? shortDescription;
@@ -96,6 +97,7 @@ class ProductModel {
       this.discountAmount,
       this.discountPercent,
       this.discountPrice,
+      this.comboPrice,
       this.image,
       this.tax,
       this.shortDescription,
@@ -163,6 +165,7 @@ class ProductModel {
     discountAmount = json['discount_amount'].toString() == 'null' ? '0' : json['discount_amount'].toString();
     discountPercent = json['discount_percent'].toString() == 'null' ? '0' : json['discount_percent'].toString();
     discountPrice = json['discount_price'].toString() == 'null' ? '0' : json['discount_price'].toString();
+    comboPrice = json['discounted_price'].toString() == 'null' ? '0' : json['discounted_price'].toString();
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
     tax = json['tax'].toString() == 'null' ? '' : json['tax'].toString();
     shortDescription = json['short_description'].toString() == 'null' ? '' : json['short_description'].toString();
@@ -287,6 +290,7 @@ class ProductModel {
     data['discount_amount'] = discountAmount;
     data['discount_percent'] = discountPercent;
     data['discount_price'] = discountPrice;
+    data['discounted_price'] = comboPrice;
     data['image'] = image;
     data['tax'] = tax;
     data['short_description'] = shortDescription;

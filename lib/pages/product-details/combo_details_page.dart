@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/utils/string_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
+import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
@@ -23,6 +25,8 @@ import 'package:perfecto/pages/product-details/review/write_review_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:collection/collection.dart';
+
+import '../../controller/auth_controller.dart';
 
 class ComboDetailsScreen extends StatelessWidget {
   static const String routeName = '/comboDetails';
@@ -302,35 +306,127 @@ class ComboDetailsScreen extends StatelessWidget {
         height: 95,
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
-        child: CustomButton(
-          label: 'Add To Bag',
-          marginHorizontal: 16,
-          marginVertical: 20,
-          height: 50,
-          prefixImage: AssetsConstant.cartIcon,
-          prefixImageColor: Colors.white,
-          prefixImageHeight: 20,
-          primary: AppColors.kPrimaryColor,
-          width: MediaQuery.of(context).size.width / 1.3,
-          onPressed: () {
-            final data = {
-              'quantity': '1',
-              'combo_product_id': ProductDetailsController.to.comboDetails.value.id!,
-              'combo_info': jsonEncode(ProductDetailsController.to.comboDetails.value.comboProductDetails!
-                  .map((e) => {
-                        "product_id": e.productId!,
-                        if (e.product!.variationType == 'size') "size_id": e.variantId,
-                        if (e.product!.variationType == 'size') "shade_id": null,
-                        if (e.product!.variationType == 'shade') "shade_id": e.variantId,
-                        if (e.product!.variationType == 'shade') "size_id": null
-                      })
-                  .toList()),
-            };
-            globalLogger.d(data);
+        child: Obx(() {
+          final cartModel = AuthController.to.isLoggedIn.value ? UserController.to.checkCart() : true;
 
-            UserController.to.addToCart(data);
-          },
-        ),
+          return (cartModel == null || cartModel == true)
+              ? CustomButton(
+                  label: 'Add To Bag',
+                  marginHorizontal: 16,
+                  marginVertical: 20,
+                  height: 50,
+                  prefixImage: AssetsConstant.cartIcon,
+                  prefixImageColor: Colors.white,
+                  prefixImageHeight: 20,
+                  primary: AppColors.kPrimaryColor,
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  onPressed: () {
+                    final data = {
+                      'quantity': '1',
+                      'combo_product_id': ProductDetailsController.to.comboDetails.value.id!,
+                      'combo_info': jsonEncode(ProductDetailsController.to.comboDetails.value.comboProductDetails!
+                          .map((e) => {
+                                "product_id": e.productId!,
+                                if (e.product!.variationType == 'size') "size_id": e.variantId,
+                                if (e.product!.variationType == 'size') "shade_id": null,
+                                if (e.product!.variationType == 'shade') "shade_id": e.variantId,
+                                if (e.product!.variationType == 'shade') "size_id": null
+                              })
+                          .toList()),
+                    };
+                    globalLogger.d(data);
+
+                    UserController.to.addToCart(data);
+                  },
+                )
+              : Center(
+                  child: Container(
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.kPrimaryColor,
+                          width: 1,
+                        ),
+                        color: AppColors.kPrimaryColor,
+                        borderRadius: BorderRadius.circular(4)),
+                    // padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (int.parse((cartModel).quantity!) >
+                                (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) : */ 1)) {
+                              final dynamic body = {
+                                // 'product_id': (cartModel as CartModel)!.productId!,
+                                'quantity': (int.parse((cartModel).quantity!) -
+                                        (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) :*/ 1))
+                                    .toString(),
+                              };
+                              globalLogger.d(body, 'body');
+                              UserController.to.updateCart(body, (cartModel).id ?? '');
+                            } else {
+                              // UserController.to.removeFromCart((cartModel as CartModel)?.id ?? '');
+                              showSnackBar(msg: 'One Quantity is minimum');
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Icon(
+                              Icons.remove,
+                              color: int.parse((cartModel as CartModel).quantity!) ==
+                                      (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) :*/ 1)
+                                  ? AppColors.kAccentColor
+                                  : Colors.white,
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 20,
+                          width: .5,
+                          color: AppColors.kPrimaryColor,
+                          // margin: const EdgeInsets.symmetric(horizontal: 8),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              '${(cartModel).quantity} Added',
+                              style: AppTheme.textStyleMediumWhite14,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 20,
+                          width: .5,
+                          color: AppColors.kPrimaryColor,
+                          // margin: const EdgeInsets.symmetric(horizontal: 8),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            final dynamic body = {
+                              // 'product_id': (cartModel as CartModel)!.productId!,
+                              'quantity': (int.parse((cartModel).quantity!) +
+                                      (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) : */ 1))
+                                  .toString(),
+                            };
+                            globalLogger.d(body, 'body');
+                            UserController.to.updateCart(body, (cartModel).id ?? '');
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+        }),
       ),
     );
   }

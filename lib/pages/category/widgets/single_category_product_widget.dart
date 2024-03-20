@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
+import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
@@ -79,7 +83,14 @@ class SingleCategoryProductWidget extends StatelessWidget {
             ),
             child: Column(
               children: [
-                CustomNetworkImage(networkImagePath: product?.image ?? '', height: 168, width: 200, errorImagePath: AssetsConstant.megaDeals1, fit: BoxFit.fill, borderRadius: 10),
+                CustomNetworkImage(
+                  networkImagePath: product?.image ?? '',
+                  height: 168,
+                  width: 200,
+                  errorImagePath: AssetsConstant.megaDeals1,
+                  fit: BoxFit.fill,
+                  borderRadius: 10,
+                ),
 
                 // ClipRRect(
                 //   borderRadius: BorderRadius.circular(10),
@@ -248,32 +259,36 @@ class SingleCategoryProductWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                FittedBox(
-                  child: Row(
-                    children: [
-                      Obx(() {
-                        return GestureDetector(
-                          onTap: () async {
+                Row(
+                  children: [
+                    Obx(() {
+                      return GestureDetector(
+                        onTap: () async {
+                          if (AuthController.to.isLoggedIn.value) {
                             await UserController.to.addToWish(product!.id!);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            margin: const EdgeInsets.only(left: 8),
-                            decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: .5), borderRadius: BorderRadius.circular(4)),
-                            height: 38,
-                            child: UserController.to.wishList.any((element) => element.productId == product?.id)
-                                ? Image.asset(
-                                    AssetsConstant.favIconFill,
-                                    height: 16,
-                                  )
-                                : Image.asset(
-                                    AssetsConstant.favIcon,
-                                    height: 16,
-                                  ),
-                          ),
-                        );
-                      }),
-                      CustomButton(
+                          } else {
+                            Get.toNamed(LoginScreen.routeName);
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.only(left: 8),
+                          decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: .5), borderRadius: BorderRadius.circular(4)),
+                          height: 38,
+                          child: AuthController.to.isLoggedIn.value && UserController.to.wishList.any((element) => element.productId == product?.id)
+                              ? Image.asset(
+                                  AssetsConstant.favIconFill,
+                                  height: 16,
+                                )
+                              : Image.asset(
+                                  AssetsConstant.favIcon,
+                                  height: 16,
+                                ),
+                        ),
+                      );
+                    }),
+                    Expanded(
+                      child: CustomButton(
                         label: (product?.totalStock != '0'
                             ? product?.variationType == 'shade'
                                 ? 'SELECT SHADE'
@@ -313,8 +328,8 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         //             ));
                         //           },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               ],
             ),

@@ -217,11 +217,29 @@ class UserController extends GetxController {
   CartModel? checkCart() {
     for (var element in cartList) {
       if (element.product != null &&
-          element.product!.id == ProductDetailsController.to.product.value.id! &&
+          element.product!.id == ProductDetailsController.to.product.value.id &&
           (element.product!.variationType == 'shade'
               ? element.shadeId == ProductDetailsController.to.selectedVariation.value
               : element.sizeId == ProductDetailsController.to.selectedVariation.value)) {
         return element;
+      } else if (element.comboProduct != null &&
+          element.comboProduct!.id == ProductDetailsController.to.comboDetails.value.id &&
+          ProductDetailsController.to.comboDetails.value.comboProductDetails!.length == element.comboInfo!.length) {
+        final checkData = [];
+        globalLogger.d(element.comboInfo!.length);
+        globalLogger.d(ProductDetailsController.to.comboDetails.value.comboProductDetails!.length);
+
+        for (int i = 0; i < element.comboInfo!.length; i++) {
+          if ((element.comboInfo![i].size?.id ?? element.comboInfo![i].shade?.id!) == ProductDetailsController.to.comboDetails.value.comboProductDetails![i].variantId) {
+            checkData.add(true);
+          } else {
+            checkData.add(false);
+          }
+        }
+
+        if (!checkData.contains(false)) {
+          return element;
+        }
       }
     }
     return null;
