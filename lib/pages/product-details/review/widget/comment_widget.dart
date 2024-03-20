@@ -16,6 +16,9 @@ import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'dart:ui' as ui;
 
+import '../../../../controller/auth_controller.dart';
+import '../../../auth/login_page.dart';
+
 class CommentWidget extends StatelessWidget {
   final Reviews? reviews;
   final int index;
@@ -224,7 +227,11 @@ class CommentWidget extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        ProductDetailsController.to.storeReviewHelpful(reviewId: reviews!.id!);
+                        if (AuthController.to.isLoggedIn.value) {
+                          ProductDetailsController.to.storeReviewHelpful(reviewId: reviews!.id!);
+                        } else {
+                          Get.toNamed(LoginScreen.routeName);
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(

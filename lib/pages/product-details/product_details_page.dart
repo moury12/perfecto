@@ -681,19 +681,20 @@ class ProductDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(WriteReviewScreen.routeName);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(4)),
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          child: const Text(
-                            'Write Review',
-                            style: AppTheme.textStyleBoldBlack14,
+                      if (AuthController.to.isLoggedIn.value)
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(WriteReviewScreen.routeName);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(4)),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            child: const Text(
+                              'Write Review',
+                              style: AppTheme.textStyleBoldBlack14,
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
@@ -826,14 +827,18 @@ class ProductDetailsScreen extends StatelessWidget {
             CustomSizedBox.space8W,
             Obx(() {
               return GestureDetector(
-                onTap: () {
-                  ProductDetailsController.to.isFavourite.value = !ProductDetailsController.to.isFavourite.value;
+                onTap: () async {
+                  if (AuthController.to.isLoggedIn.value) {
+                    await UserController.to.addToWish(ProductDetailsController.to.product.value.id!);
+                  } else {
+                    Get.toNamed(LoginScreen.routeName);
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   margin: const EdgeInsets.only(left: 8),
                   decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
-                  child: ProductDetailsController.to.isFavourite.value
+                  child: AuthController.to.isLoggedIn.value && UserController.to.wishList.any((element) => element.productId == ProductDetailsController.to.product.value.id)
                       ? Image.asset(
                           AssetsConstant.favIconFill,
                           height: 24,
