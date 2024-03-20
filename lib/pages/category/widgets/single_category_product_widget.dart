@@ -16,39 +16,39 @@ import '../../../models/product_model.dart';
 import '../../product-details/product_details_controller.dart';
 
 class SingleCategoryProductWidget extends StatelessWidget {
-  final bool isBestSeller;
-  final String name;
-  final String rating;
-  final String img;
-  final String price;
-  final String? buttonText;
-  final String previousPrice;
-  final bool isStacked;
-  final bool isBuy1Get1;
-  final bool isDiscount;
-  final bool isFavourite;
-  final bool isFeatured;
-  final bool isOutofStock;
-  final bool isOnSale;
-  final bool isShadeSwatch;
+  // final bool isBestSeller;
+  // final String name;
+  // final String rating;
+  // final String img;
+  // final String price;
+  // final String? buttonText;
+  // final String previousPrice;
+  // final bool isStacked;
+  // final bool isBuy1Get1;
+  // final bool isDiscount;
+  // final bool isFavourite;
+  // final bool isFeatured;
+  // final bool isOutofStock;
+  // final bool isOnSale;
+  // final bool isShadeSwatch;
   final ProductModel? product;
   const SingleCategoryProductWidget({
     super.key,
-    this.isBestSeller = true,
-    required this.name,
-    required this.rating,
-    required this.img,
-    required this.price,
-    this.buttonText,
-    required this.previousPrice,
-    this.isStacked = false,
-    this.isBuy1Get1 = true,
-    this.isDiscount = true,
-    this.isFavourite = false,
-    this.isOutofStock = false,
-    this.isOnSale = false,
-    this.isFeatured = false,
-    this.isShadeSwatch = true,
+    // this.isBestSeller = true,
+    // required this.name,
+    // required this.rating,
+    // required this.img,
+    // required this.price,
+    // this.buttonText,
+    // required this.previousPrice,
+    // this.isStacked = false,
+    // this.isBuy1Get1 = true,
+    // this.isDiscount = true,
+    // this.isFavourite = false,
+    // this.isOutofStock = false,
+    // this.isOnSale = false,
+    // this.isFeatured = false,
+    // this.isShadeSwatch = true,
     this.product,
   });
 
@@ -79,7 +79,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
             ),
             child: Column(
               children: [
-                CustomNetworkImage(networkImagePath: product?.image ?? '', height: 168, width: 200, errorImagePath: img, fit: BoxFit.fill, borderRadius: 10),
+                CustomNetworkImage(networkImagePath: product?.image ?? '', height: 168, width: 200, errorImagePath: AssetsConstant.megaDeals1, fit: BoxFit.fill, borderRadius: 10),
 
                 // ClipRRect(
                 //   borderRadius: BorderRadius.circular(10),
@@ -126,7 +126,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                 ),
                                 TextSpan(
                                   text:
-                                      "(${(int.tryParse(product?.reviewsCount ?? rating) ?? 0) > 999 ? '${((int.tryParse(product?.reviewsCount ?? rating) ?? 0) / 1000).toStringAsFixed(1)}k' : product?.reviewsCount ?? rating})",
+                                      "(${(int.tryParse(product?.reviewsCount ?? '0') ?? 0) > 999 ? '${((int.tryParse(product?.reviewsCount ?? '0') ?? 0) / 1000).toStringAsFixed(1)}k' : product?.reviewsCount ?? '0'})",
                                   style: TextStyle(color: Colors.black.withOpacity(.8), fontSize: 8, fontWeight: FontWeight.w500),
                                 )
                               ],
@@ -168,7 +168,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          product?.name ?? name,
+                          product?.name ?? '-',
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -209,9 +209,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                   decoration: BoxDecoration(color: AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
                                   child: const Text('Free Delivery', style: AppTheme.textStyleBoldWhite10)),
                             )
-                          : const SizedBox(
-                              height: 27,
-                            ),
+                          : const SizedBox.shrink(),
                       RichText(
                         text: TextSpan(
                           text: '',
@@ -276,30 +274,30 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         );
                       }),
                       CustomButton(
-                        label: buttonText ??
-                            (product?.totalStock != '0'
-                                ? product?.variationType == 'shade'
-                                    ? 'SELECT SHADE'
-                                    : 'SELECT SIZE'
-                                : 'OUT OF STOCK'),
+                        label: (product?.totalStock != '0'
+                            ? product?.variationType == 'shade'
+                                ? 'SELECT SHADE'
+                                : 'SELECT SIZE'
+                            : 'OUT OF STOCK'),
                         marginHorizontal: 8,
                         marginVertical: 8,
                         height: 39,
                         primary: product?.totalStock == '0' ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
                         width: 140,
                         onPressed: product?.totalStock != '0'
-                            ? buttonText != null
+                            ? /*buttonText != null
                                 ? () {
                                     var snackBar = const SnackBar(content: Text('Add to Cart successfully'));
                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                   }
-                                : () async {
-                                    Get.put(ProductDetailsController());
-                                    await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
-                                    Get.to(ProductShadeScreen(
-                                      isSelectSize: product?.variationType == 'shade' ? false : true,
-                                    ));
-                                  }
+                                : */
+                            () async {
+                                Get.put(ProductDetailsController());
+                                await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
+                                Get.to(ProductShadeScreen(
+                                  isSelectSize: product?.variationType == 'shade' ? false : true,
+                                ));
+                              }
                             : () {},
                         // buttonText == 'ADD TO BAG'
                         //     ? () {

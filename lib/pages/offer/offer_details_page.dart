@@ -121,25 +121,25 @@ class OfferDetailsScreen extends StatelessWidget {
                         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
                         itemCount: cat.products!.data!.length,
                         itemBuilder: (context, index) {
-                          final data = CategoryController.to.categoryWiseITem[index];
+                          // final data = CategoryController.to.categoryWiseITem[index];
                           final product = cat.products!.data![index];
                           return SingleCategoryProductWidget(
                             product: product,
-                            name: data['name'],
-                            rating: data['rating'],
-                            img: data['img'],
-                            price: data['price'],
-                            // buttonText: data['buttonText'],
-                            previousPrice: data['previousPrice'],
-                            isBestSeller: data['isBestSeller'],
-                            isStacked: data['isStacked'],
-                            isBuy1Get1: data['isbuy1Get1'],
-                            isDiscount: data['isDiscount'],
-                            isFavourite: data['isFavourite'],
-                            isFeatured: data['isFeatured'],
-                            isOnSale: data['isOnSale'],
-                            isOutofStock: data['isOutofStock'],
-                            isShadeSwatch: data['shade'],
+                            // name: data['name'],
+                            // rating: data['rating'],
+                            // img: data['img'],
+                            // price: data['price'],
+                            // // buttonText: data['buttonText'],
+                            // previousPrice: data['previousPrice'],
+                            // isBestSeller: data['isBestSeller'],
+                            // isStacked: data['isStacked'],
+                            // isBuy1Get1: data['isbuy1Get1'],
+                            // isDiscount: data['isDiscount'],
+                            // isFavourite: data['isFavourite'],
+                            // isFeatured: data['isFeatured'],
+                            // isOnSale: data['isOnSale'],
+                            // isOutofStock: data['isOutofStock'],
+                            // isShadeSwatch: data['shade'],
                           );
                         },
                       )

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/list_utils.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
 import 'package:perfecto/pages/category/widgets/single_category_product_widget.dart';
 import 'package:perfecto/pages/offer/sale_page.dart';
+import 'package:perfecto/pages/product-details/combo_details_page.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -43,15 +45,22 @@ class MegaDealsWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         Get.put(ProductDetailsController());
-        await ProductDetailsController.to.getProductDetails(product?.id ?? '1');
-        Get.toNamed(ProductDetailsScreen.routeName);
+        if (product!.variationType!.isNotEmpty) {
+          await ProductDetailsController.to.getProductDetails(product?.id ?? '1');
+          Get.toNamed(ProductDetailsScreen.routeName);
+        } else {
+          await ProductDetailsController.to.getComboDetails(product?.id ?? '30');
+          Get.toNamed(ComboDetailsScreen.routeName);
+        }
       },
       child: Stack(
         children: [
           Container(
+            padding: EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: AppColors.kDarkPrimaryColor.withOpacity(.10), blurRadius: 8)]),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomNetworkImage(networkImagePath: product?.image ?? img, height: 109, width: double.infinity, fit: BoxFit.fill, errorImagePath: img, borderRadius: 10),
                 // ClipRRect(
@@ -71,19 +80,40 @@ class MegaDealsWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     product?.name ?? name,
-                    style: AppTheme.textStyleBoldBlack12,
+                    style: AppTheme.textStyleBoldBlack12.copyWith(fontFamily: 'InriaSans', fontSize: 14),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                      decoration: BoxDecoration(color: isBuy1Get1 ? AppColors.kOfferButtonColor : AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
-                      child: Text(isBuy1Get1 ? 'Buy 1 Get 1' : 'Free Delivery', style: AppTheme.textStyleBoldWhite10)),
-                ),
+                product!.variationType!.isNotEmpty &&
+                        flatten(product!.variationType == 'shade' ? product!.productShades!.map((e) => e.offers!).toList() : product!.productSizes!.map((e) => e.offers!).toList())
+                            .where((element) => element.productDetails!.offer!.offerTypeId == '3')
+                            .isNotEmpty
+                    ? Wrap(
+                        children: flatten(
+                                product!.variationType == 'shade' ? product!.productShades!.map((e) => e.offers!).toList() : product!.productSizes!.map((e) => e.offers!).toList())
+                            .where((element) => element.productDetails!.offer!.offerTypeId == '3')
+                            .toList()
+                            .map((e) => Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                                      decoration: BoxDecoration(color: AppColors.kOfferButtonColor, borderRadius: BorderRadius.circular(2)),
+                                      child: Text(e.productDetails!.offer!.name!, style: AppTheme.textStyleBoldWhite10)),
+                                ))
+                            .toList(),
+                      )
+                    : const SizedBox.shrink(),
+                product!.isFreeDelivery == '1'
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                        child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                            decoration: BoxDecoration(color: AppColors.kFreeDeliveryButtonColor, borderRadius: BorderRadius.circular(2)),
+                            child: const Text('Free Delivery', style: AppTheme.textStyleBoldWhite10)),
+                      )
+                    : const SizedBox.shrink(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4),
                   child: Row(
@@ -106,15 +136,18 @@ class MegaDealsWidget extends StatelessWidget {
                       //           );
                       //   },
                       // ),
-                      RatingWidget(
-                        rating: double.tryParse(product?.reviewsAvgStar ?? '0') ?? 0,
-                        showRatingValue: false,
-                        starHalfIcon: Icons.star_half_rounded,
-                        starFillIcon: Icons.star_rate_rounded,
-                        starEmptyIcon: Icons.star_border_rounded,
-                        emptyColor: AppColors.kOfferButtonColor,
-                      ),
-                      Text('(${product?.reviewsCount ?? rate})', style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 10))
+                      if (product!.variationType!.isNotEmpty)
+                        RatingWidget(
+                          rating: double.tryParse(product?.reviewsAvgStar ?? '0') ?? 0,
+                          showRatingValue: false,
+                          starHalfIcon: Icons.star_half_rounded,
+                          starFillIcon: Icons.star_rate_rounded,
+                          starEmptyIcon: Icons.star_border_rounded,
+                          emptyColor: AppColors.kOfferButtonColor,
+                        ),
+
+                      if (product!.variationType!.isNotEmpty)
+                        Text('(${product?.reviewsCount ?? rate})', style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 10))
                     ],
                   ),
                 ),
@@ -127,17 +160,21 @@ class MegaDealsWidget extends StatelessWidget {
                           '৳ ${product?.variationType == 'shade' ? (product?.productShades?[0].discountedPrice ?? '550') : (product?.productSizes?[0].discountedPrice ?? '550')}  ',
                       style: AppTheme.textStyleBoldBlack14,
                     ),
-                    TextSpan(
-                      text: '৳${product?.variationType == 'shade' ? (product?.productShades?[0].shadePrice ?? '550') : (product?.productSizes?[0].sizePrice ?? '55'
-                          '0')}',
-                      style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
-                    )
+                    if (product!.variationType!.isNotEmpty)
+                      TextSpan(
+                        text: '৳${product?.variationType == 'shade' ? (product?.productShades?[0].shadePrice ?? '550') : (product?.productSizes?[0].sizePrice ?? '55'
+                            '0')}',
+                        style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
+                      )
                   ])),
                 )
               ],
             ),
           ),
-          ((product?.offers?.count ?? '0') != '0') || (product?.bestSale ?? '0') == '1'
+          ((product!.variationType!.isNotEmpty &&
+                      flatten(product!.variationType == 'shade' ? product!.productShades!.map((e) => e.offers!).toList() : product!.productSizes!.map((e) => e.offers!).toList())
+                          .isNotEmpty) ||
+                  (product?.bestSale ?? '0') == '1')
               ? Positioned(
                   top: 0,
                   left: 0,
@@ -155,7 +192,11 @@ class MegaDealsWidget extends StatelessWidget {
                             style: TextStyle(color: Color(0xff0094CF), fontSize: 10),
                           ),
                         ),
-                      if ((product?.offers?.count ?? '0') != '0')
+                      if (product!.variationType!.isNotEmpty &&
+                          flatten(product!.variationType == 'shade'
+                                  ? product!.productShades!.map((e) => e.offers!).toList()
+                                  : product!.productSizes!.map((e) => e.offers!).toList())
+                              .isNotEmpty)
                         Container(
                           padding: const EdgeInsets.all(4),
                           margin: EdgeInsets.only(left: (product?.bestSale ?? '0') == '1' ? 1 : 0),
@@ -171,7 +212,24 @@ class MegaDealsWidget extends StatelessWidget {
                     ],
                   ),
                 )
-              : const SizedBox.shrink()
+              : const SizedBox.shrink(),
+
+          if (product!.variationType!.isEmpty)
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: const BoxDecoration(
+                  color: Color(0xffD4F3FF),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(9), bottomRight: Radius.circular(4)),
+                ),
+                child: const Text(
+                  'COMBO',
+                  style: TextStyle(color: Color(0xff0094CF), fontSize: 10),
+                ),
+              ),
+            )
           // isStacked
           //     ? isBestSeller
           //         ? Container(
@@ -250,7 +308,12 @@ class GridItemWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(img),
+            image: /* model!.banner!.isNotEmpty
+                ? NetworkImage(
+                    model?.banner ?? '',
+                  )
+                : */
+                AssetImage(img),
             fit: BoxFit.fitWidth,
             alignment: Alignment.topCenter,
           ),
@@ -353,21 +416,21 @@ class GridItemForSegmentsWidget extends StatelessWidget {
                         MediaQuery.of(context).size.width > 800 ? 8 : 4.0,
                       ),
                       child: SingleCategoryProductWidget(
-                        name: dataItem['name'],
-                        rating: dataItem['rating'],
-                        img: dataItem['img'],
-                        price: dataItem['price'],
-                        buttonText: dataItem['buttonText'],
-                        previousPrice: dataItem['previousPrice'],
-                        isBestSeller: dataItem['isBestSeller'],
-                        isStacked: dataItem['isStacked'],
-                        isBuy1Get1: dataItem['isbuy1Get1'],
-                        isDiscount: dataItem['isDiscount'],
-                        isFavourite: dataItem['isFavourite'],
-                        isFeatured: dataItem['isFeatured'],
-                        isOnSale: dataItem['isOnSale'],
-                        isOutofStock: dataItem['isOutofStock'],
-                      ));
+                          // name: dataItem['name'],
+                          // rating: dataItem['rating'],
+                          // img: dataItem['img'],
+                          // price: dataItem['price'],
+                          // buttonText: dataItem['buttonText'],
+                          // previousPrice: dataItem['previousPrice'],
+                          // isBestSeller: dataItem['isBestSeller'],
+                          // isStacked: dataItem['isStacked'],
+                          // isBuy1Get1: dataItem['isbuy1Get1'],
+                          // isDiscount: dataItem['isDiscount'],
+                          // isFavourite: dataItem['isFavourite'],
+                          // isFeatured: dataItem['isFeatured'],
+                          // isOnSale: dataItem['isOnSale'],
+                          // isOutofStock: dataItem['isOutofStock'],
+                          ));
             },
             itemCount: gridItem ?? data.length,
           ),

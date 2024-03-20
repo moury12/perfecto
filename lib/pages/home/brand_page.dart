@@ -91,7 +91,7 @@ class _BrandScreenState extends State<BrandScreen> {
                             errorImagePath: AssetsConstant.brandLogo,
                             // height: 45,
                             borderRadius: 0,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           )),
                     );
                   },
