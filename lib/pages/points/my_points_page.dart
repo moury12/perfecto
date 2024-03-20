@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
+import 'package:perfecto/pages/profile/my-orders/my_order_details_page.dart';
+import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -31,7 +35,7 @@ class MyPointsScreen extends StatelessWidget {
                   },
                 ),
                 CustomSizedBox.space8W,
-                Text(
+                const Text(
                   'My Wallet',
                   style: AppTheme.textStyleSemiBoldBlack16,
                 ),
@@ -41,156 +45,188 @@ class MyPointsScreen extends StatelessWidget {
             isSearchInclude: false,
           ),
           Expanded(
-              child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.pointsBanner), fit: BoxFit.fill, alignment: Alignment.topCenter)),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CustomSizedBox.space12H,
-                    CustomSizedBox.space12H,
-                    Text(
-                      'Your Redeemable Points',
-                      style: AppTheme.textStyleSemiBoldWhite14,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Image.asset(
-                        AssetsConstant.pointsIcon,
-                        color: Colors.white,
+              child: RefreshIndicator(
+            onRefresh: () async {
+              await UserController.to.getRewardListCall();
+            },
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.pointsBanner), fit: BoxFit.fill, alignment: Alignment.topCenter)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CustomSizedBox.space12H,
+                      CustomSizedBox.space12H,
+                      const Text(
+                        'Your Redeemable Points',
+                        style: AppTheme.textStyleSemiBoldWhite14,
                       ),
-                    ),
-                    Text(
-                      '${UserController.to.getUserInfo.rewardPoints} Points',
-                      style: AppTheme.textStyleBoldWhite16,
-                    ),
-                    CustomSizedBox.space12H,
-                    CustomSizedBox.space12H,
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Image.asset(
+                          AssetsConstant.pointsIcon,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '${UserController.to.getUserInfo.rewardPoints} Points',
+                        style: AppTheme.textStyleBoldWhite16,
+                      ),
+                      CustomSizedBox.space12H,
+                      CustomSizedBox.space12H,
+                    ],
+                  ),
                 ),
-              ),
-              CustomSizedBox.space12H,
-              OutlinedCustomContainer(
-                widget: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'How to Earn Perfecto Reward Points',
-                      style: AppTheme.textStyleSemiBoldBlack16,
-                    ),
-                    CustomSizedBox.space12H,
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4), color: AppColors.klightAccentColor, border: Border(left: BorderSide(color: AppColors.kPrimaryColor, width: 4))),
-                      padding: EdgeInsets.all(16),
-                      child: RichText(
-                        text: TextSpan(
-                            text: 'More you buy, the more you earn: ',
-                            style: AppTheme.textStyleSemiBoldBlack12,
-                            children: [TextSpan(text: 'Earn 1 point for every 100 taka purchases.', style: AppTheme.textStyleNormalBlack12)]),
+                CustomSizedBox.space12H,
+                OutlinedCustomContainer(
+                  widget: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'How to Earn Perfecto Reward Points',
+                        style: AppTheme.textStyleSemiBoldBlack16,
                       ),
-                    ),
-                    CustomSizedBox.space12H,
-                  ],
+                      CustomSizedBox.space12H,
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: AppColors.klightAccentColor,
+                            border: const Border(left: BorderSide(color: AppColors.kPrimaryColor, width: 4))),
+                        padding: const EdgeInsets.all(16),
+                        child: RichText(
+                          text: TextSpan(text: 'More you buy, the more you earn: ', style: AppTheme.textStyleSemiBoldBlack12, children: [
+                            TextSpan(
+                                text:
+                                    'Earn ${HomeApiController.to.rewardPointInfo.value.rewardPoint} point for every ${HomeApiController.to.rewardPointInfo.value.amount} taka purchases.',
+                                style: AppTheme.textStyleNormalBlack12)
+                          ]),
+                        ),
+                      ),
+                      CustomSizedBox.space12H,
+                    ],
+                  ),
                 ),
-              ),
-              OutlinedCustomContainer(
-                widget: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'How to Redeem Perfecto Reward Point?',
-                      style: AppTheme.textStyleSemiBoldBlack16,
-                    ),
-                    CustomSizedBox.space12H,
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4), color: AppColors.klightAccentColor, border: Border(left: BorderSide(color: AppColors.kPrimaryColor, width: 4))),
-                      padding: EdgeInsets.all(16),
-                      child: RichText(
-                        text: TextSpan(text: '', style: AppTheme.textStyleSemiBoldBlack12, children: [
-                          TextSpan(
-                              text: 'While buying products from Perfecto, you can use your available reward points by applying at checkout. ',
-                              style: AppTheme.textStyleNormalBlack12)
-                        ]),
+                OutlinedCustomContainer(
+                  widget: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'How to Redeem Perfecto Reward Point?',
+                        style: AppTheme.textStyleSemiBoldBlack16,
                       ),
-                    ),
-                    CustomSizedBox.space12H,
-                  ],
+                      CustomSizedBox.space12H,
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: AppColors.klightAccentColor,
+                            border: const Border(left: BorderSide(color: AppColors.kPrimaryColor, width: 4))),
+                        padding: const EdgeInsets.all(16),
+                        child: RichText(
+                          text: const TextSpan(text: '', style: AppTheme.textStyleSemiBoldBlack12, children: [
+                            TextSpan(
+                                text: 'While buying products from Perfecto, you can use your available reward points by applying at checkout. ',
+                                style: AppTheme.textStyleNormalBlack12)
+                          ]),
+                        ),
+                      ),
+                      CustomSizedBox.space12H,
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                decoration: BoxDecoration(color: Colors.white, border: Border.all(color: AppColors.kborderColor, width: 0.5), borderRadius: BorderRadius.circular(6)),
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Reward Points History',
-                        style: AppTheme.textStyleSemiBoldFadeBlack14,
+                Container(
+                  decoration: BoxDecoration(color: Colors.white, border: Border.all(color: AppColors.kborderColor, width: 0.5), borderRadius: BorderRadius.circular(6)),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Reward Points History',
+                          style: AppTheme.textStyleSemiBoldFadeBlack14,
+                        ),
                       ),
-                    ),
-                    Divider(
-                      thickness: 2,
-                      color: AppColors.kborderColor,
-                      height: 2,
-                    ),
-                    CustomSizedBox.space12H,
-                    ...List.generate(
-                        UserController.to.rewardList.length,
-                        (index) => OutlinedCustomContainer(
-                              widget: Column(
-                                children: [
-                                  Row(
+                      const Divider(
+                        thickness: 2,
+                        color: AppColors.kborderColor,
+                        height: 2,
+                      ),
+                      CustomSizedBox.space12H,
+                      ...List.generate(
+                          UserController.to.rewardList.length,
+                          (index) => GestureDetector(
+                                onTap: () async {
+                                  await UserController.to.getOrderDetailsCall(UserController.to.rewardList[index].order!.id!);
+                                  Get.toNamed(MyOrderDetailsScreen.routeName);
+                                },
+                                child: OutlinedCustomContainer(
+                                  widget: Column(
                                     children: [
-                                      Text(
-                                        '24 Nov, 2023, 03:23 PM',
-                                        style: AppTheme.textStyleSemiBoldBlack12,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            DateFormat('dd MMM, yyyy, hh:mm a').format(
+                                              DateTime.parse(UserController.to.rewardList[index].createdAt!),
+                                            ), //  '24 Nov, 2023, 03:23 PM',
+                                            style: AppTheme.textStyleSemiBoldBlack12,
+                                          ),
+                                          const Spacer(),
+                                          Text(
+                                            '#${UserController.to.rewardList[index].order!.orderNo!}',
+                                            style: AppTheme.textStyleNormalFadeBlack14,
+                                          )
+                                        ],
                                       ),
-                                      Spacer(),
-                                      Text(
-                                        '#635465 - EU',
-                                        style: AppTheme.textStyleNormalFadeBlack14,
+                                      CustomSizedBox.space12H,
+                                      Row(
+                                        children: [
+                                          RichText(
+                                            text: TextSpan(
+                                                text: UserController.to.rewardList[index].order!.status == '5' ? 'Cancel:' : 'Purchase:',
+                                                style: AppTheme.textStyleNormalBlack12,
+                                                children: [
+                                                  TextSpan(text: ' ৳ ${UserController.to.rewardList[index].order!.grandTotal!}', style: AppTheme.textStyleSemiBoldBlack12)
+                                                ]),
+                                          ),
+                                          const Spacer(),
+                                          Image.asset(
+                                            AssetsConstant.pointsIcon,
+                                            color: Colors.red,
+                                            height: 16,
+                                          ),
+                                          CustomSizedBox.space8W,
+                                          Text(
+                                            UserController.to.rewardList[index].usingPoint!,
+                                            style: const TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w600),
+                                          ),
+                                          CustomSizedBox.space8W,
+                                          Image.asset(
+                                            AssetsConstant.pointsIcon,
+                                            color: AppColors.kPrimaryColor,
+                                            height: 16,
+                                          ),
+                                          CustomSizedBox.space8W,
+                                          Text(
+                                            '+${UserController.to.rewardList[index].addedPoint!}',
+                                            style: const TextStyle(color: AppColors.kPrimaryColor, fontSize: 14, fontWeight: FontWeight.w600),
+                                          )
+                                        ],
                                       )
                                     ],
                                   ),
-                                  CustomSizedBox.space12H,
-                                  Row(
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                            text: index == 1 ? 'return:' : 'Purchase:',
-                                            style: AppTheme.textStyleNormalBlack12,
-                                            children: [TextSpan(text: ' ৳ 550', style: AppTheme.textStyleSemiBoldBlack12)]),
-                                      ),
-                                      Spacer(),
-                                      Image.asset(
-                                        AssetsConstant.pointsIcon,
-                                        color: AppColors.kPrimaryColor,
-                                        height: 16,
-                                      ),
-                                      CustomSizedBox.space8W,
-                                      Text(
-                                        '+55',
-                                        style: index == 1 ? TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w600) : AppTheme.textStyleSemiBoldPrimary14,
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )),
-                    CustomSizedBox.space12H
-                  ],
-                ),
-              )
-            ],
+                                ),
+                              )),
+                      CustomSizedBox.space12H
+                    ],
+                  ),
+                )
+              ],
+            ),
           ))
         ],
       ),
@@ -212,7 +248,7 @@ class OutlinedCustomContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: Colors.white, border: Border.all(color: AppColors.kborderColor, width: 0.5), borderRadius: BorderRadius.circular(6)),
       padding: EdgeInsets.all(padding ?? 16),
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: widget,
     );
   }

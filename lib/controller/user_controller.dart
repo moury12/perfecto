@@ -47,9 +47,12 @@ class UserController extends GetxController {
   RxList<RewardModel> rewardList = <RewardModel>[].obs;
   RxList<CartModel> cartList = <CartModel>[].obs;
   RxList<OrderModel> orderList = <OrderModel>[].obs;
+  RxList<OrderModel> cancelOrderList = <OrderModel>[].obs;
   Rx<OrderModel> orderDetails = OrderModel().obs;
   RxStatus orderStatus = RxStatus.empty();
+  RxStatus cancelOrderStatus = RxStatus.empty();
   RxString orderPaginateURL = ''.obs;
+  RxString cancelOrderPaginateURL = ''.obs;
   RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
   TextEditingController orderNoteController = TextEditingController();
 
@@ -164,6 +167,22 @@ class UserController extends GetxController {
       orderStatus = RxStatus.success();
     } else {
       orderStatus = RxStatus.error('No Data Found');
+    }
+  }
+
+  //OrderModel list with pagination
+  Future<void> getCancelOrderListCall({bool initialCall = true}) async {
+    cancelOrderStatus = RxStatus.loading();
+    final data = await UserService.userCancelOrderListCall(initialCall: initialCall);
+    if (data.isNotEmpty) {
+      if (initialCall) {
+        cancelOrderList.value = data;
+      } else {
+        cancelOrderList.addAll(data);
+      }
+      cancelOrderStatus = RxStatus.success();
+    } else {
+      cancelOrderStatus = RxStatus.error('No Data Found');
     }
   }
 

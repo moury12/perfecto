@@ -8,6 +8,8 @@ import 'package:perfecto/pages/profile/my-orders/widgets/order_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
+import '../../controller/user_controller.dart';
+
 class ReturnAndCancelScreen extends StatelessWidget {
   static const String routeName = '/return_cancel';
   const ReturnAndCancelScreen({super.key});
@@ -40,7 +42,18 @@ class ReturnAndCancelScreen extends StatelessWidget {
             ),
             isSearchInclude: false,
           ),
-
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await UserController.to.getCancelOrderListCall();
+              },
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemBuilder: (context, index) => OrderWidget(order: UserController.to.cancelOrderList[index]),
+                itemCount: UserController.to.cancelOrderList.length,
+              ),
+            ),
+          ),
           // Expanded(
           //     child: ListView.builder(
           //   padding: EdgeInsets.symmetric(vertical: 8 ),

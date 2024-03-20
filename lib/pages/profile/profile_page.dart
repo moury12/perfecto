@@ -137,7 +137,8 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
+                            function: () async {
+                              await UserController.to.getCancelOrderListCall();
                               Get.toNamed(ReturnAndCancelScreen.routeName);
                             },
                             image: AssetsConstant.returnCancel,
