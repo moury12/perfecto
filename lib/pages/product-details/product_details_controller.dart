@@ -28,6 +28,8 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   RxList<String> imageList = <String>[].obs;
   RxString captureImage = ''.obs;
 
+  RxInt selectedImageForPage = 0.obs;
+
   final RxList reviewFilterList = [
     {'title': 'With Image', 'is_selected': false, 'key': 'with_image'},
     {'title': '5 Star', 'is_selected': false, 'key': '5'},

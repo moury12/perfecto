@@ -216,9 +216,11 @@ class UserController extends GetxController {
 
   CartModel? checkCart() {
     for (var element in cartList) {
-      if (element.product != null && element.product!.id == ProductDetailsController.to.product.value.id! && element.product!.variationType == 'shade'
-          ? element.shadeId == ProductDetailsController.to.selectedVariation.value
-          : element.sizeId == ProductDetailsController.to.selectedVariation.value) {
+      if (element.product != null &&
+          element.product!.id == ProductDetailsController.to.product.value.id! &&
+          (element.product!.variationType == 'shade'
+              ? element.shadeId == ProductDetailsController.to.selectedVariation.value
+              : element.sizeId == ProductDetailsController.to.selectedVariation.value)) {
         return element;
       }
     }

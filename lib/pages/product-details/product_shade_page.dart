@@ -162,11 +162,11 @@ class ProductShadeScreen extends StatelessWidget {
                                 final data = ProductDetailsController.to.product.value.productSizes![index];
                                 return GestureDetector(
                                   onTap: () {
-                                    if (data.stock!.toInt() != 0) {
-                                      ProductDetailsController.to.selectedVariation.value = data.sizeId!;
-                                    } else {
-                                      showSnackBar(msg: 'Out of Stock');
-                                    }
+                                    // if (data.stock!.toInt() != 0) {
+                                    ProductDetailsController.to.selectedVariation.value = data.sizeId!;
+                                    // } else {
+                                    //   showSnackBar(msg: 'Out of Stock');
+                                    // }
                                   },
                                   child: Obx(() {
                                     return Container(
@@ -174,7 +174,7 @@ class ProductShadeScreen extends StatelessWidget {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           color: ProductDetailsController.to.selectedVariation.value == data.sizeId ? AppColors.kPrimaryColor : Colors.transparent,
-                                          border: Border.all(color: data.stock!.toInt() == 0 ? Colors.red : AppColors.kPrimaryColor, width: 1.5),
+                                          border: Border.all(color: /* data.stock!.toInt() == 0 ? Colors.red :*/ AppColors.kPrimaryColor, width: 1.5),
                                           borderRadius: BorderRadius.circular(4)),
                                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                       child: Text(
@@ -620,6 +620,15 @@ class BottomCalculationTotalWidget extends StatelessWidget {
 
                   return (cartModel == null || cartModel == true)
                       ? CustomButton(
+                          isDisable: (ProductDetailsController.to.product.value.variationType == 'size'
+                              ? ProductDetailsController.to.product.value.productSizes!
+                                      .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                      .stock ==
+                                  '0'
+                              : ProductDetailsController.to.product.value.productShades!
+                                      .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                      .stock ==
+                                  '0'),
                           label: 'Add To Bag',
                           marginHorizontal: 8,
                           marginVertical: 4,

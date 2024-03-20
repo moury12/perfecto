@@ -72,7 +72,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                 .productSizeImage!;
                         return GestureDetector(
                           onTap: () {
-                            Get.toNamed(ProductImagePreview.routeName);
+                            ProductDetailsController.to.selectedImageForPage.value = index;
+                            Get.toNamed(
+                              ProductImagePreview.routeName,
+                            );
                           },
                           child: CustomNetworkImage(
                             networkImagePath: data,
@@ -116,7 +119,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                   child: Obx(() {
                     return Text(
-                      ProductDetailsController.to.product.value.name ?? 'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
+                      ProductDetailsController.to.product.value.name ?? '-',
                       style: AppTheme.textStyleBoldBlack20.copyWith(fontFamily: 'InriaSans'),
                     );
                   }),
@@ -450,18 +453,18 @@ class ProductDetailsScreen extends StatelessWidget {
                                     return Obx(() {
                                       return GestureDetector(
                                         onTap: () {
-                                          if (size.stock!.toInt() != 0) {
-                                            ProductDetailsController.to.selectedVariation.value = ProductDetailsController.to.product.value.productSizes![index].sizeId!;
-                                          } else {
-                                            showSnackBar(msg: 'Out of Stock');
-                                          }
+                                          // if (size.stock!.toInt() != 0) {
+                                          ProductDetailsController.to.selectedVariation.value = ProductDetailsController.to.product.value.productSizes![index].sizeId!;
+                                          // } else {
+                                          //   showSnackBar(msg: 'Out of Stock');
+                                          // }
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.symmetric(horizontal: 6),
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                             color: size.sizeId == ProductDetailsController.to.selectedVariation.value ? AppColors.kPrimaryColor : Colors.transparent,
-                                            border: Border.all(color: size.stock!.toInt() == 0 ? Colors.red : AppColors.kPrimaryColor, width: 1.5),
+                                            border: Border.all(color: /*size.stock!.toInt() == 0 ? Colors.red : */ AppColors.kPrimaryColor, width: 1.5),
                                             borderRadius: BorderRadius.circular(4),
                                           ),
                                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -848,6 +851,15 @@ class ProductDetailsScreen extends StatelessWidget {
 
                 return (cartModel == null || cartModel == true)
                     ? CustomButton(
+                        isDisable: (ProductDetailsController.to.product.value.variationType == 'size'
+                            ? ProductDetailsController.to.product.value.productSizes!
+                                    .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                    .stock ==
+                                '0'
+                            : ProductDetailsController.to.product.value.productShades!
+                                    .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                    .stock ==
+                                '0'),
                         label: 'Add To Bag',
                         marginHorizontal: 8,
                         marginVertical: 4,

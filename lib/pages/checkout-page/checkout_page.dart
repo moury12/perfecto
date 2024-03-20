@@ -943,46 +943,55 @@ class CheckoutScreen extends StatelessWidget {
                 )
               ],
             ),
-            CustomButton(
-              primary: AppColors.kPrimaryColor,
-              marginHorizontal: 0,
-              marginVertical: 0,
-              width: 200,
-              height: 50,
-              onPressed: () {
-                // CartController.to.isbagEmpty.value = true;
-                // Get.toNamed(CheckoutScreen.routeName);
-                final data = {
-                  "order_details": UserController.to.cartList.map((e) => e.id).toList().toString().replaceAll(' ', ''),
-                  "billing_shipping_details": json.encode({
-                    "name": AddressController.to.nameController.text,
-                    "phone": AddressController.to.phoneController.text,
-                    "email": AddressController.to.emailController.text,
-                    "city_id": AddressController.to.selectedArea.value,
-                    "city_name": AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!,
-                    "zone_id": AddressController.to.selectedZone.value,
-                    "zone_name": AddressController.to.zoneList.firstWhere((element) => element.zoneId == AddressController.to.selectedZone.value).zoneName!,
-                    "area_id": AddressController.to.selectedArea.value,
-                    "area_name": AddressController.to.areaList.firstWhere((element) => element.areaId == AddressController.to.selectedArea.value).areaName!,
-                    "address": AddressController.to.addressController.text
-                  }),
-                  "order_notes": UserController.to.orderNoteController.text,
-                  "coupon_code": HomeApiController.to.couponCode.value,
-                  "reward_point": HomeApiController.to.rewardPointApply.value,
-                  "payment_status": "pending",
-                  "payment_method": CheckOutController.to.paymentType.value == PaymentType.ssl ? "SSL" : "COD",
-                  "shipping_charge":
-                      AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
-                          ? HomeApiController.to.shippingInfo.value.outsideCity!
-                          : HomeApiController.to.shippingInfo.value.insideCity!,
-                  "store_address": CheckOutController.to.checked.value ? "1" : "0",
-                };
-                globalLogger.d(data);
+            Obx(() {
+              return CustomButton(
+                isDisable: AddressController.to.nameController.text.isEmpty ||
+                    AddressController.to.phoneController.text.isEmpty ||
+                    AddressController.to.addressController.text.isEmpty ||
+                    AddressController.to.selectedCity.value.isEmpty ||
+                    AddressController.to.selectedZone.value.isEmpty ||
+                    AddressController.to.selectedArea.value.isEmpty ||
+                    !CheckOutController.to.checked.value,
+                primary: AppColors.kPrimaryColor,
+                marginHorizontal: 0,
+                marginVertical: 0,
+                width: 200,
+                height: 50,
+                onPressed: () {
+                  // CartController.to.isbagEmpty.value = true;
+                  // Get.toNamed(CheckoutScreen.routeName);
+                  final data = {
+                    "order_details": UserController.to.cartList.map((e) => e.id).toList().toString().replaceAll(' ', ''),
+                    "billing_shipping_details": json.encode({
+                      "name": AddressController.to.nameController.text,
+                      "phone": AddressController.to.phoneController.text,
+                      "email": AddressController.to.emailController.text,
+                      "city_id": AddressController.to.selectedArea.value,
+                      "city_name": AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!,
+                      "zone_id": AddressController.to.selectedZone.value,
+                      "zone_name": AddressController.to.zoneList.firstWhere((element) => element.zoneId == AddressController.to.selectedZone.value).zoneName!,
+                      "area_id": AddressController.to.selectedArea.value,
+                      "area_name": AddressController.to.areaList.firstWhere((element) => element.areaId == AddressController.to.selectedArea.value).areaName!,
+                      "address": AddressController.to.addressController.text
+                    }),
+                    "order_notes": UserController.to.orderNoteController.text,
+                    "coupon_code": HomeApiController.to.couponCode.value,
+                    "reward_point": HomeApiController.to.rewardPointApply.value,
+                    "payment_status": "pending",
+                    "payment_method": CheckOutController.to.paymentType.value == PaymentType.ssl ? "SSL" : "COD",
+                    "shipping_charge":
+                        AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
+                            ? HomeApiController.to.shippingInfo.value.outsideCity!
+                            : HomeApiController.to.shippingInfo.value.insideCity!,
+                    "store_address": CheckOutController.to.checked.value ? "1" : "0",
+                  };
+                  globalLogger.d(data);
 
-                UserController.to.orderStore(data);
-              },
-              label: 'Place Order',
-            )
+                  UserController.to.orderStore(data);
+                },
+                label: 'Place Order',
+              );
+            })
           ],
         ),
       ),
