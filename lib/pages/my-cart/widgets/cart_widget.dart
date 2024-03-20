@@ -11,10 +11,12 @@ import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/coupon_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
+import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:super_banners/super_banners.dart';
 
+import '../../product-details/product_details_controller.dart';
 import '../cart_controller.dart';
 
 class CartWidget extends StatelessWidget {
@@ -248,8 +250,14 @@ class CartWidget extends StatelessWidget {
                             width: 150,
                             marginVertical: 0,
                             marginHorizontal: 0,
-                            onPressed: () {
-                              Get.toNamed(CartScreen.routeName);
+                            onPressed: () async {
+                              // Get.toNamed(CartScreen.routeName);
+                              Get.put<ProductDetailsController>(
+                                ProductDetailsController(),
+                              );
+                              await ProductDetailsController.to.getProductDetails(wishListModel!.productId!);
+                              ProductDetailsController.to.getReviewImages(wishListModel!.productId!);
+                              Get.toNamed(ProductDetailsScreen.routeName);
                             },
                           )
                         ],

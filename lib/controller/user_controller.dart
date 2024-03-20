@@ -269,6 +269,11 @@ class UserController extends GetxController {
     final isCreated = await UserService.addToCart(body);
 
     if (isCreated) {
+      for (var element in wishList) {
+        if (element.product != null && element.product!.id == body['product_id']) {
+          addToWish(element.productId!);
+        }
+      }
       getCartListCall();
       // afterLogin(isCreated);
     }
