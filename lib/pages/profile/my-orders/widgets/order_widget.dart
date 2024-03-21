@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -63,6 +64,58 @@ class OrderWidget extends StatelessWidget {
           status ??
               Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Payment Methode',
+                          style: AppTheme.textStyleSemiBoldFadeBlack14,
+                        ),
+                        const Spacer(),
+                        Text(
+                          order.paymentMethod!.toLowerCase() == 'cod'
+                              ? 'Cash on Delivery'
+                              : order.paymentMethod!.toLowerCase() == 'ssl'
+                                  ? 'Online Payment'
+                                  : 'N/A',
+                          style: AppTheme.textStyleSemiBoldBlack14,
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Payment Status',
+                          style: AppTheme.textStyleSemiBoldFadeBlack14,
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: order.paymentStatus!.toLowerCase() == 'success'
+                                ? AppColors.kPrimaryColor.withOpacity(.1)
+                                : order.paymentStatus!.toLowerCase() == 'failed'
+                                    ? AppColors.kRedColor.withOpacity(.1)
+                                    : AppColors.kOfferButtonColor.withOpacity(.1),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            order.paymentStatus ?? 'Pending',
+                            style: AppTheme.textStyleSemiBoldBlack14.copyWith(
+                                color: order.paymentStatus!.toLowerCase() == 'success'
+                                    ? AppColors.kPrimaryColor
+                                    : order.paymentStatus!.toLowerCase() == 'failed'
+                                        ? AppColors.kRedColor
+                                        : AppColors.kOfferButtonColor),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                     child: Row(

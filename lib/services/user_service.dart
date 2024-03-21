@@ -38,6 +38,18 @@ class UserService {
     return false;
   }
 
+  //storeFCMToken
+  static Future<bool> storeFCMToken(dynamic body) async {
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}store-token', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d(response, "storeFCMToken Route");
+    if (response['status'] != null && response['status']) {
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
   static Future<bool> updateAddress(dynamic body, String addressId) async {
     final response =
         await ServiceAPI.genericCall(url: '${Service.apiUrl}edit_address/$addressId', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
@@ -452,14 +464,27 @@ class UserService {
   }
 
   //order-store
-  static Future<bool> orderStore(dynamic body) async {
+  static Future<dynamic> orderStore(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-store', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
     globalLogger.d(response, "order store Route");
+    if (response['status'] != null && response['status']) {
+      return response;
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  //orderUpdate
+  static Future<dynamic> orderUpdate(dynamic body, String orderId) async {
+    final response =
+        await ServiceAPI.genericCall(url: '${Service.apiUrl}order-update/$orderId', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d(response, "order update Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
       );
-      return response['status'];
+      return response;
     } else if (response['status'] != null && !response['status']) {
       ServiceAPI.showAlert(response['message']);
     }

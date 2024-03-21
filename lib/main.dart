@@ -9,15 +9,31 @@ import 'package:perfecto/constants/color_constants.dart';
 
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/routes/app_routes.dart';
+import 'package:perfecto/services/notification_service.dart';
 
 import 'DB/database_helper.dart';
+import 'services/fcm.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 
 final dbHelper = DatabaseHelper();
-
+NotificationService? service;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Firebase.initializeApp();
   try {
     await dbHelper.init();
+  } catch (e) {
+    globalLogger.e(e);
+  }
+  try {
+    setupFirebaseMessenging();
+  } catch (e) {
+    globalLogger.e(e);
+  }
+  try {
+    service = NotificationService();
   } catch (e) {
     globalLogger.e(e);
   }

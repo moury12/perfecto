@@ -57,7 +57,17 @@ dependencies:
 #      ref: alpha
   socket_io_client: ^2.0.3+1
   super_banners: ^0.0.1
+  # Use fcm add
+  firebase_messaging: ^14.7.5
+  flutter_local_notifications: ^16.1.0
+  uuid: ^3.0.6
 
+  #####################Payment Gateway#####################
+
+  #For Payment purpose
+  flutter_sslcommerz: ^2.2.2-nullsafety.0
+
+  ##################### END Payment Gateway#####################
 
 
 

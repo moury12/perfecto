@@ -17,6 +17,8 @@ import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:perfecto/utils.dart';
 
+import '../../services/ssl.dart';
+
 class CheckoutScreen extends StatelessWidget {
   static const String routeName = '/checkout';
   const CheckoutScreen({super.key});
@@ -957,7 +959,7 @@ class CheckoutScreen extends StatelessWidget {
                 marginVertical: 0,
                 width: 200,
                 height: 50,
-                onPressed: () {
+                onPressed: () async {
                   // CartController.to.isbagEmpty.value = true;
                   // Get.toNamed(CheckoutScreen.routeName);
                   final data = {
@@ -986,8 +988,15 @@ class CheckoutScreen extends StatelessWidget {
                     "store_address": CheckOutController.to.checked.value ? "1" : "0",
                   };
                   globalLogger.d(data);
-
-                  UserController.to.orderStore(data);
+                  await UserController.to.orderStore(data, CheckOutController.to.paymentType.value);
+                  // final res = await sslCommerzGeneralCallTest(
+                  //     UserController.to.cartTotalPriceWithCouponAndReward(
+                  //         (AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
+                  //                 ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0'
+                  //                 : HomeApiController.to.shippingInfo.value.insideCity ?? '0')
+                  //             .toDouble()),
+                  //     'Products');
+                  // globalLogger.d(res.toJson());
                 },
                 label: 'Place Order',
               );

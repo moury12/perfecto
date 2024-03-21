@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +12,9 @@ import 'package:perfecto/models/reward_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/profile/my-orders/controller/address_controller.dart';
+import 'package:perfecto/services/ssl.dart';
 import 'package:perfecto/services/user_service.dart';
+import 'package:perfecto/utils.dart';
 
 class UserController extends GetxController {
   static UserController get to => Get.find();
@@ -57,7 +60,7 @@ class UserController extends GetxController {
   TextEditingController orderNoteController = TextEditingController();
 
   var processesMap = {
-    '1': 'Ordered',
+    '1': 'Pending',
     '2': 'Accepted',
     '3': 'Shipped',
     '4': 'Delivered',
@@ -344,19 +347,105 @@ class UserController extends GetxController {
   Future<void> getUserInfoCall() async {
     userInfo.value = await UserService.userProfileCall();
     update();
+
+    final token = await FirebaseMessaging.instance.getToken();
+    print("fcm token");
+    print(token);
+    try {
+      final isUpdateToken = await UserService.storeFCMToken({"token": token!});
+    } catch (e) {
+      globalLogger.d(e);
+    }
   }
 
   //order-store
-  Future<void> orderStore(dynamic body) async {
+  Future<void> orderStore(dynamic body, PaymentType paymentType) async {
     final isCreated = await UserService.orderStore(body);
-    if (isCreated) {
+    if (isCreated.runtimeType != bool && isCreated['status']) {
+      if (paymentType == PaymentType.cod) {
+        showSnackBar(
+          msg: 'Order Placed Successfully',
+        );
+        Get.back();
+        getCartListCall();
+        getOrderListCall();
+      } else {
+        final data = {
+          "bank_tran_id": "240321121029qdMS6f08hCya6mW",
+          "card_brand": "MOBILEBANKING",
+          "card_issuer": "BKash Mobile Banking",
+          "card_type": "BKASH-BKash",
+          "sessionkey": "E4CD76D6A21E9F0511DD9C172B5EF674",
+          "tran_date": "2024-03-21 12:10:22",
+          "tran_id": "1cf534dd-191f-4255-8b60-089d9c1cf7c7",
+          "val_id": "240321121029QunG6MPpZkswj78",
+          "value_a": "value a",
+          "value_b": "value b",
+          "value_c": "value c",
+          "value_d": "value d"
+        };
+
+        final res = await sslCommerzGeneralCallTest(
+            UserController.to.cartTotalPriceWithCouponAndReward(
+                (AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
+                        ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0'
+                        : HomeApiController.to.shippingInfo.value.insideCity ?? '0')
+                    .toDouble()),
+            'Products');
+        globalLogger.d(res.toJson(), "res data");
+        if (res.status != null && res.status == 'VALID') {
+          globalLogger.d(res.toJson());
+          await orderUpdate({
+            "payment_status": "success",
+            // "bank_tran_id": res.bankTranId!,
+            // "card_brand": res.cardBrand!,
+            // "card_issuer": res.cardIssuer!,
+            // "card_type": res.cardType!,
+            // "sessionkey": res.sessionkey!,
+            // "tran_date": res.tranDate!,
+            // "tran_id": res.tranId!,
+            // "val_id": res.valId!,
+            // "value_a": res.valueA!,
+            // "value_b": res.valueB!,
+            // "value_c": res.valueC!,
+            // "value_d": res.valueD!
+          }, isCreated['data']['id'].toString());
+        } else {
+          await orderUpdate({
+            "payment_status": "failed",
+            // "bank_tran_id": res.bankTranId!,
+            // "card_brand": res.cardBrand!,
+            // "card_issuer": res.cardIssuer!,
+            // "card_type": res.cardType!,
+            // "sessionkey": res.sessionkey!,
+            // "tran_date": res.tranDate!,
+            // "tran_id": res.tranId!,
+            // "val_id": res.valId!,
+            // "value_a": res.valueA!,
+            // "value_b": res.valueB!,
+            // "value_c": res.valueC!,
+            // "value_d": res.valueD!
+          }, isCreated['data']['id'].toString());
+        }
+      }
+    }
+  }
+
+  //order-update
+  Future<void> orderUpdate(dynamic body, String orderId) async {
+    final isCreated = await UserService.orderUpdate(body, orderId);
+    if (isCreated.runtimeType != bool && isCreated['data']['payment_status'] == 'success') {
       showSnackBar(
         msg: 'Order Placed Successfully',
       );
       Get.back();
       getCartListCall();
       getOrderListCall();
-      // afterLogin(isCreated);
+    } else {
+      showSnackBar(msg: 'Payment failed!');
+      Get.back();
+      getCartListCall();
+      getOrderListCall();
     }
   }
 
