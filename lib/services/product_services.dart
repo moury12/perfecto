@@ -202,10 +202,10 @@ class ProductService {
   static Future<bool> postReview(dynamic body, List<Map<String, dynamic>>? images) async {
     try {
       final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}post-review',
+        url: '${Service.apiUrl}product-review',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
-        imageListWithKeyValue: images,
+        multipleImageListWithKeyValue: images,
       );
       globalLogger.d(response, "Post Review Route");
       if (response['status'] != null && response['status']) {

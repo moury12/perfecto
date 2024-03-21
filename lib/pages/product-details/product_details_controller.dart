@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,6 +28,9 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   RxBool readMore = false.obs;
   RxInt rating = 0.obs;
   RxList<String> imageList = <String>[].obs;
+  Rx<TextEditingController> reviewTitleController = TextEditingController().obs;
+  Rx<TextEditingController> reviewCommentController = TextEditingController().obs;
+
   RxString captureImage = ''.obs;
 
   RxInt selectedImageForPage = 0.obs;
@@ -73,14 +78,15 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   }
 
   Future<void> getProductDetails(String id, {bool needLoading = true}) async {
-    globalLogger.d(id, 'productListWithCategoryCall');
     productList.clear();
     currentPage.value = 0;
     final data = await ProductService.productDetails(id, needLoading: needLoading);
     product.value = data[ProductDetailType.product];
     productList.value = data[ProductDetailType.customerWillView];
     selectedVariation.value = product.value.variationType == 'shade' ? product.value.shadeId![0] : product.value.sizeId![0];
-    globalLogger.d(productList, 'productList');
+    rating.value = product.value.myReview != null ? product.value.myReview!.star!.toInt() : 0;
+    reviewTitleController.value.text = product.value.myReview != null ? product.value.myReview!.title! : '';
+    reviewCommentController.value.text = product.value.myReview != null ? product.value.myReview!.comment! : '';
   }
 
   Future<void> getComboDetails(String id, {bool needLoading = true}) async {
@@ -113,8 +119,14 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
 
   //post review
   Future<void> postReview(
-      {required String comment, required String rating, required String title, required String productId, String? shadeId, String? sizeId, required String orderId}) async {
+      /*{required String comment, required String rating, required String title, required String productId, String? shadeId, String? sizeId, required String orderId}*/) async {
     final body = {
+      "product_id": product.value.id!,
+      "order_id": product.value.orderId!,
+      "title": reviewTitleController.value.text,
+      "comment": reviewCommentController.value.text,
+      "star": rating.toString(),
+    }; /*{
       'product_id': productId,
       if (shadeId != null) 'shade_id': shadeId,
       if (sizeId != null) 'size_id': sizeId,
@@ -122,14 +134,17 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
       'title': title,
       'comment': comment,
       'star': rating,
-    };
+    };*/
     final List<Map<String, dynamic>> images = [];
     if (imageList.isNotEmpty) {
       images.add({
-        "key": "images",
+        "key": "images[]",
         "value": imageList,
       });
     }
+    globalLogger.d(body, 'postReview');
+    globalLogger.d(images.runtimeType, 'postReview');
+
     final data = await ProductService.postReview(body, images);
     if (data) {
       // if (Get.currentRoute == ProductDetailsScreen.routeName) {

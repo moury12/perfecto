@@ -9,6 +9,7 @@ import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/notification_model.dart';
 import 'package:perfecto/models/order_model.dart';
+import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/models/reward_model.dart';
 import 'package:perfecto/models/user_model.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
@@ -57,7 +58,9 @@ class UserController extends GetxController {
   RxStatus cancelOrderStatus = RxStatus.empty();
   RxString orderPaginateURL = ''.obs;
   RxString cancelOrderPaginateURL = ''.obs;
-  RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
+  RxString reviewPaginateURL = ''.obs;
+
+  RxList<Reviews> reviewList = <Reviews>[].obs;
   RxList<NotificationModel> notificationList = <NotificationModel>[].obs;
   TextEditingController orderNoteController = TextEditingController();
 
@@ -348,8 +351,16 @@ class UserController extends GetxController {
     return (rewardPointValue.toDouble() * (rewardPoint.toDouble() / rewardUnit.toDouble()));
   }
 
-  Future<void> getReviewListCall() async {
-    reviewList.value = await UserService.userReviewListCall();
+  //reviewList call with pagination
+  Future<void> getReviewListCall({bool initialCall = true}) async {
+    final data = await UserService.getReviewData(initialCall: initialCall);
+    if (data.isNotEmpty) {
+      if (initialCall) {
+        reviewList.value = data;
+      } else {
+        reviewList.addAll(data);
+      }
+    }
   }
 
   Future<void> getUserInfoCall() async {

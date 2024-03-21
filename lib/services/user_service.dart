@@ -9,6 +9,7 @@ import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/order_model.dart';
+import 'package:perfecto/models/product_model.dart';
 import '../models/notification_model.dart';
 import '../models/reward_model.dart';
 import '../models/user_model.dart';
@@ -172,6 +173,37 @@ class UserService {
         ServiceAPI.showAlert(response['message']);
       }
       return notificationList;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //get-review list with pagination
+  static Future<List<Reviews>> getReviewData({bool initialCall = true}) async {
+    try {
+      List<Reviews> reviewList = [];
+      final response = await ServiceAPI.genericCall(
+        url: initialCall ? '${Service.apiUrl}get-review' : UserController.to.reviewPaginateURL.value,
+        httpMethod: HttpMethod.get,
+        isLoadingEnable: true,
+      );
+
+      globalLogger.d(response, "Get Review Route");
+      // Get.back();
+      if (response['status'] != null && response['status']) {
+        response['data']['data'].forEach((dis) {
+          reviewList.add(Reviews.fromJson(dis));
+        });
+        if (response['next_page_url'] != null) {
+          UserController.to.reviewPaginateURL.value = response['next_page_url'];
+        } else {
+          UserController.to.reviewPaginateURL.value = '';
+        }
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return reviewList;
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly
@@ -516,25 +548,6 @@ class UserService {
       ServiceAPI.showAlert(response['message']);
     }
     return false;
-  }
-
-  static Future<List<ReviewListModel>> userReviewListCall() async {
-    try {
-      List<ReviewListModel> reviewList = [];
-      final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}get-review', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "ReviewListModel route");
-      if (response['status'] != null && response['status']) {
-        response['data'].forEach((dis) {
-          reviewList.add(ReviewListModel.fromJson(dis));
-        });
-      } else if (response['status'] != null && !response['status']) {
-        ServiceAPI.showAlert(response['message']);
-      }
-      return reviewList;
-    } catch (e) {
-      globalLogger.e("Error occurred in Call: $e");
-      return []; // Return an empty list or handle the error accordingly
-    }
   }
 
   static Future<bool> editPassword(dynamic body) async {

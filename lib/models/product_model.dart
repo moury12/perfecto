@@ -31,6 +31,7 @@ class ProductModel {
   String? discountPrice;
   String? comboPrice;
   String? image;
+  String? orderId;
   String? reviewEligible;
   Reviews? myReview;
   String? tax;
@@ -101,6 +102,7 @@ class ProductModel {
       this.discountPrice,
       this.comboPrice,
       this.image,
+      this.orderId,
       this.reviewEligible,
       this.myReview,
       this.tax,
@@ -171,6 +173,7 @@ class ProductModel {
     discountPrice = json['discount_price'].toString() == 'null' ? '0' : json['discount_price'].toString();
     comboPrice = json['discounted_price'].toString() == 'null' ? '0' : json['discounted_price'].toString();
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
+    orderId = json['order_id'].toString() == 'null' ? '' : json['order_id'].toString();
     reviewEligible = json['review_eligible'].toString() == 'null' ? '' : json['review_eligible'].toString();
     myReview = json['my_review'] != null ? Reviews.fromJson(json['my_review']) : null;
     tax = json['tax'].toString() == 'null' ? '' : json['tax'].toString();
@@ -298,6 +301,7 @@ class ProductModel {
     data['discount_price'] = discountPrice;
     data['discounted_price'] = comboPrice;
     data['image'] = image;
+    data['order_id'] = orderId;
     data['review_eligible'] = reviewEligible;
     if (myReview != null) {
       data['my_review'] = myReview!.toJson();
@@ -1091,7 +1095,7 @@ class Reviews {
     orderId = json['order_id'].toString() == 'null' ? '' : json['order_id'].toString();
     title = json['title'].toString() == 'null' ? '' : json['title'].toString();
     comment = json['comment'].toString() == 'null' ? '' : json['comment'].toString();
-    star = json['star'].toString() == 'null' ? '' : json['star'].toString();
+    star = json['star'].toString() == 'null' ? '0' : json['star'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();

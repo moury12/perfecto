@@ -681,7 +681,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      if (AuthController.to.isLoggedIn.value)
+                      if (AuthController.to.isLoggedIn.value && ProductDetailsController.to.product.value.reviewEligible == 'true')
                         GestureDetector(
                           onTap: () {
                             Get.toNamed(WriteReviewScreen.routeName);

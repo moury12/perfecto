@@ -101,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           ProfileItemWidget(
-                            function: () {
+                            onPressed: () {
                               Get.toNamed(MyProfileScreen.routeName);
                             },
                             image: 'assets/user_icon.png',
@@ -113,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
+                            onPressed: () {
                               Get.toNamed(MyPointsScreen.routeName);
                             },
                             image: AssetsConstant.wallet,
@@ -125,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
+                            onPressed: () {
                               Get.toNamed(MyOrdersScreen.routeName);
                             },
                             image: AssetsConstant.ordersIcon,
@@ -137,7 +137,7 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () async {
+                            onPressed: () async {
                               await UserController.to.getCancelOrderListCall();
                               Get.toNamed(ReturnAndCancelScreen.routeName);
                             },
@@ -150,7 +150,8 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
+                            onPressed: () async {
+                              await UserController.to.getReviewListCall();
                               Get.toNamed(MyRatingReviewScreen.routeName);
                             },
                             image: AssetsConstant.ratingReview,
@@ -162,7 +163,7 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
+                            onPressed: () {
                               // UserController.to.getNotificationListCall();
                               Get.toNamed(NotificationScreen.routeName);
                             },
@@ -175,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
+                            onPressed: () {
                               Get.toNamed(MyAddressScreen.routeName);
                             },
                             image: AssetsConstant.myAddress,
@@ -187,7 +188,7 @@ class ProfileScreen extends StatelessWidget {
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
+                            onPressed: () {
                               // Get.toNamed(LoginScreen.routeName);
                               AuthController.to.logout();
                             },
@@ -211,18 +212,18 @@ class ProfileScreen extends StatelessWidget {
 class ProfileItemWidget extends StatelessWidget {
   final String image;
   final String title;
-  final Function() function;
+  final Function() onPressed;
   const ProfileItemWidget({
     super.key,
     required this.image,
     required this.title,
-    required this.function,
+    required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: function,
+      onTap: onPressed,
       child: Container(
         width: double.infinity,
         color: Colors.transparent,
