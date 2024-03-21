@@ -60,12 +60,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        Get.put<ProductDetailsController>(
-          ProductDetailsController(),
-        );
-        await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
-        ProductDetailsController.to.getReviewImages(product?.id ?? '30');
-        Get.toNamed(ProductDetailsScreen.routeName);
+        await HomeApiController.to.productDetailsCall(product!.id!);
       },
       child: Stack(
         children: [

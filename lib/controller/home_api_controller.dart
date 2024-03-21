@@ -17,6 +17,8 @@ import 'package:perfecto/models/shade_model.dart';
 import 'package:perfecto/models/shipping_model.dart';
 import 'package:perfecto/models/terms_condition_model.dart';
 import 'package:perfecto/pages/my-cart/cart_controller.dart';
+import 'package:perfecto/pages/product-details/product_details_controller.dart';
+import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/services/home_service.dart';
 import 'package:perfecto/services/product_services.dart';
 import 'package:perfecto/utils.dart';
@@ -88,6 +90,19 @@ class HomeApiController extends GetxController {
   Color stringToColor(String color) {
     globalLogger.d(color, 'color');
     return Color(int.parse(color.substring(1, 7), radix: 16) + 0xFF000000);
+  }
+
+  productDetailsCall(String productId) async {
+    try {
+      Get.put<ProductDetailsController>(
+        ProductDetailsController(),
+      );
+    } catch (e) {
+      globalLogger.e(e);
+    }
+    await ProductDetailsController.to.getProductDetails(productId);
+    ProductDetailsController.to.getReviewImages(productId);
+    Get.toNamed(ProductDetailsScreen.routeName);
   }
 
   Future<void> privacyPolicyCall() async {

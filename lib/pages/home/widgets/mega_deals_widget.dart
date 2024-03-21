@@ -4,6 +4,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/list_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
@@ -49,8 +50,7 @@ class MegaDealsWidget extends StatelessWidget {
       onTap: () async {
         Get.put(ProductDetailsController());
         if (product!.variationType!.isNotEmpty) {
-          await ProductDetailsController.to.getProductDetails(product?.id ?? '1');
-          Get.toNamed(ProductDetailsScreen.routeName);
+          await HomeApiController.to.productDetailsCall(product!.id!);
         } else {
           await ProductDetailsController.to.getComboDetails(product?.id ?? '30');
           Get.toNamed(ComboDetailsScreen.routeName);

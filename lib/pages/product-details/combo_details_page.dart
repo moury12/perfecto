@@ -9,6 +9,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/utils/string_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/models/cart_model.dart';
@@ -142,8 +143,7 @@ class ComboDetailsScreen extends StatelessWidget {
                         final product = combo.comboProductDetails![index];
                         return ListTile(
                           onTap: () async {
-                            await ProductDetailsController.to.getProductDetails(product.product!.id!);
-                            Get.toNamed(ProductDetailsScreen.routeName);
+                            await HomeApiController.to.productDetailsCall(product.product!.id!);
                           },
                           leading: Text((index + 1).toString()),
                           title: Column(

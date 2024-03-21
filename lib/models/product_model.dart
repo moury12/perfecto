@@ -31,6 +31,8 @@ class ProductModel {
   String? discountPrice;
   String? comboPrice;
   String? image;
+  String? reviewEligible;
+  Reviews? myReview;
   String? tax;
   String? shortDescription;
   String? description;
@@ -99,6 +101,8 @@ class ProductModel {
       this.discountPrice,
       this.comboPrice,
       this.image,
+      this.reviewEligible,
+      this.myReview,
       this.tax,
       this.shortDescription,
       this.description,
@@ -167,6 +171,8 @@ class ProductModel {
     discountPrice = json['discount_price'].toString() == 'null' ? '0' : json['discount_price'].toString();
     comboPrice = json['discounted_price'].toString() == 'null' ? '0' : json['discounted_price'].toString();
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
+    reviewEligible = json['review_eligible'].toString() == 'null' ? '' : json['review_eligible'].toString();
+    myReview = json['my_review'] != null ? Reviews.fromJson(json['my_review']) : null;
     tax = json['tax'].toString() == 'null' ? '' : json['tax'].toString();
     shortDescription = json['short_description'].toString() == 'null' ? '' : json['short_description'].toString();
     description = json['description'].toString() == 'null' ? '' : json['description'].toString();
@@ -292,6 +298,10 @@ class ProductModel {
     data['discount_price'] = discountPrice;
     data['discounted_price'] = comboPrice;
     data['image'] = image;
+    data['review_eligible'] = reviewEligible;
+    if (myReview != null) {
+      data['my_review'] = myReview!.toJson();
+    }
     data['tax'] = tax;
     data['short_description'] = shortDescription;
     data['description'] = description;

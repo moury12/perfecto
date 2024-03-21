@@ -71,9 +71,7 @@ class BestSellerListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        Get.put(ProductDetailsController());
-        await ProductDetailsController.to.getProductDetails(product?.id ?? '', needLoading: true);
-        Get.toNamed(ProductDetailsScreen.routeName);
+        await HomeApiController.to.productDetailsCall(product!.id!);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -318,7 +316,7 @@ class BestSellerListWidget extends StatelessWidget {
                     height: 39,
                     onPressed: () async {
                       Get.put(ProductDetailsController());
-                      await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
+                      await ProductDetailsController.to.getProductDetails(product!.id!);
                       Get.to(ProductShadeScreen(
                         isSelectSize: product?.variationType == 'shade' ? false : true,
                       ));

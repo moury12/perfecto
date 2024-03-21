@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 
-class OfferController extends GetxController{
+class OfferController extends GetxController {
   static OfferController get to => Get.find();
-  RxBool  tapped = false.obs;
+  RxBool tapped = false.obs;
+  Rx<TextEditingController> outletController = TextEditingController().obs;
   RxList categoryWiseITem = [
     {
       'name': 'Maybelline New York Superstay Vi sdfsrgffg',
@@ -17,8 +19,7 @@ class OfferController extends GetxController{
       'isFavourite': false,
       'isStacked': false,
       'isOutofStock': false,
-      'isOnSale':false,
-
+      'isOnSale': false,
       'img': AssetsConstant.megaDeals1,
       'buttonText': 'SELECT SHADE'
     },
@@ -34,7 +35,7 @@ class OfferController extends GetxController{
       'isDiscount': true,
       'isFavourite': false,
       'isOutofStock': true,
-      'isOnSale':false,
+      'isOnSale': false,
       'img': AssetsConstant.megaDeals2,
       'buttonText': 'OUT OF STOCK'
     },
@@ -50,8 +51,7 @@ class OfferController extends GetxController{
       'isDiscount': false,
       'isFavourite': false,
       'isOutofStock': false,
-      'isOnSale':false,
-
+      'isOnSale': false,
       'img': AssetsConstant.megaDeals3,
       'buttonText': 'SELECT SIZE'
     },
@@ -65,8 +65,7 @@ class OfferController extends GetxController{
       'isFeatured': false,
       'isDiscount': true,
       'isFavourite': false,
-      'isOnSale':true,
-
+      'isOnSale': true,
       'isStacked': true,
       'isOutofStock': false,
       'img': AssetsConstant.megaDeals1,
@@ -82,8 +81,7 @@ class OfferController extends GetxController{
       'isFeatured': false,
       'isDiscount': true,
       'isFavourite': false,
-      'isOnSale':false,
-
+      'isOnSale': false,
       'isOutofStock': false,
       'isStacked': true,
       'img': AssetsConstant.megaDeals2,
@@ -99,8 +97,7 @@ class OfferController extends GetxController{
       'isFeatured': false,
       'isDiscount': true,
       'isFavourite': false,
-      'isOnSale':true,
-
+      'isOnSale': true,
       'isOutofStock': false,
       'isStacked': false,
       'img': AssetsConstant.megaDeals3,
@@ -169,5 +166,4 @@ class OfferController extends GetxController{
       'img': AssetsConstant.megaDeals3
     },
   ];
-
 }

@@ -251,13 +251,7 @@ class CartWidget extends StatelessWidget {
                             marginVertical: 0,
                             marginHorizontal: 0,
                             onPressed: () async {
-                              // Get.toNamed(CartScreen.routeName);
-                              Get.put<ProductDetailsController>(
-                                ProductDetailsController(),
-                              );
-                              await ProductDetailsController.to.getProductDetails(wishListModel!.productId!);
-                              ProductDetailsController.to.getReviewImages(wishListModel!.productId!);
-                              Get.toNamed(ProductDetailsScreen.routeName);
+                              await HomeApiController.to.productDetailsCall(wishListModel!.productId!);
                             },
                           )
                         ],
