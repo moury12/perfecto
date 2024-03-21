@@ -253,8 +253,8 @@ class HomeScreen extends StatelessWidget {
                   GridItemWidget(
                     model: model,
                     size: size,
-                    img: AssetsConstant.megaDealsBackground,
-                    data: HomeController.to.megadealsITem,
+                    // img: AssetsConstant.megaDealsBackground,
+                    // data: HomeController.to.megadealsITem,
                   ),
                 ],
               )
@@ -298,7 +298,10 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TitleTextWidget(tileText: model.mobileTitle ?? 'Super Offer'),
-                  GridItemWidget(data: HomeController.to.megadealsITem, model: model, size: size, img: AssetsConstant.superOfferBackground),
+                  GridItemWidget(
+                    /*data: HomeController.to.megadealsITem,*/ model: model,
+                    size: size, /*img: AssetsConstant.superOfferBackground*/
+                  ),
                 ],
               )
             : const SizedBox.shrink();

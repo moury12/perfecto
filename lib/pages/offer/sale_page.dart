@@ -11,31 +11,39 @@ import 'package:perfecto/pages/offer/controller/offer_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 
 class SaleScreen extends StatelessWidget {
-  static const String routeName='/sale';
+  static const String routeName = '/sale';
   const SaleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(drawer: CustomDrawer(),
-      body:
-           Column(children: [
+    return Scaffold(
+        drawer: CustomDrawer(),
+        body: Column(
+          children: [
             HomeTopWidget(),
             Expanded(
-              child: ListView(
+              child: SingleChildScrollView(
+                child: GridItemWidget(
+                  /*data: HomeController.to.megadealsITem,*/ model: Get.arguments,
+                  size: size, /*img: AssetsConstant.superOfferBackground*/
+                ),
+              ) /*ListView(
                 padding: EdgeInsets.zero,
                 children: [
-
-                     GridItemForSegmentsWidget(size: size, img: AssetsConstant.skinCareBackground,data: OfferController.to.categoryWiseITem,),
-                  CustomSizedBox.space16H,
-                  GridItemWidget(size: size, img: AssetsConstant.skinCareBackground, data:  OfferController.to.megadealsITem,),
-                  CustomSizedBox.space16H,
-
-
-                ],),
+                  GridItemForSegmentsWidget(
+                    size: size,
+                    img: AssetsConstant.skinCareBackground,
+                    data: OfferController.to.categoryWiseITem,
+                  ),
+                  // CustomSizedBox.space16H,
+                  // GridItemWidget(size: size, img: AssetsConstant.skinCareBackground, data:  OfferController.to.megadealsITem,),
+                  // CustomSizedBox.space16H,
+                ],
+              )*/
+              ,
             )
-          ],)
-
-    );
+          ],
+        ));
   }
 }

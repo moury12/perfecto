@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/list_utils.dart';
+import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
 import 'package:perfecto/pages/category/widgets/single_category_product_widget.dart';
+import 'package:perfecto/pages/home/home_page.dart';
 import 'package:perfecto/pages/offer/sale_page.dart';
+import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/pages/product-details/combo_details_page.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
@@ -19,7 +22,7 @@ import 'dart:ui' as sz;
 class MegaDealsWidget extends StatelessWidget {
   // final String name;
 
-  final String img;
+  // final String img;
 
   final ProductModel? product;
   // final int rate;
@@ -37,7 +40,7 @@ class MegaDealsWidget extends StatelessWidget {
     // this.isStacked = false,
     // this.isBestSeller = false,
     // this.isBuy1Get1 = true,
-    required this.img,
+    // required this.img,
     this.product,
   });
   @override
@@ -62,7 +65,8 @@ class MegaDealsWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomNetworkImage(networkImagePath: product?.image ?? img, height: 109, width: double.infinity, fit: BoxFit.fill, errorImagePath: img, borderRadius: 10),
+                CustomNetworkImage(
+                    networkImagePath: product?.image ?? '-', height: 109, width: double.infinity, fit: BoxFit.fill, errorImagePath: AssetsConstant.megaDeals1, borderRadius: 10),
                 // ClipRRect(
                 //   borderRadius: BorderRadius.circular(10),
                 //   child: Image.network(
@@ -281,21 +285,21 @@ class TitleTextWidget extends StatelessWidget {
 }
 
 class GridItemWidget extends StatelessWidget {
-  final String img;
+  // final String img;
   final Widget? widget;
-  final int? gridItem;
+  // final int? gridItem;
   final double? maxCrossAxisExtent;
-  final List<Map<String, dynamic>> data; // Change this line
+  // final List<Map<String, dynamic>> data; // Change this line
   final sz.Size size;
   final HomeModel? model;
   const GridItemWidget({
     Key? key, // Fix the super.key syntax
     required this.size,
-    required this.img,
+    // required this.img,
     this.widget,
-    this.gridItem,
+    // this.gridItem,
     this.maxCrossAxisExtent,
-    required this.data,
+    // required this.data,
     this.model, // Change this line
   }) : super(key: key); // Fix the super.key syntax
 
@@ -303,17 +307,20 @@ class GridItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(SaleScreen.routeName);
+        globalLogger.d('model: ${Get.currentRoute}');
+        Get.toNamed(SaleScreen.routeName, arguments: model);
       },
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: /* model!.banner!.isNotEmpty
-                ? NetworkImage(
-                    model?.banner ?? '',
-                  )
-                : */
-                AssetImage(img),
+            image: /*model!.banner!.isNotEmpty
+                ? */
+                NetworkImage(
+              getImageUrl(model?.banner ?? ''),
+            )
+            /*:
+                AssetImage(img)*/
+            ,
             fit: BoxFit.fitWidth,
             alignment: Alignment.topCenter,
           ),
@@ -335,7 +342,7 @@ class GridItemWidget extends StatelessWidget {
                 mainAxisExtent: 250,
               ),
               itemBuilder: (context, index) {
-                Map<String, dynamic> dataItem = data[index];
+                // Map<String, dynamic> dataItem = data[index];
                 final product = model?.productList?[index];
                 return widget ??
                     Padding(
@@ -344,18 +351,14 @@ class GridItemWidget extends StatelessWidget {
                       ),
                       child: MegaDealsWidget(
                         product: product,
-                        // name: dataItem['name'],
-                        // isBestSeller: dataItem['isBestSeller'],
-                        // isBuy1Get1: dataItem['isbuy1Get1'],
-                        // isStacked: dataItem['isStacked'],
-                        // rate: dataItem['rating'],
-                        // price: dataItem['price'],
-                        // previousPrice: dataItem['previousPrice'],
-                        img: dataItem['img'],
                       ),
                     );
               },
-              itemCount: model?.productList?.length ?? gridItem ?? data.length,
+              itemCount: Get.currentRoute == MainHomeScreen.routeName
+                  ? model!.productList!.length > 6
+                      ? 3
+                      : model?.productList?.length
+                  : model?.productList?.length,
             ),
           ],
         ),
