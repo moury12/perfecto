@@ -16,6 +16,7 @@ import 'package:perfecto/pages/blog/blog_page.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/brand_page.dart';
 import 'package:perfecto/pages/my-cart/wish_list_page.dart';
+import 'package:perfecto/pages/offer/offer_details_page.dart';
 import 'package:perfecto/pages/profile/return_and_cancelation.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
@@ -27,12 +28,12 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        HomeApiController.to.categoryList.forEach((element) {
+        for (var element in HomeApiController.to.categoryList) {
           element.isExpanded = false;
-          element.subcategory!.forEach((element) {
-            element.isExpanded = false;
-          });
-        });
+          for (var el in element.subcategory!) {
+            el.isExpanded = false;
+          }
+        }
         return true;
       },
       child: Drawer(
@@ -117,15 +118,30 @@ class CustomDrawer extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            Get.toNamed(WishListScreen.routeName);
-                          },
-                          child: const SaleTextWidget()),
-                      const SaleTextWidget(text: 'Puja Sale', color: Color(0xffD90068)),
-                      const SaleTextWidget(text: 'Buy 1 Get 1', color: Color(0xff9747FF)),
-                      const SaleTextWidget(text: 'Clearance Sale', color: Color(0xff129CED)),
+                      ...HomeApiController.to.menuOfferList
+                          .map(
+                            (element) => GestureDetector(
+                              onTap: () async {
+                                Navigator.pop(context);
+                                await HomeApiController.to.offerDetailsCall(element.offerId!);
+                                Get.toNamed(OfferDetailsScreen.routeName);
+                              },
+                              child: SaleTextWidget(
+                                text: element.offer!.name!,
+                                color: HomeApiController.to.stringToColor(element.offer!.color!),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      // GestureDetector(
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       Get.toNamed(WishListScreen.routeName);
+                      //     },
+                      //     child: const SaleTextWidget()),
+                      // const SaleTextWidget(text: 'Puja Sale', color: Color(0xffD90068)),
+                      // const SaleTextWidget(text: 'Buy 1 Get 1', color: Color(0xff9747FF)),
+                      // const SaleTextWidget(text: 'Clearance Sale', color: Color(0xff129CED)),
                       CustomSizedBox.space12H,
                       const CustomDividerWidget(),
                       CustomSizedBox.space8H,

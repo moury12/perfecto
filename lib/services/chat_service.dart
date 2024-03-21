@@ -9,7 +9,7 @@ class ChatService {
     try {
       final response = await ServiceAPI.genericCall(
         url:
-            '${Service.apiUrl}get-message?page=${initialCall ? '1' : ChatController.to.chat.value.messageDetails!.nextPageUrl!.isNotEmpty ? ChatController.to.chat.value.messageDetails!.nextPageUrl!.split('=')[1] : '1'}&perPage=10',
+            '${Service.apiUrl}get-message?page=${initialCall ? '1' : ChatController.to.chat.value.messageDetails!.nextPageUrl!.isNotEmpty ? ChatController.to.chat.value.messageDetails!.nextPageUrl!.split('=')[1] : '1'}&perPage=15',
         httpMethod: HttpMethod.get,
       );
       globalLogger.d(response, "Chat Route");

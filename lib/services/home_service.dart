@@ -5,6 +5,7 @@ import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/models/coupon_model.dart';
 import 'package:perfecto/models/home_model.dart';
+import 'package:perfecto/models/menu_offer_model.dart';
 import 'package:perfecto/models/offer_details_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
@@ -258,6 +259,29 @@ class HomeService {
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           offer.add(OfferModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return offer;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //get-available-offers
+  static Future<List<MenuOfferModel>> availableOfferCall() async {
+    try {
+      List<MenuOfferModel> offer = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}get-available-offers',
+        httpMethod: HttpMethod.get,
+      );
+      globalLogger.d(response, "available offer route");
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          offer.add(MenuOfferModel.fromJson(dis));
         });
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);

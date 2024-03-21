@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
@@ -7,6 +8,7 @@ import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/models/coupon_model.dart';
 import 'package:perfecto/models/home_model.dart';
+import 'package:perfecto/models/menu_offer_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/outlet_model.dart';
 import 'package:perfecto/models/product_attribute_model.dart';
@@ -57,6 +59,7 @@ class HomeApiController extends GetxController {
   RxList<SizeModel> sizeList = <SizeModel>[].obs;
   RxList<ShadeModel> shadeList = <ShadeModel>[].obs;
   RxList<OfferModel> offerList = <OfferModel>[].obs;
+  RxList<MenuOfferModel> menuOfferList = <MenuOfferModel>[].obs;
   RxList<TrendingSearchModel> trendingSearchList = <TrendingSearchModel>[].obs;
   RxList<ComboOfferItemModel> comboList = <ComboOfferItemModel>[].obs;
   Rx<ComboDetailsModel> comboProduct = ComboDetailsModel().obs;
@@ -69,26 +72,9 @@ class HomeApiController extends GetxController {
   @override
   void onInit() async {
     categoryListCall();
-    await blogListCall();
-    await preferenceListCall();
-    await formulationListCall();
-    await finishListCall();
-    await countryListCall();
-    await genderListCall();
-    await coverageListCall();
-    await skinTypeListCall();
-    await benefitListCall();
-    await concernListCall();
-    await ingredientListCall();
-    await packSizeListCall();
-    await brandListCall();
-    await termsConditionCall();
-    await privacyPolicyCall();
-    await returnRefundCall();
-    await colorListCall();
-    await outletListCall();
-    await shadeListCall();
-    await sizeListCall();
+    menuOfferListCall();
+    blogListCall();
+    await filterDataCall();
     trendingSearchListCall();
     rewardPointCall();
     shippingCall();
@@ -96,6 +82,12 @@ class HomeApiController extends GetxController {
     NavigationController.to.attributeListCall();
 
     super.onInit();
+  }
+
+  //String to Color Dart Function
+  Color stringToColor(String color) {
+    globalLogger.d(color, 'color');
+    return Color(int.parse(color.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
   Future<void> privacyPolicyCall() async {
@@ -177,6 +169,11 @@ class HomeApiController extends GetxController {
   //offerCall
   Future<void> offerListCall() async {
     offerList.value = await HomeService.offerCall();
+  }
+
+  //menuOfferList
+  Future<void> menuOfferListCall() async {
+    menuOfferList.value = await HomeService.availableOfferCall();
   }
 
   //offerDetailsCall
@@ -329,5 +326,27 @@ class HomeApiController extends GetxController {
       path: phoneNumber,
     );
     await launchUrl(launchUri);
+  }
+
+  Future<void> filterDataCall() async {
+    await preferenceListCall();
+    await formulationListCall();
+    await finishListCall();
+    await countryListCall();
+    await genderListCall();
+    await coverageListCall();
+    await skinTypeListCall();
+    await benefitListCall();
+    await concernListCall();
+    await ingredientListCall();
+    await packSizeListCall();
+    await brandListCall();
+    await termsConditionCall();
+    await privacyPolicyCall();
+    await returnRefundCall();
+    await colorListCall();
+    await outletListCall();
+    await shadeListCall();
+    await sizeListCall();
   }
 }
