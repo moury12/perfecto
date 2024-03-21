@@ -7,6 +7,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/models/notification_model.dart';
 import 'package:perfecto/models/order_model.dart';
 import 'package:perfecto/models/reward_model.dart';
 import 'package:perfecto/models/user_model.dart';
@@ -57,6 +58,7 @@ class UserController extends GetxController {
   RxString orderPaginateURL = ''.obs;
   RxString cancelOrderPaginateURL = ''.obs;
   RxList<ReviewListModel> reviewList = <ReviewListModel>[].obs;
+  RxList<NotificationModel> notificationList = <NotificationModel>[].obs;
   TextEditingController orderNoteController = TextEditingController();
 
   var processesMap = {
@@ -76,6 +78,7 @@ class UserController extends GetxController {
     getOrderListCall();
     Get.put<AddressController>(AddressController(), permanent: true);
     getRewardListCall();
+    getNotificationListCall();
     super.onInit();
   }
 
@@ -333,6 +336,11 @@ class UserController extends GetxController {
     totalPrice += shippingCost;
     if (UserController.to.eligibleDeliveryFree.value) totalPrice -= shippingCost;
     return totalPrice;
+  }
+
+  //notificationList call
+  Future<void> getNotificationListCall() async {
+    notificationList.value = await UserService.getNotificationData();
   }
 
   //reward point calculation

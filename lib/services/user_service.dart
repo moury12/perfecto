@@ -9,6 +9,7 @@ import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/models/order_model.dart';
+import '../models/notification_model.dart';
 import '../models/reward_model.dart';
 import '../models/user_model.dart';
 import 'package:collection/collection.dart';
@@ -145,6 +146,32 @@ class UserService {
         ServiceAPI.showAlert(response['message']);
       }
       return dislist;
+    } catch (e) {
+      globalLogger.e("Error occurred in Call: $e");
+      return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  //get-notification
+  static Future<List<NotificationModel>> getNotificationData() async {
+    try {
+      List<NotificationModel> notificationList = [];
+      final response = await ServiceAPI.genericCall(
+        url: '${Service.apiUrl}get-notification',
+        httpMethod: HttpMethod.get,
+        noNeedAuthToken: false,
+      );
+
+      globalLogger.d(response, "Get Notification Route");
+      // Get.back();
+      if (response['status'] != null && response['status']) {
+        response['data'].forEach((dis) {
+          notificationList.add(NotificationModel.fromJson(dis));
+        });
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return notificationList;
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
       return []; // Return an empty list or handle the error accordingly

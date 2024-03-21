@@ -163,6 +163,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           ProfileItemWidget(
                             function: () {
+                              // UserController.to.getNotificationListCall();
                               Get.toNamed(NotificationScreen.routeName);
                             },
                             image: AssetsConstant.notification,
