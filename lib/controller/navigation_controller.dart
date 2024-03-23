@@ -98,12 +98,23 @@ class NavigationController extends GetxController {
       AttributeModel(
         keyName: 'max_min',
         name: 'Price',
-        attributes: [],
+        attributes: [
+          ProductAttributeModel(id: '[0,499]', name: '0 - 499', filtered: false),
+          ProductAttributeModel(id: '[500,999]', name: '500 - 999', filtered: false),
+          ProductAttributeModel(id: '[1000,1499]', name: '1000 - 1499', filtered: false),
+          ProductAttributeModel(id: '[1500,1999]', name: '1500 - 1999', filtered: false),
+          ProductAttributeModel(id: '[2000,2999]', name: '2000 & Above', filtered: false),
+        ],
       ),
       AttributeModel(
-        keyName: '',
-        name: 'Discount',
-        attributes: [],
+        keyName: 'sorting',
+        name: 'Sorting',
+        attributes: [
+          ProductAttributeModel(id: 'popularity', name: 'Popularity', filtered: false),
+          ProductAttributeModel(id: 'discount', name: 'Discount', filtered: false),
+          ProductAttributeModel(id: 'top_rated', name: 'Top Rated', filtered: false),
+          ProductAttributeModel(id: 'new_arrival', name: 'new_arrival', filtered: false),
+        ],
       ),
       AttributeModel(
         keyName: 'average_rating',

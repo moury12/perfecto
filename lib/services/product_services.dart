@@ -2,11 +2,13 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/models/trending_search_model.dart';
 
+import '../models/product_attribute_model.dart';
 import '../utils.dart';
 
 class ProductService {
@@ -29,6 +31,16 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
+        NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
+            ? (response['data']['starCounts'] as Map)
+                .entries
+                .map((e) => ProductAttributeModel(
+                    id: e.key.toString().substring(0, 1),
+                    name: e.key.toString(),
+                    productsCount: e.value.toString(),
+                    filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
+                .toList()
+            : [];
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
@@ -58,6 +70,16 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
+        NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
+            ? (response['data']['starCounts'] as Map)
+                .entries
+                .map((e) => ProductAttributeModel(
+                    id: e.key.toString().substring(0, 1),
+                    name: e.key.toString(),
+                    productsCount: e.value.toString(),
+                    filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
+                .toList()
+            : [];
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
@@ -115,6 +137,16 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
+        NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
+            ? (response['data']['starCounts'] as Map)
+                .entries
+                .map((e) => ProductAttributeModel(
+                    id: e.key.toString().substring(0, 1),
+                    name: e.key.toString(),
+                    productsCount: e.value.toString(),
+                    filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
+                .toList()
+            : [];
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }

@@ -944,43 +944,126 @@ class FilterAttributeWidget extends StatelessWidget {
                           ],
                         );
                       })
-                    : Column(
-                        children: [
-                          ...List.generate(attribute.attributes.length, (index) {
-                            final data = attribute.attributes[index];
+                    : (attribute.keyName == "average_rating")
+                        ? Column(
+                            children: [
+                              ...List.generate(attribute.attributes.length, (index) {
+                                final data = attribute.attributes[index];
 
-                            return Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
+                                return Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes.forEach((element) {
+                                            element.filtered = false;
+                                          });
+                                          data.filtered = !(data.filtered ?? false);
+                                          NavigationController.to.attributeList.refresh();
+                                          NavigationController.to.update();
+                                          NavigationController.to.addAttribute.addAll({
+                                            '${attribute.keyName}': data.id!,
+                                          });
+                                        },
+                                        child: CustomCheckboxWidget(
+                                          check: data.filtered ?? false,
+                                        ),
+                                      ),
+                                      CustomSizedBox.space12W,
+                                      Text(
+                                        data.name ?? '',
+                                        style: AppTheme.textStyleMediumCustomBlack12,
+                                      ),
+                                      Text(
+                                        ' (${data.productsCount ?? '0'})',
+                                        style: AppTheme.textStyleMediumCustomBlack12,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              })
+                            ],
+                          )
+                        : (attribute.keyName == "sorting")
+                            ? Column(
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      data.filtered = !(data.filtered ?? false);
+                                  ...List.generate(attribute.attributes.length, (index) {
+                                    final data = attribute.attributes[index];
 
-                                      NavigationController.to.update();
-                                      NavigationController.to.attributeList.refresh();
-                                      NavigationController.to.addAttribute.addAll(
-                                          {'${attribute.keyName}': attribute.attributes.where((element) => element.filtered == true).map((e) => e.id ?? '').toList().toString()});
-                                    },
-                                    child: CustomCheckboxWidget(
-                                      check: data.filtered ?? false,
-                                    ),
-                                  ),
-                                  CustomSizedBox.space12W,
-                                  Text(
-                                    data.name ?? '',
-                                    style: AppTheme.textStyleMediumCustomBlack12,
-                                  ),
-                                  Text(
-                                    ' (${data.productsCount ?? '0'})',
-                                    style: AppTheme.textStyleMediumCustomBlack12,
-                                  ),
+                                    return Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'sorting').attributes.forEach((element) {
+                                                element.filtered = false;
+                                              });
+                                              data.filtered = !(data.filtered ?? false);
+                                              NavigationController.to.attributeList.refresh();
+                                              NavigationController.to.update();
+                                              NavigationController.to.addAttribute.addAll({
+                                                '${attribute.keyName}': data.id!,
+                                              });
+                                            },
+                                            child: CustomCheckboxWidget(
+                                              check: data.filtered ?? false,
+                                            ),
+                                          ),
+                                          CustomSizedBox.space12W,
+                                          Text(
+                                            data.name ?? '',
+                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                          ),
+                                          Text(
+                                            ' (${data.productsCount ?? '0'})',
+                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  })
                                 ],
-                              ),
-                            );
-                          })
-                        ],
-                      );
+                              )
+                            : Column(
+                                children: [
+                                  ...List.generate(attribute.attributes.length, (index) {
+                                    final data = attribute.attributes[index];
+
+                                    return Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              data.filtered = !(data.filtered ?? false);
+
+                                              NavigationController.to.update();
+                                              NavigationController.to.attributeList.refresh();
+                                              NavigationController.to.addAttribute.addAll({
+                                                '${attribute.keyName}': attribute.attributes.where((element) => element.filtered == true).map((e) => e.id ?? '').toList().toString()
+                                              });
+                                            },
+                                            child: CustomCheckboxWidget(
+                                              check: data.filtered ?? false,
+                                            ),
+                                          ),
+                                          CustomSizedBox.space12W,
+                                          Text(
+                                            data.name ?? '',
+                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                          ),
+                                          Text(
+                                            ' (${data.productsCount ?? '0'})',
+                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  })
+                                ],
+                              );
           },
         )
       ],

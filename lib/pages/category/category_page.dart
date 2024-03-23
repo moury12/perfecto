@@ -64,6 +64,7 @@ class CategoryCard extends StatelessWidget {
         NavigationController.to.addAttribute.addAll({
           'category': [category.id!].toString(),
         });
+
         // NavigationController.to.addAttribute = {
         //   'category': [category.id!].toString(),
         // };
