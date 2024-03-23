@@ -59,10 +59,15 @@ class CategoryCard extends StatelessWidget {
         await HomeApiController.to.productListWithCategoryCall({
           'category': [category.id!].toString(),
         });
-        NavigationController.to.addAttribute = {
+        NavigationController.to.resetFilters();
+        HomeApiController.to.categoryList.firstWhere((element) => element.id == category.id).isChecked = true;
+        NavigationController.to.addAttribute.addAll({
           'category': [category.id!].toString(),
-        };
-        Get.toNamed(SingleCatergoryWiseScreen.routeName);
+        });
+        // NavigationController.to.addAttribute = {
+        //   'category': [category.id!].toString(),
+        // };
+        Get.toNamed(SingleCategoryWiseScreen.routeName);
       },
       child: Container(
         width: double.infinity,

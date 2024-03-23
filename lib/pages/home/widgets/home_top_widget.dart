@@ -220,6 +220,10 @@ class HomeTopWidget extends StatelessWidget {
                             await HomeApiController.to.productListCallWithNameCall({
                               'search': p0,
                             });
+                            NavigationController.to.resetFilters();
+                            NavigationController.to.addAttribute.addAll({
+                              'search': p0,
+                            });
                             // Get.toNamed(SingleCatergoryWiseScreen.routeName);
                           }
                         },
@@ -674,7 +678,7 @@ class HomeTopWidget extends StatelessWidget {
                       onPressed: () async {
                         Navigator.pop(context);
                         await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
-                        Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                        Get.toNamed(SingleCategoryWiseScreen.routeName);
                         globalLogger.d(NavigationController.to.addAttribute, 'kkkkkkk');
                         NavigationController.to.resetFilters();
                       },
@@ -955,7 +959,6 @@ class FilterAttributeWidget extends StatelessWidget {
 
                                       NavigationController.to.update();
                                       NavigationController.to.attributeList.refresh();
-
                                       NavigationController.to.addAttribute.addAll(
                                           {'${attribute.keyName}': attribute.attributes.where((element) => element.filtered == true).map((e) => e.id ?? '').toList().toString()});
                                     },

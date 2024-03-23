@@ -42,7 +42,7 @@ class UserService {
 
   //storeFCMToken
   static Future<bool> storeFCMToken(dynamic body) async {
-    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}store-token', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}store-token', httpMethod: HttpMethod.multipartFilePost, allInfoField: body);
     globalLogger.d(response, "storeFCMToken Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
@@ -180,13 +180,13 @@ class UserService {
   }
 
   //get-review list with pagination
-  static Future<List<Reviews>> getReviewData({bool initialCall = true}) async {
+  static Future<List<Reviews>> getReviewData({bool initialCall = true, bool loadingEnable = false}) async {
     try {
       List<Reviews> reviewList = [];
       final response = await ServiceAPI.genericCall(
         url: initialCall ? '${Service.apiUrl}get-review' : UserController.to.reviewPaginateURL.value,
         httpMethod: HttpMethod.get,
-        isLoadingEnable: true,
+        isLoadingEnable: loadingEnable,
       );
 
       globalLogger.d(response, "Get Review Route");

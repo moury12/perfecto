@@ -663,7 +663,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '${double.tryParse(ProductDetailsController.to.product.value.reviewsAvgStar!) ?? 0}/5',
+                        '${(double.tryParse(ProductDetailsController.to.product.value.reviewsAvgStar!) ?? 0).toStringAsFixed(2)}/5',
                         style: AppTheme.textStyleSemiBoldBlack32,
                       ),
                       CustomSizedBox.space8W,

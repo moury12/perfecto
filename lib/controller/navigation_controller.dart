@@ -51,14 +51,18 @@ class NavigationController extends GetxController {
     });
 
     HomeApiController.to.categoryList.forEach((category) {
-      category.isExpanded = false;
+      category.isChecked = false;
       category.subcategory?.forEach((subcategory) {
-        subcategory.isExpanded = false;
+        subcategory.isChecked = false;
         subcategory.subcategory?.forEach((child) {
-          child.isExpanded = false;
+          child.isChecked = false;
         });
       });
     });
+    HomeApiController.to.brandList.forEach((element) {
+      element.isChecked = false;
+    });
+
     update();
     attributeList.refresh();
     HomeApiController.to.update();

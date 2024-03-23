@@ -76,14 +76,18 @@ class _BrandScreenState extends State<BrandScreen> {
                     crossAxisSpacing: 8,
                   ),
                   itemBuilder: (context, index) {
-                    final popularBrand = HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').toList();
-                    final brand = popularBrand[index];
+                    final brand = HomeApiController.to.brandList.where((p0) => p0.isPopular == '1').toList()[index];
                     return GestureDetector(
                       onTap: () async {
                         await HomeApiController.to.productListWithCategoryCall({
                           'brand': [brand.id!].toString(),
                         });
-                        Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                        NavigationController.to.resetFilters();
+                        HomeApiController.to.brandList.firstWhere((element) => element.id == brand.id).isChecked = true;
+                        NavigationController.to.addAttribute = {
+                          'brand': [brand.id!].toString(),
+                        };
+                        Get.toNamed(SingleCategoryWiseScreen.routeName);
                       },
                       child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(2), color: const Color(0xffF2F4F5)),
@@ -148,10 +152,12 @@ class _BrandScreenState extends State<BrandScreen> {
                           await HomeApiController.to.productListWithCategoryCall({
                             'brand': [subData.id!].toString(),
                           });
+                          NavigationController.to.resetFilters();
+                          HomeApiController.to.brandList.firstWhere((element) => element.id == subData.id).isChecked = true;
                           NavigationController.to.addAttribute = {
                             'brand': [subData.id!].toString(),
                           };
-                          Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                          Get.toNamed(SingleCategoryWiseScreen.routeName);
                         },
                       ),
                     ],

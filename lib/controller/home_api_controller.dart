@@ -88,7 +88,7 @@ class HomeApiController extends GetxController {
 
   //String to Color Dart Function
   Color stringToColor(String color) {
-    globalLogger.d(color, 'color');
+    // globalLogger.d(color, 'color');
     return Color(int.parse(color.substring(1, 7), radix: 16) + 0xFF000000);
   }
 

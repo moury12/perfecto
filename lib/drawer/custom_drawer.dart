@@ -21,6 +21,8 @@ import 'package:perfecto/pages/profile/return_and_cancelation.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
+import '../controller/navigation_controller.dart';
+
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
@@ -260,7 +262,14 @@ class DrawerMenuItemWidget extends StatelessWidget {
         await HomeApiController.to.productListWithCategoryCall({
           'category': [categoryModel.id!].toString(),
         });
-        Get.toNamed(SingleCatergoryWiseScreen.routeName);
+
+        NavigationController.to.resetFilters();
+        HomeApiController.to.categoryList.firstWhere((element) => element.id == categoryModel.id).isChecked = true;
+        NavigationController.to.addAttribute.addAll({
+          'category': [categoryModel.id!].toString(),
+        });
+
+        Get.toNamed(SingleCategoryWiseScreen.routeName);
         HomeApiController.to.categoryList.forEach((element) {
           element.isExpanded = false;
         });
@@ -382,7 +391,16 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                   await HomeApiController.to.productListWithCategoryCall({
                                     'subcategory': [subCate.id!].toString(),
                                   });
-                                  Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                                  NavigationController.to.resetFilters();
+                                  HomeApiController.to.categoryList
+                                      .firstWhere((element) => element.id == categoryModel.id)
+                                      .subcategory!
+                                      .firstWhere((element) => element.id == subCate.id)
+                                      .isChecked = true;
+                                  NavigationController.to.addAttribute.addAll({
+                                    'subcategory': [subCate.id!].toString(),
+                                  });
+                                  Get.toNamed(SingleCategoryWiseScreen.routeName);
                                   HomeApiController.to.categoryList.forEach((element) {
                                     element.isExpanded = false;
                                   });
@@ -400,7 +418,18 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                               await HomeApiController.to.productListWithCategoryCall({
                                                 'child_category': [subCat.id!].toString(),
                                               });
-                                              Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                                              NavigationController.to.resetFilters();
+                                              HomeApiController.to.categoryList
+                                                  .firstWhere((element) => element.id == categoryModel.id)
+                                                  .subcategory!
+                                                  .firstWhere((element) => element.id == subCate.id)
+                                                  .subcategory!
+                                                  .firstWhere((element) => element.id == subCat.id)
+                                                  .isChecked = true;
+                                              NavigationController.to.addAttribute.addAll({
+                                                'child_category': [subCat.id!].toString(),
+                                              });
+                                              Get.toNamed(SingleCategoryWiseScreen.routeName);
                                               HomeApiController.to.categoryList.forEach((element) {
                                                 element.isExpanded = false;
                                               });

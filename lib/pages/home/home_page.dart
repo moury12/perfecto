@@ -90,7 +90,12 @@ class HomeScreen extends StatelessWidget {
                             await HomeApiController.to.productListWithCategoryCall({
                               'category': [cat.id!].toString(),
                             });
-                            Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                            NavigationController.to.resetFilters();
+                            HomeApiController.to.categoryList.firstWhere((element) => element.id == cat.id).isChecked = true;
+                            NavigationController.to.addAttribute.addAll({
+                              'category': [cat.id!].toString(),
+                            });
+                            Get.toNamed(SingleCategoryWiseScreen.routeName);
                           },
                           child: Container(
                             height: 92,

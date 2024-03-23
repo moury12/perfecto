@@ -114,9 +114,9 @@ class HomeController extends GetxController {
     },
   ];
   List<Map<String, dynamic>> categoryItem = [
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory1, 'route': SingleCatergoryWiseScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory2, 'route': SingleCatergoryWiseScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory3, 'route': SingleCatergoryWiseScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory1, 'route': SingleCategoryWiseScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory2, 'route': SingleCategoryWiseScreen.routeName},
+    {'name': 'Skin', 'img': AssetsConstant.firstCategory3, 'route': SingleCategoryWiseScreen.routeName},
     // {'name': 'Skin', 'img': AssetsConstant.firstCategory4, 'route': OutletScreen.routeName},
     // {'name': 'Skin', 'img': AssetsConstant.firstCategory5, 'route': SingleCatergoryWiseScreen.routeName},
     // {'name': 'Skin', 'img': AssetsConstant.firstCategory6, 'route': SingleCatergoryWiseScreen.routeName},

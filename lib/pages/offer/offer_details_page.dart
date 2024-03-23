@@ -59,7 +59,7 @@ class OfferDetailsScreen extends StatelessWidget {
                                     return GestureDetector(
                                       onTap: () async {
                                         await HomeApiController.to.offerDetailsCatCall(HomeApiController.to.offerDetails.value.id!, data.id!);
-                                        Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                                        Get.toNamed(SingleCategoryWiseScreen.routeName);
                                       },
                                       child: Column(
                                         children: [
@@ -102,7 +102,7 @@ class OfferDetailsScreen extends StatelessWidget {
                               GestureDetector(
                                 onTap: () async {
                                   await HomeApiController.to.offerDetailsCatCall(HomeApiController.to.offerDetails.value.id!, cat.id!);
-                                  Get.toNamed(SingleCatergoryWiseScreen.routeName);
+                                  Get.toNamed(SingleCategoryWiseScreen.routeName);
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0),

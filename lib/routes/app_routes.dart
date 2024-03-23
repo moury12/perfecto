@@ -75,7 +75,7 @@ class AppRoutes {
         ),
         GetPage(name: ProfileScreen.routeName, page: () => const ProfileScreen(), binding: ProfileBinding()),
         GetPage(name: ChatScreen.routeName, page: () => const ChatScreen(), binding: ChatBinding()),
-        GetPage(name: SingleCatergoryWiseScreen.routeName, page: () => const SingleCatergoryWiseScreen(), binding: CategoryBinding()),
+        GetPage(name: SingleCategoryWiseScreen.routeName, page: () => const SingleCategoryWiseScreen(), binding: CategoryBinding()),
         GetPage(name: OfferScreen.routeName, page: () => const OfferScreen(), binding: OfferBinding()),
         GetPage(name: ChangePasswordScreen.routeName, page: () => const ChangePasswordScreen(), binding: AuthBinding()),
         GetPage(name: OfferScreenNew.routeName, page: () => const OfferScreenNew(), binding: OfferBinding()),
