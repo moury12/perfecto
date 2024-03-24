@@ -73,8 +73,8 @@ class MyRatingReviewScreen extends StatelessWidget {
                                 width: .5,
                               ),
                               borderRadius: BorderRadius.circular(4)),
-                          child: const CustomNetworkImage(
-                            networkImagePath: '',
+                          child: CustomNetworkImage(
+                            networkImagePath: review.productInfo?.image ?? '-',
                             errorImagePath: AssetsConstant.megaDeals2,
                             borderRadius: 4,
                             height: 80,
@@ -83,19 +83,19 @@ class MyRatingReviewScreen extends StatelessWidget {
                           ),
                         ),
                         CustomSizedBox.space8W,
-                        const Flexible(
+                        Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Lakme Absolute Skin Dew Satin Color Sensational Ultimatt...',
+                                review.productInfo?.name ?? '-',
                                 style: AppTheme.textStyleMediumBlack14,
                               ),
-                              CustomSizedBox.space4H,
-                              Text(
-                                '৳550',
-                                style: AppTheme.textStyleBoldBlack14,
-                              )
+                              // CustomSizedBox.space4H,
+                              // Text(
+                              //   '৳550',
+                              //   style: AppTheme.textStyleBoldBlack14,
+                              // )
                             ],
                           ),
                         ),
@@ -206,7 +206,7 @@ class MyRatingReviewScreen extends StatelessWidget {
                                     // reviews!.readMore = !reviews!.readMore!;
 
                                     UserController.to.reviewList.firstWhere((element) => element.id == review.id).readMore = true;
-                                    ProductDetailsController.to.allReviews.refresh();
+                                    UserController.to.reviewList.refresh();
                                   },
                                   child: Text(
                                     ' Read more',
@@ -253,6 +253,7 @@ class MyRatingReviewScreen extends StatelessWidget {
                               await HomeApiController.to.productDetailsCall(review.productId!);
                             },
                             child: Container(
+                              margin: const EdgeInsets.only(top: 4),
                               decoration: BoxDecoration(
                                   color: ProductDetailsController.to.isHelpfull.value ? AppColors.kPrimaryColor : null,
                                   border: Border.all(color: AppColors.kPrimaryColor, width: 1),

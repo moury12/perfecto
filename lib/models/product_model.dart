@@ -1064,27 +1064,30 @@ class Reviews {
   Size? size;
   UserModel? user;
   List<ProductReviewImages>? productReviewImages;
+  ProductModel? productInfo;
 
-  Reviews(
-      {this.id,
-      this.userId,
-      this.productId,
-      this.shadeId,
-      this.sizeId,
-      this.orderId,
-      this.title,
-      this.comment,
-      this.star,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.reviewHelpfulCount,
-      this.readMore,
-      this.reviewHelpful,
-      this.shade,
-      this.size,
-      this.user,
-      this.productReviewImages});
+  Reviews({
+    this.id,
+    this.userId,
+    this.productId,
+    this.shadeId,
+    this.sizeId,
+    this.orderId,
+    this.title,
+    this.comment,
+    this.star,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.reviewHelpfulCount,
+    this.readMore,
+    this.reviewHelpful,
+    this.shade,
+    this.size,
+    this.user,
+    this.productReviewImages,
+    this.productInfo,
+  });
 
   Reviews.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
@@ -1116,6 +1119,7 @@ class Reviews {
         productReviewImages!.add(ProductReviewImages.fromJson(v));
       });
     }
+    productInfo = json['product_info'] != null ? ProductModel.fromJson(json['product_info']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -1149,6 +1153,9 @@ class Reviews {
     }
     if (productReviewImages != null) {
       data['product_review_images'] = productReviewImages!.map((v) => v.toJson()).toList();
+    }
+    if (productInfo != null) {
+      data['product_info'] = productInfo!.toJson();
     }
     return data;
   }
