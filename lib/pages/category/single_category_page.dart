@@ -28,34 +28,54 @@ class SingleCategoryWiseScreen extends StatelessWidget {
       },
       child: Scaffold(
         drawer: const CustomDrawer(),
-        body: Obx(() {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const HomeTopWidget(isNeedFilter: true),
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
-                  },
-                  child: GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    shrinkWrap: true,
-                    primary: false,
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 202, mainAxisExtent: 380, crossAxisSpacing: 8, mainAxisSpacing: 12),
-                    itemCount: HomeApiController.to.productList.length,
-                    itemBuilder: (context, index) {
-                      // final data = CategoryController.to.categoryWiseITem[index];
-                      return SingleCategoryProductWidget(
-                        product: HomeApiController.to.productList[index],
-                      );
+        body: Obx(
+          () {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const HomeTopWidget(isNeedFilter: true),
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute, initialCall: true);
                     },
+                    child: GridView.builder(
+                      controller: HomeApiController.to.scrollController,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      shrinkWrap: true,
+                      primary: false,
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 202, mainAxisExtent: 380, crossAxisSpacing: 8, mainAxisSpacing: 12),
+                      itemCount: HomeApiController.to.productList.length,
+                      itemBuilder: (context, index) {
+                        // final data = CategoryController.to.categoryWiseITem[index];
+                        return SingleCategoryProductWidget(
+                          product: HomeApiController.to.productList[index],
+                        );
+                      },
+                    ),
                   ),
                 ),
-              )
-            ],
-          );
-        }),
+                // Text(HomeApiController.to.pListStatus.errorMessage.toString()),
+                Center(
+                  child: (HomeApiController.to.pListStatus.isLoadingMore)
+                      ? Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -259,16 +259,13 @@ class DrawerMenuItemWidget extends StatelessWidget {
       onTap: () async {
         Navigator.pop(context);
 
-        await HomeApiController.to.productListWithCategoryCall({
-          'category': [categoryModel.id!].toString(),
-        });
-
         NavigationController.to.resetFilters();
         HomeApiController.to.categoryList.firstWhere((element) => element.id == categoryModel.id).isChecked = true;
         NavigationController.to.addAttribute.addAll({
           'category': [categoryModel.id!].toString(),
         });
 
+        await HomeApiController.to.productListWithCategoryCall(NavigationController.to.addAttribute);
         Get.toNamed(SingleCategoryWiseScreen.routeName);
         HomeApiController.to.categoryList.forEach((element) {
           element.isExpanded = false;

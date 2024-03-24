@@ -217,13 +217,11 @@ class HomeTopWidget extends StatelessWidget {
                           if (p0.isNotEmpty) {
                             NavigationController.to.openSearchResult.value = true;
                             NavigationController.to.openSearchSuggestion.value = false;
-                            await HomeApiController.to.productListCallWithNameCall({
-                              'search': p0,
-                            });
                             NavigationController.to.resetFilters();
                             NavigationController.to.addAttribute.addAll({
                               'search': p0,
                             });
+                            await HomeApiController.to.productListCallWithNameCall(NavigationController.to.addAttribute);
                             // Get.toNamed(SingleCatergoryWiseScreen.routeName);
                           }
                         },

@@ -19,3 +19,5 @@ enum OfferType {
 }
 
 enum PaymentType { cod, ssl }
+
+enum ProductAPIType { filter, category, search }

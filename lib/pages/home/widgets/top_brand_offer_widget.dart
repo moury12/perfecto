@@ -5,6 +5,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/list_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
@@ -431,14 +432,26 @@ class SegmentGridWidget extends StatelessWidget {
 
         return GestureDetector(
           onTap: () async {
-            if (category.categories != null)
-              await HomeApiController.to.productListWithCategoryCall({
-                'category': [category.categories!.id!].toString(),
-              });
-            else
-              await HomeApiController.to.productListCallWithFilterCall({
-                'concern': [category.concerns!.id!].toString(),
-              });
+            if (category.categories != null) {
+              HomeApiController.to.categoryList.firstWhere((element) => element.id == category.categories!.id!).isChecked = true;
+              HomeApiController.to.categoryList.refresh();
+              HomeApiController.to.update();
+              NavigationController.to.addAttribute = {
+                'category': [category.categories!.id!].toString()
+              };
+            } else {
+              NavigationController.to.attributeList
+                  .firstWhere((element) => element.keyName == 'concern')
+                  .attributes
+                  .firstWhere((element) => element.id == category.concerns!.id!)
+                  .filtered = true;
+              NavigationController.to.attributeList.refresh();
+              NavigationController.to.update();
+              NavigationController.to.addAttribute = {
+                'concern': [category.concerns!.id!].toString()
+              };
+            }
+            await HomeApiController.to.productListWithCategoryCall(NavigationController.to.addAttribute);
             Get.toNamed(SingleCategoryWiseScreen.routeName);
           },
           child: Container(

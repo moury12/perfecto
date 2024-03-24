@@ -34,6 +34,7 @@ class HomeApiController extends GetxController {
 
   static HomeApiController get to => Get.find();
   RxList<OutletModel> outletList = <OutletModel>[].obs;
+  Rx<ProductAPIType> productAPIType = ProductAPIType.category.obs;
   RxList<ProductAttributeModel> colorList = <ProductAttributeModel>[].obs;
   RxList<ProductAttributeModel> preferenceList = <ProductAttributeModel>[].obs;
   RxList<ProductAttributeModel> formulationList = <ProductAttributeModel>[].obs;
@@ -56,6 +57,26 @@ class HomeApiController extends GetxController {
   Rx<TermsConditionModel> returnRefundInfo = TermsConditionModel().obs;
 
   RxList<ProductModel> productList = <ProductModel>[].obs;
+  RxString paginationUrl = ''.obs;
+  RxStatus pListStatus = RxStatus.loading();
+  ScrollController scrollController = ScrollController();
+  Future<void> _scrollListener() async {
+    globalLogger.d('Scroll Listener');
+    globalLogger.d(scrollController.position.pixels, 'pixels');
+    if (!pListStatus.isLoadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      if (paginationUrl.value.isNotEmpty) {
+        if (productAPIType.value == ProductAPIType.filter) {
+          await productListCallWithFilterCall(NavigationController.to.addAttribute, initialCall: false);
+        } else if (productAPIType.value == ProductAPIType.category) {
+          await productListWithCategoryCall(NavigationController.to.addAttribute, initialCall: false);
+        } else if (productAPIType.value == ProductAPIType.search) {
+          await productListCallWithNameCall(NavigationController.to.addAttribute, initialCall: false);
+        }
+      }
+      globalLogger.d(scrollController.position.minScrollExtent, 'min scroll live chat screen');
+    }
+  }
+
   RxList<ProductModel> searchList = <ProductModel>[].obs;
 
   RxList<SizeModel> sizeList = <SizeModel>[].obs;
@@ -73,6 +94,7 @@ class HomeApiController extends GetxController {
 
   @override
   void onInit() async {
+    scrollController.addListener(_scrollListener);
     categoryListCall();
     menuOfferListCall();
     blogListCall();
@@ -217,26 +239,90 @@ class HomeApiController extends GetxController {
     categoryList.value = await HomeService.categoryCall();
   }
 
-  Future<void> productListWithCategoryCall(dynamic body) async {
+  Future<void> productListWithCategoryCall(dynamic body, {bool initialCall = true}) async {
+    productAPIType.value = ProductAPIType.category;
+    body.addAll({'pagination': '4'});
+
+    if (NavigationController.to.searchController.value.text.isEmpty) {
+      body.remove('search');
+    }
     globalLogger.d(body, 'productListWithCategoryCall');
-    productList.clear();
-    productList.value = await ProductService.productListCallWithCategory(body);
-    globalLogger.d(productList, 'productList');
+    if (initialCall) {
+      productList.clear();
+      pListStatus = RxStatus.loading();
+    } else {
+      pListStatus = RxStatus.loadingMore();
+    }
+    try {
+      final data = await ProductService.productListCallWithCategory(body, paginationUrl: initialCall ? null : paginationUrl.value);
+      if (initialCall) {
+        productList.value = data;
+        pListStatus = RxStatus.success();
+      } else {
+        productList.addAll(data);
+        pListStatus = RxStatus.success();
+      }
+      update();
+    } catch (e) {
+      pListStatus = RxStatus.error(e.toString());
+      update();
+    }
+    globalLogger.d(pListStatus.isLoadingMore, 'isLoadingMore');
   }
 
-  Future<void> productListCallWithFilterCall(dynamic body) async {
+  Future<void> productListCallWithFilterCall(dynamic body, {bool initialCall = true}) async {
+    productAPIType.value = ProductAPIType.filter;
+    body.addAll({'pagination': '4'});
+    if (NavigationController.to.searchController.value.text.isEmpty) {
+      body.remove('search');
+    }
     globalLogger.d(body, 'productListCallWithFilterCall');
-    productList.clear();
-    productList.value = await ProductService.productListCallWithFilter(body);
-    globalLogger.d(productList, 'productList');
+    if (initialCall) {
+      productList.clear();
+      pListStatus = RxStatus.loading();
+    } else {
+      pListStatus = RxStatus.loadingMore();
+    }
+    try {
+      final data = await ProductService.productListCallWithFilter(body, paginationUrl: initialCall ? null : paginationUrl.value);
+      if (initialCall) {
+        productList.value = data;
+        pListStatus = RxStatus.success();
+      } else {
+        productList.addAll(data);
+        pListStatus = RxStatus.success();
+      }
+    } catch (e) {
+      pListStatus = RxStatus.error(e.toString());
+    }
   }
 
-  Future<void> productListCallWithNameCall(dynamic body) async {
+  Future<void> productListCallWithNameCall(dynamic body, {bool initialCall = true}) async {
+    productAPIType.value = ProductAPIType.search;
+    body.addAll({'pagination': '4'});
+
+    if (NavigationController.to.searchController.value.text.isEmpty) {
+      body.remove('search');
+    }
     globalLogger.d(body, 'productListCallWithNameCall');
-    productList.clear();
-    productList.value = await ProductService.productListCallWithName(body);
-    searchList.value = productList;
-    globalLogger.d(productList, 'productList');
+    if (initialCall) {
+      productList.clear();
+      pListStatus = RxStatus.loading();
+    } else {
+      pListStatus = RxStatus.loadingMore();
+    }
+    try {
+      final data = await ProductService.productListCallWithName(body, paginationUrl: initialCall ? null : paginationUrl.value);
+      if (initialCall) {
+        productList.value = data;
+        pListStatus = RxStatus.success();
+      } else {
+        productList.addAll(data);
+        pListStatus = RxStatus.success();
+      }
+    } catch (e) {
+      pListStatus = RxStatus.error(e.toString());
+    }
   }
 
   //trendingSearchList

@@ -47,6 +47,7 @@ class SearchScreen extends StatelessWidget {
                           children: [
                             CustomSizedBox.space8H,
                             GridView.builder(
+                              controller: HomeApiController.to.scrollController,
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               shrinkWrap: true,
                               primary: false,

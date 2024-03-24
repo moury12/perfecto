@@ -2,6 +2,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/controller/auth_controller.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/combo_product_model.dart';
@@ -12,11 +13,11 @@ import '../models/product_attribute_model.dart';
 import '../utils.dart';
 
 class ProductService {
-  static Future<List<ProductModel>> productListCallWithCategory(dynamic body) async {
+  static Future<List<ProductModel>> productListCallWithCategory(dynamic body, {String? paginationUrl}) async {
     try {
       List<ProductModel> productList = [];
       final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}products-cat',
+        url: paginationUrl ?? '${Service.apiUrl}products-cat',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
         // defaultErrorMsgShow: false,
@@ -31,6 +32,11 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
+        if (response['data']['products']['next_page_url'] != null) {
+          HomeApiController.to.paginationUrl.value = response['data']['products']['next_page_url'];
+        } else {
+          HomeApiController.to.paginationUrl.value = '';
+        }
         try {
           NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
               ? (response['data']['starCounts'] as Map)
@@ -55,11 +61,11 @@ class ProductService {
     }
   }
 
-  static Future<List<ProductModel>> productListCallWithFilter(dynamic body) async {
+  static Future<List<ProductModel>> productListCallWithFilter(dynamic body, {String? paginationUrl}) async {
     try {
       List<ProductModel> productList = [];
       final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}products',
+        url: paginationUrl ?? '${Service.apiUrl}products',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
         // defaultErrorMsgShow: false,
@@ -74,6 +80,12 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
+
+        if (response['data']['products']['next_page_url'] != null) {
+          HomeApiController.to.paginationUrl.value = response['data']['products']['next_page_url'];
+        } else {
+          HomeApiController.to.paginationUrl.value = '';
+        }
         try {
           NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = (response['data']['starCounts'] != null
               ? (response['data']['starCounts'] as Map)
@@ -127,11 +139,11 @@ class ProductService {
     }
   }
 
-  static Future<List<ProductModel>> productListCallWithName(dynamic body) async {
+  static Future<List<ProductModel>> productListCallWithName(dynamic body, {String? paginationUrl}) async {
     try {
       List<ProductModel> productList = [];
       final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}products-name',
+        url: paginationUrl ?? '${Service.apiUrl}products-name',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
         // defaultErrorMsgShow: false,
@@ -146,6 +158,12 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
+
+        if (response['data']['products']['next_page_url'] != null) {
+          HomeApiController.to.paginationUrl.value = response['data']['products']['next_page_url'];
+        } else {
+          HomeApiController.to.paginationUrl.value = '';
+        }
         try {
           NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
               ? (response['data']['starCounts'] as Map)
