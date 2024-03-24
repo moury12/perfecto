@@ -31,16 +31,20 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
-        NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
-            ? (response['data']['starCounts'] as Map)
-                .entries
-                .map((e) => ProductAttributeModel(
-                    id: e.key.toString().substring(0, 1),
-                    name: e.key.toString(),
-                    productsCount: e.value.toString(),
-                    filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
-                .toList()
-            : [];
+        try {
+          NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
+              ? (response['data']['starCounts'] as Map)
+                  .entries
+                  .map((e) => ProductAttributeModel(
+                      id: e.key.toString().substring(0, 1),
+                      name: e.key.toString(),
+                      productsCount: e.value.toString(),
+                      filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
+                  .toList()
+              : [];
+        } catch (e) {
+          globalLogger.e("Error occurred in Call: $e");
+        }
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
@@ -70,16 +74,21 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
-        NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
-            ? (response['data']['starCounts'] as Map)
-                .entries
-                .map((e) => ProductAttributeModel(
-                    id: e.key.toString().substring(0, 1),
-                    name: e.key.toString(),
-                    productsCount: e.value.toString(),
-                    filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
-                .toList()
-            : [];
+        try {
+          NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = (response['data']['starCounts'] != null
+              ? (response['data']['starCounts'] as Map)
+                  .entries
+                  .map((e) => ProductAttributeModel(
+                      id: e.key.toString().substring(0, 1),
+                      name: e.key.toString(),
+                      productsCount: e.value.toString(),
+                      filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
+                  .toList()
+              : []);
+        } catch (e) {
+          globalLogger.e("Error occurred in Call: $e");
+          // Return an empty list or handle the error accordingly
+        }
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
@@ -137,16 +146,20 @@ class ProductService {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
-        NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
-            ? (response['data']['starCounts'] as Map)
-                .entries
-                .map((e) => ProductAttributeModel(
-                    id: e.key.toString().substring(0, 1),
-                    name: e.key.toString(),
-                    productsCount: e.value.toString(),
-                    filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
-                .toList()
-            : [];
+        try {
+          NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
+              ? (response['data']['starCounts'] as Map)
+                  .entries
+                  .map((e) => ProductAttributeModel(
+                      id: e.key.toString().substring(0, 1),
+                      name: e.key.toString(),
+                      productsCount: e.value.toString(),
+                      filtered: body['average_rating'] == e.key.toString().substring(0, 1)))
+                  .toList()
+              : [];
+        } catch (e) {
+          globalLogger.e("Error occurred in Call: $e");
+        }
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }

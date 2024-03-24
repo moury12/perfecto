@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
-import 'package:mh_core/utils/global.dart';
+import 'package:mh_core/utils/list_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
@@ -494,13 +494,23 @@ class HomeTopWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               for (var sortList in NavigationController.to.sortList) {
                                 sortList.isSelected = false;
                               }
                               sort.toggleSelected();
                               NavigationController.to.update();
                               NavigationController.to.sortList.refresh();
+                              if (index > 0) {
+                                NavigationController.to.addAttribute.addAll({'sort_by_price': sort.isSelected ? sort.keyName ?? '' : ''});
+                              } else {
+                                NavigationController.to.addAttribute.remove('sort_by_price');
+                              }
+
+                              Navigator.pop(context);
+                              globalLogger.d(NavigationController.to.addAttribute, 'kkkkkkk');
+                              await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
+                              Get.toNamed(SingleCategoryWiseScreen.routeName);
                             },
                             child: Container(
                               height: 18,
@@ -680,7 +690,7 @@ class HomeTopWidget extends StatelessWidget {
                         await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
                         Get.toNamed(SingleCategoryWiseScreen.routeName);
                         globalLogger.d(NavigationController.to.addAttribute, 'kkkkkkk');
-                        NavigationController.to.resetFilters();
+                        // NavigationController.to.resetFilters();
                       },
                       boxShadowColor: Colors.transparent,
                       label: 'Apply',
@@ -957,9 +967,13 @@ class FilterAttributeWidget extends StatelessWidget {
                                       GestureDetector(
                                         onTap: () {
                                           NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes.forEach((element) {
-                                            element.filtered = false;
+                                            if (element.id != data.id) {
+                                              element.filtered = false;
+                                            } else {
+                                              element.filtered = true;
+                                            }
                                           });
-                                          data.filtered = !(data.filtered ?? false);
+                                          // data.filtered = !(data.filtered ?? false);
                                           NavigationController.to.attributeList.refresh();
                                           NavigationController.to.update();
                                           NavigationController.to.addAttribute.addAll({
@@ -998,9 +1012,13 @@ class FilterAttributeWidget extends StatelessWidget {
                                           GestureDetector(
                                             onTap: () {
                                               NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'sorting').attributes.forEach((element) {
-                                                element.filtered = false;
+                                                if (element.id != data.id) {
+                                                  element.filtered = false;
+                                                } else {
+                                                  element.filtered = true;
+                                                }
                                               });
-                                              data.filtered = !(data.filtered ?? false);
+                                              // data.filtered = !(data.filtered ?? false);
                                               NavigationController.to.attributeList.refresh();
                                               NavigationController.to.update();
                                               NavigationController.to.addAttribute.addAll({
@@ -1016,54 +1034,108 @@ class FilterAttributeWidget extends StatelessWidget {
                                             data.name ?? '',
                                             style: AppTheme.textStyleMediumCustomBlack12,
                                           ),
-                                          Text(
-                                            ' (${data.productsCount ?? '0'})',
-                                            style: AppTheme.textStyleMediumCustomBlack12,
-                                          ),
                                         ],
                                       ),
                                     );
                                   })
                                 ],
                               )
-                            : Column(
-                                children: [
-                                  ...List.generate(attribute.attributes.length, (index) {
-                                    final data = attribute.attributes[index];
+                            : (attribute.keyName == "max_min")
+                                ? Column(
+                                    children: [
+                                      ...List.generate(attribute.attributes.length, (index) {
+                                        final data = attribute.attributes[index];
 
-                                    return Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Row(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              data.filtered = !(data.filtered ?? false);
+                                        return Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  // NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'max_min').attributes.forEach((element) {
+                                                  //   if (element.id != data.id) {
+                                                  //     element.filtered = false;
+                                                  //   } else {
+                                                  //     element.filtered = true;
+                                                  //   }
+                                                  // });
+                                                  data.filtered = !(data.filtered ?? false);
+                                                  NavigationController.to.attributeList.refresh();
+                                                  NavigationController.to.update();
+                                                  final aData = flatten(NavigationController.to.attributeList
+                                                      .firstWhere((element) => element.keyName == 'max_min')
+                                                      .attributes
+                                                      .where((element) => element.filtered!)
+                                                      .toList()
+                                                      .map((e) => e.id!.replaceAll('[', '').replaceAll(']', '').split(','))
+                                                      .toList());
+                                                  if (aData.isNotEmpty) {
+                                                    globalLogger.d([aData.first, aData.last], 'max_min');
+                                                    NavigationController.to.addAttribute.addAll({
+                                                      '${attribute.keyName}': [aData.first, aData.last].toString(),
+                                                    });
+                                                  } else {
+                                                    NavigationController.to.addAttribute.remove('max_min');
+                                                  }
+                                                  // aData.forEach((element) {
+                                                  //   final eData = element.id!.replaceAll('[', '').replaceAll(']', '').split(',');
+                                                  //   globalLogger.d(eData, 'max_min');
+                                                  // });
+                                                },
+                                                child: CustomCheckboxWidget(
+                                                  check: data.filtered ?? false,
+                                                ),
+                                              ),
+                                              CustomSizedBox.space12W,
+                                              Text(
+                                                data.name ?? '',
+                                                style: AppTheme.textStyleMediumCustomBlack12,
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      })
+                                    ],
+                                  )
+                                : Column(
+                                    children: [
+                                      ...List.generate(attribute.attributes.length, (index) {
+                                        final data = attribute.attributes[index];
 
-                                              NavigationController.to.update();
-                                              NavigationController.to.attributeList.refresh();
-                                              NavigationController.to.addAttribute.addAll({
-                                                '${attribute.keyName}': attribute.attributes.where((element) => element.filtered == true).map((e) => e.id ?? '').toList().toString()
-                                              });
-                                            },
-                                            child: CustomCheckboxWidget(
-                                              check: data.filtered ?? false,
-                                            ),
+                                        return Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  data.filtered = !(data.filtered ?? false);
+
+                                                  NavigationController.to.attributeList.refresh();
+                                                  NavigationController.to.update();
+                                                  NavigationController.to.addAttribute.addAll({
+                                                    '${attribute.keyName}':
+                                                        attribute.attributes.where((element) => element.filtered == true).map((e) => e.id ?? '').toList().toString()
+                                                  });
+                                                },
+                                                child: CustomCheckboxWidget(
+                                                  check: data.filtered ?? false,
+                                                ),
+                                              ),
+                                              CustomSizedBox.space12W,
+                                              Text(
+                                                data.name ?? '',
+                                                style: AppTheme.textStyleMediumCustomBlack12,
+                                              ),
+                                              Text(
+                                                ' (${data.productsCount ?? '0'})',
+                                                style: AppTheme.textStyleMediumCustomBlack12,
+                                              ),
+                                            ],
                                           ),
-                                          CustomSizedBox.space12W,
-                                          Text(
-                                            data.name ?? '',
-                                            style: AppTheme.textStyleMediumCustomBlack12,
-                                          ),
-                                          Text(
-                                            ' (${data.productsCount ?? '0'})',
-                                            style: AppTheme.textStyleMediumCustomBlack12,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  })
-                                ],
-                              );
+                                        );
+                                      })
+                                    ],
+                                  );
           },
         )
       ],

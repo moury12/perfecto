@@ -135,7 +135,7 @@ class ProductAttributeModel {
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
     productsCount = json['products_count'].toString() == 'null' ? '' : json['products_count'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
-
+    filtered = false;
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
   }

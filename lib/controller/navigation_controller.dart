@@ -104,7 +104,7 @@ class NavigationController extends GetxController {
           ProductAttributeModel(id: '[1000,1499]', name: '1000 - 1499', filtered: false),
           ProductAttributeModel(id: '[1500,1999]', name: '1500 - 1999', filtered: false),
           ProductAttributeModel(id: '[2000,2999]', name: '2000 & Above', filtered: false),
-        ],
+        ].obs,
       ),
       AttributeModel(
         keyName: 'sorting',
@@ -114,7 +114,7 @@ class NavigationController extends GetxController {
           ProductAttributeModel(id: 'discount', name: 'Discount', filtered: false),
           ProductAttributeModel(id: 'top_rated', name: 'Top Rated', filtered: false),
           ProductAttributeModel(id: 'new_arrival', name: 'new_arrival', filtered: false),
-        ],
+        ].obs,
       ),
       AttributeModel(
         keyName: 'average_rating',
@@ -184,8 +184,8 @@ class NavigationController extends GetxController {
     ];
     sortList.value = <SortModel>[
       SortModel(name: 'Relevance', isSelected: true),
-      SortModel(name: 'Price - High to Low', keyName: 'sort_by_price'),
-      SortModel(name: 'Price - Low to High', keyName: 'sort_by_price'),
+      SortModel(name: 'Price - High to Low', keyName: 'desc'),
+      SortModel(name: 'Price - Low to High', keyName: 'asc'),
     ];
   }
 }
