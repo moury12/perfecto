@@ -12,6 +12,8 @@ import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
+import '../../utils.dart';
+
 class SearchScreen extends StatelessWidget {
   static const String routeName = '/search_page';
   const SearchScreen({super.key});
@@ -39,33 +41,25 @@ class SearchScreen extends StatelessWidget {
                 NavigationController.to.isSearchFieldNotEmpty.value
                     ? Expanded(
                         child: RefreshIndicator(
-                        onRefresh: () async {
-                          await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
-                        },
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          children: [
-                            CustomSizedBox.space8H,
-                            GridView.builder(
-                              controller: HomeApiController.to.scrollController,
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              shrinkWrap: true,
-                              primary: false,
-                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
-                              itemCount: HomeApiController.to.productList.length,
-                              itemBuilder: (context, index) {
-                                // final data = CategoryController.to.categoryWiseITem[index];
-                                return SingleCategoryProductWidget(
-                                  product: HomeApiController.to.productList[index],
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              height: 60,
-                            )
-                          ],
+                          onRefresh: () async {
+                            await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
+                          },
+                          child: GridView.builder(
+                            controller: HomeApiController.to.scrollController,
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                            shrinkWrap: true,
+                            primary: false,
+                            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisExtent: 380, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                            itemCount: HomeApiController.to.productList.length,
+                            itemBuilder: (context, index) {
+                              // final data = CategoryController.to.categoryWiseITem[index];
+                              return SingleCategoryProductWidget(
+                                product: HomeApiController.to.productList[index],
+                              );
+                            },
+                          ),
                         ),
-                      ))
+                      )
                     : Expanded(
                         child: Obx(() {
                           return ListView(
@@ -108,6 +102,23 @@ class SearchScreen extends StatelessWidget {
                           );
                         }),
                       ),
+                if (NavigationController.to.isSearchFieldNotEmpty.value)
+                  Center(
+                    child: (HomeApiController.to.pListStatus.value == LoadingStatus.loadingMore)
+                        ? const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                                color: Colors.black,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
               ],
             );
           },

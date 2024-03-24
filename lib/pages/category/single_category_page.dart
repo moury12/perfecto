@@ -10,6 +10,7 @@ import 'package:perfecto/shared/custom_sized_box.dart';
 import '../../controller/home_api_controller.dart';
 import '../../controller/navigation_controller.dart';
 import '../../drawer/custom_drawer.dart';
+import '../../utils.dart';
 import 'widgets/single_category_product_widget.dart';
 
 class SingleCategoryWiseScreen extends StatelessWidget {
@@ -57,13 +58,13 @@ class SingleCategoryWiseScreen extends StatelessWidget {
                 ),
                 // Text(HomeApiController.to.pListStatus.errorMessage.toString()),
                 Center(
-                  child: (HomeApiController.to.pListStatus.isLoadingMore)
-                      ? Padding(
-                          padding: const EdgeInsets.all(16.0),
+                  child: (HomeApiController.to.pListStatus.value == LoadingStatus.loadingMore)
+                      ? const Padding(
+                          padding: EdgeInsets.all(16.0),
                           child: SizedBox(
                             height: 20,
                             width: 20,
-                            child: const CircularProgressIndicator(
+                            child: CircularProgressIndicator(
                               strokeWidth: 2,
                               valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
                               color: Colors.black,

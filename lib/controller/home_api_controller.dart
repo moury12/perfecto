@@ -58,12 +58,12 @@ class HomeApiController extends GetxController {
 
   RxList<ProductModel> productList = <ProductModel>[].obs;
   RxString paginationUrl = ''.obs;
-  RxStatus pListStatus = RxStatus.loading();
+  Rx<LoadingStatus> pListStatus = LoadingStatus.initial.obs;
   ScrollController scrollController = ScrollController();
   Future<void> _scrollListener() async {
     globalLogger.d('Scroll Listener');
     globalLogger.d(scrollController.position.pixels, 'pixels');
-    if (!pListStatus.isLoadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    if (pListStatus != LoadingStatus.loadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       if (paginationUrl.value.isNotEmpty) {
         if (productAPIType.value == ProductAPIType.filter) {
           await productListCallWithFilterCall(NavigationController.to.addAttribute, initialCall: false);
@@ -241,7 +241,7 @@ class HomeApiController extends GetxController {
 
   Future<void> productListWithCategoryCall(dynamic body, {bool initialCall = true}) async {
     productAPIType.value = ProductAPIType.category;
-    body.addAll({'pagination': '4'});
+    body.addAll({'pagination': '6'});
 
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
@@ -249,57 +249,57 @@ class HomeApiController extends GetxController {
     globalLogger.d(body, 'productListWithCategoryCall');
     if (initialCall) {
       productList.clear();
-      pListStatus = RxStatus.loading();
+      pListStatus.value = LoadingStatus.loading;
     } else {
-      pListStatus = RxStatus.loadingMore();
+      pListStatus.value = LoadingStatus.loadingMore;
     }
     try {
       final data = await ProductService.productListCallWithCategory(body, paginationUrl: initialCall ? null : paginationUrl.value);
       if (initialCall) {
         productList.value = data;
-        pListStatus = RxStatus.success();
+        pListStatus.value = LoadingStatus.loaded;
       } else {
         productList.addAll(data);
-        pListStatus = RxStatus.success();
+        pListStatus.value = LoadingStatus.loaded;
       }
       update();
     } catch (e) {
-      pListStatus = RxStatus.error(e.toString());
+      pListStatus.value = LoadingStatus.error;
       update();
     }
-    globalLogger.d(pListStatus.isLoadingMore, 'isLoadingMore');
+    globalLogger.d(pListStatus.toString(), 'isLoadingMore');
   }
 
   Future<void> productListCallWithFilterCall(dynamic body, {bool initialCall = true}) async {
     productAPIType.value = ProductAPIType.filter;
-    body.addAll({'pagination': '4'});
+    body.addAll({'pagination': '6'});
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
     }
     globalLogger.d(body, 'productListCallWithFilterCall');
     if (initialCall) {
       productList.clear();
-      pListStatus = RxStatus.loading();
+      pListStatus.value = LoadingStatus.loading;
     } else {
-      pListStatus = RxStatus.loadingMore();
+      pListStatus.value = LoadingStatus.loadingMore;
     }
     try {
       final data = await ProductService.productListCallWithFilter(body, paginationUrl: initialCall ? null : paginationUrl.value);
       if (initialCall) {
         productList.value = data;
-        pListStatus = RxStatus.success();
+        pListStatus.value = LoadingStatus.loaded;
       } else {
         productList.addAll(data);
-        pListStatus = RxStatus.success();
+        pListStatus.value = LoadingStatus.loaded;
       }
     } catch (e) {
-      pListStatus = RxStatus.error(e.toString());
+      pListStatus.value = LoadingStatus.error;
     }
   }
 
   Future<void> productListCallWithNameCall(dynamic body, {bool initialCall = true}) async {
     productAPIType.value = ProductAPIType.search;
-    body.addAll({'pagination': '4'});
+    body.addAll({'pagination': '6'});
 
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
@@ -307,21 +307,21 @@ class HomeApiController extends GetxController {
     globalLogger.d(body, 'productListCallWithNameCall');
     if (initialCall) {
       productList.clear();
-      pListStatus = RxStatus.loading();
+      pListStatus.value = LoadingStatus.loading;
     } else {
-      pListStatus = RxStatus.loadingMore();
+      pListStatus.value = LoadingStatus.loadingMore;
     }
     try {
       final data = await ProductService.productListCallWithName(body, paginationUrl: initialCall ? null : paginationUrl.value);
       if (initialCall) {
         productList.value = data;
-        pListStatus = RxStatus.success();
+        pListStatus.value = LoadingStatus.loaded;
       } else {
         productList.addAll(data);
-        pListStatus = RxStatus.success();
+        pListStatus.value = LoadingStatus.loaded;
       }
     } catch (e) {
-      pListStatus = RxStatus.error(e.toString());
+      pListStatus.value = LoadingStatus.error;
     }
   }
 
