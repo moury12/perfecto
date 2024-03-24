@@ -211,6 +211,7 @@ class CommentWidget extends StatelessWidget {
                       ),
                       child: CustomNetworkImage(
                           networkImagePath: reviews?.productReviewImages?[index].image ?? '',
+                          imagePathList: reviews!.productReviewImages!.map((e) => getImageUrl(e.image!)).toList(),
                           height: 48,
                           width: 48,
                           errorImagePath: AssetsConstant.megaDeals3,

@@ -137,9 +137,11 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
     };*/
     final List<Map<String, dynamic>> images = [];
     if (imageList.isNotEmpty) {
-      images.add({
-        "key": "images[]",
-        "value": imageList,
+      imageList.forEach((element) {
+        images.add({
+          "key": "images[]",
+          "value": element,
+        });
       });
     }
     globalLogger.d(body, 'postReview');
