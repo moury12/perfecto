@@ -79,5 +79,6 @@ class HomeController extends GetxController {
       homeLoadingStatus.value = LoadingStatus.error;
       globalLogger.e(e);
     }
+    update();
   }
 }

@@ -73,22 +73,23 @@ class CustomDrawer extends StatelessWidget {
                             height: 25,
                             color: Colors.black,
                           ),
-                          if (AuthController.to.isLoggedIn.value)
-                            Positioned(
-                              top: -2,
-                              right: 0,
-                              child: Obx(() {
-                                return Container(
-                                  padding: const EdgeInsets.all(2.5),
-                                  height: 15,
-                                  width: 15,
-                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
-                                  child: Center(
-                                      child:
-                                          Text(UserController.to.wishList.length > 9 ? '9+' : UserController.to.wishList.length.toString(), style: AppTheme.textStyleBoldWhite8)),
-                                );
-                              }),
-                            )
+                          Obx(() {
+                            return (AuthController.to.isLoggedIn.value && UserController.to.wishList.isNotEmpty)
+                                ? Positioned(
+                                    top: -2,
+                                    right: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2.5),
+                                      height: 15,
+                                      width: 15,
+                                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.kDarkPrimaryColor),
+                                      child: Center(
+                                          child: Text(UserController.to.wishList.length > 9 ? '9+' : UserController.to.wishList.length.toString(),
+                                              style: AppTheme.textStyleBoldWhite8)),
+                                    ),
+                                  )
+                                : const SizedBox.shrink();
+                          })
                         ],
                       ),
                     ),

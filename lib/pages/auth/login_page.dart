@@ -330,24 +330,24 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 CustomSizedBox.space16H,
-                CustomButton(
-                  label: 'Continue with Facebook',
-                  primary: const Color(0xff3C579B),
-                  onPressed: () async {
-                    final isLogIn = await AuthController.to.loginWithFacebook();
-                    if (isLogIn) {
-                      _login(
-                          email: AuthController.to.userData!['email'],
-                          name: AuthController.to.userData!['name'],
-                          fbId: AuthController.to.userData!['id'],
-                          type: LogInType.facebook,
-                          avatar: AuthController.to.userData!['picture'] != null ? AuthController.to.userData!['picture']['data']['url'] : null);
-                    }
-                  },
-                  marginVertical: 12,
-                  prefixImage: AssetsConstant.facebook,
-                  prefixImageHeight: 20,
-                ),
+                // CustomButton(
+                //   label: 'Continue with Facebook',
+                //   primary: const Color(0xff3C579B),
+                //   onPressed: () async {
+                //     final isLogIn = await AuthController.to.loginWithFacebook();
+                //     if (isLogIn) {
+                //       _login(
+                //           email: AuthController.to.userData!['email'],
+                //           name: AuthController.to.userData!['name'],
+                //           fbId: AuthController.to.userData!['id'],
+                //           type: LogInType.facebook,
+                //           avatar: AuthController.to.userData!['picture'] != null ? AuthController.to.userData!['picture']['data']['url'] : null);
+                //     }
+                //   },
+                //   marginVertical: 12,
+                //   prefixImage: AssetsConstant.facebook,
+                //   prefixImageHeight: 20,
+                // ),
                 CustomButton(
                   label: 'Continue with Google',
                   primary: Colors.white,

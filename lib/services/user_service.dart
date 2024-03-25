@@ -154,21 +154,25 @@ class UserService {
   }
 
   //get-notification
-  static Future<List<NotificationModel>> getNotificationData() async {
+  static Future<List<NotificationModel>> getNotificationData({String? paginationUrl}) async {
     try {
       List<NotificationModel> notificationList = [];
       final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}get-notification',
+        url: paginationUrl ?? '${Service.apiUrl}get-notification',
         httpMethod: HttpMethod.get,
-        noNeedAuthToken: false,
       );
 
       globalLogger.d(response, "Get Notification Route");
       // Get.back();
       if (response['status'] != null && response['status']) {
-        response['data'].forEach((dis) {
+        response['data']['data'].forEach((dis) {
           notificationList.add(NotificationModel.fromJson(dis));
         });
+        if (response['next_page_url'] != null) {
+          UserController.to.notificationPaginateURL.value = response['next_page_url'];
+        } else {
+          UserController.to.notificationPaginateURL.value = '';
+        }
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
@@ -528,6 +532,58 @@ class UserService {
     globalLogger.d(response, "order store Route");
     if (response['status'] != null && response['status']) {
       return response;
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  //pathao city
+  static Future<dynamic> pathaoCity() async {
+    final response = await ServiceAPI.genericCall(
+        url: 'https://api-hermes.pathao'
+            '.com/aladdin/api/v1/countries/1/city-list?client_id=8mepgK1dMy&client_secret=JttWX4z7bIR0jkOk6AHyykINzx8GVZw5QYUlhATU&client_email=officeexicutive247@gmail'
+            '.com&client_password=KT2ot5JkB&grant_type=password',
+        httpMethod: HttpMethod.get,
+        isLoadingEnable: true,
+        debugEnable: true);
+    globalLogger.d(response, "pathao city Route");
+    if (response['code'] == 200) {
+      return response['data']['data'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  //pathao zone
+  static Future<dynamic> pathaoZone(String cityId) async {
+    final response = await ServiceAPI.genericCall(
+        url: 'https://api-hermes.pathao'
+            '.com/aladdin/api/v1/cities/$cityId/zone-list?client_id=8mepgK1dMy&client_secret=JttWX4z7bIR0jkOk6AHyykINzx8GVZw5QYUlhATU&client_email=officeexicutive247@gmail'
+            '.com&client_password=KT2ot5JkB&grant_type=password',
+        httpMethod: HttpMethod.get,
+        debugEnable: false);
+    globalLogger.d("$cityId", "pathao zone Route");
+    if (response['code'] == 200) {
+      return response['data']['data'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
+  //pathao area
+  static Future<dynamic> pathaoArea(String zoneId) async {
+    final response = await ServiceAPI.genericCall(
+        url: 'https://api-hermes.pathao'
+            '.com/aladdin/api/v1/zones/$zoneId/area-list?client_id=8mepgK1dMy&client_secret=JttWX4z7bIR0jkOk6AHyykINzx8GVZw5QYUlhATU&client_email=officeexicutive247@gmail'
+            '.com&client_password=KT2ot5JkB&grant_type=password',
+        httpMethod: HttpMethod.get,
+        debugEnable: false);
+    // globalLogger.d(response, "pathao area Route");
+    if (response['code'] == 200) {
+      return response['data']['data'];
     } else if (response['status'] != null && !response['status']) {
       ServiceAPI.showAlert(response['message']);
     }

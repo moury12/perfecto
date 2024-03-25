@@ -12,11 +12,11 @@ class UserModel {
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    name = json['name'].toString() == 'null' ? '' : json['name'];
-    email = json['email'].toString() == 'null' ? '' : json['email'];
-    phone = json['phone'].toString() == 'null' ? '' : json['phone'];
-    avatar = json['avatar'].toString() == 'null' ? '' : json['avatar'];
-    rewardPoints = json['reward_points'].toString() == 'null' ? '0' : json['reward_points'];
+    name = json['name'].toString() == 'null' ? '' : json['name'].toString();
+    email = json['email'].toString() == 'null' ? '' : json['email'].toString();
+    phone = json['phone'].toString() == 'null' ? '' : json['phone'].toString();
+    avatar = json['avatar'].toString() == 'null' ? '' : json['avatar'].toString();
+    rewardPoints = json['reward_points'].toString() == 'null' ? '0' : json['reward_points'].toString();
   }
 
   Map<String, dynamic> toJson() {

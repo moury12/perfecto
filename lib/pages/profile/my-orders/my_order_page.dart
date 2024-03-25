@@ -45,11 +45,13 @@ class MyOrdersScreen extends StatelessWidget {
               onRefresh: () async {
                 await UserController.to.getOrderListCall();
               },
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                itemBuilder: (context, index) => OrderWidget(order: UserController.to.orderList[index]),
-                itemCount: UserController.to.orderList.length,
-              ),
+              child: Obx(() {
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  itemBuilder: (context, index) => OrderWidget(order: UserController.to.orderList[index]),
+                  itemCount: UserController.to.orderList.length,
+                );
+              }),
             ),
           )
         ],

@@ -21,6 +21,7 @@ import 'package:perfecto/pages/outlets/oulet_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
+import '../../utils.dart';
 import 'widgets/mega_deals_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -81,101 +82,103 @@ class HomeScreen extends StatelessWidget {
               )
             : const SizedBox.shrink();
       case 'cat':
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
-          child: Obx(() {
-            return Wrap(
-              children: HomeApiController.to.categoryList
-                      .map((cat) => GestureDetector(
-                          onTap: () async {
-                            await HomeApiController.to.productListWithCategoryCall({
-                              'category': [cat.id!].toString(),
-                            });
-                            NavigationController.to.resetFilters();
-                            HomeApiController.to.categoryList.firstWhere((element) => element.id == cat.id).isChecked = true;
-                            NavigationController.to.addAttribute.addAll({
-                              'category': [cat.id!].toString(),
-                            });
-                            Get.toNamed(SingleCategoryWiseScreen.routeName);
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            child: Obx(() {
+              return Wrap(
+                children: HomeApiController.to.categoryList
+                        .map((cat) => GestureDetector(
+                            onTap: () async {
+                              await HomeApiController.to.productListWithCategoryCall({
+                                'category': [cat.id!].toString(),
+                              });
+                              NavigationController.to.resetFilters();
+                              HomeApiController.to.categoryList.firstWhere((element) => element.id == cat.id).isChecked = true;
+                              NavigationController.to.addAttribute.addAll({
+                                'category': [cat.id!].toString(),
+                              });
+                              Get.toNamed(SingleCategoryWiseScreen.routeName);
+                            },
+                            child: Container(
+                              height: 92,
+                              width: size.height > size.width ? size.width * .21 : size.height * .21,
+                              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                              decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                children: [
+                                  CustomNetworkImage(
+                                    networkImagePath: cat.icon ?? '',
+                                    height: 43,
+                                    width: 42,
+                                    errorImagePath: AssetsConstant.firstCategory1,
+                                    border: NetworkImageBorder.Rectangle,
+                                  ),
+                                  CustomSizedBox.space8H,
+                                  Text(
+                                    cat.name!,
+                                    style: AppTheme.textStyleNormalWhite10,
+                                  )
+                                ],
+                              ),
+                            )))
+                        .toList() +
+                    [
+                      GestureDetector(
+                          onTap: () {
+                            Get.toNamed(OutletScreen.routeName);
                           },
                           child: Container(
-                            height: 92,
+                            height: 90,
                             width: size.height > size.width ? size.width * .21 : size.height * .21,
                             margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                             decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.all(12),
                             child: Column(
                               children: [
-                                CustomNetworkImage(
-                                  networkImagePath: cat.icon ?? '',
-                                  height: 43,
-                                  width: 42,
-                                  errorImagePath: AssetsConstant.firstCategory1,
-                                  border: NetworkImageBorder.Rectangle,
+                                Image.asset(
+                                  AssetsConstant.firstCategory4,
+                                  height: 42,
                                 ),
                                 CustomSizedBox.space8H,
-                                Text(
-                                  cat.name!,
+                                const Text(
+                                  'Outlet',
                                   style: AppTheme.textStyleNormalWhite10,
                                 )
                               ],
                             ),
-                          )))
-                      .toList() +
-                  [
-                    GestureDetector(
-                        onTap: () {
-                          Get.toNamed(OutletScreen.routeName);
+                          )),
+                      GestureDetector(
+                        onTap: () async {
+                          await HomeApiController.to.offerListCall();
+                          Get.toNamed(OfferScreenNew.routeName);
                         },
                         child: Container(
                           height: 90,
                           width: size.height > size.width ? size.width * .21 : size.height * .21,
                           margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                          decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
                           padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(color: AppColors.kPrimaryColor, borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             children: [
                               Image.asset(
-                                AssetsConstant.firstCategory4,
+                                AssetsConstant.firstCategory8,
                                 height: 42,
                               ),
                               CustomSizedBox.space8H,
                               const Text(
-                                'Outlet',
-                                style: AppTheme.textStyleNormalWhite10,
+                                "Offer",
+                                style: AppTheme.textStyleNormalBlack10,
                               )
                             ],
                           ),
-                        )),
-                    GestureDetector(
-                      onTap: () async {
-                        await HomeApiController.to.offerListCall();
-                        Get.toNamed(OfferScreenNew.routeName);
-                      },
-                      child: Container(
-                        height: 90,
-                        width: size.height > size.width ? size.width * .21 : size.height * .21,
-                        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(color: AppColors.kPrimaryColor, borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              AssetsConstant.firstCategory8,
-                              height: 42,
-                            ),
-                            CustomSizedBox.space8H,
-                            const Text(
-                              "Offer",
-                              style: AppTheme.textStyleNormalBlack10,
-                            )
-                          ],
                         ),
                       ),
-                    ),
-                  ],
-            );
-          }),
+                    ],
+              );
+            }),
+          ),
         );
       case '4':
         return model.sectionData!.isNotEmpty
@@ -484,7 +487,9 @@ class HomeScreen extends StatelessWidget {
               )
             : const SizedBox.shrink();
       case '19':
-        return const GreetingCardWidget();
+        return GreetingCardWidget(
+          model: model,
+        );
       default:
         return const Text('No Data Found');
     }
@@ -492,7 +497,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = HomeController.to;
+    // final controller = HomeController.to;
     // globalLogger.d(MediaQuery.of(context).size);
     Size size = MediaQuery.of(context).size;
     return Column(
@@ -505,15 +510,15 @@ class HomeScreen extends StatelessWidget {
               onRefresh: () async {
                 await HomeController.to.getHomeCall();
               },
-              child: controller.homeData.isEmpty
+              child: HomeController.to.homeLoadingStatus.value == LoadingStatus.loading
                   ? const ShimmerListHome()
                   : ListView.builder(
                       padding: EdgeInsets.zero,
-                      itemCount: controller.homeData.length,
+                      itemCount: HomeController.to.homeData.length,
                       itemBuilder: (context, index) {
                         // globalLogger.d(controller.homeData[index].id);
                         return switchHomeWidget(
-                          controller.homeData[index],
+                          HomeController.to.homeData[index],
                           context,
                         );
                       }),

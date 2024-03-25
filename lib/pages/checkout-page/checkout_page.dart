@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/pages/auth/terms_condition_page.dart';
 import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
 import 'package:perfecto/pages/checkout-page/checkout_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
@@ -92,6 +95,7 @@ class CheckoutScreen extends StatelessWidget {
                               AddressController.to.errorName.value = 'Enter minimum 3 character of your name!';
                             }
                           }
+                          AddressController.to.update();
                         },
                         onSubmitted: (p0) {
                           if (AddressController.to.nameController.text.isEmpty) {
@@ -119,6 +123,7 @@ class CheckoutScreen extends StatelessWidget {
                               AddressController.to.errorPhone.value = 'Enter a valid phone number!';
                             }
                           }
+                          AddressController.to.update();
                         },
                         onSubmitted: (p0) {
                           if (AddressController.to.phoneController.text.isEmpty) {
@@ -262,6 +267,7 @@ class CheckoutScreen extends StatelessWidget {
                               AddressController.to.errorAddress.value = 'Enter minimum 3 character of your name!';
                             }
                           }
+                          AddressController.to.update();
                         },
                         onSubmitted: (p0) {
                           if (AddressController.to.addressController.text.isEmpty) {
@@ -281,6 +287,8 @@ class CheckoutScreen extends StatelessWidget {
                               return GestureDetector(
                                 onTap: () {
                                   CheckOutController.to.locationSave.value = !CheckOutController.to.locationSave.value;
+
+                                  CheckOutController.to.update();
                                 },
                                 child: Container(
                                   height: 18,
@@ -682,7 +690,11 @@ class CheckoutScreen extends StatelessWidget {
                                                     )
                                                   ]),
                                                 ),
-                                              const Spacer(),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
                                               Text(
                                                 '৳ ${UserController.to.cartList[index].price ?? UserController.to.cartList[index].discountedPrice}',
                                                 style: TextStyle(
@@ -696,7 +708,7 @@ class CheckoutScreen extends StatelessWidget {
                                                 style: AppTheme.textStyleBoldBlack14,
                                               )
                                             ],
-                                          ),
+                                          )
                                         ],
                                       ),
                                     ),
@@ -884,6 +896,8 @@ class CheckoutScreen extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           CheckOutController.to.checked.value = !CheckOutController.to.checked.value;
+                          CheckOutController.to.checked.refresh();
+                          CheckOutController.to.update();
                         },
                         child: Container(
                           height: 18,
@@ -905,19 +919,25 @@ class CheckoutScreen extends StatelessWidget {
                     }),
                     CustomSizedBox.space8W,
                     RichText(
-                      text: const TextSpan(text: 'I’ve read and accept the ', style: AppTheme.textStyleNormalBlack12, children: [
+                      text: TextSpan(text: 'I’ve read and accept the ', style: AppTheme.textStyleNormalBlack12, children: [
                         TextSpan(
-                          text: 'T&Cs ',
-                          style: AppTheme.textStyleBoldBlack12,
-                        ),
+                            text: 'T&Cs ',
+                            style: AppTheme.textStyleBoldBlack12,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Get.toNamed(TermsConditionScreen.routeName);
+                              }),
                         TextSpan(
                           text: 'and ',
                           style: AppTheme.textStyleNormalBlack12,
                         ),
                         TextSpan(
-                          text: 'Privacy Policy',
-                          style: AppTheme.textStyleBoldBlack12,
-                        ),
+                            text: 'Privacy Policy',
+                            style: AppTheme.textStyleBoldBlack12,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Get.toNamed(TermsConditionScreen.routeName);
+                              }),
                       ]),
                     ),
                   ],
@@ -948,62 +968,90 @@ class CheckoutScreen extends StatelessWidget {
                 )
               ],
             ),
-            Obx(() {
-              return CustomButton(
-                isDisable: AddressController.to.nameController.text.isEmpty ||
+            /*GetBuilder(builder: (AddressController controller) {
+              // return Obx(() {
+              final checkDisable = controller.nameController.text.isEmpty ||
+                  controller.phoneController.text.isEmpty ||
+                  controller.addressController.text.isEmpty ||
+                  controller.selectedCity.value.isEmpty ||
+                  controller.selectedZone.value.isEmpty ||
+                  controller.selectedArea.value.isEmpty ||
+                  !CheckOutController.to.checked.value;
+              return */
+            CustomButton(
+              primary: AppColors.kPrimaryColor,
+              marginHorizontal: 0,
+              marginVertical: 0,
+              width: 200,
+              height: 50,
+              onPressed: () async {
+                if (AddressController.to.nameController.text.isEmpty ||
                     AddressController.to.phoneController.text.isEmpty ||
                     AddressController.to.addressController.text.isEmpty ||
                     AddressController.to.selectedCity.value.isEmpty ||
                     AddressController.to.selectedZone.value.isEmpty ||
                     AddressController.to.selectedArea.value.isEmpty ||
-                    !CheckOutController.to.checked.value,
-                primary: AppColors.kPrimaryColor,
-                marginHorizontal: 0,
-                marginVertical: 0,
-                width: 200,
-                height: 50,
-                onPressed: () async {
-                  // CartController.to.isbagEmpty.value = true;
-                  // Get.toNamed(CheckoutScreen.routeName);
-                  final data = {
-                    "order_details": UserController.to.cartList.map((e) => e.id).toList().toString().replaceAll(' ', ''),
-                    "billing_shipping_details": json.encode({
-                      "name": AddressController.to.nameController.text,
-                      "phone": AddressController.to.phoneController.text,
-                      "email": AddressController.to.emailController.text,
-                      "city_id": AddressController.to.selectedArea.value,
-                      "city_name": AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!,
-                      "zone_id": AddressController.to.selectedZone.value,
-                      "zone_name": AddressController.to.zoneList.firstWhere((element) => element.zoneId == AddressController.to.selectedZone.value).zoneName!,
-                      "area_id": AddressController.to.selectedArea.value,
-                      "area_name": AddressController.to.areaList.firstWhere((element) => element.areaId == AddressController.to.selectedArea.value).areaName!,
-                      "address": AddressController.to.addressController.text
-                    }),
-                    "order_notes": UserController.to.orderNoteController.text,
-                    "coupon_code": HomeApiController.to.couponCode.value,
-                    "reward_point": HomeApiController.to.rewardPointApply.value,
-                    "payment_status": "pending",
-                    "payment_method": CheckOutController.to.paymentType.value == PaymentType.ssl ? "SSL" : "COD",
-                    "shipping_charge":
-                        AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
-                            ? HomeApiController.to.shippingInfo.value.outsideCity!
-                            : HomeApiController.to.shippingInfo.value.insideCity!,
-                    "store_address": CheckOutController.to.locationSave.value ? "1" : "0",
-                  };
-                  globalLogger.d(data);
-                  await UserController.to.orderStore(data, CheckOutController.to.paymentType.value);
-                  // final res = await sslCommerzGeneralCallTest(
-                  //     UserController.to.cartTotalPriceWithCouponAndReward(
-                  //         (AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
-                  //                 ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0'
-                  //                 : HomeApiController.to.shippingInfo.value.insideCity ?? '0')
-                  //             .toDouble()),
-                  //     'Products');
-                  // globalLogger.d(res.toJson());
-                },
-                label: 'Place Order',
-              );
-            })
+                    !CheckOutController.to.checked.value) {
+                  if (AddressController.to.nameController.text.isEmpty ||
+                      AddressController.to.phoneController.text.isEmpty ||
+                      AddressController.to.addressController.text.isEmpty ||
+                      AddressController.to.selectedCity.value.isEmpty ||
+                      AddressController.to.selectedZone.value.isEmpty ||
+                      AddressController.to.selectedArea.value.isEmpty) {
+                    showSnackBar(
+                      msg: 'Please fill all the fields',
+                    );
+                  } else {
+                    showSnackBar(
+                      msg: 'Please accept the terms and conditions',
+                    );
+                  }
+                  return;
+                }
+                // CartController.to.isbagEmpty.value = true;
+                // Get.toNamed(CheckoutScreen.routeName);
+                final data = {
+                  "order_details": UserController.to.cartList.map((e) => e.id).toList().toString().replaceAll(' ', ''),
+                  "billing_shipping_details": json.encode({
+                    "name": AddressController.to.nameController.text,
+                    "phone": AddressController.to.phoneController.text,
+                    "email": AddressController.to.emailController.text,
+                    "city_id": AddressController.to.selectedArea.value,
+                    "city_name": AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!,
+                    "zone_id": AddressController.to.selectedZone.value,
+                    "zone_name": AddressController.to.zoneList.firstWhere((element) => element.zoneId == AddressController.to.selectedZone.value).zoneName!,
+                    "area_id": AddressController.to.selectedArea.value,
+                    "area_name": AddressController.to.areaList.firstWhere((element) => element.areaId == AddressController.to.selectedArea.value).areaName!,
+                    "address": AddressController.to.addressController.text
+                  }),
+                  "order_notes": UserController.to.orderNoteController.text,
+                  "coupon_code": HomeApiController.to.couponCode.value,
+                  "reward_point": HomeApiController.to.rewardPointApply.value,
+                  "payment_status": "pending",
+                  "payment_method": CheckOutController.to.paymentType.value == PaymentType.ssl ? "SSL" : "COD",
+                  "shipping_charge":
+                      AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
+                          ? HomeApiController.to.shippingInfo.value.outsideCity!
+                          : HomeApiController.to.shippingInfo.value.insideCity!,
+                  "store_address": CheckOutController.to.locationSave.value ? "1" : "0",
+                };
+                globalLogger.d(data);
+                await UserController.to.orderStore(data, CheckOutController.to.paymentType.value);
+                // await UserController.to.pathaoCity();
+                // final res = await sslCommerzGeneralCallTest(
+                //     UserController.to.cartTotalPriceWithCouponAndReward(
+                //         (AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
+                //                 ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0'
+                //                 : HomeApiController.to.shippingInfo.value.insideCity ?? '0')
+                //             .toDouble()),
+                //     'Products');
+                // globalLogger.d(res.toJson());
+              },
+              label: 'Place Order',
+            )
+            /*;
+              // });
+            })*/
           ],
         ),
       ),

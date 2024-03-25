@@ -39,7 +39,7 @@ void main() async {
   }
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
-  Service.domain("http://perfecto.fixican.com/");
+  Service.domain("http://fixican.com/");
   Service.extraSlag("api/");
   CustomColor.setPrimaryColor(AppColors.kPrimaryColor);
   runApp(const MyApp());

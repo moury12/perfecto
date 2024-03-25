@@ -191,6 +191,10 @@ class SingleCategoryProductWidget extends StatelessWidget {
                           product?.productSizes?[0].size?.name ?? '30ml',
                           style: AppTheme.textStyleNormalBlack12,
                         ),
+                      // Text(
+                      //   Get.currentRoute,
+                      //   style: AppTheme.textStyleNormalBlack12,
+                      // ),
                       CustomSizedBox.space4H,
                       product!.offers!.offerDetails!.where((element) => element.productDetails!.offer!.offerTypeId == '3').isNotEmpty
                           ? Wrap(

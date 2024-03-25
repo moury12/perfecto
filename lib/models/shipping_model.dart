@@ -38,9 +38,9 @@ class RewardPointModel {
 
   RewardPointModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString() == 'null' ? '' : json['id'].toString();
-    amount = json['amount'].toString() == 'null' ? '' : json['amount'].toString();
-    rewardPoint = json['reward_point'].toString() == 'null' ? '' : json['reward_point'].toString();
-    rewardPointValue = json['reward_point_value'].toString() == 'null' ? '' : json['reward_point_value'].toString();
+    amount = json['amount'].toString() == 'null' ? '0' : json['amount'].toString();
+    rewardPoint = json['reward_point'].toString() == 'null' ? '0' : json['reward_point'].toString();
+    rewardPointValue = json['reward_point_value'].toString() == 'null' ? '0' : json['reward_point_value'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
   }

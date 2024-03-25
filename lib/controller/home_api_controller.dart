@@ -97,12 +97,12 @@ class HomeApiController extends GetxController {
   @override
   void onInit() async {
     scrollController.addListener(_scrollListener);
+    await rewardPointCall();
     categoryListCall();
     menuOfferListCall();
     blogListCall();
     await filterDataCall();
     trendingSearchListCall();
-    rewardPointCall();
     shippingCall();
 
     NavigationController.to.attributeListCall();
@@ -117,6 +117,9 @@ class HomeApiController extends GetxController {
   }
 
   productDetailsCall(String productId) async {
+    if (Get.currentRoute == ProductDetailsScreen.routeName) {
+      Get.back();
+    }
     try {
       Get.put<ProductDetailsController>(
         ProductDetailsController(),
@@ -330,6 +333,7 @@ class HomeApiController extends GetxController {
       final data = await ProductService.productListCallWithName(body, paginationUrl: initialCall ? null : paginationUrl.value);
       if (initialCall) {
         productList.value = data;
+        searchList.value = data;
         pListStatus.value = LoadingStatus.loaded;
       } else {
         productList.addAll(data);

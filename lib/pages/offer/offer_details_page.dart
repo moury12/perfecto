@@ -41,7 +41,7 @@ class OfferDetailsScreen extends StatelessWidget {
                         child: CustomNetworkImage(
                           networkImagePath: HomeApiController.to.offerDetails.value.bannerMobile ?? '',
                           errorImagePath: AssetsConstant.banner2,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                           width: double.infinity,
                           borderRadius: 10,
                         ),

@@ -58,10 +58,9 @@ class UserController extends GetxController {
   RxStatus cancelOrderStatus = RxStatus.empty();
   RxString orderPaginateURL = ''.obs;
   RxString cancelOrderPaginateURL = ''.obs;
-  RxString reviewPaginateURL = ''.obs;
 
   RxList<Reviews> reviewList = <Reviews>[].obs;
-
+  RxString reviewPaginateURL = ''.obs;
   Rx<LoadingStatus> reviewStatus = LoadingStatus.initial.obs;
   ScrollController scrollController = ScrollController();
   Future<void> _scrollListener() async {
@@ -76,6 +75,20 @@ class UserController extends GetxController {
   }
 
   RxList<NotificationModel> notificationList = <NotificationModel>[].obs;
+  RxString notificationPaginateURL = ''.obs;
+  Rx<LoadingStatus> notificationStatus = LoadingStatus.initial.obs;
+  ScrollController notificationScrollController = ScrollController();
+  Future<void> _notificationScrollListener() async {
+    globalLogger.d('Scroll Listener');
+    globalLogger.d(notificationScrollController.position.pixels, 'pixels');
+    if (notificationStatus.value != LoadingStatus.loadingMore && notificationScrollController.position.pixels == notificationScrollController.position.maxScrollExtent) {
+      if (notificationPaginateURL.value.isNotEmpty) {
+        getNotificationListCall(initialCall: false);
+      }
+      globalLogger.d(notificationScrollController.position.maxScrollExtent, 'min scroll live chat screen');
+    }
+  }
+
   TextEditingController orderNoteController = TextEditingController();
 
   var processesMap = {
@@ -89,6 +102,7 @@ class UserController extends GetxController {
   @override
   Future<void> onInit() async {
     scrollController.addListener(_scrollListener);
+    notificationScrollController.addListener(_notificationScrollListener);
     await getUserInfoCall();
     await getCartListCall();
     await getReviewListCall();
@@ -219,6 +233,8 @@ class UserController extends GetxController {
   Future<void> cancelOrder(String orderId) async {
     final isCreated = await UserService.cancelOrder(orderId);
     if (isCreated) {
+      Get.back();
+
       getOrderListCall();
       // afterLogin(isCreated);
     }
@@ -346,19 +362,41 @@ class UserController extends GetxController {
   double cartTotalPriceWithCouponAndReward([double shippingCost = 0]) {
     double totalPrice = 0;
     totalPrice += cartTotalPrice();
+
     totalPrice -= cartTotalDiscountPrice();
+
     totalPrice -= upToDiscount.value.toDouble();
+
     totalPrice -= (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble();
+
     totalPrice -= rewardPointCalculation(HomeApiController.to.rewardPointInfo.value.rewardPointValue ?? '0', HomeApiController.to.rewardPointApply.value,
         HomeApiController.to.rewardPointInfo.value.rewardPoint ?? '0');
+
     totalPrice += shippingCost;
     if (UserController.to.eligibleDeliveryFree.value) totalPrice -= shippingCost;
     return totalPrice;
   }
 
   //notificationList call
-  Future<void> getNotificationListCall() async {
-    notificationList.value = await UserService.getNotificationData();
+  Future<void> getNotificationListCall({bool initialCall = true}) async {
+    if (initialCall) {
+      notificationList.clear();
+      notificationStatus.value = LoadingStatus.loading;
+    } else {
+      notificationStatus.value = LoadingStatus.loadingMore;
+    }
+    try {
+      final data = await UserService.getNotificationData(paginationUrl: initialCall ? null : notificationPaginateURL.value);
+      if (initialCall) {
+        notificationList.value = data;
+        notificationStatus.value = LoadingStatus.loaded;
+      } else {
+        notificationList.addAll(data);
+        notificationStatus.value = LoadingStatus.loaded;
+      }
+    } catch (e) {
+      notificationStatus.value = LoadingStatus.error;
+    }
   }
 
   //reward point calculation
@@ -390,6 +428,7 @@ class UserController extends GetxController {
 
   Future<void> getUserInfoCall() async {
     userInfo.value = await UserService.userProfileCall();
+    userInfo.refresh();
     update();
 
     final token = await FirebaseMessaging.instance.getToken();
@@ -402,6 +441,33 @@ class UserController extends GetxController {
     }
   }
 
+  //pathao city
+  Future<void> pathaoCity() async {
+    final data = await UserService.pathaoCity();
+
+    data.forEach((element) async {
+      element['zone'] = await pathaoZone(element['city_id'].toString());
+    });
+    globalLogger.d(data);
+  }
+
+  //pathao zone
+  Future<List<dynamic>> pathaoZone(String cityId) async {
+    final data = await UserService.pathaoZone(cityId);
+    Future.delayed(Duration(seconds: 10));
+    data.forEach((element) async {
+      element['area'] = await pathaoArea(element['zone_id'].toString());
+    });
+    return data;
+  }
+
+  //pathao area
+  Future<List<dynamic>> pathaoArea(String zoneId) async {
+    Future.delayed(Duration(seconds: 10));
+    final data = await UserService.pathaoArea(zoneId);
+    return data;
+  }
+
   //order-store
   Future<void> orderStore(dynamic body, PaymentType paymentType) async {
     final isCreated = await UserService.orderStore(body);
@@ -410,6 +476,7 @@ class UserController extends GetxController {
         showSnackBar(
           msg: 'Order Placed Successfully',
         );
+        Get.back();
         Get.back();
         getCartListCall();
         getOrderListCall();
@@ -483,10 +550,12 @@ class UserController extends GetxController {
         msg: 'Order Placed Successfully',
       );
       Get.back();
+      Get.back();
       getCartListCall();
       getOrderListCall();
     } else {
       showSnackBar(msg: 'Payment failed!');
+      Get.back();
       Get.back();
       getCartListCall();
       getOrderListCall();

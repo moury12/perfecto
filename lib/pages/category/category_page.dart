@@ -8,6 +8,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
+import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 import 'package:perfecto/utils.dart';
@@ -62,13 +63,21 @@ class CategoryScreen extends StatelessWidget {
                         category: HomeApiController.to.categoryList[index],
                       ),
                     ),
-                  HomeApiController.to.categoryList.isNotEmpty && HomeApiController.to.categoryList.length > 2 ? const GreetingCardWidget() : const SizedBox.shrink(),
+                  HomeApiController.to.categoryList.isNotEmpty && HomeApiController.to.categoryList.length > 2
+                      ? GreetingCardWidget(
+                          model: HomeController.to.homeData.firstWhere((element) => element.id == '19'),
+                        )
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),
           ),
         ),
-        Obx(() => HomeApiController.to.categoryList.length <= 2 ? const GreetingCardWidget() : const SizedBox.shrink()),
+        Obx(() => HomeApiController.to.categoryList.length <= 2
+            ? GreetingCardWidget(
+                model: HomeController.to.homeData.firstWhere((element) => element.id == '19'),
+              )
+            : const SizedBox.shrink()),
       ],
     );
   }

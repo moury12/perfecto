@@ -60,7 +60,7 @@ class ChatController extends GetxController {
     getChats();
   }
 
-  IO.Socket socket = IO.io("http://chat-perfect.fixican.com/", <String, dynamic>{
+  IO.Socket socket = IO.io("https://eastland.wiztecbd.com/", <String, dynamic>{
     'autoConnect': false,
     'transports': ['websocket', 'polling'],
   });

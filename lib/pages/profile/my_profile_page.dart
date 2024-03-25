@@ -18,7 +18,6 @@ class MyProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UserController());
     return Scaffold(
       backgroundColor: AppColors.kBackgroundColor,
       body: SingleChildScrollView(
@@ -66,9 +65,9 @@ class MyProfileScreen extends StatelessWidget {
                           marginVertical: 0,
                           marginHorizontal: 0,
                           onPressed: () {
-                            UserController.to.editController(controller.userInfo.value);
+                            UserController.to.editController(UserController.to.userInfo.value);
                             Get.to(EditProfileScreen(
-                              userModel: controller.userInfo.value,
+                              userModel: UserController.to.userInfo.value,
                             ));
                           },
                           primary: Colors.white,
@@ -104,7 +103,7 @@ class MyProfileScreen extends StatelessWidget {
                         CustomSizedBox.space4H,
                         Obx(() {
                           return Text(
-                            controller.userInfo.value.name ?? 'Anonymous User',
+                            UserController.to.userInfo.value.name ?? 'Anonymous User',
                             style: AppTheme.textStyleBoldBlack14,
                           );
                         }),
@@ -129,7 +128,7 @@ class MyProfileScreen extends StatelessWidget {
                         CustomSizedBox.space4H,
                         Obx(() {
                           return Text(
-                            controller.userInfo.value.email ?? '-',
+                            UserController.to.userInfo.value.email ?? '-',
                             style: AppTheme.textStyleBoldBlack14,
                           );
                         }),
@@ -154,7 +153,7 @@ class MyProfileScreen extends StatelessWidget {
                         CustomSizedBox.space4H,
                         Obx(() {
                           return Text(
-                            controller.userInfo.value.phone ?? '-',
+                            UserController.to.userInfo.value.phone ?? '-',
                             style: AppTheme.textStyleBoldBlack14,
                           );
                         }),

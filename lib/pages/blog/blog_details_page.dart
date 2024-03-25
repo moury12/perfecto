@@ -71,9 +71,9 @@ class BlogDetailsScreen extends StatelessWidget {
                         CustomSizedBox.space4W,
                         Obx(() {
                           return Text(
-                            HomeApiController.to.singleBlog.value.createdAt!.isEmpty
-                                ? '-'
-                                : DateFormat.yMMMd().format(DateTime.parse(HomeApiController.to.singleBlog.value.createdAt ?? '-')),
+                            HomeApiController.to.singleBlog.value.createdAt != null && HomeApiController.to.singleBlog.value.createdAt!.isNotEmpty
+                                ? (DateFormat.yMMMd().format(DateTime.parse(HomeApiController.to.singleBlog.value.createdAt ?? '-')).toString())
+                                : '-',
                             style: AppTheme.textStyleNormalFadeBlack12,
                           );
                         }),
@@ -113,7 +113,7 @@ class BlogDetailsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
                 child: Html(
-                  data: findAndRemove(HomeApiController.to.singleBlog.value.description!.replaceAll('<br>', '').replaceAll('</br>', ''), '<iframe', '>')
+                  data: findAndRemove((HomeApiController.to.singleBlog.value.description ?? '').replaceAll('<br>', '').replaceAll('</br>', ''), '<iframe', '>')
                       .replaceAll('<img', '<img style= "width: 100px" ')
                       .replaceAll('width="240" height="360" ', 'style= "width: 100px; height: 0px" '),
                   style: {

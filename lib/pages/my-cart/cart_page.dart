@@ -229,6 +229,7 @@ class CartScreen extends StatelessWidget {
                             marginHorizontal: 0,
                             marginVertical: 20,
                             onPressed: () {
+                              Get.back();
                               // Your button's onPressed logic here
                             },
                           ),

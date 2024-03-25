@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/list_utils.dart';
@@ -35,22 +36,30 @@ class TopBrandsOfferListWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            '',
-            errorBuilder: (context, error, stackTrace) => Image.asset(AssetsConstant.verticalBannner),
+          CustomNetworkImage(
+            networkImagePath: sectionData.image!,
+            width: double.infinity,
+            borderRadius: 10,
+            fit: BoxFit.fill,
+            errorImagePath: AssetsConstant.verticalBannner,
+            borderRadiusOrg: const BorderRadius.vertical(top: Radius.circular(10)),
           ),
+          // Image.network(
+          //   '',
+          //   errorBuilder: (context, error, stackTrace) => Image.asset(AssetsConstant.verticalBannner),
+          // ),
           Padding(
             padding: const EdgeInsets.all(12.0).copyWith(bottom: 4),
             child: Text(
               sectionData.offers?.title1 ?? '-',
-              style: TextStyle(color: AppColors.kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 14),
+              style: const TextStyle(color: AppColors.kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(12.0).copyWith(top: 0),
             child: Text(
               sectionData.offers?.title2 ?? '-',
-              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 11),
+              style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 11),
             ),
           ),
         ],
@@ -106,7 +115,7 @@ class BestSellerListWidget extends StatelessWidget {
                             Container(
                               // margin: const EdgeInsets.only(left: 8),
                               padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color(0xffFFF2D9),
                                 borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
                               ),
@@ -206,7 +215,7 @@ class BestSellerListWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
                             product?.name ?? 'Maybelline New York Superstay Vinyl Ink',
                             style: AppTheme.textStyleBoldBlack12.copyWith(fontFamily: 'InriaSans', fontSize: 14),
@@ -367,24 +376,24 @@ class BestSellerListViewBuilder extends StatelessWidget {
             children: [
               TitleTextWidget(tileText: model?.mobileTitle ?? 'Bestseller'),
               const Spacer(),
-              InkWell(
-                onTap: () {
-                  // await HomeApiController.to.productListWithCategoryCall({
-                  //   'category': [category.id!].toString(),
-                  // });
-                  Get.toNamed(SingleCategoryWiseScreen.routeName);
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    'See All',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.kPrimaryColor,
-                    ),
-                  ),
-                ),
-              )
+              // InkWell(
+              //   onTap: () {
+              //     // await HomeApiController.to.productListWithCategoryCall({
+              //     //   'category': [category.id!].toString(),
+              //     // });
+              //     // Get.toNamed(SingleCategoryWiseScreen.routeName);
+              //   },
+              //   child: const Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 16.0),
+              //     child: Text(
+              //       'See All',
+              //       style: TextStyle(
+              //         fontSize: 12,
+              //         color: AppColors.kPrimaryColor,
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           ),
           SizedBox(
@@ -523,33 +532,59 @@ class SegmentGridWidget extends StatelessWidget {
 class GreetingCardWidget extends StatelessWidget {
   const GreetingCardWidget({
     super.key,
+    required this.model,
   });
+
+  final HomeModel model;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 220,
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.bottomGrettings), fit: BoxFit.fill)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          CustomSizedBox.space8H,
-          Image.asset(
-            'assets/Enhance_Your_Beauty_With_ Perfecto.png',
-            height: 46,
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: CustomNetworkImage(
+              networkImagePath: model.banner ?? '', height: 220, width: double.infinity, borderRadius: 0, fit: BoxFit.fill, errorImagePath: AssetsConstant.bottomGrettings),
+        ),
+        SizedBox(
+          width: double.infinity,
+          height: 220,
+          // decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(model.banner ?? '') /* AssetImage(AssetsConstant.bottomGrettings)*/, fit: BoxFit.fill)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CustomSizedBox.space8H,
+              // Image.asset(
+              //   'assets/Enhance_Your_Beauty_With_ Perfecto.png',
+              //   height: 46,
+              // ),
+              CustomNetworkImage(
+                  networkImagePath: model.sectionData?[0].image ?? '-',
+                  height: 46,
+                  width: 160,
+                  borderRadius: 0,
+                  fit: BoxFit.fill,
+                  errorImagePath: 'assets/Enhance_Your_Beauty_With_ P'
+                      'erfecto.png'),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                child: Text(
+                  model.sectionData?[0].description ??
+                      'With vast experience in the cosmetics industry, who sourcing cosmetics, skincare and hair care on a global level. We deliver the highest quality products of world renowned at the most affordable prices. We believe that everyone – no matter their sex, ethnicity, age, budget or location – should be thrilled by Perfecto.',
+                  style: AppTheme.textStyleMediumBlack12,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              // CustomNetworkImage(
+              //     networkImagePath: model.banner ?? '', height: 50, width: double.infinity, borderRadius: 0, fit: BoxFit.fill, errorImagePath: AssetsConstant.bottomGrettings),
+            ],
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Text(
-              'With vast experience in the cosmetics industry, who sourcing cosmetics, skincare and hair care on a global level. We deliver the highest quality products of world renowned at the most affordable prices. We believe that everyone – no matter their sex, ethnicity, age, budget or location – should be thrilled by Perfecto.',
-              style: AppTheme.textStyleMediumBlack12,
-              textAlign: TextAlign.center,
-            ),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
