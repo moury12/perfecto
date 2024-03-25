@@ -280,17 +280,18 @@ class CheckoutScreen extends StatelessWidget {
                             Obx(() {
                               return GestureDetector(
                                 onTap: () {
-                                  CheckOutController.to.checked.value = !CheckOutController.to.checked.value;
+                                  CheckOutController.to.locationSave.value = !CheckOutController.to.locationSave.value;
                                 },
                                 child: Container(
                                   height: 18,
                                   width: 18,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(2),
-                                      color: CheckOutController.to.checked.value ? AppColors.kPrimaryColor : Colors.white,
-                                      border: Border.all(width: 0.5, color: CheckOutController.to.checked.value ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
+                                      color: CheckOutController.to.locationSave.value ? AppColors.kPrimaryColor : Colors.white,
+                                      border:
+                                          Border.all(width: 0.5, color: CheckOutController.to.locationSave.value ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
                                   alignment: Alignment.center,
-                                  child: CheckOutController.to.checked.value
+                                  child: CheckOutController.to.locationSave.value
                                       ? const Icon(
                                           Icons.check_rounded,
                                           color: Colors.white,
@@ -985,7 +986,7 @@ class CheckoutScreen extends StatelessWidget {
                         AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
                             ? HomeApiController.to.shippingInfo.value.outsideCity!
                             : HomeApiController.to.shippingInfo.value.insideCity!,
-                    "store_address": CheckOutController.to.checked.value ? "1" : "0",
+                    "store_address": CheckOutController.to.locationSave.value ? "1" : "0",
                   };
                   globalLogger.d(data);
                   await UserController.to.orderStore(data, CheckOutController.to.paymentType.value);

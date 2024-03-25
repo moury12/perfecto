@@ -4,6 +4,7 @@ import '../../utils.dart';
 
 class CheckOutController extends GetxController {
   static CheckOutController get to => Get.find();
+  RxBool locationSave = false.obs;
   RxBool checked = false.obs;
   RxBool checked2 = false.obs;
   RxBool checked3 = false.obs;

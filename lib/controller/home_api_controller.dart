@@ -61,8 +61,8 @@ class HomeApiController extends GetxController {
   Rx<LoadingStatus> pListStatus = LoadingStatus.initial.obs;
   ScrollController scrollController = ScrollController();
   Future<void> _scrollListener() async {
-    globalLogger.d('Scroll Listener');
-    globalLogger.d(scrollController.position.pixels, 'pixels');
+    // globalLogger.d('Scroll Listener');
+    // globalLogger.d(scrollController.position.pixels, 'pixels');
     if (pListStatus != LoadingStatus.loadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       if (paginationUrl.value.isNotEmpty) {
         if (productAPIType.value == ProductAPIType.filter) {
