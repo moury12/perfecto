@@ -180,11 +180,11 @@ class UserService {
   }
 
   //get-review list with pagination
-  static Future<List<Reviews>> getReviewData({bool initialCall = true, bool loadingEnable = false}) async {
+  static Future<List<Reviews>> getReviewData({bool initialCall = true, bool loadingEnable = false, String? paginationUrl}) async {
     try {
       List<Reviews> reviewList = [];
       final response = await ServiceAPI.genericCall(
-        url: initialCall ? '${Service.apiUrl}get-review' : UserController.to.reviewPaginateURL.value,
+        url: paginationUrl ?? '${Service.apiUrl}get-review',
         httpMethod: HttpMethod.get,
         isLoadingEnable: loadingEnable,
       );

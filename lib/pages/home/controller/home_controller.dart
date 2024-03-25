@@ -10,9 +10,17 @@ import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
 import 'package:perfecto/services/home_service.dart';
+import 'package:perfecto/utils.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
+
+  /// List of product list id [productListId]
+  /// 6: Best Selling
+  /// 16: Mega Deals
+  /// 13: Super Deals
+  /// 17: Personal Care
+  ///
   final productListId = [
     '6',
     '16',
@@ -21,108 +29,8 @@ class HomeController extends GetxController {
   ];
   final RxList<HomeModel> homeData = <HomeModel>[].obs;
 
-  RxList brands = [
-    {
-      'id': 'A',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
-      'id': 'B',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
-      'id': 'D',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
-      'id': 'C',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
-      'id': 'E',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
-      'id': 'F',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-  ].obs;
-  List<String> generateAlphabets() {
-    return List<String>.generate(26, (index) => String.fromCharCode('A'.codeUnitAt(0) + index));
-  }
+  Rx<LoadingStatus> homeLoadingStatus = LoadingStatus.initial.obs;
 
-  List<Map<String, dynamic>> megadealsITem = [
-    {
-      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
-      'rating': 245,
-      'price': '৳ 1,550',
-      'previousPrice': '৳1,850',
-      'isbuy1Get1': true,
-      'isBestSeller': false,
-      'isStacked': false,
-      'img': AssetsConstant.megaDeals1
-    },
-    {
-      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
-      'rating': 245,
-      'price': '৳ 1,550',
-      'previousPrice': '৳1,850',
-      'isbuy1Get1': false,
-      'isBestSeller': false,
-      'isStacked': true,
-      'img': AssetsConstant.megaDeals2
-    },
-    {
-      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
-      'rating': 245,
-      'price': '৳ 1,550',
-      'previousPrice': '৳1,850',
-      'isbuy1Get1': true,
-      'isBestSeller': false,
-      'isStacked': false,
-      'img': AssetsConstant.megaDeals3
-    },
-    {
-      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
-      'rating': 245,
-      'price': '৳ 1,550',
-      'previousPrice': '৳1,850',
-      'isbuy1Get1': true,
-      'isBestSeller': false,
-      'isStacked': false,
-      'img': AssetsConstant.megaDeals1
-    },
-    {
-      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
-      'rating': 245,
-      'price': '৳ 1,550',
-      'previousPrice': '৳1,850',
-      'isbuy1Get1': false,
-      'isBestSeller': true,
-      'isStacked': true,
-      'img': AssetsConstant.megaDeals2
-    },
-    {
-      'name': 'Maybelline New York Superstay Vi sdfsrgffg',
-      'rating': 245,
-      'price': '৳550',
-      'previousPrice': '৳850',
-      'isbuy1Get1': true,
-      'isBestSeller': false,
-      'isStacked': false,
-      'img': AssetsConstant.megaDeals3
-    },
-  ];
-  List<Map<String, dynamic>> categoryItem = [
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory1, 'route': SingleCategoryWiseScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory2, 'route': SingleCategoryWiseScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory3, 'route': SingleCategoryWiseScreen.routeName},
-    // {'name': 'Skin', 'img': AssetsConstant.firstCategory4, 'route': OutletScreen.routeName},
-    // {'name': 'Skin', 'img': AssetsConstant.firstCategory5, 'route': SingleCatergoryWiseScreen.routeName},
-    // {'name': 'Skin', 'img': AssetsConstant.firstCategory6, 'route': SingleCatergoryWiseScreen.routeName},
-    // {'name': 'Skin', 'img': AssetsConstant.firstCategory7, 'route': SingleCatergoryWiseScreen.routeName},
-    // {'name': 'Offers', 'img': AssetsConstant.firstCategory8, 'route': SingleCatergoryWiseScreen.routeName},
-  ];
   Rx<PageController> pageController = PageController().obs;
   Rx<int> currentPage = 0.obs;
   // List<String> bannerContent = [AssetsConstant.slider1, AssetsConstant.slider2, AssetsConstant.verticalBannner];
@@ -161,8 +69,15 @@ class HomeController extends GetxController {
 
   // get home data
   Future<void> getHomeCall() async {
-    // call api
-    homeData.value = await HomeService.homeCall();
-    globalLogger.d(homeData, 'homeData');
+    homeLoadingStatus.value = LoadingStatus.loading;
+    homeData.value = [];
+    try {
+      homeData.value = await HomeService.homeCall();
+      globalLogger.d(homeData, 'homeData');
+      homeLoadingStatus.value = LoadingStatus.loaded;
+    } catch (e) {
+      homeLoadingStatus.value = LoadingStatus.error;
+      globalLogger.e(e);
+    }
   }
 }

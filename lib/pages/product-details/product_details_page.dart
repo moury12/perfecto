@@ -848,6 +848,8 @@ class ProductDetailsScreen extends StatelessWidget {
                   }
                 },
                 child: Container(
+                  height: 46,
+                  width: 56,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   margin: const EdgeInsets.only(left: 8),
                   decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
@@ -881,8 +883,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                 '0'),
                         label: 'Add To Bag',
                         marginHorizontal: 8,
+                        elevation: 0,
                         marginVertical: 4,
                         height: 46,
+                        isBorder: false,
                         prefixImage: AssetsConstant.cartIcon,
                         prefixImageColor: Colors.white,
                         prefixImageHeight: 20,
@@ -905,7 +909,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         },
                       )
                     : Container(
-                        height: 48,
+                        height: 46,
                         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                             border: Border.all(

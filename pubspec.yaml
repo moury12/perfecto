@@ -46,6 +46,8 @@ dependencies:
   flutter_html:
   url_launcher: ^6.2.4
   azlistview: ^2.0.0
+  # Use for shimmer loading effect
+  shimmer: ^3.0.0
 
 #    path: ../azlistview-2.0.0
   mh_videoplayer:

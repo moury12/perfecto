@@ -254,6 +254,12 @@ class SingleCategoryProductWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                // Container(
+                //   width: double.infinity,
+                //   height: 1,
+                //   color: Colors.black.withOpacity(.1),
+                // ),
                 Row(
                   children: [
                     Obx(() {
@@ -291,7 +297,8 @@ class SingleCategoryProductWidget extends StatelessWidget {
                             : 'OUT OF STOCK'),
                         marginHorizontal: 8,
                         marginVertical: 8,
-                        height: 39,
+                        height: 38,
+                        elevation: 0,
                         primary: product?.totalStock == '0' ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
                         width: 140,
                         onPressed: product?.totalStock != '0'
@@ -302,11 +309,13 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                   }
                                 : */
                             () async {
-                                Get.put(ProductDetailsController());
-                                await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
-                                Get.to(ProductShadeScreen(
-                                  isSelectSize: product?.variationType == 'shade' ? false : true,
-                                ));
+                                await HomeApiController.to.productDetailsCall(product!.id!);
+
+                                // Get.put(ProductDetailsController());
+                                // await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
+                                // Get.to(ProductShadeScreen(
+                                //   isSelectSize: product?.variationType == 'shade' ? false : true,
+                                // ));
                               }
                             : () {},
                         // buttonText == 'ADD TO BAG'
@@ -325,7 +334,12 @@ class SingleCategoryProductWidget extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
+                // Container(
+                //   width: double.infinity,
+                //   height: 1,
+                //   color: Colors.black.withOpacity(.1),
+                // )
               ],
             ),
           ),

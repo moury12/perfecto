@@ -61,6 +61,20 @@ class UserController extends GetxController {
   RxString reviewPaginateURL = ''.obs;
 
   RxList<Reviews> reviewList = <Reviews>[].obs;
+
+  Rx<LoadingStatus> reviewStatus = LoadingStatus.initial.obs;
+  ScrollController scrollController = ScrollController();
+  Future<void> _scrollListener() async {
+    // globalLogger.d('Scroll Listener');
+    // globalLogger.d(scrollController.position.pixels, 'pixels');
+    if (reviewStatus.value != LoadingStatus.loadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      if (reviewPaginateURL.value.isNotEmpty) {
+        getReviewListCall(initialCall: false);
+      }
+      globalLogger.d(scrollController.position.minScrollExtent, 'min scroll live chat screen');
+    }
+  }
+
   RxList<NotificationModel> notificationList = <NotificationModel>[].obs;
   TextEditingController orderNoteController = TextEditingController();
 
@@ -74,6 +88,7 @@ class UserController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    scrollController.addListener(_scrollListener);
     await getUserInfoCall();
     await getCartListCall();
     await getReviewListCall();
@@ -353,13 +368,23 @@ class UserController extends GetxController {
 
   //reviewList call with pagination
   Future<void> getReviewListCall({bool initialCall = true}) async {
-    final data = await UserService.getReviewData(initialCall: initialCall);
-    if (data.isNotEmpty) {
+    if (initialCall) {
+      reviewList.clear();
+      reviewStatus.value = LoadingStatus.loading;
+    } else {
+      reviewStatus.value = LoadingStatus.loadingMore;
+    }
+    try {
+      final data = await UserService.getReviewData(paginationUrl: initialCall ? null : reviewPaginateURL.value);
       if (initialCall) {
         reviewList.value = data;
+        reviewStatus.value = LoadingStatus.loaded;
       } else {
         reviewList.addAll(data);
+        reviewStatus.value = LoadingStatus.loaded;
       }
+    } catch (e) {
+      reviewStatus.value = LoadingStatus.error;
     }
   }
 

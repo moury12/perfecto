@@ -10,6 +10,7 @@ import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
+import 'package:perfecto/pages/home/shimmer_list_home.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 import 'package:perfecto/pages/offer/offer_details_page.dart';
@@ -504,16 +505,18 @@ class HomeScreen extends StatelessWidget {
               onRefresh: () async {
                 await HomeController.to.getHomeCall();
               },
-              child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: controller.homeData.length,
-                  itemBuilder: (context, index) {
-                    // globalLogger.d(controller.homeData[index].id);
-                    return switchHomeWidget(
-                      controller.homeData[index],
-                      context,
-                    );
-                  }),
+              child: controller.homeData.isEmpty
+                  ? const ShimmerListHome()
+                  : ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: controller.homeData.length,
+                      itemBuilder: (context, index) {
+                        // globalLogger.d(controller.homeData[index].id);
+                        return switchHomeWidget(
+                          controller.homeData[index],
+                          context,
+                        );
+                      }),
             );
           }),
           // ListView(

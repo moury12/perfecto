@@ -590,6 +590,11 @@ class BottomCalculationTotalWidget extends StatelessWidget {
               ),
             );
           }),
+          // Container(
+          //   width: double.infinity,
+          //   height: 1,
+          //   color: Colors.black.withOpacity(.1),
+          // ),
           Row(
             children: [
               CustomSizedBox.space8W,
@@ -603,6 +608,8 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                     }
                   },
                   child: Container(
+                    height: 44,
+                    width: 56,
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
@@ -638,6 +645,7 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                           marginHorizontal: 8,
                           marginVertical: 4,
                           height: 46,
+                          elevation: 0,
                           prefixImage: AssetsConstant.cartIcon,
                           prefixImageColor: Colors.white,
                           prefixImageHeight: 20,
@@ -660,13 +668,13 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                           },
                         )
                       : Container(
-                          height: 48,
-                          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          height: 44,
+                          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                color: AppColors.kPrimaryColor,
-                                width: 1,
-                              ),
+                              // border: Border.all(
+                              //   color: AppColors.kPrimaryColor,
+                              //   width: 1,
+                              // ),
                               color: AppColors.kPrimaryColor,
                               borderRadius: BorderRadius.circular(4)),
                           // padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

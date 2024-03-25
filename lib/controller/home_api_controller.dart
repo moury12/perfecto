@@ -49,7 +49,9 @@ class HomeApiController extends GetxController {
   RxList<ProductAttributeModel> packSizeList = <ProductAttributeModel>[].obs;
   RxList<BlogModel> blogList = <BlogModel>[].obs;
   RxList<BrandModel> brandList = <BrandModel>[].obs;
+  Rx<LoadingStatus> brandListStatus = LoadingStatus.initial.obs;
   RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
+  Rx<LoadingStatus> categoryListStatus = LoadingStatus.initial.obs;
 
   Rx<SingleBlogModel> singleBlog = SingleBlogModel().obs;
   Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;
@@ -227,16 +229,29 @@ class HomeApiController extends GetxController {
   }
 
   Future<void> brandListCall() async {
-    final List<BrandModel> data = await HomeService.brandCall();
-    data.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+    brandListStatus.value = LoadingStatus.loading;
+    try {
+      final List<BrandModel> data = await HomeService.brandCall();
+      data.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
 
-    _addSuspensionTag(data);
+      _addSuspensionTag(data);
 
-    brandList.value = data;
+      brandList.value = data;
+      brandListStatus.value = LoadingStatus.loaded;
+    } catch (e) {
+      brandListStatus.value = LoadingStatus.error;
+    }
   }
 
   Future<void> categoryListCall() async {
-    categoryList.value = await HomeService.categoryCall();
+    categoryListStatus.value = LoadingStatus.loading;
+    categoryList.value = [];
+    try {
+      categoryList.value = await HomeService.categoryCall();
+      categoryListStatus.value = LoadingStatus.loaded;
+    } catch (e) {
+      categoryListStatus.value = LoadingStatus.error;
+    }
   }
 
   Future<void> productListWithCategoryCall(dynamic body, {bool initialCall = true}) async {

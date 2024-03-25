@@ -315,13 +315,16 @@ class BestSellerListWidget extends StatelessWidget {
                     marginHorizontal: 8,
                     marginVertical: 8,
                     height: 39,
-                    onPressed: () async {
-                      Get.put(ProductDetailsController());
-                      await ProductDetailsController.to.getProductDetails(product!.id!);
-                      Get.to(ProductShadeScreen(
-                        isSelectSize: product?.variationType == 'shade' ? false : true,
-                      ));
-                    },
+                    onPressed: product?.totalStock != '0'
+                        ? () {}
+                        : () async {
+                            await HomeApiController.to.productDetailsCall(product!.id!);
+                            // Get.put(ProductDetailsController());
+                            // await ProductDetailsController.to.getProductDetails(product!.id!);
+                            // Get.to(ProductShadeScreen(
+                            //   isSelectSize: product?.variationType == 'shade' ? false : true,
+                            // ));
+                          },
                   )
                 ],
               ),
