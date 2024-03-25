@@ -22,7 +22,7 @@ class ReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       backgroundColor: AppColors.kBackgroundColor,
       body: Column(
         children: [
@@ -31,7 +31,7 @@ class ReviewScreen extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                Divider(
+                const Divider(
                   thickness: 1.5,
                   color: Color(0xffECECEC),
                   height: 1,
@@ -44,11 +44,11 @@ class ReviewScreen extends StatelessWidget {
                       CustomSizedBox.space8H,
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             'Ratings & Reviews',
                             style: AppTheme.textStyleBoldBlack16,
                           ),
-                          Spacer(),
+                          const Spacer(),
                           if (AuthController.to.isLoggedIn.value && ProductDetailsController.to.product.value.reviewEligible == 'true')
                             GestureDetector(
                               onTap: () {
@@ -56,8 +56,8 @@ class ReviewScreen extends StatelessWidget {
                               },
                               child: Container(
                                 decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(4)),
-                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                child: Text(
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                child: const Text(
                                   'Write Review',
                                   style: AppTheme.textStyleBoldBlack14,
                                 ),
@@ -69,7 +69,7 @@ class ReviewScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   thickness: 1.5,
                   color: Color(0xffECECEC),
                   height: 0,
@@ -96,7 +96,7 @@ class ReviewScreen extends StatelessWidget {
                             ),
                             Text(
                               '${ProductDetailsController.to.allReviews.length} verified ratings',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black54),
                             ),
                           ],
                         )
@@ -105,13 +105,13 @@ class ReviewScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  color: Color(0xffECECEC).withOpacity(.4),
+                  color: const Color(0xffECECEC).withOpacity(.4),
                   child: Column(
                     children: [
                       Row(
                         children: [
-                          TitleTextWidget(tileText: 'Refine Reviews By'),
-                          Spacer(),
+                          const TitleTextWidget(tileText: 'Refine Reviews By'),
+                          const Spacer(),
                           InkWell(
                             onTap: () {
                               ProductDetailsController.to.reviewFilterList.forEach((element) {
@@ -120,8 +120,8 @@ class ReviewScreen extends StatelessWidget {
                               ProductDetailsController.to.reviewFilterList.refresh();
                               ProductDetailsController.to.getAllReviews();
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
                               child: Text(
                                 'Reset Filter',
                                 style: TextStyle(
@@ -137,7 +137,7 @@ class ReviewScreen extends StatelessWidget {
                         return SizedBox(
                           height: 42,
                           child: ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
                             scrollDirection: Axis.horizontal,
                             itemCount: ProductDetailsController.to.reviewFilterList.length,
                             itemBuilder: (context, index) => GestureDetector(
@@ -176,14 +176,14 @@ class ReviewScreen extends StatelessWidget {
                                 globalLogger.d(data, 'Filter Data');
                               },
                               child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 4),
+                                margin: const EdgeInsets.symmetric(horizontal: 4),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: ProductDetailsController.to.reviewFilterList[index]['is_selected'] ? AppColors.kPrimaryColor : Colors.grey.withOpacity(.5),
                                         width: 1.5),
                                     borderRadius: BorderRadius.circular(20)),
-                                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 child: Text(
                                   ProductDetailsController.to.reviewFilterList[index]['title'].toString(),
                                   textAlign: TextAlign.center,
@@ -238,7 +238,7 @@ class ReviewScreen extends StatelessWidget {
       bottomNavigationBar: Container(
         height: 95,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(15)), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 12)]),
         child: FittedBox(
           child: Row(
             children: [
@@ -248,8 +248,8 @@ class ReviewScreen extends StatelessWidget {
                     ProductDetailsController.to.isFavourite.value = !ProductDetailsController.to.isFavourite.value;
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    margin: EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(border: Border.all(color: AppColors.kPrimaryColor, width: 1), borderRadius: BorderRadius.circular(4)),
                     child: ProductDetailsController.to.isFavourite.value
                         ? Image.asset(
