@@ -700,66 +700,76 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 Obx(
                   () => ProductDetailsController.to.reviewImages.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: SizedBox(
-                            height: 86,
-                            child: ListView.builder(
-                              // itemCount: ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!.length).toList().sum,
-                              itemCount: ProductDetailsController.to.reviewImages.length > 4 ? 4 : ProductDetailsController.to.reviewImages.length,
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) {
-                                final reviewImage = ProductDetailsController.to.reviewImages[index];
-                                // ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!).reduce((value, element) => value + element)[index];
-                                return Stack(
-                                  children: [
-                                    Container(
-                                      height: 72,
-                                      width: 72,
-                                      margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: const Color(0xffCECECE), width: 1),
-                                        borderRadius: BorderRadius.circular(2),
+                      ? GestureDetector(
+                          onTap: () async {
+                            ProductDetailsController.to.reviewFilterList.firstWhere((element) => element['key'] == 'with_image')['is_selected'] = true;
+                            ProductDetailsController.to.reviewFilterList.refresh();
+                            ProductDetailsController.to.update();
+                            await ProductDetailsController.to.getAllReviews(addition: {'with_image': '1'});
+
+                            Get.toNamed(ReviewScreen.routeName);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: SizedBox(
+                              height: 86,
+                              child: ListView.builder(
+                                // itemCount: ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!.length).toList().sum,
+                                itemCount: ProductDetailsController.to.reviewImages.length > 4 ? 4 : ProductDetailsController.to.reviewImages.length,
+                                scrollDirection: Axis.horizontal,
+                                padding: EdgeInsets.zero,
+                                itemBuilder: (context, index) {
+                                  final reviewImage = ProductDetailsController.to.reviewImages[index];
+                                  // ProductDetailsController.to.product.value.reviews!.map((e) => e.productReviewImages!).reduce((value, element) => value + element)[index];
+                                  return Stack(
+                                    children: [
+                                      Container(
+                                        height: 72,
+                                        width: 72,
+                                        margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: const Color(0xffCECECE), width: 1),
+                                          borderRadius: BorderRadius.circular(2),
+                                        ),
+                                        child: CustomNetworkImage(
+                                          networkImagePath: reviewImage.image!,
+                                          fit: BoxFit.cover,
+                                          errorImagePath: AssetsConstant.megaDeals2,
+                                          borderRadius: 2,
+                                        ),
                                       ),
-                                      child: CustomNetworkImage(
-                                        networkImagePath: reviewImage.image!,
-                                        fit: BoxFit.cover,
-                                        errorImagePath: AssetsConstant.megaDeals2,
-                                        borderRadius: 2,
-                                      ),
-                                    ),
-                                    if (ProductDetailsController.to.reviewImages.length > 4 && 3 == index)
-                                      Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        left: 0,
-                                        bottom: 0,
-                                        child: Container(
-                                          height: 72,
-                                          width: 72,
-                                          margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: const Color(0xffCECECE), width: 1),
-                                            borderRadius: BorderRadius.circular(2),
-                                            color: Colors.black.withOpacity(.4),
-                                            // image: const DecorationImage(
-                                            //     image: AssetImage(
-                                            //       AssetsConstant.megaDeals2,
-                                            //     ),
-                                            //     fit: BoxFit.cover),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              '+${ProductDetailsController.to.reviewImages.length - 4}',
-                                              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                      if (ProductDetailsController.to.reviewImages.length > 4 && 3 == index)
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          left: 0,
+                                          bottom: 0,
+                                          child: Container(
+                                            height: 72,
+                                            width: 72,
+                                            margin: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 16),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: const Color(0xffCECECE), width: 1),
+                                              borderRadius: BorderRadius.circular(2),
+                                              color: Colors.black.withOpacity(.4),
+                                              // image: const DecorationImage(
+                                              //     image: AssetImage(
+                                              //       AssetsConstant.megaDeals2,
+                                              //     ),
+                                              //     fit: BoxFit.cover),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                '+${ProductDetailsController.to.reviewImages.length - 4}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                  ],
-                                );
-                              },
+                                        )
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         )
@@ -784,6 +794,9 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async {
+                    ProductDetailsController.to.reviewFilterList.firstWhere((element) => element['key'] == 'with_image')['is_selected'] = false;
+                    ProductDetailsController.to.reviewFilterList.refresh();
+                    ProductDetailsController.to.update();
                     await ProductDetailsController.to.getAllReviews();
                     Get.toNamed(ReviewScreen.routeName);
                   },

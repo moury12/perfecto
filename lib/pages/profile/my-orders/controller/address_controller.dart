@@ -57,6 +57,10 @@ class AddressController extends GetxController {
   }
 
   setData() {
+    if (_addressList.isEmpty) {
+      isAddNew.value = true;
+      return;
+    }
     nameController.text = _addressList.firstWhere((element) => element.status == '1').name ?? '-';
     emailController.text = _addressList.firstWhere((element) => element.status == '1').email ?? '';
     phoneController.text = _addressList.firstWhere((element) => element.status == '1').phone ?? '';

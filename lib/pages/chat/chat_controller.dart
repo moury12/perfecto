@@ -124,7 +124,7 @@ class ChatController extends GetxController {
   }
 
   void pickImage() {
-    imagePicker.pickImage(source: ImageSource.gallery).then((value) {
+    imagePicker.pickImage(source: ImageSource.gallery, imageQuality: 25).then((value) {
       if (value != null) {
         lastImage.value = value.path;
 

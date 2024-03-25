@@ -51,14 +51,14 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   Rx<ProductModel> product = ProductModel().obs;
   Rx<ComboDetailsModel> comboDetails = ComboDetailsModel().obs;
   void selectedImage() async {
-    final selectedImages = await ImagePicker().pickMultiImage();
+    final selectedImages = await ImagePicker().pickMultiImage(imageQuality: 25);
     if (selectedImages.isNotEmpty) {
       imageList.addAll(selectedImages.map((e) => e.path));
     }
   }
 
   void selectedImageCamera() async {
-    final selectedImages = await ImagePicker().pickImage(source: ImageSource.camera);
+    final selectedImages = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 25);
     if (selectedImages != null) {
       imageList.add(selectedImages.path);
     }

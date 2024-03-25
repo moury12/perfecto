@@ -9,8 +9,11 @@ import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/product-details/review/widget/comment_widget.dart';
+import 'package:perfecto/pages/product-details/review/write_review_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
+
+import '../../../controller/auth_controller.dart';
 
 class ReviewScreen extends StatelessWidget {
   static const String routeName = '/review';
@@ -46,14 +49,20 @@ class ReviewScreen extends StatelessWidget {
                             style: AppTheme.textStyleBoldBlack16,
                           ),
                           Spacer(),
-                          Container(
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(4)),
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            child: Text(
-                              'Write Review',
-                              style: AppTheme.textStyleBoldBlack14,
+                          if (AuthController.to.isLoggedIn.value && ProductDetailsController.to.product.value.reviewEligible == 'true')
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(WriteReviewScreen.routeName);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(4)),
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                child: Text(
+                                  'Write Review',
+                                  style: AppTheme.textStyleBoldBlack14,
+                                ),
+                              ),
                             ),
-                          ),
                         ],
                       ),
                       CustomSizedBox.space8H,

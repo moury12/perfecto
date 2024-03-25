@@ -315,7 +315,9 @@ class CheckoutScreen extends StatelessWidget {
               ),
               CustomSizedBox.space8H,
               Obx(() {
-                final cityName = AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase();
+                final cityName = AddressController.to.selectedCity.value.isNotEmpty
+                    ? AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase()
+                    : '';
                 return CheckoutWidget(
                   widget: Column(
                     children: [
@@ -816,7 +818,7 @@ class CheckoutScreen extends StatelessWidget {
                               ),
                               Spacer(),
                               Text(
-                                '৳ ${AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0'}',
+                                '৳ ${AddressController.to.selectedCity.value.isNotEmpty && AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0'}',
                                 style: AppTheme.textStyleMediumBlack14,
                               )
                             ],
@@ -835,7 +837,7 @@ class CheckoutScreen extends StatelessWidget {
                                 ),
                                 Spacer(),
                                 Text(
-                                  '-৳ ${AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0'}',
+                                  '-৳ ${AddressController.to.selectedCity.value.isNotEmpty && AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0'}',
                                   style: AppTheme.textStyleMediumBlack14,
                                 )
                               ],
@@ -861,7 +863,7 @@ class CheckoutScreen extends StatelessWidget {
                               ),
                               Spacer(),
                               Text(
-                                '৳ ${UserController.to.cartTotalPriceWithCouponAndReward((AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0').toDouble()).toStringAsFixed(2)}',
+                                '৳ ${UserController.to.cartTotalPriceWithCouponAndReward((AddressController.to.selectedCity.value.isNotEmpty && AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0').toDouble()).toStringAsFixed(2)}',
                                 style: AppTheme.textStyleSemiBoldBlack16,
                               )
                             ],
@@ -941,7 +943,7 @@ class CheckoutScreen extends StatelessWidget {
                   style: AppTheme.textStyleMediumBlack12,
                 ),
                 Text(
-                  '৳ ${UserController.to.cartTotalPriceWithCouponAndReward((AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0').toDouble()).toStringAsFixed(2)}',
+                  '৳ ${UserController.to.cartTotalPriceWithCouponAndReward((AddressController.to.selectedCity.value.isNotEmpty && AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0').toDouble()).toStringAsFixed(2)}',
                   style: AppTheme.textStyleBoldBlack20,
                 )
               ],

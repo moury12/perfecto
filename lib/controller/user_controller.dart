@@ -493,7 +493,7 @@ class UserController extends GetxController {
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 25);
 
     if (pickedFile != null) {
       pickedImagePath.value = pickedFile.path;
