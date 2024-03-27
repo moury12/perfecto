@@ -104,11 +104,12 @@ class UserController extends GetxController {
     scrollController.addListener(_scrollListener);
     notificationScrollController.addListener(_notificationScrollListener);
     await getUserInfoCall();
+
+    Get.put<AddressController>(AddressController(), permanent: true);
     await getCartListCall();
     await getReviewListCall();
     await getWishListCall();
     getOrderListCall();
-    Get.put<AddressController>(AddressController(), permanent: true);
     getRewardListCall();
     getNotificationListCall();
     super.onInit();

@@ -272,7 +272,11 @@ class CartScreen extends StatelessWidget {
                       height: 50,
                       onPressed: () {
                         // CartController.to.isbagEmpty.value=true;
-                        AddressController.to.setData();
+                        try {
+                          AddressController.to.setData();
+                        } catch (e) {
+                          globalLogger.e(e);
+                        }
                         Get.toNamed(CheckoutScreen.routeName);
                       },
                       label: 'Proceed',

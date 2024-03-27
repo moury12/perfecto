@@ -72,7 +72,7 @@ class UserService {
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+      ServiceAPI.showAlert(response['data']);
     }
     return false;
   }

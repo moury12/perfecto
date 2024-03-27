@@ -329,7 +329,7 @@ class CheckoutScreen extends StatelessWidget {
               CustomSizedBox.space8H,
               Obx(() {
                 final cityName = AddressController.to.selectedCity.value.isNotEmpty
-                    ? AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase()
+                    ? (AddressController.to.cityList.firstWhereOrNull((element) => element.cityId == AddressController.to.selectedCity.value)?.cityName ?? '').toLowerCase()
                     : '';
                 return CheckoutWidget(
                   widget: Column(
@@ -1033,7 +1033,7 @@ class CheckoutScreen extends StatelessWidget {
                   "coupon_code": HomeApiController.to.couponCode.value,
                   "reward_point": HomeApiController.to.rewardPointApply.value,
                   "payment_status": "pending",
-                  "payment_method": CheckOutController.to.paymentType.value == PaymentType.ssl ? "SSL" : "COD",
+                  "payment_method": CheckOutController.to.paymentType.value == PaymentType.ssl ? "ssl" : "cod",
                   "shipping_charge":
                       AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka'
                           ? HomeApiController.to.shippingInfo.value.outsideCity!
