@@ -82,7 +82,7 @@ class MainHomeScreen extends StatelessWidget {
                       controller.changeTabIndex(index);
                     },
                     child: NavWidget(
-                      title: data['title'] + (index == 2 ? '(0)' : ''),
+                      title: data['title'] /* + (index == 2 ? '(0)' : '')*/,
                       icon: data['icon'],
                       isSelected: controller.selectedIndex.value == index,
                     ));

@@ -502,24 +502,27 @@ class UserController extends GetxController {
                         ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0'
                         : HomeApiController.to.shippingInfo.value.insideCity ?? '0')
                     .toDouble()),
-            'Products');
+            'Products',
+            isCreated['data']['tran_id'].toString());
         globalLogger.d(res.toJson(), "res data");
         if (res.status != null && res.status == 'VALID') {
           globalLogger.d(res.toJson());
           await orderUpdate({
             "payment_status": "success",
-            // "bank_tran_id": res.bankTranId!,
-            // "card_brand": res.cardBrand!,
-            // "card_issuer": res.cardIssuer!,
-            // "card_type": res.cardType!,
+            "bank_tran_id": res.bankTranId!,
+            "card_brand": res.cardBrand!,
+            "card_issuer": res.cardIssuer!,
+            "card_type": res.cardType!,
+            "validated_on": res.validatedOn!,
             // "sessionkey": res.sessionkey!,
-            // "tran_date": res.tranDate!,
-            // "tran_id": res.tranId!,
-            // "val_id": res.valId!,
-            // "value_a": res.valueA!,
-            // "value_b": res.valueB!,
-            // "value_c": res.valueC!,
-            // "value_d": res.valueD!
+            "tran_date": res.tranDate!,
+            "amount": res.amount!,
+            "tran_id": res.tranId!,
+            "val_id": res.valId!,
+            "value_a": res.valueA!,
+            "value_b": res.valueB!,
+            "value_c": res.valueC!,
+            "value_d": res.valueD!
           }, isCreated['data']['id'].toString());
         } else {
           await orderUpdate({

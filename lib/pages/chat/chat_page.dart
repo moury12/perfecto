@@ -71,53 +71,53 @@ class ChatScreen extends StatelessWidget {
                         ],
                       )
                     : const SizedBox.shrink(),
-                const Spacer(),
-                GestureDetector(
-                  child: const Icon(
-                    CupertinoIcons.multiply,
-                    size: 20,
-                  ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        backgroundColor: Colors.white,
-                        surfaceTintColor: Colors.white,
-                        title: const Text(
-                          'Are you sure to disconnect?',
-                          style: AppTheme.textStyleSemiBoldBlack16,
-                        ),
-                        content: Row(
-                          children: [
-                            CustomButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              label: 'no',
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              marginHorizontal: 8,
-                              marginVertical: 0,
-                              primary: Colors.white,
-                              borderColor: AppColors.kPrimaryColor,
-                              isBorder: true,
-                              elevation: 0,
-                              labelColor: AppColors.kPrimaryColor,
-                            ),
-                            CustomButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              label: 'Yes',
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              marginHorizontal: 8,
-                              marginVertical: 0,
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                // const Spacer(),
+                // GestureDetector(
+                //   child: const Icon(
+                //     CupertinoIcons.multiply,
+                //     size: 20,
+                //   ),
+                //   onTap: () {
+                //     showDialog(
+                //       context: context,
+                //       builder: (context) => AlertDialog(
+                //         backgroundColor: Colors.white,
+                //         surfaceTintColor: Colors.white,
+                //         title: const Text(
+                //           'Are you sure to disconnect?',
+                //           style: AppTheme.textStyleSemiBoldBlack16,
+                //         ),
+                //         content: Row(
+                //           children: [
+                //             CustomButton(
+                //               onPressed: () {
+                //                 Navigator.pop(context);
+                //               },
+                //               label: 'no',
+                //               width: MediaQuery.of(context).size.width / 3.5,
+                //               marginHorizontal: 8,
+                //               marginVertical: 0,
+                //               primary: Colors.white,
+                //               borderColor: AppColors.kPrimaryColor,
+                //               isBorder: true,
+                //               elevation: 0,
+                //               labelColor: AppColors.kPrimaryColor,
+                //             ),
+                //             CustomButton(
+                //               onPressed: () {
+                //                 Navigator.pop(context);
+                //               },
+                //               label: 'Yes',
+                //               width: MediaQuery.of(context).size.width / 3.5,
+                //               marginHorizontal: 8,
+                //               marginVertical: 0,
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //     );
+                //   },
+                // ),
               ],
             );
           }),

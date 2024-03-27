@@ -52,7 +52,7 @@ class AuthService {
     if (response['status'] != null && response['status']) {
       return response['data'];
     } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+      ServiceAPI.showAlert(response['data']);
     }
     return {};
   }
@@ -79,6 +79,7 @@ class AuthService {
       noNeedAuthToken: true,
       isLoadingEnable: type == LogInType.phone ? false : true,
       allInfoField: body,
+      debugEnable: true,
     );
     globalLogger.d(response, "Login Route");
     if (response['status'] != null && response['status']) {
@@ -104,7 +105,7 @@ class AuthService {
     if (response['status'] != null && response['status']) {
       return true;
     } else if (response['status'] != null && !(response['status'] == 'ok')) {
-      ServiceAPI.showAlert(errorMessageJson(response['message']));
+      ServiceAPI.showAlert(response['message']);
     }
     return false;
   }

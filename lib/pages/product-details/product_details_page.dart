@@ -8,11 +8,13 @@ import 'package:mh_core/utils/string_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
+import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
+import 'package:perfecto/pages/offer/offer_details_page.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/product-details/product_discription_page.dart';
 import 'package:perfecto/pages/product-details/product_image_preview.dart';
@@ -258,17 +260,23 @@ class ProductDetailsScreen extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 4,
                                     ).copyWith(right: 8),
-                                    child: Text(
-                                      e.productDetails!.offer!.title1!,
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: Colors.blue,
-                                          height: 1.3,
-                                          decorationThickness: 1,
-                                          decorationStyle: TextDecorationStyle.solid),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        await HomeApiController.to.offerDetailsCall(e.productDetails!.offer!.id!);
+                                        Get.toNamed(OfferDetailsScreen.routeName);
+                                      },
+                                      child: Text(
+                                        e.productDetails!.offer?.title1 ?? '-',
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.blue,
+                                            decoration: TextDecoration.underline,
+                                            decorationColor: Colors.blue,
+                                            height: 1.3,
+                                            decorationThickness: 1,
+                                            decorationStyle: TextDecorationStyle.solid),
+                                      ),
                                     ),
                                   ),
                                 )

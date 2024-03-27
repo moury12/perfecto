@@ -15,6 +15,7 @@ import 'package:perfecto/pages/chat/chat_controller.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/pages/profile/my-orders/controller/address_controller.dart';
 import 'package:perfecto/services/auth_service.dart';
+import 'package:telephony/telephony.dart';
 import '../DB/database_helper.dart';
 import '../main.dart';
 import '../pages/auth/login_page.dart';
@@ -83,6 +84,9 @@ class AuthController extends GetxController {
   RxBool isLoggedIn = false.obs;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   LogInType? currentLoginType;
+
+  Telephony telephony = Telephony.instance;
+
   @override
   Future<void> onInit() async {
     final loginUser = await dbHelper.getSingleItemAll(tableName: DatabaseHelper.loginTable, whereKey: DatabaseHelper.isLogIn, whereValue: 1);
@@ -99,6 +103,65 @@ class AuthController extends GetxController {
       Get.put<ChatController>(ChatController(), permanent: true);
       // globalLogger.d(user, user.runtimeType);
     }
+
+    telephony.listenIncomingSms(
+      //   onBackgroundMessage: (SmsMessage message) {
+      //     globalLogger.d('NNNNNNNNNNNNNNNNNNNNN');
+      //
+      //     print(message.address); // +977981******67, sender nubmer
+      //     print(message.body); // Your OTP code is 34567
+      //     print(message.date); // 1659690242000, timestamp
+      //
+      //     // get the message
+      //     String sms = message.body.toString();
+      //
+      //     if (message.body!.contains('yourFirebaseProjectName.firebaseapp.com')) {
+      //       // verify SMS is sent for OTP with sender number
+      //       String otpcode = sms.replaceAll(new RegExp(r'[^0-9]'), '');
+      //       // prase code from the OTP sms
+      //       // otpbox.set(otpcode.split(""));
+      //       globalLogger.d(otpcode, otpcode);
+      //       // split otp code to list of number
+      //       // and populate to otb boxes
+      //       setState(() {
+      //         // refresh UI
+      //       });
+      //     } else {
+      //       print("Normal message.");
+      //     }
+      //   },
+      onNewMessage: (SmsMessage message) {
+        globalLogger.d('NNNNNNNNNNNNNNNNNNNNN');
+
+        print(message.address); // +977981******67, sender nubmer
+        print(message.body); // Your OTP code is 34567
+        print(message.date); // 1659690242000, timestamp
+
+        // get the message
+        String sms = message.body.toString();
+
+        if (message.body!.contains('[Perfecto]')) {
+          // verify SMS is sent for OTP with sender number
+          String otpcode = sms.replaceAll(new RegExp(r'[^0-9]'), '');
+          // prase code from the OTP sms
+          // otpbox.set(otpcode.split(""));
+          // final otp = otpcode.split("");
+          // firstOtpController.text = otp[0];
+          // secondOtpController.text = otp[1];
+          // thirdOtpController.text = otp[2];
+          // forthOtpController.text = otp[3];
+          // fifthOtpController.text = otp[4];
+          // sixthOtpController.text = otp[5];
+          // globalLogger.d(otpcode, otpcode);
+          otpController.text = otpcode;
+          // split otp code to list of number
+          // and populate to otb boxes
+        } else {
+          print("Normal message.");
+        }
+      },
+      listenInBackground: false,
+    );
     super.onInit();
   }
 
@@ -131,12 +194,17 @@ class AuthController extends GetxController {
     Get.delete<AddressController>(force: true);
     Get.delete<ChatController>(force: true);
     Service.setAuthToken('');
-    if (currentLoginType == LogInType.google) {
+    try {
       _googleSignIn.signOut();
+    } catch (e) {
+      globalLogger.e(e);
     }
-    if (currentLoginType == LogInType.facebook) {
-      FacebookAuth.instance.logOut();
-    }
+    // if (currentLoginType == LogInType.google) {
+    //   _googleSignIn.signOut();
+    // }
+    // if (currentLoginType == LogInType.facebook) {
+    //   FacebookAuth.instance.logOut();
+    // }
     isLoggedIn.value = false;
     NavigationController.to.selectedIndex.value = 0;
     Get.offAllNamed(MainHomeScreen.routeName);
@@ -215,7 +283,12 @@ class AuthController extends GetxController {
       Get.put<ChatController>(ChatController(), permanent: true);
       Get.back();
       // afterLogin(isCreated);
-    } else if (type == LogInType.phone && isCreated.isNotEmpty) {
+    } else if (type == LogInType.phone && isCreated['otp'] != null) {
+      AuthController.to.isOtp.value = true;
+      showSnackBar(
+        msg: 'Use OTP to Login.',
+      );
+      update();
       globalLogger.d(isCreated['otp']);
     }
     return isCreated.isNotEmpty;

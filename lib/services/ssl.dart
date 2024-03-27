@@ -71,7 +71,7 @@ import 'package:perfecto/shared/global.dart';
 //   return res;
 // }
 
-Future<SSLCTransactionInfoModel> sslCommerzGeneralCallTest(double price, String category) async {
+Future<SSLCTransactionInfoModel> sslCommerzGeneralCallTest(double price, String category, String tranId) async {
   Sslcommerz sslcommerz = Sslcommerz(
     initializer: SSLCommerzInitialization(
       //Use the ipn if you have valid one, or it will fail the transaction.
@@ -95,14 +95,14 @@ Future<SSLCTransactionInfoModel> sslCommerzGeneralCallTest(double price, String 
           // kReleaseMode ? '621B03D88866C40843' :
           'mhsar634cebec62412@ssl',
       total_amount: price,
-      tran_id: uuid.v4(),
+      tran_id: tranId,
     ),
   )..addAdditionalInitializer(
       sslcAdditionalInitializer: SSLCAdditionalInitializer(
-        valueA: "value a",
-        valueB: "value b",
-        valueC: "value c",
-        valueD: "value d",
+        valueA: "perfecto app",
+        valueB: category,
+        valueC: "",
+        valueD: "",
       ),
     );
   SSLCTransactionInfoModel res = SSLCTransactionInfoModel();

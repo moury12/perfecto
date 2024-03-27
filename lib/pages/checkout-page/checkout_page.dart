@@ -142,13 +142,18 @@ class CheckoutScreen extends StatelessWidget {
                         controller: AddressController.to.emailController,
                       ),
                       GetBuilder(builder: (AddressController controller) {
+                        globalLogger.d(controller.cityList.length, 'controller.cityStatus.isLoading');
                         return Column(
                           children: [
                             Stack(
                               children: [
                                 TitleDropdown(
                                   dwItems: controller.cityList,
-                                  dwValue: controller.selectedCity.value.isEmpty ? null : controller.selectedCity.value,
+                                  dwValue: controller.cityList.isEmpty
+                                      ? null
+                                      : controller.selectedCity.value.isEmpty
+                                          ? null
+                                          : controller.selectedCity.value,
                                   type: DropdownListType.object,
                                   onChange: (v) async {
                                     if (controller.selectedCity.value != v) {
@@ -963,7 +968,7 @@ class CheckoutScreen extends StatelessWidget {
                   style: AppTheme.textStyleMediumBlack12,
                 ),
                 Text(
-                  '৳ ${UserController.to.cartTotalPriceWithCouponAndReward((AddressController.to.selectedCity.value.isNotEmpty && AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!.toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0').toDouble()).toStringAsFixed(2)}',
+                  '৳ ${UserController.to.cartTotalPriceWithCouponAndReward((AddressController.to.selectedCity.value.isNotEmpty && (AddressController.to.cityList.firstWhereOrNull((element) => element.cityId == AddressController.to.selectedCity.value)?.cityName ?? '').toLowerCase() != 'dhaka' ? HomeApiController.to.shippingInfo.value.outsideCity ?? '0' : HomeApiController.to.shippingInfo.value.insideCity ?? '0').toDouble()).toStringAsFixed(2)}',
                   style: AppTheme.textStyleBoldBlack20,
                 )
               ],

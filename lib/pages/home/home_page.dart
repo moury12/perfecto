@@ -86,8 +86,10 @@ class HomeScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
             child: Obx(() {
+              final catList = HomeApiController.to.categoryList.where((p0) => p0.showOnHeader == '1').toList()..sort((a, b) => a.position!.compareTo(b.position!));
+              globalLogger.d(catList.map((e) => e.name).toList());
               return Wrap(
-                children: HomeApiController.to.categoryList
+                children: catList
                         .map((cat) => GestureDetector(
                             onTap: () async {
                               await HomeApiController.to.productListWithCategoryCall({
@@ -100,27 +102,35 @@ class HomeScreen extends StatelessWidget {
                               });
                               Get.toNamed(SingleCategoryWiseScreen.routeName);
                             },
-                            child: Container(
-                              height: 92,
-                              width: size.height > size.width ? size.width * .21 : size.height * .21,
-                              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                              decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
-                              padding: const EdgeInsets.all(12),
-                              child: Column(
-                                children: [
-                                  CustomNetworkImage(
-                                    networkImagePath: cat.icon ?? '',
-                                    height: 43,
-                                    width: 42,
-                                    errorImagePath: AssetsConstant.firstCategory1,
-                                    border: NetworkImageBorder.Rectangle,
-                                  ),
-                                  CustomSizedBox.space8H,
-                                  Text(
-                                    cat.name!,
-                                    style: AppTheme.textStyleNormalWhite10,
-                                  )
-                                ],
+                            child: Tooltip(
+                              message: cat.name!,
+                              child: Container(
+                                height: 92,
+                                width: 92,
+                                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    CustomNetworkImage(
+                                      networkImagePath: cat.icon ?? '',
+                                      height: 38,
+                                      width: 38,
+                                      errorImagePath: AssetsConstant.firstCategory1,
+                                      border: NetworkImageBorder.Rectangle,
+                                    ),
+                                    CustomSizedBox.space4H,
+                                    Text(
+                                      cat.name!,
+                                      style: AppTheme.textStyleNormalWhite10,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  ],
+                                ),
                               ),
                             )))
                         .toList() +
@@ -130,16 +140,20 @@ class HomeScreen extends StatelessWidget {
                             Get.toNamed(OutletScreen.routeName);
                           },
                           child: Container(
-                            height: 90,
-                            width: size.height > size.width ? size.width * .21 : size.height * .21,
+                            // height: 90,
+                            // width: size.height > size.width ? size.width * .21 : size.height * .21,
+
+                            height: 92,
+                            width: 92,
                             margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                             decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.all(12),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Image.asset(
                                   AssetsConstant.firstCategory4,
-                                  height: 42,
+                                  height: 38,
                                 ),
                                 CustomSizedBox.space8H,
                                 const Text(
@@ -155,16 +169,20 @@ class HomeScreen extends StatelessWidget {
                           Get.toNamed(OfferScreenNew.routeName);
                         },
                         child: Container(
-                          height: 90,
-                          width: size.height > size.width ? size.width * .21 : size.height * .21,
+                          // height: 90,
+                          // width: size.height > size.width ? size.width * .21 : size.height * .21,
+
+                          height: 92,
+                          width: 92,
                           margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(color: AppColors.kPrimaryColor, borderRadius: BorderRadius.circular(10)),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Image.asset(
                                 AssetsConstant.firstCategory8,
-                                height: 42,
+                                height: 38,
                               ),
                               CustomSizedBox.space8H,
                               const Text(

@@ -122,19 +122,16 @@ class LoginScreen extends StatelessWidget {
                       if (AuthController.to.phoneLoginController.text.isNotEmpty && AuthController.to.phoneLoginController.text.length >= 11) {
                         _login(type: LogInType.phone, phone: AuthController.to.phoneLoginController.text);
 
-                        AuthController.to.isOtp.value = true;
-                        showSnackBar(
-                          msg: 'Use OTP to Login.',
-                        );
+                        // AuthController.to.isOtp.value = true;
+                        // showSnackBar(
+                        //   msg: 'Use OTP to Login.',
+                        // );
                       } else {
                         if (AuthController.to.phoneLoginController.text.isEmpty) {
-                          AuthController.to.errorLoginPhone.value = 'Enter a '
-                              'phone number';
+                          AuthController.to.errorLoginPhone.value = 'Enter a phone number';
                         }
                         if (AuthController.to.phoneLoginController.text.length < 11) {
-                          AuthController.to.errorLoginPhone.value = 'Enter a '
-                              'valid'
-                              ' phone number';
+                          AuthController.to.errorLoginPhone.value = 'Enter a valid phone number';
                         }
                       }
                     } else {

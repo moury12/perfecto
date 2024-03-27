@@ -58,6 +58,8 @@ class CategoryModel {
   String? status;
   String? parentId;
   String? productsCount;
+  String? showOnHeader;
+  String? position;
 
   String? createdAt;
   String? updatedAt;
@@ -78,6 +80,8 @@ class CategoryModel {
     this.isChecked,
     this.subcategory,
     this.productsCount,
+    this.showOnHeader,
+    this.position,
   });
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
@@ -86,6 +90,12 @@ class CategoryModel {
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
     icon = json['icon'].toString() == 'null' ? '' : json['icon'].toString();
     productsCount = json['products_count'].toString() == 'null' ? '' : json['products_count'].toString();
+    status = json['status'].toString() == 'null' ? '' : json['status'].toString();
+    parentId = json['parent_id'].toString() == 'null' ? '' : json['parent_id'].toString();
+    createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
+    updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
+    showOnHeader = json['show_on_header'].toString() == 'null' ? '' : json['show_on_header'].toString();
+    position = json['position'].toString() == 'null' ? '' : json['position'].toString();
 
     isExpanded = false;
     isChecked = false;
@@ -105,6 +115,8 @@ class CategoryModel {
     data['icon'] = icon;
     data['status'] = status;
     data['products_count'] = productsCount;
+    data['show_on_header'] = showOnHeader;
+    data['position'] = position;
 
     data['parent_id'] = parentId;
     data['created_at'] = createdAt;
