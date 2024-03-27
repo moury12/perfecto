@@ -92,19 +92,20 @@ class MegaDealsWidget extends StatelessWidget {
                 ),
                 product!.variationType!.isNotEmpty &&
                         flatten(product!.variationType == 'shade' ? product!.productShades!.map((e) => e.offers!).toList() : product!.productSizes!.map((e) => e.offers!).toList())
-                            .where((element) => element.productDetails!.offer!.offerTypeId == '3')
+                            .where((element) => element.productDetails?.offer?.offerTypeId == '3')
                             .isNotEmpty
                     ? Wrap(
                         children: flatten(
                                 product!.variationType == 'shade' ? product!.productShades!.map((e) => e.offers!).toList() : product!.productSizes!.map((e) => e.offers!).toList())
-                            .where((element) => element.productDetails!.offer!.offerTypeId == '3')
+                            .where((element) => element.productDetails?.offer?.offerTypeId == '3')
                             .toList()
+                            .take(2)
                             .map((e) => Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                                   child: Container(
                                       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
                                       decoration: BoxDecoration(color: AppColors.kOfferButtonColor, borderRadius: BorderRadius.circular(2)),
-                                      child: Text(e.productDetails!.offer!.name!, style: AppTheme.textStyleBoldWhite10)),
+                                      child: Text(e.productDetails?.offer?.name ?? '-', style: AppTheme.textStyleBoldWhite10)),
                                 ))
                             .toList(),
                       )

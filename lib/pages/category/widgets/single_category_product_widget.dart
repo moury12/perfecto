@@ -201,6 +201,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                               children: product!.offers!.offerDetails!
                                   .where((element) => element.productDetails!.offer!.offerTypeId == '3')
                                   .toList()
+                                  .take(2)
                                   .map((e) => Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                                         child: Container(
