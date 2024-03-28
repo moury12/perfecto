@@ -7,6 +7,7 @@ import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/shimmer_list_home.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
+import 'package:perfecto/shared/loading.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../controller/home_api_controller.dart';
@@ -80,22 +81,7 @@ class SingleCategoryWiseScreen extends StatelessWidget {
                   ),
                 ),
                 // Text(HomeApiController.to.pListStatus.errorMessage.toString()),
-                Center(
-                  child: (HomeApiController.to.pListStatus.value == LoadingStatus.loadingMore)
-                      ? const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                ),
+                (HomeApiController.to.pListStatus.value == LoadingStatus.loadingMore) ? const PerfectoLoading() : const SizedBox.shrink(),
               ],
             );
           },

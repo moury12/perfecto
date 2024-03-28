@@ -7,6 +7,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
+import 'package:perfecto/shared/loading.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:perfecto/utils.dart';
 import 'package:shimmer/shimmer.dart';
@@ -200,22 +201,7 @@ class NotificationScreen extends StatelessWidget {
               },
             ),
           ),
-          Center(
-            child: (UserController.to.notificationStatus.value == LoadingStatus.loadingMore)
-                ? const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                        color: Colors.black,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
-          ),
+          (UserController.to.notificationStatus.value == LoadingStatus.loadingMore) ? const PerfectoLoading() : const SizedBox.shrink(),
         ],
       ),
     );

@@ -11,7 +11,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class ChatController extends GetxController {
   static ChatController get to => Get.find();
 
-  final RxList<MessageModel> _messageList = <MessageModel>[].obs;
+  RxList<MessageModel> _messageList = <MessageModel>[].obs;
 
   RxList<MessageModel> get messageList => _messageList;
   Rx<ChatModel> chat = ChatModel().obs;
@@ -36,11 +36,11 @@ class ChatController extends GetxController {
   Future<void> _scrollListener() async {
     globalLogger.d('Scroll Listener');
     globalLogger.d(scrollController.position.pixels, 'pixels');
-    if (!chatDataLoading.value && scrollController.position.pixels == scrollController.position.minScrollExtent) {
+    if (!chatDataLoading.value && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       if (chat.value.messageDetails!.nextPageUrl!.isNotEmpty) {
         await getChats(false);
       }
-      globalLogger.d(scrollController.position.minScrollExtent, 'min scroll live chat screen');
+      globalLogger.d(scrollController.position.maxScrollExtent, 'min scroll live chat screen');
     }
   }
 
@@ -105,18 +105,28 @@ class ChatController extends GetxController {
   }
 
   Future<void> getChats([bool initialCall = true]) async {
-    chatDataLoading.value = true;
-    if (initialCall) {
-      _messageList.clear();
+    try {
+      if (initialCall) {
+        messageList.refresh();
+      } else {
+        chatDataLoading.value = true;
+      }
+      final data = await ChatService.getChats(initialCall);
+      chat.value = data;
+      if (initialCall) {
+        _messageList.value = data.messageDetails!.data!;
+        final position = scrollController.position.minScrollExtent;
+        scrollController.jumpTo(position);
+      } else {
+        _messageList.addAll(data.messageDetails!.data!);
+        chatDataLoading.value = false;
+      }
+      messageList.refresh();
+    } catch (e) {
+      globalLogger.e(e);
+      chatDataLoading.value = false;
       messageList.refresh();
     }
-    final data = await ChatService.getChats(initialCall);
-    chat.value = data;
-    if (data.messageDetails!.data!.isNotEmpty) {
-      _messageList.addAll(data.messageDetails!.data!);
-      messageList.refresh();
-    }
-    chatDataLoading.value = false;
   }
 
   Future<void> readMessage() async {

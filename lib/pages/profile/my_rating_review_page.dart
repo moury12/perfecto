@@ -11,6 +11,7 @@ import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/product-details/review/widget/comment_widget.dart';
 import 'package:perfecto/pages/profile/controller/profile_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
+import 'package:perfecto/shared/loading.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:perfecto/utils.dart';
 
@@ -284,22 +285,7 @@ class MyRatingReviewScreen extends StatelessWidget {
               ),
             ),
           ),
-          Center(
-            child: (UserController.to.reviewStatus.value == LoadingStatus.loadingMore)
-                ? const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                        color: Colors.black,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
-          ),
+          (UserController.to.reviewStatus.value == LoadingStatus.loadingMore) ? const PerfectoLoading() : const SizedBox.shrink(),
         ],
       ),
     );

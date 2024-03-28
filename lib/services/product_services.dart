@@ -119,7 +119,10 @@ class ProductService {
         url: '${Service.apiUrl}trending-search',
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: {'pagination': '5'},
+        noNeedAuthToken: true,
+        debugEnable: true,
       );
+      globalLogger.d('${Service.apiUrl}trending-search', "Trending Search Route");
       globalLogger.d(response, "Trending Search Route");
       if (response['status'] != null && response['status']) {
         response['data']['data'].forEach((dis) {

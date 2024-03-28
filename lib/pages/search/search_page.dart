@@ -10,6 +10,7 @@ import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
+import 'package:perfecto/shared/loading.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -128,20 +129,7 @@ class SearchScreen extends StatelessWidget {
                       ),
                 if (NavigationController.to.isSearchFieldNotEmpty.value)
                   Center(
-                    child: (HomeApiController.to.pListStatus.value == LoadingStatus.loadingMore)
-                        ? const Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
+                    child: (HomeApiController.to.pListStatus.value == LoadingStatus.loadingMore) ? const PerfectoLoading() : const SizedBox.shrink(),
                   ),
               ],
             );

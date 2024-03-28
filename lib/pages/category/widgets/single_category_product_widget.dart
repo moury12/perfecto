@@ -304,7 +304,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         marginVertical: 8,
                         height: 38,
                         elevation: 0,
-                        fontSize: product?.totalStock == '0' ? 13 : null,
+                        fontSize: product?.totalStock == '0' ? 12 : null,
                         primary: product?.totalStock == '0' ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
                         width: 140,
                         onPressed: product?.totalStock != '0'

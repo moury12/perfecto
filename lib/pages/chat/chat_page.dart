@@ -12,6 +12,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/chat/chat_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
+import 'package:perfecto/shared/loading.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -125,14 +126,7 @@ class ChatScreen extends StatelessWidget {
         const Divider(
           height: 1,
         ),
-        Obx(() => ChatController.to.chatDataLoading.value
-            ? const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )
-            : const SizedBox()),
+        Obx(() => ChatController.to.chatDataLoading.value ? const PerfectoLoading() : const SizedBox()),
         Expanded(
           child: Obx(
             () {
@@ -166,7 +160,7 @@ class ChatScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(2.0).copyWith(left: message.senderId == '0' ? 64 : 2),
                                     child: Text(
                                       chatTimeAgo(date: message.createdAt!).replaceAll(' ago', ''),
-                                      style: TextStyle(fontSize: 8),
+                                      style: const TextStyle(fontSize: 8),
                                     ),
                                   ),
                                 ],
@@ -371,7 +365,7 @@ class ChatScreen extends StatelessWidget {
                             ),
                             child: Center(
                               child: ChatController.to.chatSendMsg.value
-                                  ? CircularProgressIndicator()
+                                  ? const CircularProgressIndicator()
                                   : Image.asset(
                                       AssetsConstant.sendIcon,
                                       color: Colors.white,

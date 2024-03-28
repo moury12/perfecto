@@ -306,7 +306,7 @@ class HomeService {
       );
       globalLogger.d(response, "offerDetails route");
       if (response['status'] != null && response['status']) {
-        if (response['data']['offer_type_id'] == '2') {
+        if (response['data']['offer_type_id'].toString() == '2') {
           response['data']['data']['data'].forEach((dis) {
             offerCombo.add(ComboOfferItemModel.fromJson(dis));
           });

@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
       case 'cat':
         return Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
             child: Obx(() {
               final catList = HomeApiController.to.categoryList.where((p0) => p0.showOnHeader == '1').toList()..sort((a, b) => a.position!.compareTo(b.position!));
               globalLogger.d(catList.map((e) => e.name).toList());
@@ -106,7 +106,7 @@ class HomeScreen extends StatelessWidget {
                               message: cat.name!,
                               child: Container(
                                 height: 92,
-                                width: 92,
+                                width: size.height > size.width ? size.width * .21 : size.height * .21,
                                 margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                                 decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
                                 padding: const EdgeInsets.all(12),
@@ -144,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                             // width: size.height > size.width ? size.width * .21 : size.height * .21,
 
                             height: 92,
-                            width: 92,
+                            width: size.height > size.width ? size.width * .21 : size.height * .21,
                             margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                             decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.all(12),
@@ -173,7 +173,7 @@ class HomeScreen extends StatelessWidget {
                           // width: size.height > size.width ? size.width * .21 : size.height * .21,
 
                           height: 92,
-                          width: 92,
+                          width: size.height > size.width ? size.width * .21 : size.height * .21,
                           margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(color: AppColors.kPrimaryColor, borderRadius: BorderRadius.circular(10)),
