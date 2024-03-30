@@ -30,12 +30,18 @@ class UserService {
 
   static Future<bool> updateProfile(dynamic body, List<Map<String, dynamic>> imageList) async {
     final response = await ServiceAPI.genericCall(
-        url: '${Service.apiUrl}edit', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, imageListWithKeyValue: imageList, isLoadingEnable: true);
+      url: '${Service.apiUrl}edit',
+      httpMethod: HttpMethod.multipartFilePost,
+      allInfoField: body,
+      imageListWithKeyValue: imageList,
+      isLoadingEnable: true,
+      debugEnable: true,
+    );
     globalLogger.d(response, "Profile Update Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+      ServiceAPI.showAlert(response['data']);
     }
     return false;
   }
@@ -614,7 +620,7 @@ class UserService {
       showSnackBar(msg: response['message']);
       return true;
     } else if (response['status'] != null && !response['status']) {
-      ServiceAPI.showAlert(response['message']);
+      ServiceAPI.showAlert(response['data'], title: response['message']);
     }
     return false;
   }

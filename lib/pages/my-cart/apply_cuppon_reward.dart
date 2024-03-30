@@ -91,23 +91,26 @@ class ApplyCupponRewardScreen extends StatelessWidget {
                               if ((value.toInt() /
                                       HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt() *
                                       HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) <=
-                                  (UserController.to.cartTotalPrice() -
-                                      UserController.to.cartTotalDiscountPrice() -
+                                  (UserController.to.cartTotalPrice() /*-
+                                      UserController.to.cartTotalDiscountPrice() */
+                                      -
                                       UserController.to.upToDiscount.value.toDouble() -
                                       (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble())) {
                                 CartController.to.couponController.text = value;
                               } else {
-                                CartController.to.couponController.text = (((UserController.to.cartTotalPrice() -
-                                                UserController.to.cartTotalDiscountPrice() -
-                                                UserController.to.upToDiscount.value.toDouble() -
-                                                (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble()) /
-                                            HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) *
-                                        HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt())
-                                    .floor()
-                                    .toStringAsFixed(0);
+                                CartController.to.couponController.text =
+                                    (((UserController.to.cartTotalPrice() /*-
+                                                UserController.to.cartTotalDiscountPrice() */
+                                                    -
+                                                    UserController.to.upToDiscount.value.toDouble() -
+                                                    (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble()) /
+                                                HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) *
+                                            HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt())
+                                        .floor()
+                                        .toStringAsFixed(0);
                                 showSnackBar(
                                     msg:
-                                        'You can not redeem more than ${(((UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice() - (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble()) / HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) * HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt())} points');
+                                        'You can not redeem more than ${(((UserController.to.cartTotalPrice() /*- UserController.to.cartTotalDiscountPrice()*/ - (HomeApiController.to.couponInfo.value.amount ?? '0').toDouble()) / HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) * HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt())} points');
                               }
                             }
                           },

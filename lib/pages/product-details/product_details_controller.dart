@@ -83,10 +83,18 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
     final data = await ProductService.productDetails(id, needLoading: needLoading);
     product.value = data[ProductDetailType.product];
     productList.value = data[ProductDetailType.customerWillView];
-    selectedVariation.value = product.value.variationType == 'shade' ? product.value.shadeId![0] : product.value.sizeId![0];
+    selectedVariation.value = getSelectedVariant();
     rating.value = product.value.myReview != null ? product.value.myReview!.star!.toInt() : 0;
     reviewTitleController.value.text = product.value.myReview != null ? product.value.myReview!.title! : '';
     reviewCommentController.value.text = product.value.myReview != null ? product.value.myReview!.comment! : '';
+  }
+
+  getSelectedVariant() {
+    if (product.value.variationType == 'shade') {
+      return product.value.productShades!.firstWhereOrNull((element) => element.stock != '0')?.shadeId ?? product.value.shadeId![0];
+    } else {
+      return product.value.productSizes!.firstWhereOrNull((element) => element.stock != '0')?.sizeId ?? product.value.sizeId![0];
+    }
   }
 
   Future<void> getComboDetails(String id, {bool needLoading = true}) async {

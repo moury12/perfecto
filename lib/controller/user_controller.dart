@@ -336,7 +336,7 @@ class UserController extends GetxController {
     for (int i = 0; i < cartList.length; i++) {
       if (cartList[i].stockStatus == '1') {
         if (cartList[i].product != null || cartList[i].buyGetInfo != null) {
-          totalPrice += double.parse(cartList[i].price!) * int.parse(cartList[i].quantity!);
+          totalPrice += double.parse(cartList[i].discountedPrice!) * int.parse(cartList[i].quantity!);
         } else {
           totalPrice += double.parse(cartList[i].discountedPrice!) * int.parse(cartList[i].quantity!);
         }
@@ -346,25 +346,25 @@ class UserController extends GetxController {
   }
 
   //cart item discount price calculation
-  double cartTotalDiscountPrice() {
-    double totalPrice = 0;
-    // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
-    for (int i = 0; i < cartList.length; i++) {
-      if (cartList[i].stockStatus == '1') {
-        if (cartList[i].comboProduct == null) {
-          totalPrice += ((double.parse(cartList[i].price!) - double.parse(cartList[i].discountedPrice!)) * int.parse(cartList[i].quantity!));
-        }
-      }
-    }
-    return totalPrice;
-  }
+  // double cartTotalDiscountPrice() {
+  //   double totalPrice = 0;
+  //   // final carts = cartList.where((p0) => p0.comboProduct != null).toList();
+  //   for (int i = 0; i < cartList.length; i++) {
+  //     if (cartList[i].stockStatus == '1') {
+  //       if (cartList[i].comboProduct == null) {
+  //         totalPrice += ((double.parse(cartList[i].price!) - double.parse(cartList[i].discountedPrice!)) * int.parse(cartList[i].quantity!));
+  //       }
+  //     }
+  //   }
+  //   return totalPrice;
+  // }
 
   //cart item total price calculation with coupon and reward point
   double cartTotalPriceWithCouponAndReward([double shippingCost = 0]) {
     double totalPrice = 0;
     totalPrice += cartTotalPrice();
 
-    totalPrice -= cartTotalDiscountPrice();
+    // totalPrice -= cartTotalDiscountPrice();
 
     totalPrice -= upToDiscount.value.toDouble();
 
@@ -604,7 +604,7 @@ class UserController extends GetxController {
     String cPassword,
   ) async {
     bool isVerified = await UserService.editPassword({
-      "old_password": oldPassword,
+      if (UserController.to.getUserInfo.isGoogleLogin == '0') "old_password": oldPassword,
       "new_password": password,
       "c_password": cPassword,
     });
@@ -612,6 +612,11 @@ class UserController extends GetxController {
       AuthController.to.passwordForNewConfirmController.clear();
       AuthController.to.passwordForNewController.clear();
       AuthController.to.passwordOldController.clear();
+      if (UserController.to.getUserInfo.isGoogleLogin == '0') {
+        showSnackBar(msg: 'Password Updated Successfully');
+      } else {
+        getUserInfoCall();
+      }
       Get.back();
     }
   }

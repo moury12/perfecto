@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
@@ -186,50 +188,58 @@ class MyProfileScreen extends StatelessWidget {
                           style: AppTheme.textStyleSemiBoldBlack16,
                         ),
                         Spacer(),
-                        CustomButton(
-                          marginVertical: 0,
-                          marginHorizontal: 0,
-                          onPressed: () {
-                            Get.toNamed(EditPasswordScreen.routeName);
-                          },
-                          primary: Colors.white,
-                          borderColor: Colors.grey,
-                          isBorder: true,
-                          borderWidth: 1,
-                          boxShadowColor: Colors.transparent,
-                          elevation: 0,
-                          height: 40,
-                          label: 'Change',
-                          labelColor: Colors.black,
-                          width: 78,
+                        Obx(
+                          () => CustomButton(
+                            marginVertical: 0,
+                            marginHorizontal: 0,
+                            onPressed: () {
+                              Get.toNamed(EditPasswordScreen.routeName);
+                            },
+                            primary: Colors.white,
+                            borderColor: Colors.grey,
+                            isBorder: true,
+                            borderWidth: 1,
+                            boxShadowColor: Colors.transparent,
+                            elevation: 0,
+                            height: 40,
+                            label: UserController.to.userInfo.value.isGoogleLogin == '1' ? 'Set Password' : 'Change',
+                            labelColor: Colors.black,
+                            width: UserController.to.getUserInfo.isGoogleLogin == '1' ? 100 : 78,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Obx(() => (UserController.to.userInfo.value.isGoogleLogin == '0')
+                      ? Column(
+                          children: [
+                            Divider(
+                              color: AppColors.kborderColor,
+                              thickness: 2,
+                              height: 2,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '**************',
+                                    style: AppTheme.textStyleBoldBlack14,
+                                  ),
+                                  CustomSizedBox.space4H,
+                                  Divider(
+                                    color: AppColors.kborderColor,
+                                    thickness: 1,
+                                    height: 1,
+                                  ),
+                                  CustomSizedBox.space12H
+                                ],
+                              ),
+                            ),
+                          ],
                         )
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    color: AppColors.kborderColor,
-                    thickness: 2,
-                    height: 2,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '**************',
-                          style: AppTheme.textStyleBoldBlack14,
-                        ),
-                        CustomSizedBox.space4H,
-                        Divider(
-                          color: AppColors.kborderColor,
-                          thickness: 1,
-                          height: 1,
-                        ),
-                        CustomSizedBox.space12H
-                      ],
-                    ),
-                  ),
+                      : SizedBox.shrink())
                 ],
               ),
             ),

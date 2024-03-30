@@ -52,36 +52,37 @@ class EditPasswordScreen extends StatelessWidget {
                 widget: Obx(() {
                   return Column(
                     children: [
-                      CustomTextField(
-                        isPassword: true,
-                        errorMessage: AuthController.to.errorOldPassword.value!.isEmpty ? null : AuthController.to.errorOldPassword.value,
-                        focusNode: AuthController.to.passwordOldFocusNode,
-                        onChanged: (value) {
-                          if (value.isNotEmpty && value.length >= 8) {
-                            AuthController.to.errorOldPassword.value = '';
-                          } else {
-                            if (value.isEmpty) {
-                              AuthController.to.errorOldPassword.value = 'Enter a Password';
-                            } else if (value.length < 8) {
-                              AuthController.to.errorOldPassword.value = 'Enter 8 Character Password!';
+                      if (UserController.to.getUserInfo.isGoogleLogin == '0')
+                        CustomTextField(
+                          isPassword: true,
+                          errorMessage: AuthController.to.errorOldPassword.value!.isEmpty ? null : AuthController.to.errorOldPassword.value,
+                          focusNode: AuthController.to.passwordOldFocusNode,
+                          onChanged: (value) {
+                            if (value.isNotEmpty && value.length >= 8) {
+                              AuthController.to.errorOldPassword.value = '';
+                            } else {
+                              if (value.isEmpty) {
+                                AuthController.to.errorOldPassword.value = 'Enter a Password';
+                              } else if (value.length < 8) {
+                                AuthController.to.errorOldPassword.value = 'Enter 8 Character Password!';
+                              }
                             }
-                          }
-                        },
-                        onSubmitted: (p0) {
-                          if (AuthController.to.passwordOldController.text.isEmpty) {
-                            AuthController.to.errorOldPassword.value = 'Enter a Password';
-                          } else if (AuthController.to.passwordOldController.text.length < 8) {
-                            AuthController.to.errorOldPassword.value = 'Enter 8 Character Password!';
-                          } else {
-                            AuthController.to.passwordOldFocusNode.unfocus();
-                          }
-                        },
-                        controller: AuthController.to.passwordOldController,
-                        marginVertical: 6,
-                        hintText: 'Enter Old Password',
-                        labelText: 'Old Password',
-                        focusColor: Colors.black,
-                      ),
+                          },
+                          onSubmitted: (p0) {
+                            if (AuthController.to.passwordOldController.text.isEmpty) {
+                              AuthController.to.errorOldPassword.value = 'Enter a Password';
+                            } else if (AuthController.to.passwordOldController.text.length < 8) {
+                              AuthController.to.errorOldPassword.value = 'Enter 8 Character Password!';
+                            } else {
+                              AuthController.to.passwordOldFocusNode.unfocus();
+                            }
+                          },
+                          controller: AuthController.to.passwordOldController,
+                          marginVertical: 6,
+                          hintText: 'Enter Old Password',
+                          labelText: 'Old Password',
+                          focusColor: Colors.black,
+                        ),
                       CustomTextField(
                         errorMessage: AuthController.to.errorForNewPassword.value!.isEmpty ? null : AuthController.to.errorForNewPassword.value,
                         focusNode: AuthController.to.passwordForNewFocusNode,
@@ -143,10 +144,10 @@ class EditPasswordScreen extends StatelessWidget {
                         focusColor: Colors.black,
                       ),
                       CustomButton(
-                        label: 'Change Password',
+                        label: '${UserController.to.getUserInfo.isGoogleLogin == '1' ? 'Set' : 'Change'} Password',
                         onPressed: () async {
-                          if (AuthController.to.passwordOldController.text.isNotEmpty &&
-                              AuthController.to.passwordOldController.text.length >= 8 &&
+                          if ((UserController.to.getUserInfo.isGoogleLogin == '1' ||
+                                  (AuthController.to.passwordOldController.text.isNotEmpty && AuthController.to.passwordOldController.text.length >= 8)) &&
                               AuthController.to.passwordForNewController.text.isNotEmpty &&
                               AuthController.to.passwordForNewController.text.length >= 8 &&
                               AuthController.to.passwordForNewConfirmController.text.isNotEmpty &&

@@ -745,24 +745,24 @@ class CheckoutScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                          ),
-                          child: Row(
-                            children: [
-                              const Text(
-                                'Discount',
-                                style: AppTheme.textStyleMediumBlack14,
-                              ),
-                              const Spacer(),
-                              Text(
-                                '-৳ ${UserController.to.cartTotalDiscountPrice().toStringAsFixed(2)}',
-                                style: AppTheme.textStyleMediumBlack14,
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.symmetric(
+                        //     horizontal: 8.0,
+                        //   ),
+                        //   child: Row(
+                        //     children: [
+                        //       const Text(
+                        //         'Discount',
+                        //         style: AppTheme.textStyleMediumBlack14,
+                        //       ),
+                        //       const Spacer(),
+                        //       Text(
+                        //         '-৳ ${UserController.to.cartTotalDiscountPrice().toStringAsFixed(2)}',
+                        //         style: AppTheme.textStyleMediumBlack14,
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         if (UserController.to.upToDiscount.value != '0')
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -784,7 +784,7 @@ class CheckoutScreen extends StatelessWidget {
                             HomeApiController.to.couponInfo.value.couponCode!.isNotEmpty &&
                             HomeApiController.to.couponInfo.value.minimumExpenses != null &&
                             HomeApiController.to.couponInfo.value.minimumExpenses!.isNotEmpty &&
-                            (UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice()) >=
+                            (UserController.to.cartTotalPrice() /*- UserController.to.cartTotalDiscountPrice()*/) >=
                                 double.parse(HomeApiController.to.couponInfo.value.minimumExpenses!)) ...[
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -1039,6 +1039,7 @@ class CheckoutScreen extends StatelessWidget {
                           ? HomeApiController.to.shippingInfo.value.outsideCity!
                           : HomeApiController.to.shippingInfo.value.insideCity!,
                   "store_address": CheckOutController.to.locationSave.value ? "1" : "0",
+                  "order_from": "app",
                 };
                 globalLogger.d(data);
                 await UserController.to.orderStore(data, CheckOutController.to.paymentType.value);

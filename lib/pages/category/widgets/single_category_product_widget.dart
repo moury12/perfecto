@@ -315,13 +315,13 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                   }
                                 : */
                             () async {
-                                await HomeApiController.to.productDetailsCall(product!.id!);
+                                // await HomeApiController.to.productDetailsCall(product!.id!);
 
-                                // Get.put(ProductDetailsController());
-                                // await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
-                                // Get.to(ProductShadeScreen(
-                                //   isSelectSize: product?.variationType == 'shade' ? false : true,
-                                // ));
+                                Get.put(ProductDetailsController());
+                                await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
+                                Get.to(ProductShadeScreen(
+                                  isSelectSize: product?.variationType == 'shade' ? false : true,
+                                ));
                               }
                             : () {},
                         // buttonText == 'ADD TO BAG'

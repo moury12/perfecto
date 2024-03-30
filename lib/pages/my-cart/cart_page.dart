@@ -113,20 +113,20 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 CustomSizedBox.space8H,
-                                Row(
-                                  children: [
-                                    const Text(
-                                      'Discount',
-                                      style: AppTheme.textStyleMediumBlack10,
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      '-৳ ${UserController.to.cartTotalDiscountPrice().toStringAsFixed(2)}',
-                                      style: AppTheme.textStyleMediumBlack12,
-                                    ),
-                                  ],
-                                ),
-                                CustomSizedBox.space8H,
+                                // Row(
+                                //   children: [
+                                //     const Text(
+                                //       'Discount',
+                                //       style: AppTheme.textStyleMediumBlack10,
+                                //     ),
+                                //     const Spacer(),
+                                //     Text(
+                                //       '-৳ ${UserController.to.cartTotalDiscountPrice().toStringAsFixed(2)}',
+                                //       style: AppTheme.textStyleMediumBlack12,
+                                //     ),
+                                //   ],
+                                // ),
+                                // CustomSizedBox.space8H,
                                 if (UserController.to.upToDiscount.value.toDouble() > 0) ...[
                                   Row(
                                     children: [
@@ -147,7 +147,7 @@ class CartScreen extends StatelessWidget {
                                     HomeApiController.to.couponInfo.value.couponCode!.isNotEmpty &&
                                     HomeApiController.to.couponInfo.value.minimumExpenses != null &&
                                     HomeApiController.to.couponInfo.value.minimumExpenses!.isNotEmpty &&
-                                    (UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice()) >=
+                                    (UserController.to.cartTotalPrice() /* - UserController.to.cartTotalDiscountPrice()*/) >=
                                         double.parse(HomeApiController.to.couponInfo.value.minimumExpenses!)) ...[
                                   Row(
                                     children: [

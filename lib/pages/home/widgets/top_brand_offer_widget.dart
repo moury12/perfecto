@@ -328,12 +328,12 @@ class BestSellerListWidget extends StatelessWidget {
                     onPressed: product?.totalStock != '0'
                         ? () {}
                         : () async {
-                            await HomeApiController.to.productDetailsCall(product!.id!);
-                            // Get.put(ProductDetailsController());
-                            // await ProductDetailsController.to.getProductDetails(product!.id!);
-                            // Get.to(ProductShadeScreen(
-                            //   isSelectSize: product?.variationType == 'shade' ? false : true,
-                            // ));
+                            // await HomeApiController.to.productDetailsCall(product!.id!);
+                            Get.put(ProductDetailsController());
+                            await ProductDetailsController.to.getProductDetails(product!.id!);
+                            Get.to(ProductShadeScreen(
+                              isSelectSize: product?.variationType == 'shade' ? false : true,
+                            ));
                           },
                   )
                 ],

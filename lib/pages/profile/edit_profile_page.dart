@@ -92,6 +92,7 @@ class EditProfileScreen extends StatelessWidget {
                         focusColor: Colors.black,
                       ),
                       CustomTextField(
+                        isEnable: userModel!.email == null || userModel!.email!.isEmpty,
                         marginVertical: 6,
                         hintText: 'Enter your email',
                         labelText: 'Email Address',
@@ -101,6 +102,7 @@ class EditProfileScreen extends StatelessWidget {
                         focusColor: Colors.black,
                       ),
                       CustomTextField(
+                        isEnable: userModel!.phone == null || userModel!.phone!.isEmpty,
                         marginVertical: 6,
                         hintText: 'Enter your phone',
                         labelText: 'Phone Number',

@@ -448,7 +448,7 @@ class ProductDetailsWidget extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text:
-                                    '৳${orderDetails.first.comboId!.isNotEmpty ? orderDetails.map((e) => e.discountedPrice!.toDouble()).toList().sum.toStringAsFixed(2) : orderDetails.first.price}',
+                                    '৳${orderDetails.first.comboId!.isNotEmpty ? orderDetails.map((e) => e.discountedPrice!.toDouble()).toList().sum.toStringAsFixed(2) : orderDetails.first.discountedPrice!.toDouble().toStringAsFixed(2)}',
                                 style: AppTheme.textStyleBoldBlack14,
                               )
                             ],

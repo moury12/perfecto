@@ -6,6 +6,7 @@ class UserModel {
   String? email;
   String? phone;
   String? avatar;
+  String? isGoogleLogin;
   String? rewardPoints;
 
   UserModel({this.name, this.email, this.phone, this.avatar, this.rewardPoints});
@@ -16,6 +17,7 @@ class UserModel {
     email = json['email'].toString() == 'null' ? '' : json['email'].toString();
     phone = json['phone'].toString() == 'null' ? '' : json['phone'].toString();
     avatar = json['avatar'].toString() == 'null' ? '' : json['avatar'].toString();
+    isGoogleLogin = json['is_google_login'].toString() == 'null' ? '0' : json['is_google_login'].toString();
     rewardPoints = json['reward_points'].toString() == 'null' ? '0' : json['reward_points'].toString();
   }
 
@@ -26,6 +28,7 @@ class UserModel {
     data['email'] = email;
     data['phone'] = phone;
     data['avatar'] = avatar;
+    data['is_google_login'] = isGoogleLogin;
     data['reward_points'] = rewardPoints;
     return data;
   }

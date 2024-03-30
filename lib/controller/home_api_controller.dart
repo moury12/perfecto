@@ -357,7 +357,7 @@ class HomeApiController extends GetxController {
   Future<bool> addCouponCode(String coupon) async {
     couponInfo.value = await HomeService.addCouponCode({'coupon_code': coupon});
     if (couponInfo.value.couponCode != null) {
-      if (UserController.to.cartTotalPrice() - UserController.to.cartTotalDiscountPrice() < couponInfo.value.minimumExpenses!.toDouble()) {
+      if (UserController.to.cartTotalPrice() /* - UserController.to.cartTotalDiscountPrice()*/ < couponInfo.value.minimumExpenses!.toDouble()) {
         showSnackBar(msg: 'Minimum order amount should be ${couponInfo.value.minimumExpenses} to apply this coupon.');
         return false;
       }
@@ -379,12 +379,14 @@ class HomeApiController extends GetxController {
       if ((rewardPointApply.value.toInt() /
               HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt() *
               HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) >
-          (UserController.to.cartTotalPrice() -
-              UserController.to.cartTotalDiscountPrice() -
+          (UserController.to.cartTotalPrice() /* -
+              UserController.to.cartTotalDiscountPrice()*/
+              -
               UserController.to.upToDiscount.value.toDouble() -
               (couponInfo.value.amount ?? '0').toDouble())) {
-        final tk = UserController.to.cartTotalPrice() -
-            UserController.to.cartTotalDiscountPrice() -
+        final tk = UserController.to.cartTotalPrice() /*-
+            UserController.to.cartTotalDiscountPrice()*/
+            -
             UserController.to.upToDiscount.value.toDouble() -
             (couponInfo.value.amount ?? '0').toDouble();
         rewardPointApply.value = ((tk / HomeApiController.to.rewardPointInfo.value.rewardPointValue!.toInt()) * HomeApiController.to.rewardPointInfo.value.rewardPoint!.toInt())

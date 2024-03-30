@@ -227,52 +227,36 @@ class MyOrderDetailsScreen extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              '৳ ${UserController.to.orderDetails.value.subTotal}',
+                              '৳ ${(UserController.to.orderDetails.value.subTotal!.toDouble() - UserController.to.orderDetails.value.totalDiscountAmount!.toDouble()).toStringAsFixed(2)}',
                               style: AppTheme.textStyleSemiBoldBlack14,
                             )
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Shipping Fee',
-                              style: AppTheme.textStyleSemiBoldFadeBlack14,
-                            ),
-                            const Spacer(),
-                            Text(
-                              '৳ ${UserController.to.orderDetails.value.deliveryCharge}',
-                              style: AppTheme.textStyleSemiBoldBlack14,
-                            )
-                          ],
-                        ),
-                      ),
-                      if (UserController.to.orderDetails.value.totalDiscountAmount!.toDouble() > 0)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Discount',
-                                style: AppTheme.textStyleSemiBoldFadeBlack14,
-                              ),
-                              const Spacer(),
-                              Text(
-                                '-৳ ${UserController.to.orderDetails.value.totalDiscountAmount}',
-                                style: AppTheme.textStyleSemiBoldBlack14,
-                              )
-                            ],
-                          ),
-                        ),
+                      // if (UserController.to.orderDetails.value.totalDiscountAmount!.toDouble() > 0)
+                      //   Padding(
+                      //     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                      //     child: Row(
+                      //       children: [
+                      //         Text(
+                      //           'Discount',
+                      //           style: AppTheme.textStyleSemiBoldFadeBlack14,
+                      //         ),
+                      //         const Spacer(),
+                      //         Text(
+                      //           '-৳ ${UserController.to.orderDetails.value.totalDiscountAmount}',
+                      //           style: AppTheme.textStyleSemiBoldBlack14,
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
                       if (UserController.to.orderDetails.value.totalOfferDiscountAmount!.toDouble() > 0)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                           child: Row(
                             children: [
                               Text(
-                                'Discount (Up to offer)',
+                                'Discount (Upto offer)',
                                 style: AppTheme.textStyleSemiBoldFadeBlack14,
                               ),
                               const Spacer(),
@@ -317,6 +301,23 @@ class MyOrderDetailsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Shipping Fee',
+                              style: AppTheme.textStyleSemiBoldFadeBlack14,
+                            ),
+                            const Spacer(),
+                            Text(
+                              '৳ ${UserController.to.orderDetails.value.deliveryCharge}',
+                              style: AppTheme.textStyleSemiBoldBlack14,
+                            )
+                          ],
+                        ),
+                      ),
                       CustomSizedBox.space8H,
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
