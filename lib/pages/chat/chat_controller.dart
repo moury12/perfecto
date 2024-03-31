@@ -34,13 +34,11 @@ class ChatController extends GetxController {
 
   ScrollController scrollController = ScrollController();
   Future<void> _scrollListener() async {
-    globalLogger.d('Scroll Listener');
-    globalLogger.d(scrollController.position.pixels, 'pixels');
     if (!chatDataLoading.value && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       if (chat.value.messageDetails!.nextPageUrl!.isNotEmpty) {
         await getChats(false);
       }
-      globalLogger.d(scrollController.position.maxScrollExtent, 'min scroll live chat screen');
+      globalLogger.d(scrollController.position.maxScrollExtent, error: 'min scroll live chat screen');
     }
   }
 
@@ -71,7 +69,7 @@ class ChatController extends GetxController {
     socket.onConnect((_) {
       globalLogger.d('Socket Enter');
       socket.on('chat message', (newMessage) {
-        globalLogger.d(newMessage, 'chat message');
+        globalLogger.d(newMessage, error: 'chat message');
         if (newMessage['sender_id'].toString() == '0' && newMessage['receiver_id'].toString() == UserController.to.getUserInfo.id!) {
           getChats();
         }

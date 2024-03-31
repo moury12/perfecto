@@ -12,7 +12,7 @@ class ChatService {
             '${Service.apiUrl}get-message?page=${initialCall ? '1' : ChatController.to.chat.value.messageDetails!.nextPageUrl!.isNotEmpty ? ChatController.to.chat.value.messageDetails!.nextPageUrl!.split('=')[1] : '1'}&perPage=15',
         httpMethod: HttpMethod.get,
       );
-      globalLogger.d(response, "Chat Route");
+      globalLogger.d(response, error: "Chat Route");
       if (response['status'] != null && response['status']) {
         chatModel = ChatModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
@@ -32,7 +32,7 @@ class ChatService {
         url: '${Service.apiUrl}read-message',
         httpMethod: HttpMethod.get,
       );
-      globalLogger.d(response, "read msg Route");
+      globalLogger.d(response, error: "read msg Route");
       if (response['status'] != null && response['status']) {
         msgModel = MessageModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
@@ -54,7 +54,7 @@ class ChatService {
         allInfoField: body,
         imageListWithKeyValue: imageList,
       );
-      globalLogger.d(response, "send msg Route");
+      globalLogger.d(response, error: "send msg Route");
       if (response['status'] != null && response['status']) {
         msgModel = MessageModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {

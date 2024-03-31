@@ -9,8 +9,7 @@ import 'package:perfecto/utils.dart';
 class AuthService {
   static Future<bool> registerCall(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}register', httpMethod: HttpMethod.multipartFilePost, noNeedAuthToken: true, allInfoField: body);
-    globalLogger.d('${Service.apiUrl}api/register', 'Register');
-    globalLogger.d(response, 'Register');
+    globalLogger.d(response, error: 'Register');
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -29,8 +28,7 @@ class AuthService {
         allInfoField: body,
         noNeedAuthToken: true,
         loadingMessage: 'Use OTP to Change Password.');
-    globalLogger.d('${Service.apiUrl}forgot_password', 'Forget password');
-    globalLogger.d(response, 'Forget password');
+    globalLogger.d(response, error: 'Forget password');
     if (response['status'] != null && response['status']) {
       return response['data'];
     } else if (response['status'] != null && !response['status']) {
@@ -47,7 +45,7 @@ class AuthService {
         // isLoadingEnable: true,
 
         allInfoField: body);
-    globalLogger.d(response, "Verify Email Route");
+    globalLogger.d(response, error: "Verify Email Route");
 
     if (response['status'] != null && response['status']) {
       return response['data'];
@@ -59,7 +57,7 @@ class AuthService {
 
   static Future<bool> changePassword(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}change_password', httpMethod: HttpMethod.multipartFilePost, noNeedAuthToken: false, allInfoField: body);
-    globalLogger.d(response, "change password");
+    globalLogger.d(response, error: "change password");
 
     if (response['status'] != null && response['status']) {
       showSnackBar(msg: response['message']);
@@ -81,7 +79,7 @@ class AuthService {
       allInfoField: body,
       debugEnable: true,
     );
-    globalLogger.d(response, "Login Route");
+    globalLogger.d(response, error: "Login Route");
     if (response['status'] != null && response['status']) {
       return response['data'];
     } else if (response['status'] != null && !response['status']) {
@@ -98,7 +96,7 @@ class AuthService {
         isErrorHandleButtonExists: true,
         errorButtonLabel: 'Force Logout',
         errorButtonPressed: forceLogout);
-    globalLogger.d(response, "Logout Route");
+    globalLogger.d(response, error: "Logout Route");
 
     is401Call = true;
 

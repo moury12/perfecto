@@ -100,7 +100,7 @@ class AddressController extends GetxController {
 
   Future<void> getAddressCall([bool formCheckout = true]) async {
     _addressList.value = await UserService.userAddressCall();
-    globalLogger.d(Get.currentRoute, 'AddressController getAddressCall');
+    globalLogger.d(Get.currentRoute, error: 'AddressController getAddressCall');
     if (Get.currentRoute == CheckoutScreen.routeName || formCheckout) {
       setData();
     }

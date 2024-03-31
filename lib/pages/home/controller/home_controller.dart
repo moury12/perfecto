@@ -73,7 +73,6 @@ class HomeController extends GetxController {
     homeData.value = [];
     try {
       homeData.value = await HomeService.homeCall();
-      globalLogger.d(homeData, 'homeData');
       homeLoadingStatus.value = LoadingStatus.loaded;
     } catch (e) {
       homeLoadingStatus.value = LoadingStatus.error;

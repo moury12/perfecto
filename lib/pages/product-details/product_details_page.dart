@@ -369,11 +369,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                     child: Obx(() {
                                       return GestureDetector(
                                         onTap: () {
-                                          // if (shade.stock!.toInt() != 0) {
                                           ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
-                                          // } else {
-                                          //   showSnackBar(msg: 'Out of Stock');
-                                          // }
                                         },
                                         child: Stack(
                                           alignment: Alignment.center,
@@ -482,7 +478,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       return GestureDetector(
                                         onTap: () {
                                           // if (size.stock!.toInt() != 0) {
-                                          ProductDetailsController.to.selectedVariation.value = ProductDetailsController.to.product.value.productSizes![index].sizeId!;
+                                          ProductDetailsController.to.selectedVariation.value = size.sizeId!;
                                           // } else {
                                           //   showSnackBar(msg: 'Out of Stock');
                                           // }
@@ -492,16 +488,16 @@ class ProductDetailsScreen extends StatelessWidget {
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                             color: size.sizeId == ProductDetailsController.to.selectedVariation.value
-                                                ? ProductDetailsController.to.product.value.productSizes![index].stock!.toInt() == 0
+                                                ? size.stock!.toInt() == 0
                                                     ? const Color(0xff021f5e)
                                                     : AppColors.kPrimaryColor
-                                                : ProductDetailsController.to.product.value.productSizes![index].stock!.toInt() == 0
+                                                : size.stock!.toInt() == 0
                                                     ? const Color(0xff021f5e)
                                                     : Colors.transparent,
                                             border: Border.all(
                                                 color: size.sizeId == ProductDetailsController.to.selectedVariation.value
                                                     ? AppColors.kPrimaryColor
-                                                    : ProductDetailsController.to.product.value.productSizes![index].stock!.toInt() == 0
+                                                    : size.stock!.toInt() == 0
                                                         ? const Color(0xff021f5e)
                                                         : AppColors.kPrimaryColor,
                                                 width: 1.5),
@@ -913,15 +909,6 @@ class ProductDetailsScreen extends StatelessWidget {
 
                 return (cartModel == null || cartModel == true)
                     ? CustomButton(
-                        // isDisable: (ProductDetailsController.to.product.value.variationType == 'size'
-                        //     ? ProductDetailsController.to.product.value.productSizes!
-                        //             .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                        //             .stock ==
-                        //         '0'
-                        //     : ProductDetailsController.to.product.value.productShades!
-                        //             .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                        //             .stock ==
-                        //         '0'),
                         label: (ProductDetailsController.to.product.value.variationType == 'size'
                                 ? ProductDetailsController.to.product.value.productSizes!
                                         .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
@@ -1011,7 +998,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                             (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) :*/ 1))
                                         .toString(),
                                   };
-                                  globalLogger.d(body, 'body');
+                                  globalLogger.d(body, error: 'body');
                                   UserController.to.updateCart(body, (cartModel).id ?? '');
                                 } else {
                                   // UserController.to.removeFromCart((cartModel as CartModel)?.id ?? '');
@@ -1058,7 +1045,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                           (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) : */ 1))
                                       .toString(),
                                 };
-                                globalLogger.d(body, 'body');
+                                globalLogger.d(body, error: 'body');
                                 UserController.to.updateCart(body, (cartModel).id ?? '');
                               },
                               child: const Padding(

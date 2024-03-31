@@ -147,10 +147,10 @@ class ReviewScreen extends StatelessWidget {
                                   for (var element in ProductDetailsController.to.reviewFilterList) {
                                     if (!(ProductDetailsController.to.reviewFilterList[0]['title'] == element['title'])) {
                                       if (ProductDetailsController.to.reviewFilterList[index]['title'] == element['title']) {
-                                        globalLogger.d(element['title'], 'Not First Element');
+                                        globalLogger.d(element['title'], error: 'Not First Element');
                                         element['is_selected'] = !element['is_selected'];
                                       } else {
-                                        globalLogger.d(element['title'], 'Not First Element');
+                                        globalLogger.d(element['title'], error: 'Not First Element');
                                         element['is_selected'] = false;
                                       }
                                     }
@@ -173,7 +173,7 @@ class ReviewScreen extends StatelessWidget {
 
                                 ProductDetailsController.to.getAllReviews(addition: data);
 
-                                globalLogger.d(data, 'Filter Data');
+                                globalLogger.d(data, error: 'Filter Data');
                               },
                               child: Container(
                                 margin: const EdgeInsets.symmetric(horizontal: 4),

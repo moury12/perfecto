@@ -25,7 +25,7 @@ class HomeService {
     try {
       List<BlogModel> blogList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}blogs', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "blog route");
+      globalLogger.d(response, error: "blog route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           blogList.add(BlogModel.fromJson(dis));
@@ -45,13 +45,13 @@ class HomeService {
     try {
       List<HomeModel> homeList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}get-home-mobile', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "home route");
+      globalLogger.d(response, error: "home route");
       if (response['status'] != null && response['status']) {
         (response['data'] as List).insert(1, {'id': 'cat'});
         response['data'].forEach((dis) {
           try {
             if (HomeController.to.productListId.contains(dis['id'].toString())) {
-              globalLogger.d(HomeController.to.productListId, "product_list section id list");
+              // globalLogger.d(HomeController.to.productListId, "product_list section id list");
               dis['product_list'] = dis['section_data'];
               dis['section_data'] = [];
             }
@@ -60,7 +60,7 @@ class HomeService {
             }
             homeList.add(HomeModel.fromJson(dis));
           } catch (e) {
-            globalLogger.d(dis['section_data'].runtimeType, "home route");
+            // globalLogger.d(dis['section_data'].runtimeType, "home route");
             globalLogger.e("Error occurred in homeCall: $dis");
             globalLogger.e("Error occurred in homeCall: $e");
           }
@@ -79,7 +79,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> preference = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}preference', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "preference route");
+      globalLogger.d(response, error: "preference route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           preference.add(ProductAttributeModel.fromJson(dis));
@@ -98,7 +98,7 @@ class HomeService {
     try {
       List<OutletModel> outletList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}get-outlet', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "outletList route");
+      globalLogger.d(response, error: "outletList route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           outletList.add(OutletModel.fromJson(dis));
@@ -117,7 +117,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> color = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}product/color', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "product color");
+      globalLogger.d(response, error: "product color");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           color.add(ProductAttributeModel.fromJson(dis));
@@ -136,7 +136,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> formulation = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}formulation', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "formulation route");
+      globalLogger.d(response, error: "formulation route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           formulation.add(ProductAttributeModel.fromJson(dis));
@@ -155,7 +155,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> finish = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}finish', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "finish route");
+      globalLogger.d(response, error: "finish route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           finish.add(ProductAttributeModel.fromJson(dis));
@@ -174,7 +174,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> country = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}country', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "country route");
+      globalLogger.d(response, error: "country route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           country.add(ProductAttributeModel.fromJson(dis));
@@ -193,7 +193,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> gender = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}gender', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "gender route");
+      globalLogger.d(response, error: "gender route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           gender.add(ProductAttributeModel.fromJson(dis));
@@ -212,7 +212,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> coverage = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}coverage', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "coverage route");
+      globalLogger.d(response, error: "coverage route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           coverage.add(ProductAttributeModel.fromJson(dis));
@@ -231,7 +231,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> benefit = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}benefit', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "benefit route");
+      globalLogger.d(response, error: "benefit route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           benefit.add(ProductAttributeModel.fromJson(dis));
@@ -255,7 +255,7 @@ class HomeService {
         httpMethod: HttpMethod.get,
         isLoadingEnable: true,
       );
-      globalLogger.d(response, "offer route");
+      globalLogger.d(response, error: "offer route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           offer.add(OfferModel.fromJson(dis));
@@ -278,7 +278,7 @@ class HomeService {
         url: '${Service.apiUrl}get-available-offers',
         httpMethod: HttpMethod.get,
       );
-      globalLogger.d(response, "available offer route");
+      globalLogger.d(response, error: "available offer route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           offer.add(MenuOfferModel.fromJson(dis));
@@ -304,7 +304,7 @@ class HomeService {
         allInfoField: {'offer_id': offerId},
         isLoadingEnable: true,
       );
-      globalLogger.d(response, "offerDetails route");
+      globalLogger.d(response, error: "offerDetails route $offerId");
       if (response['status'] != null && response['status']) {
         if (response['data']['offer_type_id'].toString() == '2') {
           response['data']['data']['data'].forEach((dis) {
@@ -333,7 +333,7 @@ class HomeService {
         allInfoField: {'offer_id': offerId, 'category_id': catId},
         isLoadingEnable: true,
       );
-      globalLogger.d(response, "offerDetails route");
+      globalLogger.d(response, error: "offerDetails route");
       if (response['status'] != null && response['status']) {
         response['data']['data'] = [response['data']['data']];
         offerDetails = OfferDetailsModel.fromJson(response['data']);
@@ -351,7 +351,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> concern = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}concern', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "concern route");
+      globalLogger.d(response, error: "concern route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           concern.add(ProductAttributeModel.fromJson(dis));
@@ -370,7 +370,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> ingredient = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}ingredient', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "ingredient route");
+      globalLogger.d(response, error: "ingredient route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           ingredient.add(ProductAttributeModel.fromJson(dis));
@@ -389,7 +389,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> packSize = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}pack-size', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "packSize route");
+      globalLogger.d(response, error: "packSize route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           packSize.add(ProductAttributeModel.fromJson(dis));
@@ -408,7 +408,7 @@ class HomeService {
     try {
       List<ProductAttributeModel> skinType = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}skin-type', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "skinType route");
+      globalLogger.d(response, error: "skinType route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           skinType.add(ProductAttributeModel.fromJson(dis));
@@ -427,7 +427,7 @@ class HomeService {
     try {
       List<BrandModel> brandList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}brand', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "brand route");
+      globalLogger.d(response, error: "brand route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           brandList.add(BrandModel.fromJson(dis));
@@ -446,7 +446,7 @@ class HomeService {
     try {
       List<CategoryModel> categoryList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}category', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "category route");
+      globalLogger.d(response, error: "category route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           categoryList.add(CategoryModel.fromJson(dis));
@@ -465,7 +465,7 @@ class HomeService {
     try {
       List<SizeModel> sizeList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}product/unit', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "Size route");
+      globalLogger.d(response, error: "Size route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           sizeList.add(SizeModel.fromJson(dis));
@@ -484,7 +484,7 @@ class HomeService {
     try {
       List<ShadeModel> shadeList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}product/shade?color_id=2', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "shade route");
+      globalLogger.d(response, error: "shade route");
       if (response['status'] != null && response['status']) {
         response['data']['Shades'].forEach((dis) {
           shadeList.add(ShadeModel.fromJson(dis));
@@ -504,7 +504,7 @@ class HomeService {
       SingleBlogModel singleBlog = SingleBlogModel();
 
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}blogs/$blogId', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "Single blog route");
+      globalLogger.d(response, error: "Single blog route");
       if (response['status'] != null && response['status']) {
         singleBlog = SingleBlogModel.fromJson(response['data']['blog']);
       } else if (response['status'] != null && !response['status']) {
@@ -521,7 +521,7 @@ class HomeService {
     try {
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}blogs/add-comment', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
 
-      globalLogger.d(response, "blog comment Route");
+      globalLogger.d(response, error: "blog comment Route");
       if (response['status'] != null && response['status']) {
         return response['status'];
       } else if (response['status'] != null && !response['status']) {
@@ -538,7 +538,7 @@ class HomeService {
     try {
       CouponModel coupon = CouponModel();
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}coupon', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-      globalLogger.d(response, "coupon Route");
+      globalLogger.d(response, error: "coupon Route");
       if (response['status'] != null && response['status']) {
         coupon = CouponModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
@@ -556,7 +556,7 @@ class HomeService {
     try {
       RewardPointModel rewardPoint = RewardPointModel();
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}getRewardData', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "rewardPoint route");
+      globalLogger.d(response, error: "rewardPoint route");
       if (response['status'] != null && response['status']) {
         rewardPoint = RewardPointModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
@@ -574,7 +574,7 @@ class HomeService {
     try {
       ShippingModel shipping = ShippingModel();
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}getShippingCharge', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "shipping route");
+      globalLogger.d(response, error: "shipping route");
       if (response['status'] != null && response['status']) {
         shipping = ShippingModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
@@ -591,7 +591,7 @@ class HomeService {
     try {
       TermsConditionModel termsModel = TermsConditionModel();
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}termcondition', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "TermsCondition route");
+      globalLogger.d(response, error: "TermsCondition route");
       if (response['status'] != null && response['status']) {
         termsModel = TermsConditionModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
@@ -608,7 +608,7 @@ class HomeService {
     try {
       TermsConditionModel privacyModel = TermsConditionModel();
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}privacypolicy', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "privacy policy route");
+      globalLogger.d(response, error: "privacy policy route");
       if (response['status'] != null && response['status']) {
         privacyModel = TermsConditionModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
@@ -625,7 +625,7 @@ class HomeService {
     try {
       TermsConditionModel returnModel = TermsConditionModel();
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}returnrefund', httpMethod: HttpMethod.get);
-      globalLogger.d(response, "return refund route");
+      globalLogger.d(response, error: "return refund route");
       if (response['status'] != null && response['status']) {
         returnModel = TermsConditionModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {

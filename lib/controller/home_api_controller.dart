@@ -75,7 +75,7 @@ class HomeApiController extends GetxController {
           await productListCallWithNameCall(NavigationController.to.addAttribute, initialCall: false);
         }
       }
-      globalLogger.d(scrollController.position.minScrollExtent, 'min scroll live chat screen');
+      globalLogger.d(scrollController.position.minScrollExtent, error: 'min scroll live chat screen');
     }
   }
 
@@ -264,7 +264,7 @@ class HomeApiController extends GetxController {
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
     }
-    globalLogger.d(body, 'productListWithCategoryCall');
+    globalLogger.d(body, error: 'productListWithCategoryCall');
     if (initialCall) {
       productList.clear();
       pListStatus.value = LoadingStatus.loading;
@@ -285,7 +285,6 @@ class HomeApiController extends GetxController {
       pListStatus.value = LoadingStatus.error;
       update();
     }
-    globalLogger.d(pListStatus.toString(), 'isLoadingMore');
   }
 
   Future<void> productListCallWithFilterCall(dynamic body, {bool initialCall = true}) async {
@@ -294,7 +293,7 @@ class HomeApiController extends GetxController {
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
     }
-    globalLogger.d(body, 'productListCallWithFilterCall');
+    globalLogger.d(body, error: 'productListCallWithFilterCall');
     if (initialCall) {
       productList.clear();
       pListStatus.value = LoadingStatus.loading;
@@ -322,7 +321,7 @@ class HomeApiController extends GetxController {
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
     }
-    globalLogger.d(body, 'productListCallWithNameCall');
+    globalLogger.d(body, error: 'productListCallWithNameCall');
     if (initialCall) {
       productList.clear();
       pListStatus.value = LoadingStatus.loading;
@@ -351,7 +350,7 @@ class HomeApiController extends GetxController {
 
   Future<void> singleBlogListCall(String? blogId) async {
     singleBlog.value = await HomeService.singleBlogCall(blogId);
-    globalLogger.d(singleBlog.value.title, 'singleBlogList.value.title');
+    globalLogger.d(singleBlog.value.title, error: 'singleBlogList.value.title');
   }
 
   Future<bool> addCouponCode(String coupon) async {

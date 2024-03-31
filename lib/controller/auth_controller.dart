@@ -98,66 +98,20 @@ class AuthController extends GetxController {
           await dbHelper.getSingleItemSpecific(tableName: DatabaseHelper.loginTable, selectedItem: [DatabaseHelper.accessToken], whereKey: DatabaseHelper.isLogIn, whereValue: 1);
 
       Service.setAuthToken(user[DatabaseHelper.accessToken]);
-      globalLogger.d(user[DatabaseHelper.accessToken], 'token');
       Get.put<UserController>(UserController(), permanent: true);
       Get.put<ChatController>(ChatController(), permanent: true);
       // globalLogger.d(user, user.runtimeType);
     }
 
     telephony.listenIncomingSms(
-      //   onBackgroundMessage: (SmsMessage message) {
-      //     globalLogger.d('NNNNNNNNNNNNNNNNNNNNN');
-      //
-      //     print(message.address); // +977981******67, sender nubmer
-      //     print(message.body); // Your OTP code is 34567
-      //     print(message.date); // 1659690242000, timestamp
-      //
-      //     // get the message
-      //     String sms = message.body.toString();
-      //
-      //     if (message.body!.contains('yourFirebaseProjectName.firebaseapp.com')) {
-      //       // verify SMS is sent for OTP with sender number
-      //       String otpcode = sms.replaceAll(new RegExp(r'[^0-9]'), '');
-      //       // prase code from the OTP sms
-      //       // otpbox.set(otpcode.split(""));
-      //       globalLogger.d(otpcode, otpcode);
-      //       // split otp code to list of number
-      //       // and populate to otb boxes
-      //       setState(() {
-      //         // refresh UI
-      //       });
-      //     } else {
-      //       print("Normal message.");
-      //     }
-      //   },
       onNewMessage: (SmsMessage message) {
-        globalLogger.d('NNNNNNNNNNNNNNNNNNNNN');
-
-        print(message.address); // +977981******67, sender nubmer
-        print(message.body); // Your OTP code is 34567
-        print(message.date); // 1659690242000, timestamp
-
         // get the message
         String sms = message.body.toString();
-
         if (message.body!.contains('[Perfecto]')) {
-          // verify SMS is sent for OTP with sender number
           String otpcode = sms.replaceAll(new RegExp(r'[^0-9]'), '');
-          // prase code from the OTP sms
-          // otpbox.set(otpcode.split(""));
-          // final otp = otpcode.split("");
-          // firstOtpController.text = otp[0];
-          // secondOtpController.text = otp[1];
-          // thirdOtpController.text = otp[2];
-          // forthOtpController.text = otp[3];
-          // fifthOtpController.text = otp[4];
-          // sixthOtpController.text = otp[5];
-          // globalLogger.d(otpcode, otpcode);
           otpController.text = otpcode;
-          // split otp code to list of number
-          // and populate to otb boxes
         } else {
-          print("Normal message.");
+          globalLogger.d("Normal message.");
         }
       },
       listenInBackground: false,
@@ -266,7 +220,6 @@ class AuthController extends GetxController {
     }
     final isCreated = await AuthService.loginCall(body, type: type);
     final token = isCreated['token'];
-    globalLogger.d(token, 'Token');
     if (type != LogInType.phone && isCreated.isNotEmpty) {
       Service.setAuthToken(token);
       currentLoginType = type;
@@ -322,7 +275,6 @@ class AuthController extends GetxController {
     final verifyEmail = await AuthService.verifyEmail({"email": registerEmail.value, "otp": otp});
     if (verifyEmail.isNotEmpty) {
       final token = verifyEmail['token'];
-      globalLogger.d(token, 'Token');
       Service.setAuthToken(token);
       _insert(accessToken: token);
       showSnackBar(msg: '"Otp verify successfully."');
@@ -334,7 +286,6 @@ class AuthController extends GetxController {
     String password,
     String cPassword,
   ) async {
-    globalLogger.d(registerEmail.value, 'email');
     // getProgressDialog('Verify and Changing Password');
     bool isVerified = await AuthService.changePassword({
       "email": registerEmail.value,
@@ -378,7 +329,6 @@ class AuthController extends GetxController {
       final userDataTemp = await FacebookAuth.instance.getUserData();
       // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
       userData = userDataTemp;
-      globalLogger.d(userData, 'userData');
       return true;
     } else {
       print(result.status);

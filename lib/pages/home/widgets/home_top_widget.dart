@@ -216,7 +216,6 @@ class HomeTopWidget extends StatelessWidget {
                         enableBorderColor: AppColors.kPrimaryColor,
                         disableBorderColor: AppColors.kPrimaryColor,
                         onSubmitted: (p0) async {
-                          globalLogger.d(p0, 'search');
                           if (p0.isNotEmpty) {
                             NavigationController.to.openSearchResult.value = true;
                             NavigationController.to.openSearchSuggestion.value = false;
@@ -509,7 +508,7 @@ class HomeTopWidget extends StatelessWidget {
                               }
 
                               Navigator.pop(context);
-                              globalLogger.d(NavigationController.to.addAttribute, 'kkkkkkk');
+                              globalLogger.d(NavigationController.to.addAttribute, error: 'kkkkkkk');
                               await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
                               Get.toNamed(SingleCategoryWiseScreen.routeName);
                             },
@@ -690,7 +689,7 @@ class HomeTopWidget extends StatelessWidget {
                         Navigator.pop(context);
                         await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute);
                         Get.toNamed(SingleCategoryWiseScreen.routeName);
-                        globalLogger.d(NavigationController.to.addAttribute, 'kkkkkkk');
+                        globalLogger.d(NavigationController.to.addAttribute, error: 'kkkkkkk');
                         // NavigationController.to.resetFilters();
                       },
                       boxShadowColor: Colors.transparent,
@@ -1071,7 +1070,7 @@ class FilterAttributeWidget extends StatelessWidget {
                                                       .map((e) => e.id!.replaceAll('[', '').replaceAll(']', '').split(','))
                                                       .toList());
                                                   if (aData.isNotEmpty) {
-                                                    globalLogger.d([aData.first, aData.last], 'max_min');
+                                                    globalLogger.d([aData.first, aData.last], error: 'max_min');
                                                     NavigationController.to.addAttribute.addAll({
                                                       '${attribute.keyName}': [aData.first, aData.last].toString(),
                                                     });

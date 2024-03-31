@@ -70,7 +70,7 @@ class UserController extends GetxController {
       if (reviewPaginateURL.value.isNotEmpty) {
         getReviewListCall(initialCall: false);
       }
-      globalLogger.d(scrollController.position.minScrollExtent, 'min scroll live chat screen');
+      globalLogger.d(scrollController.position.minScrollExtent, error: 'min scroll live chat screen');
     }
   }
 
@@ -79,13 +79,11 @@ class UserController extends GetxController {
   Rx<LoadingStatus> notificationStatus = LoadingStatus.initial.obs;
   ScrollController notificationScrollController = ScrollController();
   Future<void> _notificationScrollListener() async {
-    globalLogger.d('Scroll Listener');
-    globalLogger.d(notificationScrollController.position.pixels, 'pixels');
     if (notificationStatus.value != LoadingStatus.loadingMore && notificationScrollController.position.pixels == notificationScrollController.position.maxScrollExtent) {
       if (notificationPaginateURL.value.isNotEmpty) {
         getNotificationListCall(initialCall: false);
       }
-      globalLogger.d(notificationScrollController.position.maxScrollExtent, 'min scroll live chat screen');
+      globalLogger.d(notificationScrollController.position.maxScrollExtent, error: 'min scroll live chat screen');
     }
   }
 
@@ -454,32 +452,32 @@ class UserController extends GetxController {
     }
   }
 
-  //pathao city
-  Future<void> pathaoCity() async {
-    final data = await UserService.pathaoCity();
-
-    data.forEach((element) async {
-      element['zone'] = await pathaoZone(element['city_id'].toString());
-    });
-    globalLogger.d(data);
-  }
-
-  //pathao zone
-  Future<List<dynamic>> pathaoZone(String cityId) async {
-    final data = await UserService.pathaoZone(cityId);
-    Future.delayed(Duration(seconds: 10));
-    data.forEach((element) async {
-      element['area'] = await pathaoArea(element['zone_id'].toString());
-    });
-    return data;
-  }
-
-  //pathao area
-  Future<List<dynamic>> pathaoArea(String zoneId) async {
-    Future.delayed(Duration(seconds: 10));
-    final data = await UserService.pathaoArea(zoneId);
-    return data;
-  }
+  // //pathao city
+  // Future<void> pathaoCity() async {
+  //   final data = await UserService.pathaoCity();
+  //
+  //   data.forEach((element) async {
+  //     element['zone'] = await pathaoZone(element['city_id'].toString());
+  //   });
+  //   globalLogger.d(data);
+  // }
+  //
+  // //pathao zone
+  // Future<List<dynamic>> pathaoZone(String cityId) async {
+  //   final data = await UserService.pathaoZone(cityId);
+  //   Future.delayed(Duration(seconds: 10));
+  //   data.forEach((element) async {
+  //     element['area'] = await pathaoArea(element['zone_id'].toString());
+  //   });
+  //   return data;
+  // }
+  //
+  // //pathao area
+  // Future<List<dynamic>> pathaoArea(String zoneId) async {
+  //   Future.delayed(Duration(seconds: 10));
+  //   final data = await UserService.pathaoArea(zoneId);
+  //   return data;
+  // }
 
   //order-store
   Future<void> orderStore(dynamic body, PaymentType paymentType) async {
@@ -517,7 +515,6 @@ class UserController extends GetxController {
                     .toDouble()),
             'Products',
             isCreated['data']['tran_id'].toString());
-        globalLogger.d(res.toJson(), "res data");
         if (res.status != null && res.status == 'VALID') {
           globalLogger.d(res.toJson());
           await orderUpdate({

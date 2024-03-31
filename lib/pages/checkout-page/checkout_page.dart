@@ -142,7 +142,6 @@ class CheckoutScreen extends StatelessWidget {
                         controller: AddressController.to.emailController,
                       ),
                       GetBuilder(builder: (AddressController controller) {
-                        globalLogger.d(controller.cityList.length, 'controller.cityStatus.isLoading');
                         return Column(
                           children: [
                             Stack(

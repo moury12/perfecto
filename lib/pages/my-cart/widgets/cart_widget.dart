@@ -276,7 +276,7 @@ class CartWidget extends StatelessWidget {
                                         'quantity': (int.parse(cartModel!.quantity!) - (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) :*/ 1))
                                             .toString(),
                                       };
-                                      globalLogger.d(body, 'body');
+                                      globalLogger.d(body, error: 'body');
                                       UserController.to.updateCart(body, cartModel?.id ?? '');
                                     } else {
                                       // UserController.to.removeFromCart(cartModel?.id ?? '');
@@ -323,7 +323,7 @@ class CartWidget extends StatelessWidget {
                                       'quantity': (int.parse(cartModel!.quantity!) + (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : */ 1))
                                           .toString(),
                                     };
-                                    globalLogger.d(body, 'body');
+                                    globalLogger.d(body, error: 'body');
                                     UserController.to.updateCart(body, cartModel?.id ?? '');
                                   },
                                   child: const Padding(

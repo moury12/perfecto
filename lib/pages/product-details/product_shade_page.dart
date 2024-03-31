@@ -160,34 +160,49 @@ class ProductShadeScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: ProductDetailsController.to.product.value.productSizes!.length,
                               itemBuilder: (context, index) {
-                                final data = ProductDetailsController.to.product.value.productSizes![index];
-                                return GestureDetector(
-                                  onTap: () {
-                                    // if (data.stock!.toInt() != 0) {
-                                    ProductDetailsController.to.selectedVariation.value = data.sizeId!;
-                                    // } else {
-                                    //   showSnackBar(msg: 'Out of Stock');
-                                    // }
-                                  },
-                                  child: Obx(() {
-                                    return Container(
+                                final size = ProductDetailsController.to.product.value.productSizes![index];
+                                return Obx(() {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // if (size.stock!.toInt() != 0) {
+                                      ProductDetailsController.to.selectedVariation.value = size.sizeId!;
+                                      // } else {
+                                      //   showSnackBar(msg: 'Out of Stock');
+                                      // }
+                                    },
+                                    child: Container(
                                       margin: const EdgeInsets.symmetric(horizontal: 6),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                          color: ProductDetailsController.to.selectedVariation.value == data.sizeId ? AppColors.kPrimaryColor : Colors.transparent,
-                                          border: Border.all(color: /* data.stock!.toInt() == 0 ? Colors.red :*/ AppColors.kPrimaryColor, width: 1.5),
-                                          borderRadius: BorderRadius.circular(4)),
+                                        color: size.sizeId == ProductDetailsController.to.selectedVariation.value
+                                            ? size.stock!.toInt() == 0
+                                                ? const Color(0xff021f5e)
+                                                : AppColors.kPrimaryColor
+                                            : size.stock!.toInt() == 0
+                                                ? const Color(0xff021f5e)
+                                                : Colors.transparent,
+                                        border: Border.all(
+                                            color: size.sizeId == ProductDetailsController.to.selectedVariation.value
+                                                ? AppColors.kPrimaryColor
+                                                : size.stock!.toInt() == 0
+                                                    ? const Color(0xff021f5e)
+                                                    : AppColors.kPrimaryColor,
+                                            width: 1.5),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
                                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                       child: Text(
-                                        data.size?.name ?? '180ml',
+                                        size.size!.name!,
                                         textAlign: TextAlign.center,
-                                        style: ProductDetailsController.to.selectedVariation.value == data.sizeId
+                                        style: size.sizeId == ProductDetailsController.to.selectedVariation.value
                                             ? AppTheme.textStyleSemiBoldWhite14
-                                            : AppTheme.textStyleSemiBoldFadeBlack14,
+                                            : AppTheme.textStyleSemiBoldFadeBlack14.copyWith(
+                                                color: size.stock!.toInt() == 0 ? Colors.white : Colors.black54,
+                                              ),
                                       ),
-                                    );
-                                  }),
-                                );
+                                    ),
+                                  );
+                                });
                               },
                             ),
                           ),
@@ -259,23 +274,35 @@ class ProductShadeScreen extends StatelessWidget {
                                       child: Obx(() {
                                         return GestureDetector(
                                           onTap: () {
-                                            if (shade.stock!.toInt() != 0) {
-                                              ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
-                                            } else {
-                                              showSnackBar(msg: 'Out of Stock');
-                                            }
+                                            ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
                                           },
                                           child: Stack(
                                             alignment: Alignment.center,
                                             children: [
-                                              CustomNetworkImage(
-                                                networkImagePath: shade.shade!.image!,
-                                                errorImagePath: AssetsConstant.lipstickShade,
-                                                height: 48,
-                                                width: 48,
-                                                borderRadius: 4,
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent,
+                                                  border: Border.all(
+                                                      color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent, width: 1.5),
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  boxShadow: shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                                                      ? [
+                                                          BoxShadow(
+                                                            color: Colors.black38,
+                                                            blurRadius: 5,
+                                                          )
+                                                        ]
+                                                      : [],
+                                                ),
+                                                child: CustomNetworkImage(
+                                                  networkImagePath: shade.shade!.image!,
+                                                  errorImagePath: AssetsConstant.lipstickShade,
+                                                  height: 48,
+                                                  width: 48,
+                                                  borderRadius: 4,
+                                                ),
                                               ),
-                                              shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                                              shade.shadeId == ProductDetailsController.to.selectedVariation.value && shade.stock!.toInt() != 0
                                                   ? const Icon(
                                                       Icons.check,
                                                       color: Colors.white,
@@ -283,6 +310,7 @@ class ProductShadeScreen extends StatelessWidget {
                                                   : const SizedBox.shrink(),
                                               shade.stock!.toInt() == 0
                                                   ? Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         const Icon(
                                                           Icons.close,
@@ -290,7 +318,7 @@ class ProductShadeScreen extends StatelessWidget {
                                                         ),
                                                         Text(
                                                           'Out of Stock',
-                                                          style: AppTheme.textStyleNormalRed12.copyWith(fontSize: 8),
+                                                          style: AppTheme.textStyleNormalRed12.copyWith(fontSize: 8, color: Colors.white),
                                                         ),
                                                       ],
                                                     )
@@ -632,36 +660,67 @@ class BottomCalculationTotalWidget extends StatelessWidget {
 
                   return (cartModel == null || cartModel == true)
                       ? CustomButton(
-                          isDisable: (ProductDetailsController.to.product.value.variationType == 'size'
-                              ? ProductDetailsController.to.product.value.productSizes!
-                                      .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                      .stock ==
-                                  '0'
-                              : ProductDetailsController.to.product.value.productShades!
-                                      .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                      .stock ==
-                                  '0'),
-                          label: 'Add To Bag',
+                          label: (ProductDetailsController.to.product.value.variationType == 'size'
+                                  ? ProductDetailsController.to.product.value.productSizes!
+                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                          .stock ==
+                                      '0'
+                                  : ProductDetailsController.to.product.value.productShades!
+                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                          .stock ==
+                                      '0')
+                              ? 'Request for Stock'
+                              : 'Add To Bag',
                           marginHorizontal: 8,
+                          elevation: 0,
                           marginVertical: 4,
                           height: 46,
-                          elevation: 0,
-                          prefixImage: AssetsConstant.cartIcon,
+                          isBorder: false,
+                          prefixImage: (ProductDetailsController.to.product.value.variationType == 'size'
+                                  ? ProductDetailsController.to.product.value.productSizes!
+                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                          .stock ==
+                                      '0'
+                                  : ProductDetailsController.to.product.value.productShades!
+                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                          .stock ==
+                                      '0')
+                              ? AssetsConstant.stockIcon
+                              : AssetsConstant.cartIcon,
                           prefixImageColor: Colors.white,
                           prefixImageHeight: 20,
                           primary: AppColors.kPrimaryColor,
                           width: MediaQuery.of(context).size.width / 1.3,
                           onPressed: () {
                             if (AuthController.to.isLoggedIn.value) {
-                              final data = {
-                                "product_id": ProductDetailsController.to.product.value.id!,
-                                if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
-                                if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
-                                "quantity": '1',
-                              };
-                              globalLogger.d(data);
+                              if (ProductDetailsController.to.product.value.variationType == 'size'
+                                  ? ProductDetailsController.to.product.value.productSizes!
+                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                          .stock ==
+                                      '0'
+                                  : ProductDetailsController.to.product.value.productShades!
+                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                          .stock ==
+                                      '0') {
+                                final data = {
+                                  "product_id": ProductDetailsController.to.product.value.id!,
+                                  if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
+                                  if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
+                                };
+                                globalLogger.d(data);
 
-                              UserController.to.addToCart(data);
+                                UserController.to.stockRequest(data);
+                              } else {
+                                final data = {
+                                  "product_id": ProductDetailsController.to.product.value.id!,
+                                  if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
+                                  if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
+                                  "quantity": '1',
+                                };
+                                globalLogger.d(data);
+
+                                UserController.to.addToCart(data);
+                              }
                             } else {
                               Get.toNamed(LoginScreen.routeName);
                             }
@@ -690,7 +749,7 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                                               (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) :*/ 1))
                                           .toString(),
                                     };
-                                    globalLogger.d(body, 'body');
+                                    globalLogger.d(body, error: 'body');
                                     UserController.to.updateCart(body, (cartModel).id ?? '');
                                   } else {
                                     // UserController.to.removeFromCart((cartModel as CartModel)?.id ?? '');
@@ -737,7 +796,7 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                                             (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) : */ 1))
                                         .toString(),
                                   };
-                                  globalLogger.d(body, 'body');
+                                  globalLogger.d(body, error: 'body');
                                   UserController.to.updateCart(body, (cartModel).id ?? '');
                                 },
                                 child: const Padding(

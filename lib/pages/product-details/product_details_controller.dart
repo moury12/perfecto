@@ -98,7 +98,6 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   }
 
   Future<void> getComboDetails(String id, {bool needLoading = true}) async {
-    globalLogger.d(id, 'getComboDetails');
     final data = await ProductService.comboDetails(id, needLoading: needLoading);
     comboDetails.value = data;
   }
@@ -152,8 +151,7 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
         });
       });
     }
-    globalLogger.d(body, 'postReview');
-    globalLogger.d(images.runtimeType, 'postReview');
+    globalLogger.d(body, error: 'postReview');
 
     final data = await ProductService.postReview(body, images);
     if (data) {

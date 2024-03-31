@@ -26,7 +26,7 @@ Future<void> setupFirebaseMessenging() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) async {
-    globalLogger.d(message?.toMap(), 'getInitialMessaage');
+    globalLogger.d(message?.toMap(), error: 'getInitialMessaage');
     // if (message != null && message.data != null && message.data['job_id'] != null) {
     //   Get.put<HomeController>(HomeController(), permanent: true);
     //   await HomeController.to.jobDetailsCall({"job_id": message.data['job_id']! as String});
