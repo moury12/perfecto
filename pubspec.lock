@@ -650,10 +650,9 @@ packages:
   mh_ui:
     dependency: transitive
     description:
-      name: mh_ui
-      sha256: "8d695453f5b414b1f3470f03cff71a2e709130c77d35f127bfa0317ea10efc99"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../mh_ui"
+      relative: true
+    source: path
     version: "0.0.1+4"
   mh_videoplayer:
     dependency: "direct main"

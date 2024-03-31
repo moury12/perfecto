@@ -47,11 +47,15 @@ class ReturnAndCancelScreen extends StatelessWidget {
               onRefresh: () async {
                 await UserController.to.getCancelOrderListCall();
               },
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                itemBuilder: (context, index) => OrderWidget(order: UserController.to.cancelOrderList[index]),
-                itemCount: UserController.to.cancelOrderList.length,
-              ),
+              child: UserController.to.cancelOrderList.isEmpty
+                  ? const Center(
+                      child: Text('No Cancel Orders Found'),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      itemBuilder: (context, index) => OrderWidget(order: UserController.to.cancelOrderList[index]),
+                      itemCount: UserController.to.cancelOrderList.length,
+                    ),
             ),
           ),
           // Expanded(

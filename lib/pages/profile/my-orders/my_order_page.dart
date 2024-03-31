@@ -46,11 +46,15 @@ class MyOrdersScreen extends StatelessWidget {
                 await UserController.to.getOrderListCall();
               },
               child: Obx(() {
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  itemBuilder: (context, index) => OrderWidget(order: UserController.to.orderList[index]),
-                  itemCount: UserController.to.orderList.length,
-                );
+                return UserController.to.orderList.isEmpty
+                    ? const Center(
+                        child: Text('No Orders Found'),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        itemBuilder: (context, index) => OrderWidget(order: UserController.to.orderList[index]),
+                        itemCount: UserController.to.orderList.length,
+                      );
               }),
             ),
           )
