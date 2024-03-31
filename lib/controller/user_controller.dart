@@ -329,6 +329,18 @@ class UserController extends GetxController {
     }
   }
 
+  //Stock request
+  Future<void> stockRequest(dynamic body) async {
+    final isCreated = await UserService.stockRequest(body);
+    // if (isCreated) {
+    //   showSnackBar(
+    //     msg: 'Stock Request Sent',
+    //   );
+    //   // Get.back();
+    //   // afterLogin(isCreated);
+    // }
+  }
+
   //cart item price calculation
   double cartTotalPrice() {
     double totalPrice = 0;

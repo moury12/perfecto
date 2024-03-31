@@ -532,6 +532,21 @@ class UserService {
     return false;
   }
 
+  //stock-request
+  static Future<bool> stockRequest(dynamic body) async {
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}stock-request', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
+    globalLogger.d(response, "stock request Route");
+    if (response['status'] != null && response['status']) {
+      showSnackBar(
+        msg: response['message'],
+      );
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
   //order-store
   static Future<dynamic> orderStore(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-store', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
