@@ -26,6 +26,7 @@ import 'package:perfecto/pages/product-details/review/write_review_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:collection/collection.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../controller/auth_controller.dart';
 
@@ -116,7 +117,9 @@ class ComboDetailsScreen extends StatelessWidget {
                         const Spacer(),
                         GestureDetector(
                           onTap: () {
-                            ProductDetailsController.to.isAvaiableShade.value = !ProductDetailsController.to.isAvaiableShade.value;
+                            // ProductDetailsController.to.isAvaiableShade.value = !ProductDetailsController.to.isAvaiableShade.value;
+                            Share.share(
+                                'Check out this combo product on Perfecto\n${ProductDetailsController.to.comboDetails.value.name}\nPrice: ৳ ${ProductDetailsController.to.comboDetails.value.discountedPrice}\nhttps://ecom-perfecto.vercel.app/combo-product-details/${ProductDetailsController.to.comboDetails.value.id}');
                           },
                           child: Icon(
                             Icons.share,

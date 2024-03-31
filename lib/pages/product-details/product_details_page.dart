@@ -25,6 +25,7 @@ import 'package:perfecto/pages/product-details/review/write_review_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 import 'package:collection/collection.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../models/cart_model.dart';
 
@@ -228,7 +229,9 @@ class ProductDetailsScreen extends StatelessWidget {
                         const Spacer(),
                         GestureDetector(
                           onTap: () {
-                            ProductDetailsController.to.isAvaiableShade.value = !ProductDetailsController.to.isAvaiableShade.value;
+                            // ProductDetailsController.to.isAvaiableShade.value = !ProductDetailsController.to.isAvaiableShade.value;
+                            Share.share(
+                                'Check out this product on Perfecto\nName - ${ProductDetailsController.to.product.value.name}${ProductDetailsController.to.product.value.brand != null ? '\n Brand - ${ProductDetailsController.to.product.value.brand?.name ?? ' - '}' : ''}\n${ProductDetailsController.to.product.value.variationType == 'shade' ? 'Shade - ' + (ProductDetailsController.to.product.value.productShades!.firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value).shade!.name!) : 'Size - ' + (ProductDetailsController.to.product.value.productSizes!.firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value).size!.name!)}\n৳ ${ProductDetailsController.to.getPrice()}\nhttps://ecom-perfecto.vercel.app/product-details/${ProductDetailsController.to.product.value.id}');
                           },
                           child: Icon(
                             Icons.share,
