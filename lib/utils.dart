@@ -23,3 +23,5 @@ enum PaymentType { cod, ssl }
 enum ProductAPIType { filter, category, search }
 
 enum LoadingStatus { loading, loaded, error, initial, loadingMore }
+
+enum NameSearchResponse { product, category, brand }

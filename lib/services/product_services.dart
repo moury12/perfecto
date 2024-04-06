@@ -142,9 +142,11 @@ class ProductService {
     }
   }
 
-  static Future<List<ProductModel>> productListCallWithName(dynamic body, {String? paginationUrl}) async {
+  static Future<Map<NameSearchResponse, dynamic>> productListCallWithName(dynamic body, {String? paginationUrl}) async {
+    List<ProductModel> productList = [];
+    List<CategoryModel> catList = [];
+    List<BrandModel> brandList = [];
     try {
-      List<ProductModel> productList = [];
       final response = await ServiceAPI.genericCall(
         url: paginationUrl ?? '${Service.apiUrl}products-name',
         httpMethod: HttpMethod.multipartFilePost,
@@ -157,7 +159,22 @@ class ProductService {
           try {
             productList.add(ProductModel.fromJson(dis));
           } catch (e) {
-            globalLogger.e("Error occurred in Call: $dis");
+            globalLogger.e("Error occurred in Call: $e");
+          }
+        });
+
+        response['data']['categories']['data'].forEach((dis) {
+          try {
+            catList.add(CategoryModel.fromJson(dis));
+          } catch (e) {
+            globalLogger.e("Error occurred in Call: $e");
+          }
+        });
+
+        response['data']['brands']['data'].forEach((dis) {
+          try {
+            brandList.add(BrandModel.fromJson(dis));
+          } catch (e) {
             globalLogger.e("Error occurred in Call: $e");
           }
         });
@@ -184,10 +201,18 @@ class ProductService {
       } else if (response['status'] != null && !response['status']) {
         ServiceAPI.showAlert(response['message']);
       }
-      return productList;
+      return {
+        NameSearchResponse.product: productList,
+        NameSearchResponse.category: catList,
+        NameSearchResponse.brand: brandList,
+      };
     } catch (e) {
       globalLogger.e("Error occurred in Call: $e");
-      return []; // Return an empty list or handle the error accordingly
+      return {
+        NameSearchResponse.product: productList,
+        NameSearchResponse.category: catList,
+        NameSearchResponse.brand: brandList,
+      }; // Return an empty list or handle the error accordingly
     }
   }
 

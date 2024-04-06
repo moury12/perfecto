@@ -377,7 +377,8 @@ class CartWidget extends StatelessWidget {
               elevation: 2,
               shadowColor: Colors.black,
               child: Text(
-                cartModel?.buyGetInfo?.offer?.name ?? "Buy Get",
+                'Buy ${cartModel?.buyGetInfo?.buyQuantity ?? '1'} Get ${cartModel?.buyGetInfo?.getQuantity ?? '1'}',
+                // cartModel?.buyGetInfo?.offer?.name ?? "Buy Get",
                 style: const TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),

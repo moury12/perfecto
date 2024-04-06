@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                 children: catList
                         .map((cat) => GestureDetector(
                             onTap: () async {
-                              await HomeApiController.to.productListWithCategoryCall({
+                              HomeApiController.to.productListWithCategoryCall({
                                 'category': [cat.id!].toString(),
                               });
                               NavigationController.to.resetFilters();
@@ -622,7 +622,7 @@ class HomeScreen extends StatelessWidget {
           //           children: HomeApiController.to.categoryList
           //                   .map((cat) => GestureDetector(
           //                       onTap: () async {
-          //                         await HomeApiController.to.productListWithCategoryCall({
+          //                         HomeApiController.to.productListWithCategoryCall({
           //                           'category': [cat.id!].toString(),
           //                         });
           //                         Get.toNamed(SingleCatergoryWiseScreen.routeName);

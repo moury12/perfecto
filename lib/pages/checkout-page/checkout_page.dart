@@ -410,101 +410,116 @@ class CheckoutScreen extends StatelessWidget {
                   )),
               CustomSizedBox.space8H,
               CheckoutWidget(
-                widget: Column(
-                  children: [
-                    CustomSizedBox.space8H,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                      child: Obx(() {
-                        return Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                CheckOutController.to.paymentType.value = PaymentType.ssl;
-                              },
-                              child: Container(
-                                height: 18,
-                                width: 18,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: CheckOutController.to.paymentType.value == PaymentType.ssl ? AppColors.kPrimaryColor : Colors.white,
-                                    border: Border.all(width: 1, color: CheckOutController.to.paymentType.value == PaymentType.ssl ? AppColors.kPrimaryColor : Colors.black)),
-                                alignment: Alignment.center,
-                                child: CheckOutController.to.paymentType.value == PaymentType.ssl
-                                    ? const Icon(
-                                        Icons.check_rounded,
-                                        color: Colors.white,
-                                        size: 15,
-                                      )
-                                    : const SizedBox.shrink(),
-                              ),
-                            ),
-                            CustomSizedBox.space12W,
-                            const Flexible(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'Online payment via SslCommerz',
-                                    style: AppTheme.textStyleMediumBlack16,
-                                  ),
-                                  Text(
-                                    'The largest payment gateway aggregator in Bangladesh and a pioneer in the FinTech industry since 2010',
-                                    style: AppTheme.textStyleNormalBlack10,
-                                  )
-                                ],
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                              ),
-                            )
-                          ],
-                        );
-                      }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                      child: Obx(() {
-                        return Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                CheckOutController.to.paymentType.value = PaymentType.cod;
-                              },
-                              child: Container(
-                                height: 18,
-                                width: 18,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: CheckOutController.to.paymentType.value == PaymentType.cod ? AppColors.kPrimaryColor : Colors.white,
-                                    border: Border.all(width: 1, color: CheckOutController.to.paymentType.value == PaymentType.cod ? AppColors.kPrimaryColor : Colors.black)),
-                                alignment: Alignment.center,
-                                child: CheckOutController.to.paymentType.value == PaymentType.cod
-                                    ? const Icon(
-                                        Icons.check_rounded,
-                                        color: Colors.white,
-                                        size: 15,
-                                      )
-                                    : const SizedBox.shrink(),
-                              ),
-                            ),
-                            CustomSizedBox.space12W,
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Cash on delivery (COD)',
-                                  style: AppTheme.textStyleMediumBlack16,
+                widget: Obx(
+                  () {
+                    final cityName = AddressController.to.selectedCity.value.isNotEmpty
+                        ? (AddressController.to.cityList.firstWhereOrNull((element) => element.cityId == AddressController.to.selectedCity.value)?.cityName ?? '').toLowerCase()
+                        : '';
+                    if (cityName == 'dhaka') {
+                      CheckOutController.to.paymentType.value = PaymentType.cod;
+                    } else {
+                      CheckOutController.to.paymentType.value = PaymentType.ssl;
+                    }
+                    return Column(
+                      children: [
+                        CustomSizedBox.space8H,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  CheckOutController.to.paymentType.value = PaymentType.ssl;
+                                },
+                                child: Container(
+                                  height: 18,
+                                  width: 18,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: CheckOutController.to.paymentType.value == PaymentType.ssl ? AppColors.kPrimaryColor : Colors.white,
+                                      border: Border.all(width: 1, color: CheckOutController.to.paymentType.value == PaymentType.ssl ? AppColors.kPrimaryColor : Colors.black)),
+                                  alignment: Alignment.center,
+                                  child: CheckOutController.to.paymentType.value == PaymentType.ssl
+                                      ? const Icon(
+                                          Icons.check_rounded,
+                                          color: Colors.white,
+                                          size: 15,
+                                        )
+                                      : const SizedBox.shrink(),
                                 ),
-                                Text(
-                                  'Pay with cash upon delivery',
-                                  style: AppTheme.textStyleNormalBlack10,
+                              ),
+                              CustomSizedBox.space12W,
+                              const Flexible(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Online payment via SslCommerz',
+                                      style: AppTheme.textStyleMediumBlack16,
+                                    ),
+                                    Text(
+                                      'The largest payment gateway aggregator in Bangladesh and a pioneer in the FinTech industry since 2010',
+                                      style: AppTheme.textStyleNormalBlack10,
+                                    )
+                                  ],
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                              )
+                            ],
+                          ) /*Obx(() {
+                        return ;
+                      })*/
+                          ,
+                        ),
+                        if (cityName == 'dhaka')
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    CheckOutController.to.paymentType.value = PaymentType.cod;
+                                  },
+                                  child: Container(
+                                    height: 18,
+                                    width: 18,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: CheckOutController.to.paymentType.value == PaymentType.cod ? AppColors.kPrimaryColor : Colors.white,
+                                        border: Border.all(width: 1, color: CheckOutController.to.paymentType.value == PaymentType.cod ? AppColors.kPrimaryColor : Colors.black)),
+                                    alignment: Alignment.center,
+                                    child: CheckOutController.to.paymentType.value == PaymentType.cod
+                                        ? const Icon(
+                                            Icons.check_rounded,
+                                            color: Colors.white,
+                                            size: 15,
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ),
+                                ),
+                                CustomSizedBox.space12W,
+                                const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Cash on delivery (COD)',
+                                      style: AppTheme.textStyleMediumBlack16,
+                                    ),
+                                    Text(
+                                      'Pay with cash upon delivery',
+                                      style: AppTheme.textStyleNormalBlack10,
+                                    )
+                                  ],
                                 )
                               ],
-                            )
-                          ],
-                        );
-                      }),
-                    ),
-                    CustomSizedBox.space12H
-                  ],
+                            ) /*Obx(() {
+                        return ;
+                      })*/
+                            ,
+                          ),
+                        CustomSizedBox.space12H
+                      ],
+                    );
+                  },
                 ),
                 title: 'Choose Payment Method',
               ),

@@ -266,7 +266,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
           'category': [categoryModel.id!].toString(),
         });
 
-        await HomeApiController.to.productListWithCategoryCall(NavigationController.to.addAttribute);
+        HomeApiController.to.productListWithCategoryCall(NavigationController.to.addAttribute);
         Get.toNamed(SingleCategoryWiseScreen.routeName);
         HomeApiController.to.categoryList.forEach((element) {
           element.isExpanded = false;
@@ -386,7 +386,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                 onTap: () async {
                                   Navigator.pop(context);
 
-                                  await HomeApiController.to.productListWithCategoryCall({
+                                  HomeApiController.to.productListWithCategoryCall({
                                     'subcategory': [subCate.id!].toString(),
                                   });
                                   NavigationController.to.resetFilters();
@@ -413,7 +413,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
                                             onTap: () async {
                                               Navigator.pop(context);
 
-                                              await HomeApiController.to.productListWithCategoryCall({
+                                              HomeApiController.to.productListWithCategoryCall({
                                                 'child_category': [subCat.id!].toString(),
                                               });
                                               NavigationController.to.resetFilters();

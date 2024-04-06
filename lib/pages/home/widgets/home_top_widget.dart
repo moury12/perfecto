@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/list_utils.dart';
@@ -249,62 +250,288 @@ class HomeTopWidget extends StatelessWidget {
               if (isSearchPage)
                 Obx(
                   () => NavigationController.to.isSearchFieldNotEmpty.value
-                      ? SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              NavigationController.to.openSearchSuggestion.value
-                                  ? Container(
-                                      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.10), blurRadius: 10)]),
-                                      padding: HomeApiController.to.searchList.isNotEmpty ? const EdgeInsets.all(16) : EdgeInsets.zero,
-                                      width: double.infinity,
-                                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                                      child: Column(
-                                        children: [
-                                          ...List.generate(
-                                              HomeApiController.to.searchList.length > 5 ? 5 : HomeApiController.to.searchList.length,
-                                              (index) => Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          const Icon(
-                                                            Icons.search_rounded,
-                                                            color: Colors.black45,
-                                                            size: 15,
-                                                          ),
-                                                          CustomSizedBox.space8W,
-                                                          Expanded(
-                                                            child: InkWell(
-                                                              onTap: () {
-                                                                NavigationController.to.searchController.value.text = HomeApiController.to.searchList[index].name!;
-                                                                NavigationController.to.update();
-                                                              },
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                                child: Text(
-                                                                  HomeApiController.to.searchList[index].name!,
-                                                                  style: AppTheme.textStyleMediumBlack14,
-                                                                  maxLines: 1,
+                      ? Stack(
+                          children: [
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  if (!NavigationController.to.openSearchSuggestion.value)
+                                    /*? Container(
+                                          decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.10), blurRadius: 10)]),
+                                          padding: HomeApiController.to.searchList.isNotEmpty ? const EdgeInsets.all(16) : EdgeInsets.zero,
+                                          width: double.infinity,
+                                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                                          child: Column(
+                                            // crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              ...HomeApiController.to.searchList
+                                                  .take(5)
+                                                  .map(
+                                                    (e) => Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.search_rounded,
+                                                              color: Colors.black45,
+                                                              size: 15,
+                                                            ),
+                                                            CustomSizedBox.space8W,
+                                                            Expanded(
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  NavigationController.to.searchController.value.text = e.name!;
+                                                                  NavigationController.to.update();
+                                                                },
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                  child: Text(
+                                                                    e.name!,
+                                                                    style: AppTheme.textStyleMediumBlack14,
+                                                                    maxLines: 1,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          const Icon(
-                                                            Icons.arrow_forward_ios,
-                                                            color: Colors.black45,
-                                                            size: 15,
-                                                          )
-                                                        ],
-                                                      ),
-                                                      const Divider(
-                                                        thickness: 1,
-                                                        color: Color(0xffECECEC),
-                                                      )
-                                                    ],
-                                                  ))
-                                        ],
-                                      ),
-                                    )
-                                  : Padding(
+                                                            const Icon(
+                                                              Icons.arrow_forward_ios,
+                                                              color: Colors.black45,
+                                                              size: 15,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        const Divider(
+                                                          thickness: 1,
+                                                          color: Color(0xffECECEC),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                              // ...List.generate(
+                                              //     HomeApiController.to.searchList.length > 5 ? 5 : HomeApiController.to.searchList.length,
+                                              //     (index) => Column(
+                                              //           children: [
+                                              //             Row(
+                                              //               children: [
+                                              //                 const Icon(
+                                              //                   Icons.search_rounded,
+                                              //                   color: Colors.black45,
+                                              //                   size: 15,
+                                              //                 ),
+                                              //                 CustomSizedBox.space8W,
+                                              //                 Expanded(
+                                              //                   child: InkWell(
+                                              //                     onTap: () {
+                                              //                       NavigationController.to.searchController.value.text = HomeApiController.to.searchList[index].name!;
+                                              //                       NavigationController.to.update();
+                                              //                     },
+                                              //                     child: Padding(
+                                              //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                              //                       child: Text(
+                                              //                         HomeApiController.to.searchList[index].name!,
+                                              //                         style: AppTheme.textStyleMediumBlack14,
+                                              //                         maxLines: 1,
+                                              //                       ),
+                                              //                     ),
+                                              //                   ),
+                                              //                 ),
+                                              //                 const Icon(
+                                              //                   Icons.arrow_forward_ios,
+                                              //                   color: Colors.black45,
+                                              //                   size: 15,
+                                              //                 )
+                                              //               ],
+                                              //             ),
+                                              //             const Divider(
+                                              //               thickness: 1,
+                                              //               color: Color(0xffECECEC),
+                                              //             )
+                                              //           ],
+                                              //         )),
+                                              Text(
+                                                'Category',
+                                                style: AppTheme.textStyleMediumBlack14,
+                                              ),
+                                              ...HomeApiController.to.catList
+                                                  .take(5)
+                                                  .map(
+                                                    (e) => Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.search_rounded,
+                                                              color: Colors.black45,
+                                                              size: 15,
+                                                            ),
+                                                            CustomSizedBox.space8W,
+                                                            Expanded(
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  NavigationController.to.searchController.value.text = e.name!;
+                                                                  NavigationController.to.update();
+                                                                },
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                  child: Text(
+                                                                    e.name!,
+                                                                    style: AppTheme.textStyleMediumBlack14,
+                                                                    maxLines: 1,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const Icon(
+                                                              Icons.arrow_forward_ios,
+                                                              color: Colors.black45,
+                                                              size: 15,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        const Divider(
+                                                          thickness: 1,
+                                                          color: Color(0xffECECEC),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                              // ...List.generate(
+                                              //     HomeApiController.to.catList.length > 5 ? 5 : HomeApiController.to.catList.length,
+                                              //     (index) => Column(
+                                              //           children: [
+                                              //             Row(
+                                              //               children: [
+                                              //                 const Icon(
+                                              //                   Icons.search_rounded,
+                                              //                   color: Colors.black45,
+                                              //                   size: 15,
+                                              //                 ),
+                                              //                 CustomSizedBox.space8W,
+                                              //                 Expanded(
+                                              //                   child: InkWell(
+                                              //                     onTap: () {
+                                              //                       NavigationController.to.searchController.value.text = HomeApiController.to.catList[index].name!;
+                                              //                       NavigationController.to.update();
+                                              //                     },
+                                              //                     child: Padding(
+                                              //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                              //                       child: Text(
+                                              //                         HomeApiController.to.catList[index].name!,
+                                              //                         style: AppTheme.textStyleMediumBlack14,
+                                              //                         maxLines: 1,
+                                              //                       ),
+                                              //                     ),
+                                              //                   ),
+                                              //                 ),
+                                              //                 const Icon(
+                                              //                   Icons.arrow_forward_ios,
+                                              //                   color: Colors.black45,
+                                              //                   size: 15,
+                                              //                 )
+                                              //               ],
+                                              //             ),
+                                              //             const Divider(
+                                              //               thickness: 1,
+                                              //               color: Color(0xffECECEC),
+                                              //             )
+                                              //           ],
+                                              //         )),
+                                              Text(
+                                                'Brands',
+                                                style: AppTheme.textStyleMediumBlack14,
+                                              ),
+                                              // ...List.generate(
+                                              //     HomeApiController.to.searchBrandList.length > 5 ? 5 : HomeApiController.to.searchBrandList.length,
+                                              //     (index) => Column(
+                                              //           children: [
+                                              //             Row(
+                                              //               children: [
+                                              //                 const Icon(
+                                              //                   Icons.search_rounded,
+                                              //                   color: Colors.black45,
+                                              //                   size: 15,
+                                              //                 ),
+                                              //                 CustomSizedBox.space8W,
+                                              //                 Expanded(
+                                              //                   child: InkWell(
+                                              //                     onTap: () {
+                                              //                       NavigationController.to.searchController.value.text = HomeApiController.to.searchBrandList[index].name!;
+                                              //                       NavigationController.to.update();
+                                              //                     },
+                                              //                     child: Padding(
+                                              //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                              //                       child: Text(
+                                              //                         HomeApiController.to.searchBrandList[index].name!,
+                                              //                         style: AppTheme.textStyleMediumBlack14,
+                                              //                         maxLines: 1,
+                                              //                       ),
+                                              //                     ),
+                                              //                   ),
+                                              //                 ),
+                                              //                 const Icon(
+                                              //                   Icons.arrow_forward_ios,
+                                              //                   color: Colors.black45,
+                                              //                   size: 15,
+                                              //                 )
+                                              //               ],
+                                              //             ),
+                                              //             const Divider(
+                                              //               thickness: 1,
+                                              //               color: Color(0xffECECEC),
+                                              //             )
+                                              //           ],
+                                              //         ))
+                                              ...HomeApiController.to.searchBrandList
+                                                  .take(5)
+                                                  .map(
+                                                    (e) => Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.search_rounded,
+                                                              color: Colors.black45,
+                                                              size: 15,
+                                                            ),
+                                                            CustomSizedBox.space8W,
+                                                            Expanded(
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  NavigationController.to.searchController.value.text = e.name!;
+                                                                  NavigationController.to.update();
+                                                                },
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                  child: Text(
+                                                                    e.name!,
+                                                                    style: AppTheme.textStyleMediumBlack14,
+                                                                    maxLines: 1,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const Icon(
+                                                              Icons.arrow_forward_ios,
+                                                              color: Colors.black45,
+                                                              size: 15,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        const Divider(
+                                                          thickness: 1,
+                                                          color: Color(0xffECECEC),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ],
+                                          ),
+                                        )
+                                      :*/
+                                    Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0).copyWith(bottom: 12),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -365,8 +592,211 @@ class HomeTopWidget extends StatelessWidget {
                                         ],
                                       ),
                                     )
-                            ],
-                          ),
+                                ],
+                              ),
+                            ),
+                            if (NavigationController.to.openSearchSuggestion.value)
+                              Container(
+                                height: Get.height * .4,
+                                decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.10), blurRadius: 10)]),
+                                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                width: double.infinity,
+                                margin: const EdgeInsets.symmetric(horizontal: 16),
+                                child: ListView(
+                                  padding: EdgeInsets.zero,
+                                  children: [
+                                    if (HomeApiController.to.searchList.isNotEmpty)
+                                      const Text(
+                                        'Products',
+                                        style: AppTheme.textStyleMediumBlack14,
+                                      ),
+                                    ...HomeApiController.to.searchList
+                                        .take(5)
+                                        .map(
+                                          (e) => Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.search_rounded,
+                                                    color: Colors.black45,
+                                                    size: 15,
+                                                  ),
+                                                  CustomSizedBox.space8W,
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        NavigationController.to.searchController.value.text = e.name!;
+                                                        NavigationController.to.searchFocus.value.unfocus();
+                                                        NavigationController.to.openSearchResult.value = true;
+                                                        NavigationController.to.openSearchSuggestion.value = false;
+                                                        NavigationController.to.resetFilters();
+                                                        NavigationController.to.addAttribute.addAll({
+                                                          'search': e.name!,
+                                                        });
+                                                        await HomeApiController.to.productListCallWithNameCall(NavigationController.to.addAttribute);
+                                                      },
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                        child: Text(
+                                                          e.name!,
+                                                          style: AppTheme.textStyleMediumBlack14,
+                                                          maxLines: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      NavigationController.to.searchController.value.text = e.name!;
+                                                      NavigationController.to.update();
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.open_in_new_rounded,
+                                                      color: Colors.black45,
+                                                      size: 15,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              const Divider(
+                                                thickness: 1,
+                                                color: Color(0xffECECEC),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                        .toList(),
+                                    if (HomeApiController.to.catList.isNotEmpty)
+                                      const Text(
+                                        'Category',
+                                        style: AppTheme.textStyleMediumBlack14,
+                                      ),
+                                    ...HomeApiController.to.catList
+                                        .take(5)
+                                        .map(
+                                          (e) => Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.search_rounded,
+                                                    color: Colors.black45,
+                                                    size: 15,
+                                                  ),
+                                                  CustomSizedBox.space8W,
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        HomeApiController.to.productListWithCategoryCall({
+                                                          'category': [e.id!].toString(),
+                                                        });
+                                                        NavigationController.to.resetFilters();
+                                                        HomeApiController.to.categoryList.firstWhere((element) => element.id == e.id).isChecked = true;
+                                                        NavigationController.to.addAttribute.addAll({
+                                                          'category': [e.id!].toString(),
+                                                        });
+                                                        Get.back();
+                                                        Get.toNamed(SingleCategoryWiseScreen.routeName);
+                                                      },
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                        child: Text(
+                                                          e.name!,
+                                                          style: AppTheme.textStyleMediumBlack14,
+                                                          maxLines: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      NavigationController.to.searchController.value.text = e.name!;
+                                                      NavigationController.to.update();
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.open_in_new_rounded,
+                                                      color: Colors.black45,
+                                                      size: 15,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              const Divider(
+                                                thickness: 1,
+                                                color: Color(0xffECECEC),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                        .toList(),
+                                    if (HomeApiController.to.searchBrandList.isNotEmpty)
+                                      const Text(
+                                        'Brands',
+                                        style: AppTheme.textStyleMediumBlack14,
+                                      ),
+                                    ...HomeApiController.to.searchBrandList
+                                        .take(5)
+                                        .map(
+                                          (e) => Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.search_rounded,
+                                                    color: Colors.black45,
+                                                    size: 15,
+                                                  ),
+                                                  CustomSizedBox.space8W,
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        await HomeApiController.to.productListWithCategoryCall({
+                                                          'brand': [e.id!].toString(),
+                                                        });
+                                                        NavigationController.to.resetFilters();
+                                                        HomeApiController.to.brandList.firstWhere((element) => element.id == e.id).isChecked = true;
+                                                        NavigationController.to.addAttribute = {
+                                                          'brand': [e.id!].toString(),
+                                                        };
+                                                        Get.back();
+                                                        Get.toNamed(SingleCategoryWiseScreen.routeName);
+                                                      },
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                        child: Text(
+                                                          e.name!,
+                                                          style: AppTheme.textStyleMediumBlack14,
+                                                          maxLines: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      NavigationController.to.searchController.value.text = e.name!;
+                                                      NavigationController.to.update();
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.open_in_new_rounded,
+                                                      color: Colors.black45,
+                                                      size: 15,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              const Divider(
+                                                thickness: 1,
+                                                color: Color(0xffECECEC),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                        .toList(),
+                                  ],
+                                ),
+                              ),
+                          ],
                         )
                       : const SizedBox.shrink(),
                 ),
@@ -1196,7 +1626,7 @@ class PrimaryAcceantListViewItemWidget extends StatelessWidget {
               // const Spacer(),
               // GestureDetector(
               //   onTap: () {
-              //     // await HomeApiController.to.productListWithCategoryCall({
+              //     // HomeApiController.to.productListWithCategoryCall({
               //     //   'category': [category.id!].toString(),
               //     // });
               //     Get.toNamed(SingleCatergoryWiseScreen.routeName);

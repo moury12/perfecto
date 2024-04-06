@@ -94,7 +94,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await HomeApiController.to.productListWithCategoryCall({
+        HomeApiController.to.productListWithCategoryCall({
           'category': [category.id!].toString(),
         });
         NavigationController.to.resetFilters();

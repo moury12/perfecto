@@ -59,6 +59,8 @@ class HomeApiController extends GetxController {
   Rx<TermsConditionModel> returnRefundInfo = TermsConditionModel().obs;
 
   RxList<ProductModel> productList = <ProductModel>[].obs;
+  RxList<CategoryModel> catList = <CategoryModel>[].obs;
+  RxList<BrandModel> searchBrandList = <BrandModel>[].obs;
   RxString paginationUrl = ''.obs;
   Rx<LoadingStatus> pListStatus = LoadingStatus.initial.obs;
   ScrollController scrollController = ScrollController();
@@ -330,12 +332,15 @@ class HomeApiController extends GetxController {
     }
     try {
       final data = await ProductService.productListCallWithName(body, paginationUrl: initialCall ? null : paginationUrl.value);
+      globalLogger.d(data, error: 'productListCallWithNameCall 1');
       if (initialCall) {
-        productList.value = data;
-        searchList.value = data;
+        productList.value = data[NameSearchResponse.product]!;
+        searchList.value = data[NameSearchResponse.product]!;
+        catList.value = data[NameSearchResponse.category]!;
+        searchBrandList.value = data[NameSearchResponse.brand]!;
         pListStatus.value = LoadingStatus.loaded;
       } else {
-        productList.addAll(data);
+        productList.addAll(data[NameSearchResponse.product]!);
         pListStatus.value = LoadingStatus.loaded;
       }
     } catch (e) {

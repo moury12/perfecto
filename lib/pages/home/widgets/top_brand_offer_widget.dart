@@ -379,7 +379,7 @@ class BestSellerListViewBuilder extends StatelessWidget {
               const Spacer(),
               // InkWell(
               //   onTap: () {
-              //     // await HomeApiController.to.productListWithCategoryCall({
+              //     // HomeApiController.to.productListWithCategoryCall({
               //     //   'category': [category.id!].toString(),
               //     // });
               //     // Get.toNamed(SingleCategoryWiseScreen.routeName);
@@ -464,7 +464,7 @@ class SegmentGridWidget extends StatelessWidget {
                 'concern': [category.concerns!.id!].toString()
               };
             }
-            await HomeApiController.to.productListWithCategoryCall(NavigationController.to.addAttribute);
+            HomeApiController.to.productListWithCategoryCall(NavigationController.to.addAttribute);
             Get.toNamed(SingleCategoryWiseScreen.routeName);
           },
           child: Container(

@@ -149,7 +149,7 @@ class _BrandScreenState extends State<BrandScreen> {
                           ),
                         ),
                         onTap: () async {
-                          await HomeApiController.to.productListWithCategoryCall({
+                          HomeApiController.to.productListWithCategoryCall({
                             'brand': [subData.id!].toString(),
                           });
                           NavigationController.to.resetFilters();

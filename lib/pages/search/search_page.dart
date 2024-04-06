@@ -32,6 +32,7 @@ class SearchScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        // resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xffF9F9F9),
         drawer: const CustomDrawer(),
         body: Obx(
