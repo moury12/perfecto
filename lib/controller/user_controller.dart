@@ -12,6 +12,7 @@ import 'package:perfecto/models/order_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/models/reward_model.dart';
 import 'package:perfecto/models/user_model.dart';
+import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/pages/profile/my-orders/controller/address_controller.dart';
 import 'package:perfecto/services/ssl.dart';
@@ -236,6 +237,19 @@ class UserController extends GetxController {
 
       getOrderListCall();
       // afterLogin(isCreated);
+    }
+  }
+
+  //order edit
+  Future<void> editOrder(String orderId) async {
+    final isCreated = await UserService.editOrder(orderId);
+    if (isCreated) {
+      Get.back();
+
+      getOrderListCall();
+      getCartListCall();
+
+      Get.toNamed(CartScreen.routeName);
     }
   }
 

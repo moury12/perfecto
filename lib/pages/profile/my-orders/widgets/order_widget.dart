@@ -17,6 +17,7 @@ import 'package:perfecto/theme/theme_data.dart';
 import 'package:collection/collection.dart';
 
 import '../../../../controller/home_api_controller.dart';
+import 'package:collection/collection.dart';
 
 class OrderWidget extends StatelessWidget {
   final Widget? status;
@@ -130,7 +131,9 @@ class OrderWidget extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          UserController.to.processesMap[order.status] ?? 'Pending',
+                          order.orderDetails!.map((e) => e.map((e) => e.isHold == '1' ? 1 : 0).toList().sum).toList().sum > 0
+                              ? "Hold"
+                              : UserController.to.processesMap[order.status] ?? 'Pending',
                           style: AppTheme.textStyleSemiBoldBlack14,
                         )
                       ],

@@ -19,7 +19,7 @@ class UserService {
   static Future<UserModel> userProfileCall() async {
     UserModel userModel = UserModel();
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}profile', httpMethod: HttpMethod.get);
-    globalLogger.d(response, error:  "Profile route");
+    globalLogger.d(response, error: "Profile route");
     if (response['status'] != null && response['status']) {
       userModel = UserModel.fromJson(response['data']);
     } else if (response['status'] != null && !response['status']) {
@@ -37,7 +37,7 @@ class UserService {
       isLoadingEnable: true,
       debugEnable: true,
     );
-    globalLogger.d(response, error:  "Profile Update Route");
+    globalLogger.d(response, error: "Profile Update Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
@@ -46,10 +46,25 @@ class UserService {
     return false;
   }
 
+  //edit order
+  static Future<bool> editOrder(String orderId) async {
+    final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-edit/$orderId', httpMethod: HttpMethod.get, isLoadingEnable: true);
+    globalLogger.d(response, error: "edit order Route");
+    if (response['status'] != null && response['status']) {
+      showSnackBar(
+        msg: response['message'],
+      );
+      return response['status'];
+    } else if (response['status'] != null && !response['status']) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
+
   //storeFCMToken
   static Future<bool> storeFCMToken(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}store-token', httpMethod: HttpMethod.multipartFilePost, allInfoField: body);
-    globalLogger.d(response, error:  "storeFCMToken Route");
+    globalLogger.d(response, error: "storeFCMToken Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
@@ -61,7 +76,7 @@ class UserService {
   static Future<bool> updateAddress(dynamic body, String addressId) async {
     final response =
         await ServiceAPI.genericCall(url: '${Service.apiUrl}edit_address/$addressId', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "Address Update Route");
+    globalLogger.d(response, error: "Address Update Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
@@ -72,7 +87,7 @@ class UserService {
 
   static Future<bool> addNewAddress(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}add_address', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "add address Route");
+    globalLogger.d(response, error: "add address Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
@@ -83,7 +98,7 @@ class UserService {
 
   static Future<bool> addToWish(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}wishlist', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "add wish Route");
+    globalLogger.d(response, error: "add wish Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -97,7 +112,7 @@ class UserService {
 
   static Future<bool> addToCart(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}user/add-to-cart', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "Add Cart Route");
+    globalLogger.d(response, error: "Add Cart Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -112,7 +127,7 @@ class UserService {
   static Future<bool> addToReview(dynamic body, List<Map<String, dynamic>>? imageList) async {
     final response = await ServiceAPI.genericCall(
         url: '${Service.apiUrl}product-review', httpMethod: HttpMethod.multipartFilePost, multipleImageListWithKeyValue: imageList, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "add product review Route");
+    globalLogger.d(response, error: "add product review Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
@@ -123,7 +138,7 @@ class UserService {
 
   static Future<bool> deleteAddress(String addressId) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}delete_address/$addressId', httpMethod: HttpMethod.del, isLoadingEnable: true);
-    globalLogger.d(response, error:  "delete address Route");
+    globalLogger.d(response, error: "delete address Route");
     if (response['status'] != null && response['status']) {
       return response['status'];
     } else if (response['status'] != null && !response['status']) {
@@ -141,7 +156,7 @@ class UserService {
         noNeedAuthToken: false,
       );
 
-      globalLogger.d(response, error:  "Get District Route");
+      globalLogger.d(response, error: "Get District Route");
       // Get.back();
       if (response['status'] != null && response['status']) {
         response['data']['districts'].forEach((dis) {
@@ -166,7 +181,7 @@ class UserService {
         httpMethod: HttpMethod.get,
       );
 
-      globalLogger.d(response, error:  "Get Notification Route");
+      globalLogger.d(response, error: "Get Notification Route");
       // Get.back();
       if (response['status'] != null && response['status']) {
         response['data']['data'].forEach((dis) {
@@ -197,7 +212,7 @@ class UserService {
         isLoadingEnable: loadingEnable,
       );
 
-      globalLogger.d(response, error:  "Get Review Route");
+      globalLogger.d(response, error: "Get Review Route");
       // Get.back();
       if (response['status'] != null && response['status']) {
         response['data']['data'].forEach((dis) {
@@ -227,7 +242,7 @@ class UserService {
         noNeedAuthToken: false,
       );
 
-      globalLogger.d(response, error:  "Get City List Route");
+      globalLogger.d(response, error: "Get City List Route");
       // Get.back();
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
@@ -252,7 +267,7 @@ class UserService {
         httpMethod: HttpMethod.get,
         noNeedAuthToken: false,
       );
-      globalLogger.d(response, error:  "Get ${type == 'zone' ? 'Zone' : 'Area'} Route");
+      globalLogger.d(response, error: "Get ${type == 'zone' ? 'Zone' : 'Area'} Route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((item) {
           if (type == 'zone') {
@@ -275,7 +290,7 @@ class UserService {
     try {
       List<AddressModel> addressModel = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}get_address', httpMethod: HttpMethod.get);
-      globalLogger.d(response, error:  "AddressModel route");
+      globalLogger.d(response, error: "AddressModel route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           addressModel.add(AddressModel.fromJson(dis));
@@ -294,7 +309,7 @@ class UserService {
     try {
       List<WishListModel> wishList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}getwishlist', httpMethod: HttpMethod.get);
-      globalLogger.d(response, error:  "WishListModel route");
+      globalLogger.d(response, error: "WishListModel route");
       if (response['status'] != null && response['status']) {
         response['data'].forEach((dis) {
           wishList.add(WishListModel.fromJson(dis));
@@ -313,7 +328,7 @@ class UserService {
     try {
       List<CartModel> cartList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}user/add-to-cart/list', httpMethod: HttpMethod.get);
-      globalLogger.d(response, error:  "CartModel route");
+      globalLogger.d(response, error: "CartModel route");
       if (response['status'] != null && response['status']) {
         response['data']['cartData'].forEach((dis) {
           try {
@@ -339,7 +354,7 @@ class UserService {
     try {
       List<OrderModel> orderList = [];
       final response = await ServiceAPI.genericCall(url: initialCall ? '${Service.apiUrl}order-details' : UserController.to.orderPaginateURL.value, httpMethod: HttpMethod.get);
-      globalLogger.d(response, error:  "OrderModel route");
+      globalLogger.d(response, error: "OrderModel route");
       if (response['status'] != null && response['status']) {
         response['data']['orders']['data'].forEach((order) {
           var od = [];
@@ -386,7 +401,7 @@ class UserService {
       List<OrderModel> orderList = [];
       final response = await ServiceAPI.genericCall(
           url: initialCall ? '${Service.apiUrl}cancelled-orders' : UserController.to.cancelOrderPaginateURL.value, httpMethod: HttpMethod.get, isLoadingEnable: true);
-      globalLogger.d(response, error:  "OrderModel route");
+      globalLogger.d(response, error: "OrderModel route");
       if (response['status'] != null && response['status']) {
         response['data']['orders']['data'].forEach((order) {
           var od = [];
@@ -431,7 +446,7 @@ class UserService {
   static Future<OrderModel> orderDetailsCall(String orderId) async {
     OrderModel orderModel = OrderModel();
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-details/$orderId', httpMethod: HttpMethod.get, isLoadingEnable: true);
-    globalLogger.d(response, error:  "Order Details route");
+    globalLogger.d(response, error: "Order Details route");
     if (response['status'] != null && response['status']) {
       var od = [];
       if (response['data']['order_details'] != null && response['data']['order_details'].length > 0) {
@@ -463,7 +478,7 @@ class UserService {
   //order-destroy/1
   static Future<bool> cancelOrder(String orderId) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-destroy/$orderId', httpMethod: HttpMethod.post, isLoadingEnable: true);
-    globalLogger.d(response, error:  "order destroy Route");
+    globalLogger.d(response, error: "order destroy Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -480,7 +495,7 @@ class UserService {
     try {
       List<RewardModel> rewardList = [];
       final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}reward-history', httpMethod: HttpMethod.get);
-      globalLogger.d(response, error:  "RewardModel route");
+      globalLogger.d(response, error: "RewardModel route");
       if (response['status'] != null && response['status']) {
         response['data']['data'].forEach((dis) {
           rewardList.add(RewardModel.fromJson(dis));
@@ -499,7 +514,7 @@ class UserService {
   static Future<bool> updateCart(dynamic body, String productId) async {
     final response =
         await ServiceAPI.genericCall(url: '${Service.apiUrl}user/update-cart/$productId', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "update cart Route");
+    globalLogger.d(response, error: "update cart Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'].runtimeType == bool ? response['data'] : response['message'],
@@ -516,7 +531,7 @@ class UserService {
   //user/remove-form-cart
   static Future<bool> removeFromCart(String cartId) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}user/remove-form-cart/$cartId', httpMethod: HttpMethod.multipartFilePost, isLoadingEnable: true);
-    globalLogger.d(response, error:  "remove from cart Route");
+    globalLogger.d(response, error: "remove from cart Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -531,7 +546,7 @@ class UserService {
   //stock-request
   static Future<bool> stockRequest(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}stock-request', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "stock request Route");
+    globalLogger.d(response, error: "stock request Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -546,7 +561,7 @@ class UserService {
   //order-store
   static Future<dynamic> orderStore(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}order-store', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "order store Route");
+    globalLogger.d(response, error: "order store Route");
     if (response['status'] != null && response['status']) {
       return response;
     } else if (response['status'] != null && !response['status']) {
@@ -611,7 +626,7 @@ class UserService {
   static Future<dynamic> orderUpdate(dynamic body, String orderId) async {
     final response =
         await ServiceAPI.genericCall(url: '${Service.apiUrl}order-update/$orderId', httpMethod: HttpMethod.multipartFilePost, allInfoField: body, isLoadingEnable: true);
-    globalLogger.d(response, error:  "order update Route");
+    globalLogger.d(response, error: "order update Route");
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -625,7 +640,7 @@ class UserService {
 
   static Future<bool> editPassword(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}edit_pass', httpMethod: HttpMethod.multipartFilePost, allInfoField: body);
-    globalLogger.d(response, error:  "edit password");
+    globalLogger.d(response, error: "edit password");
 
     if (response['status'] != null && response['status']) {
       showSnackBar(msg: response['message']);

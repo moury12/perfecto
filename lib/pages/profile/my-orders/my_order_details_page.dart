@@ -64,7 +64,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   'Order Number',
                                   style: AppTheme.textStyleMediumCustomBlack12,
                                 ),
@@ -75,6 +75,28 @@ class MyOrderDetailsScreen extends StatelessWidget {
                               ],
                             ),
                             const Spacer(),
+                            if (UserController.to.orderDetails.value.status == '1')
+                              CustomButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => const CancelOrderDialogWidget(
+                                      isEdit: true,
+                                    ),
+                                  );
+                                },
+                                label: 'Edit',
+                                labelStyle: const TextStyle(fontSize: 10, overflow: TextOverflow.ellipsis, color: AppColors.kBlackColor),
+                                height: UserController.to.orderDetails.value.status == '1' ? 30 : null,
+                                width: MediaQuery.of(context).size.width / 6,
+                                marginHorizontal: 4,
+                                marginVertical: 0,
+                                primary: Colors.white,
+                                borderColor: Colors.black.withOpacity(.8),
+                                isBorder: true,
+                                elevation: 0,
+                                labelColor: Colors.black.withOpacity(.8),
+                              ),
                             UserController.to.orderDetails.value.status == '5'
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -84,10 +106,20 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                         height: 25,
                                       ),
                                       CustomSizedBox.space8W,
-                                      const Text(
-                                        'Order Cancelled',
-                                        style: AppTheme.textStyleNormalBlack12,
-                                        textAlign: TextAlign.left,
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Order Cancelled',
+                                            style: AppTheme.textStyleNormalBlack12.copyWith(fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          CustomSizedBox.space4H,
+                                          Text(
+                                            UserController.to.orderDetails.value.cancelFrom ?? '-',
+                                            style: AppTheme.textStyleNormalBlack12,
+                                          )
+                                        ],
                                       )
                                     ],
                                   )
@@ -106,11 +138,14 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                         label: UserController.to.orderDetails.value.status == '4'
                                             ? 'Make a return'
                                             : UserController.to.orderDetails.value.status == '1'
-                                                ? 'Cancel '
-                                                    'Order'
+                                                ? 'Cancel'
                                                 : "",
-                                        width: MediaQuery.of(context).size.width / 3.5,
-                                        marginHorizontal: 8,
+                                        labelStyle: UserController.to.orderDetails.value.status == '1'
+                                            ? const TextStyle(fontSize: 10, overflow: TextOverflow.ellipsis, color: AppColors.kBlackColor)
+                                            : null,
+                                        height: UserController.to.orderDetails.value.status == '1' ? 30 : null,
+                                        width: MediaQuery.of(context).size.width / (UserController.to.orderDetails.value.status == '1' ? 6 : 3.5),
+                                        marginHorizontal: 4,
                                         marginVertical: 0,
                                         primary: Colors.white,
                                         borderColor: Colors.black.withOpacity(.8),
@@ -118,7 +153,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                         elevation: 0,
                                         labelColor: Colors.black.withOpacity(.8),
                                       )
-                                    : SizedBox.shrink(),
+                                    : const SizedBox.shrink(),
                           ],
                         ),
                       ),
@@ -437,8 +472,9 @@ class StepProcessWidget extends StatelessWidget {
 class CancelOrderDialogWidget extends StatelessWidget {
   const CancelOrderDialogWidget({
     super.key,
+    this.isEdit = false,
   });
-
+  final bool isEdit;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -450,7 +486,7 @@ class CancelOrderDialogWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomSizedBox.space8H,
-              Text(
+              const Text(
                 'Order Number',
                 style: AppTheme.textStyleMediumCustomBlack12,
               ),
@@ -484,26 +520,32 @@ class CancelOrderDialogWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Order cancel request',
+                  'Order ${isEdit ? "Edit" : "cancel request"}',
                   style: AppTheme.textStyleSemiBoldBlack14,
                 ),
                 CustomSizedBox.space4H,
-                const Text(
-                  'We do our best to honor cancellation requests. We’ll send an email to let you know if your order’s been cancelled.',
+                Text(
+                  isEdit
+                      ? "Warning: Editing this order will add its products back to the user's cart. Proceed with caution as this action cannot be undone."
+                      : 'We do our best to '
+                          'honor cancellation requests. We’ll send an email to let you know if your order’s been cancelled.',
                   style: AppTheme.textStyleMediumCustomBlack12,
                 ),
-                Text(
-                  'Reason for cancellation',
-                  style: AppTheme.textStyleSemiBoldBlack14,
-                ),
-                CustomSizedBox.space4H,
-                const CustomTextField(
-                  marginVertical: 8,
-                  hintText: 'Select reason',
-                  suffixIcon: Icon(Icons.keyboard_arrow_down),
-                  marginHorizontal: 0,
-                ),
-                CustomSizedBox.space8H,
+                if (isEdit) CustomSizedBox.space8H,
+                if (!isEdit) ...[
+                  Text(
+                    'Reason for cancellation',
+                    style: AppTheme.textStyleSemiBoldBlack14,
+                  ),
+                  CustomSizedBox.space4H,
+                  const CustomTextField(
+                    marginVertical: 8,
+                    hintText: 'Select reason',
+                    suffixIcon: Icon(Icons.keyboard_arrow_down),
+                    marginHorizontal: 0,
+                  ),
+                  CustomSizedBox.space8H,
+                ],
                 CustomButton(
                   label: 'Confirm',
                   marginVertical: 0,
@@ -515,8 +557,11 @@ class CancelOrderDialogWidget extends StatelessWidget {
                     //   ProfileController.to.processes[1].isComplete = true;
                     //   ProfileController.to.currentStep.value = 2;
                     // }
-
-                    UserController.to.cancelOrder(UserController.to.orderDetails.value.id!);
+                    if (isEdit) {
+                      UserController.to.editOrder(UserController.to.orderDetails.value.id!);
+                    } else {
+                      UserController.to.cancelOrder(UserController.to.orderDetails.value.id!);
+                    }
                     Navigator.pop(context);
                   },
                 )

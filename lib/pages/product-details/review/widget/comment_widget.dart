@@ -51,7 +51,8 @@ class CommentWidget extends StatelessWidget {
             : const SizedBox.shrink(),
         GestureDetector(
           onTap: () {
-            Get.toNamed(VerifiedUserScreen.routeName);
+            //TODO: if client wants to navigate to user profile
+            // Get.toNamed(VerifiedUserScreen.routeName);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),

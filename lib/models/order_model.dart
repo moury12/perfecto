@@ -21,6 +21,8 @@ class OrderModel {
   String? paymentMethod;
   String? paymentStatus;
   String? status;
+  String? orderFrom;
+  String? cancelFrom;
   String? createdAt;
   String? updatedAt;
   List<List<OrderDetails>>? orderDetails;
@@ -47,6 +49,8 @@ class OrderModel {
       this.paymentMethod,
       this.paymentStatus,
       this.status,
+      this.orderFrom,
+      this.cancelFrom,
       this.createdAt,
       this.updatedAt,
       this.orderDetails,
@@ -72,6 +76,8 @@ class OrderModel {
     rewardDiscountAmount = json['reward_discount_amount'].toString() == 'null' ? '' : json['reward_discount_amount'].toString();
     paymentMethod = json['payment_method'].toString() == 'null' ? '' : json['payment_method'].toString();
     paymentStatus = json['payment_status'].toString() == 'null' ? '' : json['payment_status'].toString();
+    orderFrom = json['order_from'].toString() == 'null' ? '' : json['order_from'].toString();
+    cancelFrom = json['cancel_from'].toString() == 'null' ? '' : json['cancel_from'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
@@ -109,6 +115,8 @@ class OrderModel {
     data['payment_method'] = paymentMethod;
     data['payment_status'] = paymentStatus;
     data['status'] = status;
+    data['order_from'] = orderFrom;
+    data['cancel_from'] = cancelFrom;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (orderDetails != null) {
@@ -147,6 +155,7 @@ class OrderDetails {
   String? sizeId;
   String? size;
   String? shade;
+  String? isHold;
   String? createdAt;
   String? updatedAt;
   Combo? combo;
@@ -175,6 +184,7 @@ class OrderDetails {
       this.sizeId,
       this.size,
       this.shade,
+      this.isHold,
       this.createdAt,
       this.updatedAt,
       this.combo,
@@ -203,6 +213,7 @@ class OrderDetails {
     sizeId = json['size_id'].toString() == 'null' ? '' : json['size_id'].toString();
     size = json['size'].toString() == 'null' ? '' : json['size'].toString();
     shade = json['shade'].toString() == 'null' ? '' : json['shade'].toString();
+    isHold = json['is_hold'].toString() == 'null' ? '' : json['is_hold'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
     combo = json['combo'] != null ? Combo.fromJson(json['combo']) : null;
@@ -233,6 +244,7 @@ class OrderDetails {
     data['size_id'] = sizeId;
     data['size'] = size;
     data['shade'] = shade;
+    data['is_hold'] = isHold;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (combo != null) {
