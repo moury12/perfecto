@@ -6,6 +6,7 @@ import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
+import 'package:perfecto/models/general_setting.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/outlets/oulet_page.dart';
@@ -28,6 +29,7 @@ class HomeController extends GetxController {
     '17',
   ];
   final RxList<HomeModel> homeData = <HomeModel>[].obs;
+  final Rx<GeneralSettingModel> generalSettings = GeneralSettingModel().obs;
 
   Rx<LoadingStatus> homeLoadingStatus = LoadingStatus.initial.obs;
 
@@ -44,6 +46,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
+    getGeneralSettings();
     getHomeCall();
     // TODO: implement onInit
     super.onInit();
@@ -76,6 +79,16 @@ class HomeController extends GetxController {
       homeLoadingStatus.value = LoadingStatus.loaded;
     } catch (e) {
       homeLoadingStatus.value = LoadingStatus.error;
+      globalLogger.e(e);
+    }
+    update();
+  }
+
+  // get general settings
+  Future<void> getGeneralSettings() async {
+    try {
+      generalSettings.value = await HomeService.generalSettings();
+    } catch (e) {
       globalLogger.e(e);
     }
     update();

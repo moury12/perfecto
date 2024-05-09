@@ -13,6 +13,7 @@ import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/models/cart_model.dart';
+import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
@@ -321,25 +322,29 @@ class ComboDetailsScreen extends StatelessWidget {
                   prefixImage: AssetsConstant.cartIcon,
                   prefixImageColor: Colors.white,
                   prefixImageHeight: 20,
-                  primary: AppColors.kPrimaryColor,
+                  primary: HomeController.to.generalSettings.value.buyStatus == '1' ? AppColors.kPrimaryColor : AppColors.kDarkPrimaryColor,
                   width: MediaQuery.of(context).size.width / 1.3,
                   onPressed: () {
-                    final data = {
-                      'quantity': '1',
-                      'combo_product_id': ProductDetailsController.to.comboDetails.value.id!,
-                      'combo_info': jsonEncode(ProductDetailsController.to.comboDetails.value.comboProductDetails!
-                          .map((e) => {
-                                "product_id": e.productId!,
-                                if (e.product!.variationType == 'size') "size_id": e.variantId,
-                                if (e.product!.variationType == 'size') "shade_id": null,
-                                if (e.product!.variationType == 'shade') "shade_id": e.variantId,
-                                if (e.product!.variationType == 'shade') "size_id": null
-                              })
-                          .toList()),
-                    };
-                    globalLogger.d(data);
+                    if (HomeController.to.generalSettings.value.buyStatus == '0') {
+                      showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                    } else {
+                      final data = {
+                        'quantity': '1',
+                        'combo_product_id': ProductDetailsController.to.comboDetails.value.id!,
+                        'combo_info': jsonEncode(ProductDetailsController.to.comboDetails.value.comboProductDetails!
+                            .map((e) => {
+                                  "product_id": e.productId!,
+                                  if (e.product!.variationType == 'size') "size_id": e.variantId,
+                                  if (e.product!.variationType == 'size') "shade_id": null,
+                                  if (e.product!.variationType == 'shade') "shade_id": e.variantId,
+                                  if (e.product!.variationType == 'shade') "size_id": null
+                                })
+                            .toList()),
+                      };
+                      globalLogger.d(data);
 
-                    UserController.to.addToCart(data);
+                      UserController.to.addToCart(data);
+                    }
                   },
                 )
               : Center(

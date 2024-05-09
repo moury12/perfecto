@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/utils/list_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
@@ -10,6 +11,7 @@ import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
+import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
@@ -325,15 +327,20 @@ class BestSellerListWidget extends StatelessWidget {
                     marginHorizontal: 8,
                     marginVertical: 8,
                     height: 39,
+                    primary: HomeController.to.generalSettings.value.buyStatus == '1' ? null : AppColors.kDarkPrimaryColor,
                     onPressed: product?.totalStock != '0'
                         ? () {}
                         : () async {
                             // await HomeApiController.to.productDetailsCall(product!.id!);
-                            Get.put(ProductDetailsController());
-                            await ProductDetailsController.to.getProductDetails(product!.id!);
-                            Get.to(ProductShadeScreen(
-                              isSelectSize: product?.variationType == 'shade' ? false : true,
-                            ));
+                            if (HomeController.to.generalSettings.value.buyStatus == '0') {
+                              showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                            } else {
+                              Get.put(ProductDetailsController());
+                              await ProductDetailsController.to.getProductDetails(product!.id!);
+                              Get.to(ProductShadeScreen(
+                                isSelectSize: product?.variationType == 'shade' ? false : true,
+                              ));
+                            }
                           },
                   )
                 ],

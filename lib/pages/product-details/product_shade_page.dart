@@ -10,6 +10,7 @@ import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
+import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -689,37 +690,41 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                               : AssetsConstant.cartIcon,
                           prefixImageColor: Colors.white,
                           prefixImageHeight: 20,
-                          primary: AppColors.kPrimaryColor,
+                          primary: HomeController.to.generalSettings.value.buyStatus == '1' ? AppColors.kPrimaryColor : AppColors.kDarkPrimaryColor,
                           width: MediaQuery.of(context).size.width / 1.3,
                           onPressed: () {
                             if (AuthController.to.isLoggedIn.value) {
-                              if (ProductDetailsController.to.product.value.variationType == 'size'
-                                  ? ProductDetailsController.to.product.value.productSizes!
-                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
-                                      '0'
-                                  : ProductDetailsController.to.product.value.productShades!
-                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
-                                      '0') {
-                                final data = {
-                                  "product_id": ProductDetailsController.to.product.value.id!,
-                                  if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
-                                  if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
-                                };
-                                globalLogger.d(data);
-
-                                UserController.to.stockRequest(data);
+                              if (HomeController.to.generalSettings.value.buyStatus == '0') {
+                                showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
                               } else {
-                                final data = {
-                                  "product_id": ProductDetailsController.to.product.value.id!,
-                                  if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
-                                  if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
-                                  "quantity": '1',
-                                };
-                                globalLogger.d(data);
+                                if (ProductDetailsController.to.product.value.variationType == 'size'
+                                    ? ProductDetailsController.to.product.value.productSizes!
+                                            .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                            .stock ==
+                                        '0'
+                                    : ProductDetailsController.to.product.value.productShades!
+                                            .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                            .stock ==
+                                        '0') {
+                                  final data = {
+                                    "product_id": ProductDetailsController.to.product.value.id!,
+                                    if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
+                                    if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
+                                  };
+                                  globalLogger.d(data);
 
-                                UserController.to.addToCart(data);
+                                  UserController.to.stockRequest(data);
+                                } else {
+                                  final data = {
+                                    "product_id": ProductDetailsController.to.product.value.id!,
+                                    if (ProductDetailsController.to.product.value.variationType == 'size') "size_id": ProductDetailsController.to.selectedVariation.value,
+                                    if (ProductDetailsController.to.product.value.variationType == 'shade') "shade_id": ProductDetailsController.to.selectedVariation.value,
+                                    "quantity": '1',
+                                  };
+                                  globalLogger.d(data);
+
+                                  UserController.to.addToCart(data);
+                                }
                               }
                             } else {
                               Get.toNamed(LoginScreen.routeName);

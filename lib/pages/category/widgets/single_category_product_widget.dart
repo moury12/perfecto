@@ -8,6 +8,7 @@ import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
+import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
@@ -305,7 +306,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         height: 38,
                         elevation: 0,
                         fontSize: product?.totalStock == '0' ? 12 : null,
-                        primary: product?.totalStock == '0' ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
+                        primary: (product?.totalStock == '0' || HomeController.to.generalSettings.value.buyStatus == '0') ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
                         width: 140,
                         onPressed: product?.totalStock != '0'
                             ? /*buttonText != null
@@ -316,12 +317,15 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                 : */
                             () async {
                                 // await HomeApiController.to.productDetailsCall(product!.id!);
-
-                                Get.put(ProductDetailsController());
-                                await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
-                                Get.to(ProductShadeScreen(
-                                  isSelectSize: product?.variationType == 'shade' ? false : true,
-                                ));
+                                if (HomeController.to.generalSettings.value.buyStatus == '0') {
+                                  showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                                } else {
+                                  Get.put(ProductDetailsController());
+                                  await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
+                                  Get.to(ProductShadeScreen(
+                                    isSelectSize: product?.variationType == 'shade' ? false : true,
+                                  ));
+                                }
                               }
                             : () {},
                         // buttonText == 'ADD TO BAG'

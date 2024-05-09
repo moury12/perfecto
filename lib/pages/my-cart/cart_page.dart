@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/checkout-page/checkout_page.dart';
+import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/my-cart/apply_cuppon_reward.dart';
 import 'package:perfecto/pages/my-cart/cart_controller.dart';
@@ -265,19 +267,23 @@ class CartScreen extends StatelessWidget {
                       ],
                     ),
                     CustomButton(
-                      primary: AppColors.kPrimaryColor,
                       marginHorizontal: 0,
                       marginVertical: 0,
                       width: 150,
                       height: 50,
+                      primary: HomeController.to.generalSettings.value.buyStatus == '1' ? AppColors.kPrimaryColor : AppColors.kDarkPrimaryColor,
                       onPressed: () {
                         // CartController.to.isbagEmpty.value=true;
-                        try {
-                          AddressController.to.setData();
-                        } catch (e) {
-                          globalLogger.e(e);
+                        if (HomeController.to.generalSettings.value.buyStatus == '0') {
+                          showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                        } else {
+                          try {
+                            AddressController.to.setData();
+                          } catch (e) {
+                            globalLogger.e(e);
+                          }
+                          Get.toNamed(CheckoutScreen.routeName);
                         }
-                        Get.toNamed(CheckoutScreen.routeName);
                       },
                       label: 'Proceed',
                       suffixImage: 'assets/arrow_right.png',

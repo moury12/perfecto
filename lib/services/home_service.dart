@@ -4,6 +4,7 @@ import 'package:mh_core/utils/global.dart';
 import 'package:perfecto/models/blog_model.dart';
 import 'package:perfecto/models/combo_product_model.dart';
 import 'package:perfecto/models/coupon_model.dart';
+import 'package:perfecto/models/general_setting.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/menu_offer_model.dart';
 import 'package:perfecto/models/offer_details_model.dart';
@@ -37,6 +38,24 @@ class HomeService {
     } catch (e) {
       globalLogger.e("Error occurred in blogCall: $e");
       return []; // Return an empty list or handle the error accordingly
+    }
+  }
+
+  // get general setting
+  static Future<GeneralSettingModel> generalSettings() async {
+    try {
+      GeneralSettingModel generalSetting = GeneralSettingModel();
+      final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}get-general-setting', httpMethod: HttpMethod.get);
+      globalLogger.d(response, error: "general setting route");
+      if (response['status'] != null && response['status']) {
+        generalSetting = GeneralSettingModel.fromJson(response['data']);
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return generalSetting;
+    } catch (e) {
+      globalLogger.e("Error occurred in generalSettingCall: $e");
+      return GeneralSettingModel(); // Return an empty list or handle the error accordingly
     }
   }
 
