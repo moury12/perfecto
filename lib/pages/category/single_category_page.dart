@@ -64,7 +64,7 @@ class SingleCategoryWiseScreen extends StatelessWidget {
                                 child: Text('There is no product available.'),
                               )
                             : GridView.builder(
-                                controller: HomeApiController.to.scrollController,
+                                controller: HomeApiController.to.filterScrollController,
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                                 shrinkWrap: true,
                                 primary: false,

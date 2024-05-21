@@ -28,6 +28,9 @@ class SearchScreen extends StatelessWidget {
       onWillPop: () async {
         NavigationController.to.searchController.value.clear();
         NavigationController.to.isSearchFieldNotEmpty.value = false;
+        NavigationController.to.sortList[0].isSelected = true;
+        NavigationController.to.sortList[1].isSelected = false;
+        NavigationController.to.sortList[2].isSelected = false;
         NavigationController.to.resetFilters();
         return true;
       },

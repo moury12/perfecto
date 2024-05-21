@@ -428,23 +428,23 @@ class ProductDetailsScreen extends StatelessWidget {
                                 itemCount: ProductDetailsController.to.product.value.productShades!.length,
                               ),
                             ),
-                            Obx(
-                              () => RichText(
-                                text: TextSpan(
-                                  text: "Available stock: ",
-                                  style: AppTheme.textStyleNormalBlack14,
-                                  children: [
-                                    TextSpan(
-                                      text: ProductDetailsController.to.product.value.productShades!
-                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock
-                                          .toString(),
-                                      style: AppTheme.textStyleBoldBlack14,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // Obx(
+                            //   () => RichText(
+                            //     text: TextSpan(
+                            //       text: "Available stock: ",
+                            //       style: AppTheme.textStyleNormalBlack14,
+                            //       children: [
+                            //         TextSpan(
+                            //           text: ProductDetailsController.to.product.value.productShades!
+                            //               .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                            //               .stock
+                            //               .toString(),
+                            //           style: AppTheme.textStyleBoldBlack14,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                           ]
                         : [
                             Padding(
@@ -535,25 +535,25 @@ class ProductDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            CustomSizedBox.space8H,
-                            Obx(
-                              () => RichText(
-                                text: TextSpan(
-                                  text: "Available stock: ",
-                                  style: AppTheme.textStyleNormalBlack14,
-                                  children: [
-                                    TextSpan(
-                                      text: ProductDetailsController.to.product.value.productSizes!
-                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock
-                                          .toString(),
-                                      style: AppTheme.textStyleBoldBlack14,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            CustomSizedBox.space8H
+                            // CustomSizedBox.space8H,
+                            // Obx(
+                            //   () => RichText(
+                            //     text: TextSpan(
+                            //       text: "Available stock: ",
+                            //       style: AppTheme.textStyleNormalBlack14,
+                            //       children: [
+                            //         TextSpan(
+                            //           text: ProductDetailsController.to.product.value.productSizes!
+                            //               .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                            //               .stock
+                            //               .toString(),
+                            //           style: AppTheme.textStyleBoldBlack14,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            // CustomSizedBox.space8H
                           ],
                   );
                 }),

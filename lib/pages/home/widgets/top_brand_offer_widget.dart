@@ -324,6 +324,7 @@ class BestSellerListWidget extends StatelessWidget {
                         : product?.variationType == 'shade'
                             ? 'SELECT SHADE'
                             : 'SELECT SIZE',
+                    labelStyle: const TextStyle(color: AppColors.kWhiteColor, fontSize: 12, fontWeight: FontWeight.w700),
                     marginHorizontal: 8,
                     marginVertical: 8,
                     height: 39,
@@ -579,7 +580,7 @@ class GreetingCardWidget extends StatelessWidget {
                   errorImagePath: 'assets/Enhance_Your_Beauty_With_ P'
                       'erfecto.png'),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                 child: Text(
                   model.sectionData?[0].description ??
                       'With vast experience in the cosmetics industry, who sourcing cosmetics, skincare and hair care on a global level. We deliver the highest quality products of world renowned at the most affordable prices. We believe that everyone – no matter their sex, ethnicity, age, budget or location – should be thrilled by Perfecto.',

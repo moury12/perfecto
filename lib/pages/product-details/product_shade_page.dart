@@ -207,24 +207,24 @@ class ProductShadeScreen extends StatelessWidget {
                               },
                             ),
                           ),
-                          CustomSizedBox.space8H,
-                          Obx(
-                            () => RichText(
-                              text: TextSpan(
-                                text: "Available stock: ",
-                                style: AppTheme.textStyleNormalBlack14,
-                                children: [
-                                  TextSpan(
-                                    text: ProductDetailsController.to.product.value.productSizes!
-                                        .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                        .stock
-                                        .toString(),
-                                    style: AppTheme.textStyleBoldBlack14,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          // CustomSizedBox.space8H,
+                          // Obx(
+                          //   () => RichText(
+                          //     text: TextSpan(
+                          //       text: "Available stock: ",
+                          //       style: AppTheme.textStyleNormalBlack14,
+                          //       children: [
+                          //         TextSpan(
+                          //           text: ProductDetailsController.to.product.value.productSizes!
+                          //               .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                          //               .stock
+                          //               .toString(),
+                          //           style: AppTheme.textStyleBoldBlack14,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       )
                     : Column(
@@ -332,23 +332,23 @@ class ProductShadeScreen extends StatelessWidget {
                                 .toList(),
                           ),
 
-                          Obx(
-                            () => RichText(
-                              text: TextSpan(
-                                text: "Available stock: ",
-                                style: AppTheme.textStyleNormalBlack14,
-                                children: [
-                                  TextSpan(
-                                    text: ProductDetailsController.to.product.value.productShades!
-                                        .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                        .stock
-                                        .toString(),
-                                    style: AppTheme.textStyleBoldBlack14,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          // Obx(
+                          //   () => RichText(
+                          //     text: TextSpan(
+                          //       text: "Available stock: ",
+                          //       style: AppTheme.textStyleNormalBlack14,
+                          //       children: [
+                          //         TextSpan(
+                          //           text: ProductDetailsController.to.product.value.productShades!
+                          //               .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                          //               .stock
+                          //               .toString(),
+                          //           style: AppTheme.textStyleBoldBlack14,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
                           // SizedBox(
                           //   height: 100,
                           //   child: ListView.builder(

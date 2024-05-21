@@ -14,6 +14,7 @@ class CartModel {
   String? discountedPrice;
   String? buyGetId;
   String? comboProductId;
+  String? isFreeProduct;
   List<ComboInfo>? comboInfo;
   String? createdAt;
   String? updatedAt;
@@ -37,6 +38,7 @@ class CartModel {
       this.price,
       this.discountedPrice,
       this.comboProductId,
+      this.isFreeProduct,
       this.comboInfo,
       this.createdAt,
       this.updatedAt,
@@ -59,8 +61,10 @@ class CartModel {
     quantity = json['quantity'].toString() == 'null' ? '' : json['quantity'].toString();
     stockStatus = json['stock_status'].toString() == 'null' ? '' : json['stock_status'].toString();
     price = json['price'].toString() == 'null' ? '' : json['price'].toString();
-    discountedPrice = json['discounted_price'].toString() == 'null' ? '' : json['discounted_price'].toString();
+    discountedPrice = json['discounted_price'].toString() == 'null' ? '0' : json['discounted_price'].toString();
     buyGetId = json['buy_get_id'].toString() == 'null' ? '' : json['buy_get_id'].toString();
+
+    isFreeProduct = json['is_free_product'].toString() == 'null' ? '0' : json['is_free_product'].toString();
 
     comboProductId = json['combo_product_id'].toString() == 'null' ? '' : json['combo_product_id'].toString();
     if (json['combo_info'] != null) {
@@ -99,6 +103,7 @@ class CartModel {
     data['price'] = price;
     data['discounted_price'] = discountedPrice;
     data['combo_product_id'] = comboProductId;
+    data['is_free_product'] = isFreeProduct;
     if (comboInfo != null) {
       data['combo_info'] = comboInfo!.map((v) => v.toJson()).toList();
     }

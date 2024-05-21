@@ -17,6 +17,7 @@ import 'package:perfecto/pages/home/widgets/mega_deals_widget.dart';
 import 'package:perfecto/pages/home/widgets/top_brand_offer_widget.dart';
 import 'package:perfecto/pages/my-cart/cart_page.dart';
 import 'package:perfecto/pages/my-cart/wish_list_page.dart';
+import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/pages/points/my_points_page.dart';
 import 'package:perfecto/pages/search/search_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -72,7 +73,24 @@ class HomeTopWidget extends StatelessWidget {
                     )
                   : const SizedBox.shrink(),
               CustomSizedBox.space8W,
-              title ?? Image.asset(AssetsConstant.perfectoLogo, height: 20),
+              title ??
+                  GestureDetector(
+                      onTap: () {
+                        if (Get.currentRoute != MainHomeScreen.routeName) {
+                          NavigationController.to.searchController.value.clear();
+                          NavigationController.to.isSearchFieldNotEmpty.value = false;
+
+                          NavigationController.to.sortList[0].isSelected = true;
+
+                          NavigationController.to.sortList[1].isSelected = false;
+                          NavigationController.to.sortList[2].isSelected = false;
+                          NavigationController.to.resetFilters();
+                          Get.offAllNamed(MainHomeScreen.routeName);
+                        } else {
+                          globalLogger.d('Perfecto Logo Clicked', error: Get.currentRoute);
+                        }
+                      },
+                      child: Image.asset(AssetsConstant.perfectoLogo, height: 20)),
               const Spacer(),
               isWalletPage
                   ? GestureDetector(
@@ -1044,31 +1062,46 @@ class HomeTopWidget extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ...List.generate(NavigationController.to.attributeList.length, (index) {
-                                    final filter = NavigationController.to.attributeList[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        for (var attribute in NavigationController.to.attributeList) {
-                                          attribute.isSelected = false;
-                                        }
+                                  ...List.generate(
+                                    NavigationController.to.attributeList.length,
+                                    (index) {
+                                      final filter = NavigationController.to.attributeList[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          for (var attribute in NavigationController.to.attributeList) {
+                                            attribute.isSelected = false;
+                                          }
 
-                                        filter.toggleSelected();
+                                          filter.toggleSelected();
 
-                                        NavigationController.to.update();
-                                        NavigationController.to.attributeList.refresh();
-                                      },
-                                      child: Container(
+                                          NavigationController.to.update();
+                                          NavigationController.to.attributeList.refresh();
+                                        },
+                                        child: Container(
                                           width: double.infinity,
                                           decoration: BoxDecoration(
                                               color: filter.isSelected ? AppColors.kAccentColor : Colors.transparent,
                                               border: Border(right: BorderSide(color: filter.isSelected ? AppColors.kPrimaryColor : Colors.transparent, width: 2))),
-                                          padding: const EdgeInsets.all(16),
-                                          child: Text(
-                                            filter.name ?? '',
-                                            style: AppTheme.textStyleMediumCustomBlack12,
-                                          )),
-                                    );
-                                  })
+                                          padding: const EdgeInsets.all(16).copyWith(right: 8),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  filter.name ?? '',
+                                                  style: AppTheme.textStyleMediumCustomBlack12,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward_ios_rounded,
+                                                color: AppColors.kPrimaryColor,
+                                                size: 12,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  )
                                 ],
                               ),
                             ),
@@ -1185,9 +1218,11 @@ class FilterAttributeWidget extends StatelessWidget {
                                     Expanded(
                                       child: Row(
                                         children: [
-                                          Text(
-                                            category.name ?? '',
-                                            style: AppTheme.textStyleMediumCustomBlack12,
+                                          Expanded(
+                                            child: Text(
+                                              category.name ?? '',
+                                              style: AppTheme.textStyleMediumCustomBlack12,
+                                            ),
                                           ),
                                           Text(
                                             ' (${category.productsCount ?? '0'})',

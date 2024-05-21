@@ -301,6 +301,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                 ? 'SELECT SHADE'
                                 : 'SELECT SIZE'
                             : 'OUT OF STOCK'),
+                        labelStyle: const TextStyle(color: AppColors.kWhiteColor, fontSize: 11, fontWeight: FontWeight.w700),
                         marginHorizontal: 8,
                         marginVertical: 8,
                         height: 38,

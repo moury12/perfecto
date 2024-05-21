@@ -8,6 +8,7 @@ class AssetsConstant {
   static const String firstCategory6 = "assets/first_category6.png";
   static const String firstCategory7 = "assets/first_category7.png";
   static const String firstCategory8 = "assets/first_category8.png";
+  static const String categoryBG = "assets/cat.jpg";
   static const String drawerIcon = "assets/drawer_icon.png";
   static const String cartIcon = "assets/cart_icon.png";
   static const String stockIcon = "assets/ready-stock.png";

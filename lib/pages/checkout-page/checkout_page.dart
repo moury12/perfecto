@@ -65,8 +65,8 @@ class CheckoutScreen extends StatelessWidget {
                           decoration: BoxDecoration(color: AppColors.kPrimaryColor, borderRadius: BorderRadius.circular(4)),
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           child: Text(
-                            'Change form address book',
-                            style: AppTheme.textStyleMediumFadeBlack16,
+                            'Change form\naddress book',
+                            style: AppTheme.textStyleMediumFadeBlack16.copyWith(height: 1.2),
                           ),
                         ),
                         onTap: () {
@@ -530,8 +530,8 @@ class CheckoutScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(
                       children: [
-                        ...List.generate(UserController.to.cartList.length, (index) {
-                          final cartModel = UserController.to.cartList[index];
+                        ...List.generate(UserController.to.cartList.where((p0) => p0.stockStatus == '1').length, (index) {
+                          final cartModel = UserController.to.cartList.where((p0) => p0.stockStatus == '1').toList()[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -567,7 +567,9 @@ class CheckoutScreen extends StatelessWidget {
                                                   style: AppTheme.textStyleMediumBlack14,
                                                 ),
                                               ),
-                                              if (UserController.to.cartList[index].buyGetInfo != null || UserController.to.cartList[index].comboProduct != null)
+                                              if (UserController.to.cartList[index].isFreeProduct == '1' ||
+                                                  UserController.to.cartList[index].buyGetInfo != null ||
+                                                  UserController.to.cartList[index].comboProduct != null)
                                                 Container(
                                                   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                                                   decoration: BoxDecoration(
@@ -577,11 +579,13 @@ class CheckoutScreen extends StatelessWidget {
                                                     borderRadius: BorderRadius.circular(4),
                                                   ),
                                                   child: Text(
-                                                    UserController.to.cartList[index].buyGetInfo != null
-                                                        ? '(Buy ${UserController.to.cartList[index].buyGetInfo?.buyQuantity} Get ${UserController.to.cartList[index].buyGetInfo?.getQuantity})'
-                                                        : UserController.to.cartList[index].comboProduct != null
-                                                            ? '(Combo)'
-                                                            : '',
+                                                    UserController.to.cartList[index].isFreeProduct == '1'
+                                                        ? '(Free)'
+                                                        : UserController.to.cartList[index].buyGetInfo != null
+                                                            ? '(Buy ${UserController.to.cartList[index].buyGetInfo?.buyQuantity} Get ${UserController.to.cartList[index].buyGetInfo?.getQuantity})'
+                                                            : UserController.to.cartList[index].comboProduct != null
+                                                                ? '(Combo)'
+                                                                : '',
                                                     style: TextStyle(
                                                       color: UserController.to.cartList[index].buyGetInfo != null ? AppColors.kOfferButtonColor : AppColors.kDarkPrimaryColor,
                                                       fontSize: 12,
@@ -711,23 +715,24 @@ class CheckoutScreen extends StatelessWidget {
                                                 ),
                                             ],
                                           ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                '৳ ${UserController.to.cartList[index].price ?? UserController.to.cartList[index].discountedPrice}',
-                                                style: TextStyle(
-                                                  decoration: TextDecoration.lineThrough,
-                                                  color: Colors.black.withOpacity(.5),
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              Text(
-                                                ' ৳ ${UserController.to.cartList[index].discountedPrice}',
-                                                style: AppTheme.textStyleBoldBlack14,
-                                              )
-                                            ],
-                                          )
+                                          if (UserController.to.cartList[index].isFreeProduct != '1')
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                // Text(
+                                                //   '৳ ${UserController.to.cartList[index].price ?? UserController.to.cartList[index].discountedPrice}',
+                                                //   style: TextStyle(
+                                                //     decoration: TextDecoration.lineThrough,
+                                                //     color: Colors.black.withOpacity(.5),
+                                                //     fontSize: 12,
+                                                //   ),
+                                                // ),
+                                                Text(
+                                                  ' ৳ ${UserController.to.cartList[index].discountedPrice == '0' ? UserController.to.cartList[index].price : UserController.to.cartList[index].discountedPrice}',
+                                                  style: AppTheme.textStyleBoldBlack14,
+                                                )
+                                              ],
+                                            )
                                         ],
                                       ),
                                     ),
@@ -1030,7 +1035,8 @@ class CheckoutScreen extends StatelessWidget {
                 // CartController.to.isbagEmpty.value = true;
                 // Get.toNamed(CheckoutScreen.routeName);
                 final data = {
-                  "order_details": UserController.to.cartList.map((e) => e.id).toList().toString().replaceAll(' ', ''),
+                  "order_details":
+                      UserController.to.cartList.where((p0) => p0.id!.isNotEmpty && p0.stockStatus == '1').toList().map((e) => e.id).toList().toString().replaceAll(' ', ''),
                   "billing_shipping_details": json.encode({
                     "name": AddressController.to.nameController.text,
                     "phone": AddressController.to.phoneController.text,

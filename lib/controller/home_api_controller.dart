@@ -64,20 +64,30 @@ class HomeApiController extends GetxController {
   RxString paginationUrl = ''.obs;
   Rx<LoadingStatus> pListStatus = LoadingStatus.initial.obs;
   ScrollController scrollController = ScrollController();
+  ScrollController filterScrollController = ScrollController();
   Future<void> _scrollListener() async {
     // globalLogger.d('Scroll Listener');
-    // globalLogger.d(scrollController.position.pixels, 'pixels');
-    if (pListStatus != LoadingStatus.loadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    globalLogger.d(scrollController.position.pixels, error: 'pixels');
+    if (pListStatus.value != LoadingStatus.loadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      if (paginationUrl.value.isNotEmpty) {
+        await productListCallWithNameCall(NavigationController.to.addAttribute, initialCall: false);
+      }
+      globalLogger.d(scrollController.position.minScrollExtent, error: 'min scroll live chat screen');
+    }
+  }
+
+  Future<void> _filterScrollListener() async {
+    // globalLogger.d('Scroll Listener');
+    globalLogger.d(filterScrollController.position.pixels, error: 'pixels');
+    if (pListStatus.value != LoadingStatus.loadingMore && filterScrollController.position.pixels == filterScrollController.position.maxScrollExtent) {
       if (paginationUrl.value.isNotEmpty) {
         if (productAPIType.value == ProductAPIType.filter) {
           await productListCallWithFilterCall(NavigationController.to.addAttribute, initialCall: false);
         } else if (productAPIType.value == ProductAPIType.category) {
           await productListWithCategoryCall(NavigationController.to.addAttribute, initialCall: false);
-        } else if (productAPIType.value == ProductAPIType.search) {
-          await productListCallWithNameCall(NavigationController.to.addAttribute, initialCall: false);
         }
       }
-      globalLogger.d(scrollController.position.minScrollExtent, error: 'min scroll live chat screen');
+      globalLogger.d(filterScrollController.position.minScrollExtent, error: 'min scroll live chat screen');
     }
   }
 
@@ -99,6 +109,7 @@ class HomeApiController extends GetxController {
   @override
   void onInit() async {
     scrollController.addListener(_scrollListener);
+    filterScrollController.addListener(_filterScrollListener);
     await rewardPointCall();
     categoryListCall();
     menuOfferListCall();
@@ -294,6 +305,17 @@ class HomeApiController extends GetxController {
     body.addAll({'pagination': '6'});
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
+    }
+    if (body.containsKey('sort_by_price') && body.containsKey('sorting')) {
+      //check position of sorting and sort_by_price on body
+      final sortIndex = body.keys.toList().indexOf('sorting');
+      final priceIndex = body.keys.toList().indexOf('sort_by_price');
+      //if sorting is before sort_by_price then remove sorting
+      if (sortIndex < priceIndex) {
+        body.remove('sorting');
+      } else {
+        body.remove('sort_by_price');
+      }
     }
     globalLogger.d(body, error: 'productListCallWithFilterCall');
     if (initialCall) {

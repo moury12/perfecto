@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:perfecto/constants/assets_constants.dart';
@@ -57,13 +59,31 @@ class CategoryScreen extends StatelessWidget {
                     )
                   ],
                   if (HomeApiController.to.categoryListStatus.value == LoadingStatus.loaded)
-                    ...List.generate(
-                      HomeApiController.to.categoryList.length,
-                      (index) => CategoryCard(
-                        category: HomeApiController.to.categoryList[index],
-                      ),
-                    ),
-                  HomeApiController.to.categoryList.isNotEmpty && HomeApiController.to.categoryList.length > 2
+                    // ...List.generate(
+                    //   HomeApiController.to.categoryList.length,
+                    //   (index) => CategoryCard(
+                    //     category: HomeApiController.to.categoryList[index],
+                    //   ),
+                    // ),
+                    GridView.builder(
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          mainAxisExtent: 100,
+                          childAspectRatio: 1.8,
+                        ),
+                        itemCount: (HomeApiController.to.categoryList.where((p0) => p0.showOnHeader == '1').toList()..sort((a, b) => a.position!.compareTo(b.position!))).length,
+                        shrinkWrap: true,
+                        primary: false,
+                        itemBuilder: (context, index) {
+                          return CategoryCard(
+                            category: (HomeApiController.to.categoryList.where((p0) => p0.showOnHeader == '1').toList()..sort((a, b) => a.position!.compareTo(b.position!)))[index],
+                          );
+                        }),
+                  (HomeController.to.homeLoadingStatus.value == LoadingStatus.loaded &&
+                          (HomeApiController.to.categoryList.where((p0) => p0.showOnHeader == '1').toList()..sort((a, b) => a.position!.compareTo(b.position!))).length > 4)
                       ? GreetingCardWidget(
                           model: HomeController.to.homeData.firstWhere((element) => element.id == '19'),
                         )
@@ -73,7 +93,8 @@ class CategoryScreen extends StatelessWidget {
             ),
           ),
         ),
-        Obx(() => HomeApiController.to.categoryList.length <= 2
+        Obx(() => (HomeController.to.homeLoadingStatus.value == LoadingStatus.loaded &&
+                (HomeApiController.to.categoryList.where((p0) => p0.showOnHeader == '1').toList()..sort((a, b) => a.position!.compareTo(b.position!))).length <= 4)
             ? GreetingCardWidget(
                 model: HomeController.to.homeData.firstWhere((element) => element.id == '19'),
               )
@@ -108,39 +129,83 @@ class CategoryCard extends StatelessWidget {
         // };
         Get.toNamed(SingleCategoryWiseScreen.routeName);
       },
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(AssetsConstant.blueCircleBackground4),
+      child: Stack(
+        children: [
+          CustomNetworkImage(
+            networkImagePath: category.image!,
+            errorImagePath: AssetsConstant.categoryBG,
+            borderRadius: 16,
             fit: BoxFit.fill,
+            width: double.infinity,
           ),
-        ),
-        child: Row(
-          children: [
-            Text(
-              category.name!,
-              style: const TextStyle(color: AppColors.kDarkPrimaryColor, fontSize: 27, fontWeight: FontWeight.w700),
-            ),
-            const Spacer(),
-            Container(
-              height: 100,
-              width: 100,
-              decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground4))),
-              child: CustomNetworkImage(
-                height: 80,
-                width: 80,
-                fit: BoxFit.contain,
-                networkImagePath: category.image!,
-                errorImagePath: AssetsConstant.foregrond3,
-                borderRadius: 0,
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                category.name!,
+                style: const TextStyle(color: AppColors.kWhiteColor, fontSize: 16, fontWeight: FontWeight.w700, overflow: TextOverflow.ellipsis),
+                maxLines: 2,
+                textAlign: TextAlign.start,
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
+
+    //   GestureDetector(
+    //   onTap: () async {
+    //     HomeApiController.to.productListWithCategoryCall({
+    //       'category': [category.id!].toString(),
+    //     });
+    //     NavigationController.to.resetFilters();
+    //     HomeApiController.to.categoryList.firstWhere((element) => element.id == category.id).isChecked = true;
+    //     NavigationController.to.addAttribute.addAll({
+    //       'category': [category.id!].toString(),
+    //     });
+    //
+    //     // NavigationController.to.addAttribute = {
+    //     //   'category': [category.id!].toString(),
+    //     // };
+    //     Get.toNamed(SingleCategoryWiseScreen.routeName);
+    //   },
+    //   child: Container(
+    //     width: double.infinity,
+    //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+    //     // margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    //     decoration: const BoxDecoration(
+    //       color: Colors.red,
+    //       // image: DecorationImage(
+    //       //   image: AssetImage(AssetsConstant.blueCircleBackground4),
+    //       //   fit: BoxFit.fill,
+    //       // ),
+    //     ),
+    //     child: Row(
+    //       children: [
+    //         Expanded(
+    //           child: Text(
+    //             category.name!,
+    //             style: const TextStyle(color: AppColors.kDarkPrimaryColor, fontSize: 27, fontWeight: FontWeight.w700, overflow: TextOverflow.ellipsis),
+    //             maxLines: 2,
+    //           ),
+    //         ),
+    //         Container(
+    //           height: 100,
+    //           width: 100,
+    //           decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetsConstant.circleBackground4))),
+    //           child: CustomNetworkImage(
+    //             height: 80,
+    //             width: 80,
+    //             fit: BoxFit.contain,
+    //             networkImagePath: category.image!,
+    //             errorImagePath: AssetsConstant.foregrond3,
+    //             borderRadius: 0,
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

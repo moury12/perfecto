@@ -3,6 +3,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:mh_core/utils/global.dart';
 // import 'package:get_storage/get_storage.dart';
 import 'package:perfecto/bindings/navigation_binding.dart';
 import 'package:perfecto/constants/color_constants.dart';
@@ -37,6 +38,7 @@ void main() async {
   } catch (e) {
     globalLogger.e(e);
   }
+  show500Error = false;
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
   Service.domain("https://fixican.com/");

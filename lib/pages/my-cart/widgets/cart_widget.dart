@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
@@ -39,22 +40,34 @@ class CartWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             // margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: const Color(0xffCECECE), width: 0.2)),
+            decoration: BoxDecoration(
+                color: cartModel?.stockStatus == '0' ? Colors.grey.shade300 : null,
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(color: const Color(0xffCECECE), width: 0.2)),
             child: Column(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(border: Border.all(color: const Color(0xffCECECE), width: 0.2), borderRadius: BorderRadius.circular(4)),
-                      child: CustomNetworkImage(
-                        networkImagePath:
-                            wishListModel?.product?.image ?? cartModel?.product?.image ?? cartModel?.comboProduct?.image ?? cartModel?.buyGetInfo?.productForBuy?.image ?? '',
-                        errorImagePath: AssetsConstant.megaDeals2,
-                        borderRadius: 4,
-                        height: 80,
-                        width: 80,
-                        fit: BoxFit.fitHeight,
+                    GestureDetector(
+                      onTap: () async {
+                        if (iswish) {
+                          await HomeApiController.to.productDetailsCall(wishListModel!.productId!);
+                        } else {
+                          await HomeApiController.to.productDetailsCall(cartModel!.productId!);
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(border: Border.all(color: const Color(0xffCECECE), width: 0.2), borderRadius: BorderRadius.circular(4)),
+                        child: CustomNetworkImage(
+                          networkImagePath:
+                              wishListModel?.product?.image ?? cartModel?.product?.image ?? cartModel?.comboProduct?.image ?? cartModel?.buyGetInfo?.productForBuy?.image ?? '',
+                          errorImagePath: AssetsConstant.megaDeals2,
+                          borderRadius: 4,
+                          height: 80,
+                          width: 80,
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
                     CustomSizedBox.space12W,
@@ -110,6 +123,13 @@ class CartWidget extends StatelessWidget {
                                 )
                               ],
                             ),
+                          if (!iswish && cartModel?.isFreeProduct == '1') ...[
+                            CustomSizedBox.space8H,
+                            Text(
+                              "QTY: ${cartModel?.quantity ?? '1'}",
+                              style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 12),
+                            ),
+                          ],
                           if (!iswish && cartModel?.comboProduct != null) ...[
                             CustomSizedBox.space8H,
                             ...List.generate(
@@ -207,26 +227,29 @@ class CartWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        if (iswish) {
-                          UserController.to.addToWish(wishListModel?.productId ?? '');
-                        } else {
-                          UserController.to.removeFromCart(cartModel?.id ?? '');
-                        }
-                      },
-                      child: Image.asset(
-                        AssetsConstant.deleteIcon,
-                        height: 16,
-                      ),
-                    )
+                    if (iswish || cartModel?.isFreeProduct != '1')
+                      GestureDetector(
+                        onTap: () {
+                          if (iswish) {
+                            UserController.to.addToWish(wishListModel?.productId ?? '');
+                          } else {
+                            UserController.to.removeFromCart(cartModel?.id ?? '');
+                          }
+                        },
+                        child: Image.asset(
+                          AssetsConstant.deleteIcon,
+                          height: 16,
+                        ),
+                      )
                   ],
                 ),
-                const Divider(
-                  color: Color(0xffECECEC),
-                  thickness: 1,
-                ),
-                CustomSizedBox.space8H,
+                if (iswish || cartModel?.isFreeProduct != '1') ...[
+                  const Divider(
+                    color: Color(0xffECECEC),
+                    thickness: 1,
+                  ),
+                  CustomSizedBox.space8H,
+                ],
                 iswish
                     ? Row(
                         children: [
@@ -256,106 +279,111 @@ class CartWidget extends StatelessWidget {
                           )
                         ],
                       )
-                    : Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColors.kPrimaryColor,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(4)),
-                            // padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if (int.parse(cartModel!.quantity!) > (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : */ 1)) {
-                                      final dynamic body = {
-                                        // 'product_id': cartModel!.productId!,
-                                        'quantity': (int.parse(cartModel!.quantity!) - (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) :*/ 1))
-                                            .toString(),
-                                      };
-                                      globalLogger.d(body, error: 'body');
-                                      UserController.to.updateCart(body, cartModel?.id ?? '');
-                                    } else {
-                                      // UserController.to.removeFromCart(cartModel?.id ?? '');
-                                      showSnackBar(msg: 'One Quantity is minimum');
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Icon(
-                                      Icons.remove,
-                                      color: int.parse(cartModel!.quantity!) == (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) :*/ 1)
-                                          ? AppColors.kAccentColor
-                                          : AppColors.kPrimaryColor,
-                                      size: 25,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 20,
-                                  width: .5,
-                                  color: AppColors.kPrimaryColor,
-                                  // margin: const EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                                Container(
-                                  width: 30,
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Center(
-                                    child: Text(
-                                      cartModel?.quantity.toString() ?? '1',
-                                      style: AppTheme.textStyleMediumBlack16,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 20,
-                                  width: .5,
-                                  color: AppColors.kPrimaryColor,
-                                  // margin: const EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    final dynamic body = {
-                                      // 'product_id': cartModel!.productId!,
-                                      'quantity': (int.parse(cartModel!.quantity!) + (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : */ 1))
-                                          .toString(),
-                                    };
-                                    globalLogger.d(body, error: 'body');
-                                    UserController.to.updateCart(body, cartModel?.id ?? '');
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(4),
-                                    child: Icon(
-                                      Icons.add,
-                                      color: AppColors.kPrimaryColor,
-                                      size: 25,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Spacer(),
-                          Row(
+                    : cartModel?.isFreeProduct != '1'
+                        ? Row(
                             children: [
-                              Text(
-                                '৳ ${cartModel?.discountedPrice ?? '550'}',
-                                style: AppTheme.textStyleSemiBoldBlack16,
-                              ),
-                              if (cartModel?.product != null || cartModel?.buyGetInfo != null) ...[
-                                CustomSizedBox.space4W,
-                                Text(
-                                  '৳ ${cartModel?.price ?? '550'}',
-                                  style: const TextStyle(color: Colors.black45, fontSize: 14, decoration: TextDecoration.lineThrough),
+                              Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: AppColors.kPrimaryColor,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4)),
+                                // padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (int.parse(cartModel!.quantity!) > (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : */ 1)) {
+                                          final dynamic body = {
+                                            // 'product_id': cartModel!.productId!,
+                                            'quantity':
+                                                (int.parse(cartModel!.quantity!) - (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) :*/ 1))
+                                                    .toString(),
+                                          };
+                                          globalLogger.d(body, error: 'body');
+                                          UserController.to.updateCart(body, cartModel?.id ?? '');
+                                        } else {
+                                          // UserController.to.removeFromCart(cartModel?.id ?? '');
+                                          showSnackBar(msg: 'One Quantity is minimum');
+                                        }
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Icon(
+                                          Icons.remove,
+                                          color: int.parse(cartModel!.quantity!) == (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) :*/ 1)
+                                              ? AppColors.kAccentColor
+                                              : AppColors.kPrimaryColor,
+                                          size: 25,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 20,
+                                      width: .5,
+                                      color: AppColors.kPrimaryColor,
+                                      // margin: const EdgeInsets.symmetric(horizontal: 8),
+                                    ),
+                                    Container(
+                                      width: 30,
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Center(
+                                        child: Text(
+                                          cartModel?.quantity.toString() ?? '1',
+                                          style: AppTheme.textStyleMediumBlack16,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 20,
+                                      width: .5,
+                                      color: AppColors.kPrimaryColor,
+                                      // margin: const EdgeInsets.symmetric(horizontal: 8),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        final dynamic body = {
+                                          // 'product_id': cartModel!.productId!,
+                                          'quantity':
+                                              (int.parse(cartModel!.quantity!) + (/*cartModel?.buyGetInfo != null ? (int.parse(cartModel!.buyGetInfo!.buyQuantity!)) : */ 1))
+                                                  .toString(),
+                                        };
+                                        globalLogger.d(body, error: 'body');
+                                        UserController.to.updateCart(body, cartModel?.id ?? '');
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(4),
+                                        child: Icon(
+                                          Icons.add,
+                                          color: AppColors.kPrimaryColor,
+                                          size: 25,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
+                              const Spacer(),
+                              if (cartModel?.isFreeProduct != '1')
+                                Row(
+                                  children: [
+                                    Text(
+                                      '৳ ${cartModel?.discountedPrice == '0' ? cartModel?.price : cartModel?.discountedPrice}',
+                                      style: AppTheme.textStyleSemiBoldBlack16,
+                                    ),
+                                    if ((cartModel?.product != null && cartModel?.discountedPrice != '0') || cartModel?.buyGetInfo != null) ...[
+                                      CustomSizedBox.space4W,
+                                      Text(
+                                        '৳ ${cartModel?.price ?? '550'}',
+                                        style: const TextStyle(color: Colors.black45, fontSize: 14, decoration: TextDecoration.lineThrough),
+                                      ),
+                                    ],
+                                  ],
+                                ),
                             ],
-                          ),
-                        ],
-                      )
+                          )
+                        : const SizedBox.shrink(),
               ],
             ),
           ),
@@ -380,6 +408,17 @@ class CartWidget extends StatelessWidget {
                 'Buy ${cartModel?.buyGetInfo?.buyQuantity ?? '1'} Get ${cartModel?.buyGetInfo?.getQuantity ?? '1'}',
                 // cartModel?.buyGetInfo?.offer?.name ?? "Buy Get",
                 style: const TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ),
+          if (cartModel?.isFreeProduct == '1')
+            const CornerBanner(
+              bannerPosition: CornerBannerPosition.topLeft,
+              bannerColor: Colors.blueAccent,
+              elevation: 2,
+              shadowColor: Colors.black,
+              child: Text(
+                'Free',
+                style: TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),
         ],
