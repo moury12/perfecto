@@ -95,7 +95,9 @@ class HomeTopWidget extends StatelessWidget {
               isWalletPage
                   ? GestureDetector(
                       onTap: () {
-                        Get.toNamed(MyPointsScreen.routeName);
+                        if (AuthController.to.isLoggedIn.value) {
+                          Get.toNamed(MyPointsScreen.routeName);
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.all(4),
@@ -617,7 +619,7 @@ class HomeTopWidget extends StatelessWidget {
                               Container(
                                 height: Get.height * .4,
                                 decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(.10), blurRadius: 10)]),
-                                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                                 width: double.infinity,
                                 margin: const EdgeInsets.symmetric(horizontal: 16),
                                 child: ListView(
@@ -1091,7 +1093,7 @@ class HomeTopWidget extends StatelessWidget {
                                                   style: AppTheme.textStyleMediumCustomBlack12,
                                                 ),
                                               ),
-                                              Icon(
+                                              const Icon(
                                                 Icons.arrow_forward_ios_rounded,
                                                 color: AppColors.kPrimaryColor,
                                                 size: 12,
@@ -1238,11 +1240,11 @@ class FilterAttributeWidget extends StatelessWidget {
                                         HomeApiController.to.update();
                                         HomeApiController.to.categoryList.refresh();
                                       },
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(10.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
                                         child: Icon(
-                                          Icons.keyboard_arrow_right_sharp,
-                                          color: AppColors.kPrimaryColor,
+                                          category.isExpanded! ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_right_rounded,
+                                          color: category.subcategory!.isNotEmpty ? AppColors.kPrimaryColor : Colors.transparent,
                                         ),
                                       ),
                                     )
@@ -1294,11 +1296,11 @@ class FilterAttributeWidget extends StatelessWidget {
                                                           HomeApiController.to.update();
                                                           HomeApiController.to.categoryList.refresh();
                                                         },
-                                                        child: const Padding(
-                                                          padding: EdgeInsets.all(10.0),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(10.0),
                                                           child: Icon(
-                                                            Icons.keyboard_arrow_right_sharp,
-                                                            color: AppColors.kPrimaryColor,
+                                                            category.subcategory![index].isExpanded! ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_right_rounded,
+                                                            color: category.subcategory![index].subcategory!.isNotEmpty ? AppColors.kPrimaryColor : Colors.transparent,
                                                           ),
                                                         ),
                                                       )
@@ -1311,53 +1313,56 @@ class FilterAttributeWidget extends StatelessWidget {
                                                             children: [
                                                               ...List.generate(category.subcategory![index].subcategory!.length, (index) {
                                                                 final child = category.subcategory![index].subcategory![index];
-                                                                return Row(
-                                                                  children: [
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        child.isChecked = !child.isChecked!;
-                                                                        HomeApiController.to.update();
-                                                                        HomeApiController.to.categoryList.refresh();
-                                                                        NavigationController.to.addAttribute.addAll({
-                                                                          'child_category': category.subcategory!
-                                                                              .where((element) => element.isChecked == true)
-                                                                              .map((e) => e.id ?? '')
-                                                                              .toList()
-                                                                              .toString()
-                                                                        });
-                                                                      },
-                                                                      child: CustomCheckboxWidget(check: child.isChecked!),
-                                                                    ),
-                                                                    CustomSizedBox.space12W,
-                                                                    Expanded(
-                                                                      child: Wrap(
-                                                                        children: [
-                                                                          Text(
-                                                                            child.name ?? '',
-                                                                            style: AppTheme.textStyleMediumCustomBlack12,
-                                                                          ),
-                                                                          Text(
-                                                                            ' (${child.productsCount ?? ''})',
-                                                                            style: AppTheme.textStyleMediumCustomBlack12,
-                                                                          ),
-                                                                        ],
+                                                                return Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical: 8),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      GestureDetector(
+                                                                        onTap: () {
+                                                                          child.isChecked = !child.isChecked!;
+                                                                          HomeApiController.to.update();
+                                                                          HomeApiController.to.categoryList.refresh();
+                                                                          NavigationController.to.addAttribute.addAll({
+                                                                            'child_category': category.subcategory!
+                                                                                .where((element) => element.isChecked == true)
+                                                                                .map((e) => e.id ?? '')
+                                                                                .toList()
+                                                                                .toString()
+                                                                          });
+                                                                        },
+                                                                        child: CustomCheckboxWidget(check: child.isChecked!),
                                                                       ),
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        child.isExpanded = !child.isExpanded!;
-                                                                        HomeApiController.to.update();
-                                                                        HomeApiController.to.categoryList.refresh();
-                                                                      },
-                                                                      child: const Padding(
-                                                                        padding: EdgeInsets.all(10.0),
-                                                                        child: Icon(
-                                                                          Icons.keyboard_arrow_right_sharp,
-                                                                          color: AppColors.kPrimaryColor,
+                                                                      CustomSizedBox.space12W,
+                                                                      Expanded(
+                                                                        child: Wrap(
+                                                                          children: [
+                                                                            Text(
+                                                                              child.name ?? '',
+                                                                              style: AppTheme.textStyleMediumCustomBlack12,
+                                                                            ),
+                                                                            Text(
+                                                                              ' (${child.productsCount ?? ''})',
+                                                                              style: AppTheme.textStyleMediumCustomBlack12,
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
-                                                                    )
-                                                                  ],
+                                                                      // GestureDetector(
+                                                                      //   onTap: () {
+                                                                      //     child.isExpanded = !child.isExpanded!;
+                                                                      //     HomeApiController.to.update();
+                                                                      //     HomeApiController.to.categoryList.refresh();
+                                                                      //   },
+                                                                      //   child: const Padding(
+                                                                      //     padding: EdgeInsets.all(10.0),
+                                                                      //     child: Icon(
+                                                                      //       Icons.keyboard_arrow_right_sharp,
+                                                                      //       color: AppColors.kPrimaryColor,
+                                                                      //     ),
+                                                                      //   ),
+                                                                      // )
+                                                                    ],
+                                                                  ),
                                                                 );
                                                               })
                                                             ],
@@ -1587,9 +1592,11 @@ class FilterAttributeWidget extends StatelessWidget {
                                                 ),
                                               ),
                                               CustomSizedBox.space12W,
-                                              Text(
-                                                data.name ?? '',
-                                                style: AppTheme.textStyleMediumCustomBlack12,
+                                              Expanded(
+                                                child: Text(
+                                                  data.name ?? '',
+                                                  style: AppTheme.textStyleMediumCustomBlack12,
+                                                ),
                                               ),
                                               Text(
                                                 ' (${data.productsCount ?? '0'})',

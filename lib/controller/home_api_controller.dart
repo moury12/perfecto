@@ -57,6 +57,7 @@ class HomeApiController extends GetxController {
   Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;
   Rx<TermsConditionModel> privacyPolicyInfo = TermsConditionModel().obs;
   Rx<TermsConditionModel> returnRefundInfo = TermsConditionModel().obs;
+  Rx<TermsConditionModel> shippingPolicyInfo = TermsConditionModel().obs;
 
   RxList<ProductModel> productList = <ProductModel>[].obs;
   RxList<CategoryModel> catList = <CategoryModel>[].obs;
@@ -108,6 +109,7 @@ class HomeApiController extends GetxController {
 
   @override
   void onInit() async {
+    policiesCall();
     scrollController.addListener(_scrollListener);
     filterScrollController.addListener(_filterScrollListener);
     await rewardPointCall();
@@ -151,6 +153,10 @@ class HomeApiController extends GetxController {
 
   Future<void> returnRefundCall() async {
     returnRefundInfo.value = await HomeService.returnRefundCall();
+  }
+
+  Future<void> shippingPolicyCall() async {
+    shippingPolicyInfo.value = await HomeService.shippingPolicyCall();
   }
 
   Future<void> termsConditionCall() async {
@@ -489,12 +495,20 @@ class HomeApiController extends GetxController {
     await ingredientListCall();
     await packSizeListCall();
     await brandListCall();
-    await termsConditionCall();
-    await privacyPolicyCall();
-    await returnRefundCall();
     await colorListCall();
     await outletListCall();
     await shadeListCall();
     await sizeListCall();
+  }
+
+  void policiesCall() {
+    termsConditionCall();
+    privacyPolicyCall();
+    returnRefundCall();
+    shippingPolicyCall();
+  }
+
+  checkSingleProduct(ProductModel product) {
+    return product.shadeId!.length == 1 || product.sizeId!.length == 1;
   }
 }

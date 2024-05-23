@@ -46,18 +46,15 @@ class TermsConditionScreen extends StatelessWidget {
               child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-               Text('Terms & Condition',style: AppTheme.textStyleSemiBoldBlack16,),
+              Text(
+                'Terms & Condition',
+                style: AppTheme.textStyleSemiBoldBlack16,
+              ),
               Obx(() {
                 return Html(
-                  data: findAndRemove(
-                          HomeApiController
-                                  .to.termsConditionInfo.value.document ??
-                              '-'.replaceAll('</br>', ''),
-                          '<iframe',
-                          '>')
+                  data: findAndRemove(HomeApiController.to.termsConditionInfo.value.document ?? '-'.replaceAll('</br>', ''), '<iframe', '>')
                       .replaceAll('<img', '<img style= "width: 100px" ')
-                      .replaceAll('width="240" height="360" ',
-                          'style= "width: 100px; height: 0px" '),
+                      .replaceAll('width="240" height="360" ', 'style= "width: 100px; height: 0px" '),
                   style: {
                     'body': Style(
                       margin: Margins.symmetric(horizontal: 0, vertical: 0),
@@ -82,18 +79,15 @@ class TermsConditionScreen extends StatelessWidget {
                   },
                 );
               }),
-              Text('Privacy Policy',style: AppTheme.textStyleSemiBoldBlack16,),
+              Text(
+                'Privacy Policy',
+                style: AppTheme.textStyleSemiBoldBlack16,
+              ),
               Obx(() {
                 return Html(
-                  data: findAndRemove(
-                      HomeApiController
-                          .to.privacyPolicyInfo.value.document ??
-                          '-'.replaceAll('</br>', ''),
-                      '<iframe',
-                      '>')
+                  data: findAndRemove(HomeApiController.to.privacyPolicyInfo.value.document ?? '-'.replaceAll('</br>', ''), '<iframe', '>')
                       .replaceAll('<img', '<img style= "width: 100px" ')
-                      .replaceAll('width="240" height="360" ',
-                      'style= "width: 100px; height: 0px" '),
+                      .replaceAll('width="240" height="360" ', 'style= "width: 100px; height: 0px" '),
                   style: {
                     'body': Style(
                       margin: Margins.symmetric(horizontal: 0, vertical: 0),
@@ -118,6 +112,77 @@ class TermsConditionScreen extends StatelessWidget {
                   },
                 );
               }),
+            ],
+          ))
+        ],
+      ),
+    );
+  }
+}
+
+class DocScreen extends StatelessWidget {
+  static const String routeName = '/docs';
+  const DocScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.kBackgroundColor,
+      body: Column(
+        children: [
+          HomeTopWidget(
+            title: Row(
+              children: [
+                GestureDetector(
+                  child: Image.asset(
+                    AssetsConstant.backRoute,
+                    height: 20,
+                  ),
+                  onTap: () {
+                    Get.back();
+                  },
+                ),
+                CustomSizedBox.space8W,
+                Text(
+                  Get.arguments['title'],
+                  style: AppTheme.textStyleSemiBoldBlack16,
+                ),
+                CustomSizedBox.space4W,
+              ],
+            ),
+            isSearchInclude: false,
+          ),
+          Expanded(
+              child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Html(
+                data: findAndRemove(Get.arguments['doc'] ?? '-'.replaceAll('</br>', ''), '<iframe', '>')
+                    .replaceAll('<img', '<img style= "width: 100px" ')
+                    .replaceAll('width="240" height="360" ', 'style= "width: 100px; height: 0px" '),
+                style: {
+                  'body': Style(
+                    margin: Margins.symmetric(horizontal: 0, vertical: 0),
+                    fontSize: FontSize(14),
+                    // lineHeight: LineHeight.number(1),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  'p': Style(
+                    fontSize: FontSize(14),
+                    // lineHeight: LineHeight.number(1),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  'span': Style(
+                    // margin: Margins.symmetric(horizontal: 10, vertical: 0),
+                    // fontSize: FontSize(14),
+                    lineHeight: LineHeight.number(1),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                },
+              )
             ],
           ))
         ],

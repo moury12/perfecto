@@ -17,6 +17,7 @@ class GeneralSettingModel {
   String? lowStockQuantity;
   String? bestSaleCount;
   String? buyStatus;
+  String? buyStatusNote;
   String? createdAt;
   String? updatedAt;
 
@@ -39,6 +40,7 @@ class GeneralSettingModel {
       this.lowStockQuantity,
       this.bestSaleCount,
       this.buyStatus,
+      this.buyStatusNote,
       this.createdAt,
       this.updatedAt});
 
@@ -61,6 +63,7 @@ class GeneralSettingModel {
     lowStockQuantity = json['low_stock_quantity'].toString() == 'null' ? '' : json['low_stock_quantity'].toString();
     bestSaleCount = json['best_sale_count'].toString() == 'null' ? '' : json['best_sale_count'].toString();
     buyStatus = json['buy_status'].toString() == 'null' ? '1' : json['buy_status'].toString();
+    buyStatusNote = json['buy_status_note'].toString() == 'null' ? null : json['buy_status_note'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? '' : json['updated_at'].toString();
   }
@@ -85,6 +88,7 @@ class GeneralSettingModel {
     data['low_stock_quantity'] = lowStockQuantity;
     data['best_sale_count'] = bestSaleCount;
     data['buy_status'] = buyStatus;
+    data['buy_status_note'] = buyStatusNote;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;

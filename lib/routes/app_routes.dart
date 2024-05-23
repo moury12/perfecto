@@ -157,5 +157,6 @@ class AppRoutes {
         GetPage(name: ReturnProcess.routeName, page: () => const ReturnProcess(), binding: ProfileBinding()),
         GetPage(name: ReturnAndCancelScreen.routeName, page: () => const ReturnAndCancelScreen(), binding: ProfileBinding()),
         GetPage(name: NotificationScreen.routeName, page: () => const NotificationScreen(), binding: ProfileBinding()),
+        GetPage(name: DocScreen.routeName, page: () => const DocScreen()),
       ];
 }

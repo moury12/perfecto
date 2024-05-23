@@ -415,9 +415,7 @@ class CheckoutScreen extends StatelessWidget {
                     final cityName = AddressController.to.selectedCity.value.isNotEmpty
                         ? (AddressController.to.cityList.firstWhereOrNull((element) => element.cityId == AddressController.to.selectedCity.value)?.cityName ?? '').toLowerCase()
                         : '';
-                    if (cityName == 'dhaka') {
-                      CheckOutController.to.paymentType.value = PaymentType.cod;
-                    } else {
+                    if (cityName != 'dhaka') {
                       CheckOutController.to.paymentType.value = PaymentType.ssl;
                     }
                     return Column(
@@ -1041,7 +1039,7 @@ class CheckoutScreen extends StatelessWidget {
                     "name": AddressController.to.nameController.text,
                     "phone": AddressController.to.phoneController.text,
                     "email": AddressController.to.emailController.text,
-                    "city_id": AddressController.to.selectedArea.value,
+                    "city_id": AddressController.to.selectedCity.value,
                     "city_name": AddressController.to.cityList.firstWhere((element) => element.cityId == AddressController.to.selectedCity.value).cityName!,
                     "zone_id": AddressController.to.selectedZone.value,
                     "zone_name": AddressController.to.zoneList.firstWhere((element) => element.zoneId == AddressController.to.selectedZone.value).zoneName!,

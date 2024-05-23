@@ -60,6 +60,7 @@ class ProductModel {
   String? allShadesCount;
   String? allSizesCount;
   String? totalStock;
+  String? totalStocks;
   List<ProductShades>? productShades;
   List<ProductSizes>? productSizes;
   List<Reviews>? reviews;
@@ -131,6 +132,7 @@ class ProductModel {
       this.allShadesCount,
       this.allSizesCount,
       this.totalStock,
+      this.totalStocks,
       this.productShades,
       this.productSizes,
       this.reviews,
@@ -242,6 +244,7 @@ class ProductModel {
     allShadesCount = json['all_shades_count'].toString() == 'null' ? '0' : json['all_shades_count'].toString();
     allSizesCount = json['all_sizes_count'].toString() == 'null' ? '0' : json['all_sizes_count'].toString();
     totalStock = json['total_stock'].toString() == 'null' ? '0' : json['total_stock'].toString();
+    totalStocks = json['total_stocks'].toString() == 'null' ? '0' : json['total_stocks'].toString();
     if (json['product_shades'] != null) {
       productShades = <ProductShades>[];
       json['product_shades'].forEach((v) {
@@ -350,6 +353,7 @@ class ProductModel {
     data['all_shades_count'] = allShadesCount;
     data['all_sizes_count'] = allSizesCount;
     data['total_stock'] = totalStock;
+    data['total_stocks'] = totalStocks;
     if (productShades != null) {
       data['product_shades'] = productShades!.map((v) => v.toJson()).toList();
     }
@@ -644,6 +648,7 @@ class ProductShades {
   String? createdAt;
   String? updatedAt;
   String? stock;
+  String? bestSale;
   List<Offers>? offers;
   List<ProductShadeImages>? productShadeImages;
   Shade? shade;
@@ -659,6 +664,7 @@ class ProductShades {
       this.createdAt,
       this.updatedAt,
       this.stock,
+      this.bestSale,
       this.offers,
       this.productShadeImages,
       this.shade});
@@ -674,6 +680,7 @@ class ProductShades {
     createdAt = json['created_at'].toString() == 'null' ? "" : json['created_at'].toString();
     updatedAt = json['updated_at'].toString() == 'null' ? "" : json['updated_at'].toString();
     stock = json['stock'].toString() == 'null' ? "0" : json['stock'].toString();
+    bestSale = json['best_sale'].toString() == 'null' ? "0" : json['best_sale'].toString();
     if (json['offers'] != null) {
       offers = <Offers>[];
       json['offers'].forEach((v) {
@@ -701,6 +708,7 @@ class ProductShades {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['stock'] = stock;
+    data['best_sale'] = bestSale;
     if (offers != null) {
       data['offers'] = offers!.map((v) => v.toJson()).toList();
     }

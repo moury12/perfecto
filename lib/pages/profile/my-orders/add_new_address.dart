@@ -132,6 +132,7 @@ class AddNewAddressScreen extends StatelessWidget {
                                   dwValue: controller.selectedCity.value.isEmpty ? null : controller.selectedCity.value,
                                   type: DropdownListType.object,
                                   onChange: (v) async {
+                                    globalLogger.d(v);
                                     if (controller.selectedCity.value != v) {
                                       controller.selectedZone.value = '';
                                       controller.selectedArea.value = '';

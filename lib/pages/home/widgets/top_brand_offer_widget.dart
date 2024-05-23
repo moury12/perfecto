@@ -7,7 +7,9 @@ import 'package:mh_core/utils/global.dart';
 import 'package:mh_core/utils/list_utils.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
+import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
+import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/home_model.dart';
 import 'package:perfecto/models/product_model.dart';
 import 'package:perfecto/pages/category/single_category_page.dart';
@@ -99,6 +101,27 @@ class BestSellerListWidget extends StatelessWidget {
                     children: [
                       CustomNetworkImage(
                           networkImagePath: product?.image ?? '', height: 168, width: 180, errorImagePath: AssetsConstant.megaDeals1, borderRadius: 10, fit: BoxFit.fill),
+                      if (HomeApiController.to.checkSingleProduct(product!) && product?.totalStock == '0')
+                        Container(
+                          height: 168,
+                          width: 180,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(.7),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Out of Stock'.toUpperCase(),
+                              style: const TextStyle(
+                                color: Colors.black54,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'InriaSans',
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
                       // ClipRRect(
                       //   borderRadius: BorderRadius.circular(10),
                       //   child: Image.network(
@@ -329,12 +352,23 @@ class BestSellerListWidget extends StatelessWidget {
                     marginVertical: 8,
                     height: 39,
                     primary: HomeController.to.generalSettings.value.buyStatus == '1' ? null : AppColors.kDarkPrimaryColor,
-                    onPressed: product?.totalStock != '0'
-                        ? () {}
+                    onPressed: ((HomeApiController.to.checkSingleProduct(product!) && product?.totalStock == '0'))
+                        ? () {
+                            if (AuthController.to.isLoggedIn.value) {
+                              final data = {
+                                "product_id": product!.id!,
+                                if (product!.variationType == 'size') "size_id": product!.sizeId![0],
+                                if (product!.variationType == 'shade') "shade_id": product!.shadeId![0],
+                              };
+                              globalLogger.d(data);
+
+                              UserController.to.stockRequest(data);
+                            }
+                          }
                         : () async {
                             // await HomeApiController.to.productDetailsCall(product!.id!);
                             if (HomeController.to.generalSettings.value.buyStatus == '0') {
-                              showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                              showSnackBar(msg: HomeController.to.generalSettings.value.buyStatusNote ?? "Our Buy option is disabled. Please try again later.");
                             } else {
                               Get.put(ProductDetailsController());
                               await ProductDetailsController.to.getProductDetails(product!.id!);
@@ -453,6 +487,7 @@ class SegmentGridWidget extends StatelessWidget {
 
         return GestureDetector(
           onTap: () async {
+            globalLogger.d(category.toJson());
             if (category.categories != null) {
               HomeApiController.to.categoryList.firstWhere((element) => element.id == category.categories!.id!).isChecked = true;
               HomeApiController.to.categoryList.refresh();

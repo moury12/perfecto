@@ -209,7 +209,33 @@ class CustomDrawer extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                          Get.toNamed(TermsConditionScreen.routeName);
+                          Get.toNamed(DocScreen.routeName, arguments: {'title': 'Privacy Policy', 'doc': HomeApiController.to.privacyPolicyInfo.value.document});
+                        },
+                        child: const SaleTextWidget(
+                          text: 'Privacy Policy',
+                          color: Colors.black,
+                        ),
+                      ),
+                      CustomSizedBox.space8H,
+                      const CustomDividerWidget(),
+                      CustomSizedBox.space8H,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Get.toNamed(DocScreen.routeName, arguments: {'title': 'Shipping Policy', 'doc': HomeApiController.to.shippingPolicyInfo.value.document});
+                        },
+                        child: const SaleTextWidget(
+                          text: 'Shipping Policy',
+                          color: Colors.black,
+                        ),
+                      ),
+                      CustomSizedBox.space8H,
+                      const CustomDividerWidget(),
+                      CustomSizedBox.space8H,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Get.toNamed(DocScreen.routeName, arguments: {'title': 'Terms & Conditions', 'doc': HomeApiController.to.termsConditionInfo.value.document});
                         },
                         child: const SaleTextWidget(
                           text: 'Terms & Conditions',
@@ -222,7 +248,8 @@ class CustomDrawer extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                          Get.toNamed(RefundCancelationScreen.routeName);
+                          Get.toNamed(DocScreen.routeName, arguments: {'title': 'Return & Refund Policy', 'doc': HomeApiController.to.returnRefundInfo.value.document});
+                          // Get.toNamed(RefundCancelationScreen.routeName);
                         },
                         child: const SaleTextWidget(
                           text: 'Return & Refund Policy',

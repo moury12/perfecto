@@ -326,7 +326,7 @@ class ComboDetailsScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 1.3,
                   onPressed: () {
                     if (HomeController.to.generalSettings.value.buyStatus == '0') {
-                      showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                      showSnackBar(msg: HomeController.to.generalSettings.value.buyStatusNote ?? "Our Buy option is disabled. Please try again later.");
                     } else {
                       final data = {
                         'quantity': '1',

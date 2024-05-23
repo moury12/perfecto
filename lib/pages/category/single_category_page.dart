@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
+import 'package:perfecto/pages/child_nav_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/shimmer_list_home.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
@@ -30,61 +31,64 @@ class SingleCategoryWiseScreen extends StatelessWidget {
         NavigationController.to.addAttribute = {};
         return true;
       },
-      child: Scaffold(
-        drawer: const CustomDrawer(),
-        body: Obx(
-          () {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const HomeTopWidget(isNeedFilter: true),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute, initialCall: true);
-                    },
-                    child: HomeApiController.to.pListStatus.value == LoadingStatus.loading
-                        ? Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: GridView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                              shrinkWrap: true,
-                              primary: false,
-                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 202, mainAxisExtent: 380, crossAxisSpacing: 8, mainAxisSpacing: 12),
-                              itemCount: 4,
-                              itemBuilder: (context, index) {
-                                // final data = CategoryController.to.categoryWiseITem[index];
-                                return const ShimmerWidget();
-                              },
-                            ),
-                          )
-                        : HomeApiController.to.productList.isEmpty
-                            ? const Center(
-                                child: Text('There is no product available.'),
-                              )
-                            : GridView.builder(
-                                controller: HomeApiController.to.filterScrollController,
+      child: ChildNavScreen(
+        child: Scaffold(
+          drawer: const CustomDrawer(),
+          body: Obx(
+            () {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const HomeTopWidget(isNeedFilter: true),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        await HomeApiController.to.productListCallWithFilterCall(NavigationController.to.addAttribute, initialCall: true);
+                      },
+                      child: HomeApiController.to.pListStatus.value == LoadingStatus.loading
+                          ? Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: GridView.builder(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                                 shrinkWrap: true,
                                 primary: false,
                                 gridDelegate:
                                     const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 202, mainAxisExtent: 380, crossAxisSpacing: 8, mainAxisSpacing: 12),
-                                itemCount: HomeApiController.to.productList.length,
+                                itemCount: 4,
                                 itemBuilder: (context, index) {
                                   // final data = CategoryController.to.categoryWiseITem[index];
-                                  return SingleCategoryProductWidget(
-                                    product: HomeApiController.to.productList[index],
-                                  );
+                                  return const ShimmerWidget();
                                 },
                               ),
+                            )
+                          : HomeApiController.to.productList.isEmpty
+                              ? const Center(
+                                  child: Text('There is no product available.'),
+                                )
+                              : GridView.builder(
+                                  controller: HomeApiController.to.filterScrollController,
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 202, mainAxisExtent: 380, crossAxisSpacing: 8, mainAxisSpacing: 12),
+                                  itemCount: HomeApiController.to.productList.length,
+                                  itemBuilder: (context, index) {
+                                    // final data = CategoryController.to.categoryWiseITem[index];
+                                    return SingleCategoryProductWidget(
+                                      product: HomeApiController.to.productList[index],
+                                    );
+                                  },
+                                ),
+                    ),
                   ),
-                ),
-                // Text(HomeApiController.to.pListStatus.errorMessage.toString()),
-                (HomeApiController.to.pListStatus.value == LoadingStatus.loadingMore) ? const PerfectoLoading() : const SizedBox.shrink(),
-              ],
-            );
-          },
+                  // Text(HomeApiController.to.pListStatus.errorMessage.toString()),
+                  (HomeApiController.to.pListStatus.value == LoadingStatus.loadingMore) ? const PerfectoLoading() : const SizedBox.shrink(),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

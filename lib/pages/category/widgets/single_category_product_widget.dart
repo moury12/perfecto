@@ -79,13 +79,38 @@ class SingleCategoryProductWidget extends StatelessWidget {
             ),
             child: Column(
               children: [
-                CustomNetworkImage(
-                  networkImagePath: product?.image ?? '',
-                  height: 168,
-                  width: 200,
-                  errorImagePath: AssetsConstant.megaDeals1,
-                  fit: BoxFit.fill,
-                  borderRadius: 10,
+                Stack(
+                  children: [
+                    CustomNetworkImage(
+                      networkImagePath: product?.image ?? '',
+                      height: 168,
+                      width: 200,
+                      errorImagePath: AssetsConstant.megaDeals1,
+                      fit: BoxFit.fill,
+                      borderRadius: 10,
+                    ),
+                    if ((HomeApiController.to.checkSingleProduct(product!) && product?.totalStock == '0') || product?.totalStocks == '0')
+                      Container(
+                        height: 168,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(.7),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Out of Stock'.toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'InriaSans',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
 
                 // ClipRRect(
@@ -296,11 +321,11 @@ class SingleCategoryProductWidget extends StatelessWidget {
                     }),
                     Expanded(
                       child: CustomButton(
-                        label: (product?.totalStock != '0'
-                            ? product?.variationType == 'shade'
+                        label: (((HomeApiController.to.checkSingleProduct(product!) && product?.totalStock == '0') || product?.totalStocks == '0')
+                            ? 'REQUEST STOCK'
+                            : product?.variationType == 'shade'
                                 ? 'SELECT SHADE'
-                                : 'SELECT SIZE'
-                            : 'OUT OF STOCK'),
+                                : 'SELECT SIZE'),
                         labelStyle: const TextStyle(color: AppColors.kWhiteColor, fontSize: 11, fontWeight: FontWeight.w700),
                         marginHorizontal: 8,
                         marginVertical: 8,
@@ -309,17 +334,25 @@ class SingleCategoryProductWidget extends StatelessWidget {
                         fontSize: product?.totalStock == '0' ? 12 : null,
                         primary: (product?.totalStock == '0' || HomeController.to.generalSettings.value.buyStatus == '0') ? AppColors.kDarkPrimaryColor : AppColors.kPrimaryColor,
                         width: 140,
-                        onPressed: product?.totalStock != '0'
-                            ? /*buttonText != null
-                                ? () {
-                                    var snackBar = const SnackBar(content: Text('Add to Cart successfully'));
-                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                  }
-                                : */
-                            () async {
+                        onPressed: ((HomeApiController.to.checkSingleProduct(product!) && product?.totalStock == '0') || product?.totalStocks == '0')
+                            ? () {
+                                if (AuthController.to.isLoggedIn.value) {
+                                  final data = {
+                                    "product_id": product!.id!,
+                                    if (product!.variationType == 'size') "size_id": product!.sizeId![0],
+                                    if (product!.variationType == 'shade') "shade_id": product!.shadeId![0],
+                                  };
+                                  globalLogger.d(data);
+
+                                  UserController.to.stockRequest(data);
+                                } else {
+                                  Get.toNamed(LoginScreen.routeName);
+                                }
+                              }
+                            : () async {
                                 // await HomeApiController.to.productDetailsCall(product!.id!);
                                 if (HomeController.to.generalSettings.value.buyStatus == '0') {
-                                  showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                                  showSnackBar(msg: HomeController.to.generalSettings.value.buyStatusNote ?? "Our Buy option is disabled. Please try again later.");
                                 } else {
                                   Get.put(ProductDetailsController());
                                   await ProductDetailsController.to.getProductDetails(product?.id ?? '30');
@@ -327,8 +360,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                                     isSelectSize: product?.variationType == 'shade' ? false : true,
                                   ));
                                 }
-                              }
-                            : () {},
+                              },
                         // buttonText == 'ADD TO BAG'
                         //     ? () {
                         //         var snackBar = const SnackBar(content: Text('Add to Cart successfully'));

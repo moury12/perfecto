@@ -275,7 +275,7 @@ class CartScreen extends StatelessWidget {
                       onPressed: () {
                         // CartController.to.isbagEmpty.value=true;
                         if (HomeController.to.generalSettings.value.buyStatus == '0') {
-                          showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                          showSnackBar(msg: HomeController.to.generalSettings.value.buyStatusNote ?? "Our Buy option is disabled. Please try again later.");
                         } else {
                           try {
                             AddressController.to.setData();

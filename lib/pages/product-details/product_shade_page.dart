@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
 import 'package:mh_core/utils/global.dart';
@@ -10,6 +11,7 @@ import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/models/cart_model.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
+import 'package:perfecto/pages/child_nav_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
@@ -24,67 +26,28 @@ class ProductShadeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const CustomDrawer(),
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          const HomeTopWidget(),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                Obx(() {
-                  return SizedBox(
-                    height: 360,
-                    child: PageView.builder(
-                      padEnds: false,
-                      scrollDirection: Axis.horizontal,
-                      controller: PageController(),
-                      onPageChanged: (value) {
-                        ProductDetailsController.to.currentPage.value = value;
-                      },
-                      itemCount: ProductDetailsController.to.product.value.variationType == 'shade'
-                          ? ProductDetailsController.to.product.value.productShades!
-                              .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                              .productShadeImages!
-                              .length
-                          : ProductDetailsController.to.product.value.productSizes!
-                              .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                              .productSizeImages!
-                              .length,
-                      itemBuilder: (context, index) {
-                        String data = ProductDetailsController.to.product.value.variationType == 'shade'
-                            ? ProductDetailsController.to.product.value.productShades!
-                                .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                .productShadeImages![index]
-                                .productShadeImage!
-                            : ProductDetailsController.to.product.value.productSizes!
-                                .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                .productSizeImages![index]
-                                .productSizeImage!;
-                        return GestureDetector(
-                          onTap: () {
-                            // Get.toNamed(ProductImagePreview.routeName);
-                          },
-                          child: CustomNetworkImage(
-                            networkImagePath: data,
-                            fit: BoxFit.fill,
-                            errorImagePath: data,
-                            height: double.maxFinite,
-                            width: double.infinity,
-                            borderRadius: 0,
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }),
-                Obx(() {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                        ProductDetailsController.to.product.value.variationType == 'shade'
+    return ChildNavScreen(
+      child: Scaffold(
+        drawer: const CustomDrawer(),
+        backgroundColor: Colors.white,
+        body: Column(
+          children: [
+            const HomeTopWidget(),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  Obx(() {
+                    return SizedBox(
+                      height: 360,
+                      child: PageView.builder(
+                        padEnds: false,
+                        scrollDirection: Axis.horizontal,
+                        controller: PageController(),
+                        onPageChanged: (value) {
+                          ProductDetailsController.to.currentPage.value = value;
+                        },
+                        itemCount: ProductDetailsController.to.product.value.variationType == 'shade'
                             ? ProductDetailsController.to.product.value.productShades!
                                 .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
                                 .productShadeImages!
@@ -92,470 +55,578 @@ class ProductShadeScreen extends StatelessWidget {
                             : ProductDetailsController.to.product.value.productSizes!
                                 .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
                                 .productSizeImages!
-                                .length, (index) {
-                      return Container(
-                        margin: const EdgeInsets.all(4),
-                        width: 7,
-                        height: 7,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ProductDetailsController.to.currentPage.value == index ? AppColors.kPrimaryColor : const Color(0xffD9D9D9),
-                        ),
-                      );
-                    }),
-                  );
-                }),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-                  child: Obx(() {
-                    return Text(
-                      ProductDetailsController.to.product.value.name ?? 'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
-                      style: AppTheme.textStyleBoldBlack20.copyWith(fontFamily: 'InriaSans'),
+                                .length,
+                        itemBuilder: (context, index) {
+                          String data = ProductDetailsController.to.product.value.variationType == 'shade'
+                              ? ProductDetailsController.to.product.value.productShades!
+                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                  .productShadeImages![index]
+                                  .productShadeImage!
+                              : ProductDetailsController.to.product.value.productSizes!
+                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                  .productSizeImages![index]
+                                  .productSizeImage!;
+                          return GestureDetector(
+                            onTap: () {
+                              // Get.toNamed(ProductImagePreview.routeName);
+                            },
+                            child: CustomNetworkImage(
+                              networkImagePath: data,
+                              fit: BoxFit.fill,
+                              errorImagePath: data,
+                              height: double.maxFinite,
+                              width: double.infinity,
+                              borderRadius: 0,
+                            ),
+                          );
+                        },
+                      ),
                     );
                   }),
-                ),
-                isSelectSize
-                    ? Column(
-                        children: [
-                          Container(
-                            color: const Color(0xffF9F9F9),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                              child: Column(
-                                children: [
-                                  CustomSizedBox.space8H,
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        'Select a Size',
-                                        style: AppTheme.textStyleBoldBlack14,
-                                      ),
-                                      Container(
-                                        height: 15,
-                                        width: 1,
-                                        color: Colors.grey,
-                                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                                      ),
-                                      Text(
-                                        '${ProductDetailsController.to.product.value.productSizes!.length} varients',
-                                        style: AppTheme.textStyleSemiBoldFadeBlack14,
-                                      )
-                                    ],
-                                  ),
-                                  CustomSizedBox.space8H,
-                                ],
-                              ),
-                            ),
+                  Obx(() {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                          ProductDetailsController.to.product.value.variationType == 'shade'
+                              ? ProductDetailsController.to.product.value.productShades!
+                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                  .productShadeImages!
+                                  .length
+                              : ProductDetailsController.to.product.value.productSizes!
+                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                  .productSizeImages!
+                                  .length, (index) {
+                        return Container(
+                          margin: const EdgeInsets.all(4),
+                          width: 7,
+                          height: 7,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ProductDetailsController.to.currentPage.value == index ? AppColors.kPrimaryColor : const Color(0xffD9D9D9),
                           ),
-                          const Divider(
-                            thickness: 1.5,
-                            color: Color(0xffECECEC),
-                            height: 0,
-                            indent: 0,
-                          ),
-                          CustomSizedBox.space20H,
-                          SizedBox(
-                            height: 42,
-                            child: ListView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: ProductDetailsController.to.product.value.productSizes!.length,
-                              itemBuilder: (context, index) {
-                                final size = ProductDetailsController.to.product.value.productSizes![index];
-                                return Obx(() {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      // if (size.stock!.toInt() != 0) {
-                                      ProductDetailsController.to.selectedVariation.value = size.sizeId!;
-                                      // } else {
-                                      //   showSnackBar(msg: 'Out of Stock');
-                                      // }
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(horizontal: 6),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: size.sizeId == ProductDetailsController.to.selectedVariation.value
-                                            ? size.stock!.toInt() == 0
-                                                ? const Color(0xff021f5e)
-                                                : AppColors.kPrimaryColor
-                                            : size.stock!.toInt() == 0
-                                                ? const Color(0xff021f5e)
-                                                : Colors.transparent,
-                                        border: Border.all(
-                                            color: size.sizeId == ProductDetailsController.to.selectedVariation.value
-                                                ? AppColors.kPrimaryColor
-                                                : size.stock!.toInt() == 0
-                                                    ? const Color(0xff021f5e)
-                                                    : AppColors.kPrimaryColor,
-                                            width: 1.5),
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                      child: Text(
-                                        size.size!.name!,
-                                        textAlign: TextAlign.center,
-                                        style: size.sizeId == ProductDetailsController.to.selectedVariation.value
-                                            ? AppTheme.textStyleSemiBoldWhite14
-                                            : AppTheme.textStyleSemiBoldFadeBlack14.copyWith(
-                                                color: size.stock!.toInt() == 0 ? Colors.white : Colors.black54,
-                                              ),
-                                      ),
+                        );
+                      }),
+                    );
+                  }),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                    child: Obx(() {
+                      return Text(
+                        ProductDetailsController.to.product.value.name ?? 'Lakme Absolute Skin Dew Color Sensational Ultimattes Satin Lipstick',
+                        style: AppTheme.textStyleBoldBlack20.copyWith(fontFamily: 'InriaSans'),
+                      );
+                    }),
+                  ),
+                  isSelectSize
+                      ? Column(
+                          children: [
+                            Container(
+                              color: const Color(0xffF9F9F9),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                                child: Column(
+                                  children: [
+                                    CustomSizedBox.space8H,
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Select a Size',
+                                          style: AppTheme.textStyleBoldBlack14,
+                                        ),
+                                        Container(
+                                          height: 15,
+                                          width: 1,
+                                          color: Colors.grey,
+                                          margin: const EdgeInsets.symmetric(horizontal: 8),
+                                        ),
+                                        Text(
+                                          '${ProductDetailsController.to.product.value.productSizes!.length} varients',
+                                          style: AppTheme.textStyleSemiBoldFadeBlack14,
+                                        )
+                                      ],
                                     ),
-                                  );
-                                });
-                              },
-                            ),
-                          ),
-                          // CustomSizedBox.space8H,
-                          // Obx(
-                          //   () => RichText(
-                          //     text: TextSpan(
-                          //       text: "Available stock: ",
-                          //       style: AppTheme.textStyleNormalBlack14,
-                          //       children: [
-                          //         TextSpan(
-                          //           text: ProductDetailsController.to.product.value.productSizes!
-                          //               .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                          //               .stock
-                          //               .toString(),
-                          //           style: AppTheme.textStyleBoldBlack14,
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          Container(
-                            color: const Color(0xffF9F9F9),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                              child: Column(
-                                children: [
-                                  CustomSizedBox.space8H,
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        'Select a Shade',
-                                        style: AppTheme.textStyleBoldBlack14,
-                                      ),
-                                      Container(
-                                        height: 15,
-                                        width: 1,
-                                        color: Colors.grey,
-                                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                                      ),
-                                      Text(
-                                        '${ProductDetailsController.to.product.value.productShades!.length} varients',
-                                        style: AppTheme.textStyleSemiBoldFadeBlack14,
-                                      )
-                                    ],
-                                  ),
-                                  CustomSizedBox.space8H,
-                                ],
+                                    CustomSizedBox.space8H,
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          const Divider(
-                            thickness: 1.5,
-                            color: Color(0xffECECEC),
-                            height: 0,
-                            indent: 0,
-                          ),
-                          CustomSizedBox.space20H,
-                          Wrap(
-                            alignment: WrapAlignment.start,
-                            crossAxisAlignment: WrapCrossAlignment.start,
-                            children: ProductDetailsController.to.product.value.productShades!
-                                .map((shade) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Obx(() {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
-                                          },
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent,
-                                                  border: Border.all(
-                                                      color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent, width: 1.5),
-                                                  borderRadius: BorderRadius.circular(5),
-                                                  boxShadow: shade.shadeId == ProductDetailsController.to.selectedVariation.value
-                                                      ? [
-                                                          BoxShadow(
-                                                            color: Colors.black38,
-                                                            blurRadius: 5,
-                                                          )
-                                                        ]
-                                                      : [],
+                            const Divider(
+                              thickness: 1.5,
+                              color: Color(0xffECECEC),
+                              height: 0,
+                              indent: 0,
+                            ),
+                            CustomSizedBox.space20H,
+                            SizedBox(
+                              height: 42,
+                              child: ListView.builder(
+                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: ProductDetailsController.to.product.value.productSizes!.length,
+                                itemBuilder: (context, index) {
+                                  final size = ProductDetailsController.to.product.value.productSizes![index];
+                                  return Obx(() {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        // if (size.stock!.toInt() != 0) {
+                                        ProductDetailsController.to.selectedVariation.value = size.sizeId!;
+                                        // } else {
+                                        //   showSnackBar(msg: 'Out of Stock');
+                                        // }
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: size.sizeId == ProductDetailsController.to.selectedVariation.value
+                                              ? size.stock!.toInt() == 0
+                                                  ? const Color(0xff021f5e)
+                                                  : AppColors.kPrimaryColor
+                                              : size.stock!.toInt() == 0
+                                                  ? const Color(0xff021f5e)
+                                                  : Colors.transparent,
+                                          border: Border.all(
+                                              color: size.sizeId == ProductDetailsController.to.selectedVariation.value
+                                                  ? AppColors.kPrimaryColor
+                                                  : size.stock!.toInt() == 0
+                                                      ? const Color(0xff021f5e)
+                                                      : AppColors.kPrimaryColor,
+                                              width: 1.5),
+                                          borderRadius: BorderRadius.circular(4),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                        child: Text(
+                                          size.size!.name!,
+                                          textAlign: TextAlign.center,
+                                          style: size.sizeId == ProductDetailsController.to.selectedVariation.value
+                                              ? AppTheme.textStyleSemiBoldWhite14
+                                              : AppTheme.textStyleSemiBoldFadeBlack14.copyWith(
+                                                  color: size.stock!.toInt() == 0 ? Colors.white : Colors.black54,
                                                 ),
-                                                child: CustomNetworkImage(
-                                                  networkImagePath: shade.shade!.image!,
-                                                  errorImagePath: AssetsConstant.lipstickShade,
-                                                  height: 48,
-                                                  width: 48,
-                                                  borderRadius: 4,
-                                                ),
-                                              ),
-                                              shade.shadeId == ProductDetailsController.to.selectedVariation.value && shade.stock!.toInt() != 0
-                                                  ? const Icon(
-                                                      Icons.check,
-                                                      color: Colors.white,
-                                                    )
-                                                  : const SizedBox.shrink(),
-                                              shade.stock!.toInt() == 0
-                                                  ? Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.close,
-                                                          color: Colors.white,
-                                                        ),
-                                                        Text(
-                                                          'Out of Stock',
-                                                          style: AppTheme.textStyleNormalRed12.copyWith(fontSize: 8, color: Colors.white),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  : const SizedBox.shrink()
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                    ))
-                                .toList(),
-                          ),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                },
+                              ),
+                            ),
+                            CustomSizedBox.space8H,
+                            // Obx(
+                            //   () => RichText(
+                            //     text: TextSpan(
+                            //       text: "Available stock: ",
+                            //       style: AppTheme.textStyleNormalBlack14,
+                            //       children: [
+                            //         TextSpan(
+                            //           text: ProductDetailsController.to.product.value.productSizes!
+                            //               .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                            //               .stock
+                            //               .toString(),
+                            //           style: AppTheme.textStyleBoldBlack14,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            // Container(
+                            //   color: const Color(0xffF9F9F9),
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                            //     child: Column(
+                            //       children: [
+                            //         CustomSizedBox.space8H,
+                            //         Row(
+                            //           children: [
+                            //             const Text(
+                            //               'Select a Shade',
+                            //               style: AppTheme.textStyleBoldBlack14,
+                            //             ),
+                            //             Container(
+                            //               height: 15,
+                            //               width: 1,
+                            //               color: Colors.grey,
+                            //               margin: const EdgeInsets.symmetric(horizontal: 8),
+                            //             ),
+                            //             Text(
+                            //               '${ProductDetailsController.to.product.value.productShades!.length} varients',
+                            //               style: AppTheme.textStyleSemiBoldFadeBlack14,
+                            //             )
+                            //           ],
+                            //         ),
+                            //         CustomSizedBox.space8H,
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            // const Divider(
+                            //   thickness: 1.5,
+                            //   color: Color(0xffECECEC),
+                            //   height: 0,
+                            //   indent: 0,
+                            // ),
+                            // CustomSizedBox.space20H,
+                            // Wrap(
+                            //   alignment: WrapAlignment.start,
+                            //   crossAxisAlignment: WrapCrossAlignment.start,
+                            //   children: ProductDetailsController.to.product.value.productShades!
+                            //       .map((shade) => Padding(
+                            //             padding: const EdgeInsets.all(8.0),
+                            //             child: Obx(() {
+                            //               return GestureDetector(
+                            //                 onTap: () {
+                            //                   ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                            //                 },
+                            //                 child: Stack(
+                            //                   alignment: Alignment.center,
+                            //                   children: [
+                            //                     Container(
+                            //                       decoration: BoxDecoration(
+                            //                         color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent,
+                            //                         border: Border.all(
+                            //                             color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent,
+                            //                             width: 1.5),
+                            //                         borderRadius: BorderRadius.circular(5),
+                            //                         boxShadow: shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                            //                             ? [
+                            //                                 BoxShadow(
+                            //                                   color: Colors.black38,
+                            //                                   blurRadius: 5,
+                            //                                 )
+                            //                               ]
+                            //                             : [],
+                            //                       ),
+                            //                       child: CustomNetworkImage(
+                            //                         networkImagePath: shade.shade!.image!,
+                            //                         errorImagePath: AssetsConstant.lipstickShade,
+                            //                         height: 48,
+                            //                         width: 48,
+                            //                         borderRadius: 4,
+                            //                       ),
+                            //                     ),
+                            //                     shade.shadeId == ProductDetailsController.to.selectedVariation.value && shade.stock!.toInt() != 0
+                            //                         ? const Icon(
+                            //                             Icons.check,
+                            //                             color: Colors.white,
+                            //                           )
+                            //                         : const SizedBox.shrink(),
+                            //                     shade.stock!.toInt() == 0
+                            //                         ? Column(
+                            //                             mainAxisAlignment: MainAxisAlignment.center,
+                            //                             children: [
+                            //                               const Icon(
+                            //                                 Icons.close,
+                            //                                 color: Colors.white,
+                            //                               ),
+                            //                               Text(
+                            //                                 'Out of Stock',
+                            //                                 style: AppTheme.textStyleNormalRed12.copyWith(fontSize: 8, color: Colors.white),
+                            //                               ),
+                            //                             ],
+                            //                           )
+                            //                         : const SizedBox.shrink()
+                            //                   ],
+                            //                 ),
+                            //               );
+                            //             }),
+                            //           ))
+                            //       .toList(),
+                            // ),
 
-                          // Obx(
-                          //   () => RichText(
-                          //     text: TextSpan(
-                          //       text: "Available stock: ",
-                          //       style: AppTheme.textStyleNormalBlack14,
-                          //       children: [
-                          //         TextSpan(
-                          //           text: ProductDetailsController.to.product.value.productShades!
-                          //               .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                          //               .stock
-                          //               .toString(),
-                          //           style: AppTheme.textStyleBoldBlack14,
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 100,
-                          //   child: ListView.builder(
-                          //     padding: const EdgeInsets.symmetric(horizontal: 8),
-                          //     scrollDirection: Axis.horizontal,
-                          //     itemBuilder: (context, index) {
-                          //       final shade = ProductDetailsController.to.product.value.productShades![index];
-                          //       return Padding(
-                          //         padding: const EdgeInsets.all(8.0),
-                          //         child: Obx(() {
-                          //           return GestureDetector(
-                          //             onTap: () {
-                          //               ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
-                          //             },
-                          //             child: Stack(
-                          //               alignment: Alignment.center,
-                          //               children: [
-                          //                 CustomNetworkImage(
-                          //                   networkImagePath: shade.shade!.image!,
-                          //                   errorImagePath: AssetsConstant.lipstickShade,
-                          //                   height: 48,
-                          //                   width: 48,
-                          //                   borderRadius: 4,
-                          //                 ),
-                          //                 shade.shadeId == ProductDetailsController.to.selectedVariation.value
-                          //                     ? const Icon(
-                          //                         Icons.check,
-                          //                         color: Colors.white,
-                          //                       )
-                          //                     : const SizedBox.shrink()
-                          //               ],
-                          //             ),
-                          //           );
-                          //         }),
-                          //       );
-                          //     },
-                          //     itemCount: ProductDetailsController.to.product.value.productShades!.length,
-                          //   ),
-                          // )
+                            // Obx(
+                            //   () => RichText(
+                            //     text: TextSpan(
+                            //       text: "Available stock: ",
+                            //       style: AppTheme.textStyleNormalBlack14,
+                            //       children: [
+                            //         TextSpan(
+                            //           text: ProductDetailsController.to.product.value.productShades!
+                            //               .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                            //               .stock
+                            //               .toString(),
+                            //           style: AppTheme.textStyleBoldBlack14,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 100,
+                            //   child: ListView.builder(
+                            //     padding: const EdgeInsets.symmetric(horizontal: 8),
+                            //     scrollDirection: Axis.horizontal,
+                            //     itemBuilder: (context, index) {
+                            //       final shade = ProductDetailsController.to.product.value.productShades![index];
+                            //       return Padding(
+                            //         padding: const EdgeInsets.all(8.0),
+                            //         child: Obx(() {
+                            //           return GestureDetector(
+                            //             onTap: () {
+                            //               ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+                            //             },
+                            //             child: Stack(
+                            //               alignment: Alignment.center,
+                            //               children: [
+                            //                 CustomNetworkImage(
+                            //                   networkImagePath: shade.shade!.image!,
+                            //                   errorImagePath: AssetsConstant.lipstickShade,
+                            //                   height: 48,
+                            //                   width: 48,
+                            //                   borderRadius: 4,
+                            //                 ),
+                            //                 shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                            //                     ? const Icon(
+                            //                         Icons.check,
+                            //                         color: Colors.white,
+                            //                       )
+                            //                     : const SizedBox.shrink()
+                            //               ],
+                            //             ),
+                            //           );
+                            //         }),
+                            //       );
+                            //     },
+                            //     itemCount: ProductDetailsController.to.product.value.productShades!.length,
+                            //   ),
+                            // )
 
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     //This is for background color
-                          //     color: Color(0xffF9F9F9),
-                          //     //This is for bottom border that is needed
-                          //     border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
-                          //   ),
-                          //   child:
-                          //
-                          //   TabBar(
-                          //       labelColor: AppColors.kBlackColor,
-                          //       unselectedLabelColor: Colors.black54,
-                          //       labelStyle: AppTheme.textStyleBoldBlack14,
-                          //       unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
-                          //       indicatorColor: AppColors.kPrimaryColor,
-                          //       dividerColor: AppColors.kPrimaryColor,
-                          //       automaticIndicatorColorAdjustment: true,
-                          //       labelPadding: EdgeInsets.symmetric(vertical: 6),
-                          //       controller: ProductDetailsController.to.tabController,
-                          //       tabs: ProductDetailsController.to.tabTiles.map((String title) {
-                          //         return Tab(
-                          //           text: title,
-                          //         );
-                          //       }).toList()),
-                          // ),
-                          // SizedBox(
-                          //   height: 300,
-                          //   child: TabBarView(controller: ProductDetailsController.to.tabController, children: List.generate(2, (index) => buildwidget(index))),
-                          // ),
-                        ],
-                      )
-              ],
+                            Container(
+                              decoration: BoxDecoration(
+                                //This is for background color
+                                color: Color(0xffF9F9F9),
+                                //This is for bottom border that is needed
+                                border: Border(bottom: BorderSide(color: Color(0xffECECEC), width: 1.5)),
+                              ),
+                              child: TabBar(
+                                  labelColor: AppColors.kBlackColor,
+                                  unselectedLabelColor: Colors.black54,
+                                  labelStyle: AppTheme.textStyleBoldBlack14,
+                                  unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
+                                  indicatorColor: AppColors.kPrimaryColor,
+                                  dividerColor: AppColors.kPrimaryColor,
+                                  automaticIndicatorColorAdjustment: true,
+                                  labelPadding: EdgeInsets.symmetric(vertical: 6),
+                                  controller: ProductDetailsController.to.tabController,
+                                  tabs: ProductDetailsController.to.tabTiles.map((String title) {
+                                    return Tab(
+                                      text: title,
+                                    );
+                                  }).toList()),
+                            ),
+                            SizedBox(
+                              height: 300,
+                              child: TabBarView(controller: ProductDetailsController.to.tabController, children: List.generate(2, (index) => buildwidget(index))),
+                            ),
+                          ],
+                        )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        bottomNavigationBar: BottomCalculationTotalWidget(isSelectSize: isSelectSize),
       ),
-      bottomNavigationBar: BottomCalculationTotalWidget(isSelectSize: isSelectSize),
     );
   }
 
-  // Widget buildwidget(int tabIndex) {
-  //   switch (tabIndex) {
-  //     case 0:
-  //       return GridView.builder(
-  //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-  //         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
-  //         shrinkWrap: true,
-  //         primary: false,
-  //         itemCount: 10,
-  //         itemBuilder: (context, index) {
-  //           return Row(
-  //             mainAxisSize: MainAxisSize.min,
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: [
-  //               Stack(
-  //                 alignment: Alignment.center,
-  //                 children: [
-  //                   const CustomNetworkImage(
-  //                     networkImagePath: '',
-  //                     borderRadius: 5,
-  //                     height: 52,
-  //                     width: 52,
-  //                     errorImagePath: AssetsConstant.lipstickShade,
-  //                     fit: BoxFit.fitHeight,
-  //                   ),
-  //                   index == 0
-  //                       ? const Icon(
-  //                           Icons.check_rounded,
-  //                           color: Colors.white,
-  //                         )
-  //                       : index == 9
-  //                           ? const Icon(
-  //                               CupertinoIcons.multiply,
-  //                               color: Colors.white,
-  //                             )
-  //                           : const SizedBox.shrink()
-  //                 ],
-  //               ),
-  //               CustomSizedBox.space8W,
-  //               Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 children: [
-  //                   const Text(
-  //                     'Nude Shade Color',
-  //                     style: AppTheme.textStyleNormalBlack14,
-  //                   ),
-  //                   index == 9
-  //                       ? const Text(
-  //                           'Out of Stock',
-  //                           style: AppTheme.textStyleNormalRed12,
-  //                         )
-  //                       : const SizedBox.shrink(),
-  //                 ],
-  //               )
-  //             ],
-  //           );
-  //         },
-  //       );
-  //
-  //     case 1:
-  //       return GridView.builder(
-  //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-  //         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
-  //         shrinkWrap: true,
-  //         primary: false,
-  //         itemCount: 10,
-  //         itemBuilder: (context, index) {
-  //           return Row(
-  //             mainAxisSize: MainAxisSize.min,
-  //             mainAxisAlignment: MainAxisAlignment.start,
-  //             crossAxisAlignment: CrossAxisAlignment.center,
-  //             children: [
-  //               Stack(
-  //                 alignment: Alignment.center,
-  //                 children: [
-  //                   const CustomNetworkImage(
-  //                     networkImagePath: '',
-  //                     borderRadius: 5,
-  //                     height: 42,
-  //                     width: 42,
-  //                     errorImagePath: AssetsConstant.lipstickShade,
-  //                     fit: BoxFit.fitHeight,
-  //                   ),
-  //                   index == 0
-  //                       ? const Icon(
-  //                           Icons.check_rounded,
-  //                           color: Colors.white,
-  //                         )
-  //                       : index == 9
-  //                           ? const Icon(
-  //                               CupertinoIcons.multiply,
-  //                               color: Colors.white,
-  //                             )
-  //                           : const SizedBox.shrink()
-  //                 ],
-  //               ),
-  //               CustomSizedBox.space8W,
-  //               Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   const Text(
-  //                     'Nude Shade Color',
-  //                     style: AppTheme.textStyleNormalBlack14,
-  //                   ),
-  //                   index == 9
-  //                       ? const Text(
-  //                           'Out of Stock',
-  //                           style: AppTheme.textStyleNormalRed12,
-  //                         )
-  //                       : const SizedBox.shrink(),
-  //                 ],
-  //               )
-  //             ],
-  //           );
-  //         },
-  //       );
-  //
-  //     default:
-  //       return const Center(
-  //         child: Text(
-  //           'Unknown Tab',
-  //           style: TextStyle(fontSize: 10),
-  //         ),
-  //       );
-  //   }
-  // }
+  Widget buildwidget(int tabIndex) {
+    switch (tabIndex) {
+      case 0:
+        return GridView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
+          shrinkWrap: true,
+          primary: false,
+          itemCount: ProductDetailsController.to.product.value.productShades!.length,
+          itemBuilder: (context, index) {
+            final shade = ProductDetailsController.to.product.value.productShades![index];
+            return GestureDetector(
+              onTap: () {
+                ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Obx(() {
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent,
+                            border: Border.all(color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent, width: 1.5),
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                                ? [
+                                    BoxShadow(
+                                      color: Colors.black38,
+                                      blurRadius: 5,
+                                    )
+                                  ]
+                                : [],
+                          ),
+                          child: CustomNetworkImage(
+                            networkImagePath: shade.shade!.image!,
+                            errorImagePath: AssetsConstant.lipstickShade,
+                            height: 48,
+                            width: 48,
+                            borderRadius: 4,
+                          ),
+                        ),
+                        shade.shadeId == ProductDetailsController.to.selectedVariation.value && shade.stock!.toInt() != 0
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              )
+                            : const SizedBox.shrink(),
+                        shade.stock!.toInt() == 0
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    'Out of Stock',
+                                    style: AppTheme.textStyleNormalRed12.copyWith(fontSize: 8, color: Colors.white),
+                                  ),
+                                ],
+                              )
+                            : const SizedBox.shrink()
+                      ],
+                    );
+                  }),
+                  CustomSizedBox.space8W,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          shade.shade!.name!,
+                          style: AppTheme.textStyleNormalBlack14,
+                        ),
+                        shade.stock!.toInt() == 0
+                            ? const Text(
+                                'Out of Stock',
+                                style: AppTheme.textStyleNormalRed12,
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+
+      case 1:
+        return GridView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 230, mainAxisExtent: 42, mainAxisSpacing: 16),
+          shrinkWrap: true,
+          primary: false,
+          itemCount: ProductDetailsController.to.product.value.productShades!.where((element) => element.bestSale == '1').length,
+          itemBuilder: (context, index) {
+            final shade = ProductDetailsController.to.product.value.productShades!.where((element) => element.bestSale == '1').toList()[index];
+            return GestureDetector(
+              onTap: () {
+                ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Obx(() {
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent,
+                            border: Border.all(color: shade.shadeId == ProductDetailsController.to.selectedVariation.value ? Colors.white : Colors.transparent, width: 1.5),
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: shade.shadeId == ProductDetailsController.to.selectedVariation.value
+                                ? [
+                                    BoxShadow(
+                                      color: Colors.black38,
+                                      blurRadius: 5,
+                                    )
+                                  ]
+                                : [],
+                          ),
+                          child: CustomNetworkImage(
+                            networkImagePath: shade.shade!.image!,
+                            errorImagePath: AssetsConstant.lipstickShade,
+                            height: 48,
+                            width: 48,
+                            borderRadius: 4,
+                          ),
+                        ),
+                        shade.shadeId == ProductDetailsController.to.selectedVariation.value && shade.stock!.toInt() != 0
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              )
+                            : const SizedBox.shrink(),
+                        shade.stock!.toInt() == 0
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    'Out of Stock',
+                                    style: AppTheme.textStyleNormalRed12.copyWith(fontSize: 8, color: Colors.white),
+                                  ),
+                                ],
+                              )
+                            : const SizedBox.shrink()
+                      ],
+                    );
+                  }),
+                  CustomSizedBox.space8W,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          shade.shade!.name!,
+                          style: AppTheme.textStyleNormalBlack14,
+                        ),
+                        shade.stock!.toInt() == 0
+                            ? const Text(
+                                'Out of Stock',
+                                style: AppTheme.textStyleNormalRed12,
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+
+      default:
+        return const Center(
+          child: Text(
+            'Unknown Tab',
+            style: TextStyle(fontSize: 10),
+          ),
+        );
+    }
+  }
 }
 
 class BottomCalculationTotalWidget extends StatelessWidget {
@@ -695,7 +766,7 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                           onPressed: () {
                             if (AuthController.to.isLoggedIn.value) {
                               if (HomeController.to.generalSettings.value.buyStatus == '0') {
-                                showSnackBar(msg: "Our Buy option is disabled. Please try again later.");
+                                showSnackBar(msg: HomeController.to.generalSettings.value.buyStatusNote ?? "Our Buy option is disabled. Please try again later.");
                               } else {
                                 if (ProductDetailsController.to.product.value.variationType == 'size'
                                     ? ProductDetailsController.to.product.value.productSizes!
