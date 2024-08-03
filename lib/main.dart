@@ -11,6 +11,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/routes/app_routes.dart';
 import 'package:perfecto/services/notification_service.dart';
+import 'package:perfecto/splash_screen.dart';
 
 import 'DB/database_helper.dart';
 import 'services/fcm.dart';
@@ -41,7 +42,7 @@ void main() async {
   show500Error = false;
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
-  Service.domain("https://fixican.com/");
+  Service.domain("https://app.perfectoblog.com/");
   Service.extraSlag("api/");
   Service.setNeedLoadingMsg(false);
   Service.setLoadingWidget(
@@ -67,7 +68,7 @@ class MyApp extends StatelessWidget {
       title: 'Perfecto',
       theme: ThemeData.light(),
       getPages: AppRoutes.routes(),
-      initialRoute: MainHomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       initialBinding: NavigationBinding(),
     );
   }

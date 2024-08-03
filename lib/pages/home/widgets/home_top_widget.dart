@@ -551,67 +551,69 @@ class HomeTopWidget extends StatelessWidget {
                                           ),
                                         )
                                       :*/
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0).copyWith(bottom: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: GestureDetector(
-                                              child: Container(
-                                                padding: const EdgeInsets.all(12),
-                                                alignment: Alignment.center,
-                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Image.asset(
-                                                      AssetsConstant.filter,
-                                                      height: 16,
-                                                    ),
-                                                    CustomSizedBox.space8W,
-                                                    const Text(
-                                                      'FILTER',
-                                                      style: AppTheme.textStyleBoldPrimary12,
-                                                    )
-                                                  ],
-                                                ),
+                                    Text("${HomeApiController.to.totalProduct.value} Products found", style: const TextStyle(color: Colors.black, fontSize: 16)),
+                                  CustomSizedBox.space8H,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0).copyWith(bottom: 12),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: GestureDetector(
+                                            child: Container(
+                                              padding: const EdgeInsets.all(12),
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Image.asset(
+                                                    AssetsConstant.filter,
+                                                    height: 16,
+                                                  ),
+                                                  CustomSizedBox.space8W,
+                                                  const Text(
+                                                    'FILTER',
+                                                    style: AppTheme.textStyleBoldPrimary12,
+                                                  )
+                                                ],
                                               ),
-                                              onTap: () {
-                                                _showBottomSheetFilter(context);
-                                              },
                                             ),
+                                            onTap: () {
+                                              _showBottomSheetFilter(context);
+                                            },
                                           ),
-                                          CustomSizedBox.space8W,
-                                          Expanded(
-                                            child: GestureDetector(
-                                              child: Container(
-                                                padding: const EdgeInsets.all(12),
-                                                alignment: Alignment.center,
-                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Image.asset(
-                                                      AssetsConstant.sort,
-                                                      height: 16,
-                                                    ),
-                                                    CustomSizedBox.space8W,
-                                                    const Text(
-                                                      'SORT',
-                                                      style: AppTheme.textStyleBoldPrimary12,
-                                                    )
-                                                  ],
-                                                ),
+                                        ),
+                                        CustomSizedBox.space8W,
+                                        Expanded(
+                                          child: GestureDetector(
+                                            child: Container(
+                                              padding: const EdgeInsets.all(12),
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Image.asset(
+                                                    AssetsConstant.sort,
+                                                    height: 16,
+                                                  ),
+                                                  CustomSizedBox.space8W,
+                                                  const Text(
+                                                    'SORT',
+                                                    style: AppTheme.textStyleBoldPrimary12,
+                                                  )
+                                                ],
                                               ),
-                                              onTap: () {
-                                                _showBottomSheetSort(context);
-                                              },
                                             ),
+                                            onTap: () {
+                                              _showBottomSheetSort(context);
+                                            },
                                           ),
-                                        ],
-                                      ),
-                                    )
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
@@ -823,61 +825,69 @@ class HomeTopWidget extends StatelessWidget {
               if (isNeedFilter)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0).copyWith(bottom: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: GestureDetector(
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  AssetsConstant.filter,
-                                  height: 16,
-                                ),
-                                CustomSizedBox.space8W,
-                                const Text(
-                                  'FILTER',
-                                  style: AppTheme.textStyleBoldPrimary12,
-                                )
-                              ],
-                            ),
-                          ),
-                          onTap: () {
-                            _showBottomSheetFilter(context);
-                          },
-                        ),
+                      Obx(
+                        () => Text("${HomeApiController.to.totalProduct.value} Products found", style: const TextStyle(color: Colors.black, fontSize: 16)),
                       ),
-                      CustomSizedBox.space8W,
-                      Expanded(
-                        child: GestureDetector(
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  AssetsConstant.sort,
-                                  height: 16,
+                      CustomSizedBox.space8H,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset(
+                                      AssetsConstant.filter,
+                                      height: 16,
+                                    ),
+                                    CustomSizedBox.space8W,
+                                    const Text(
+                                      'FILTER',
+                                      style: AppTheme.textStyleBoldPrimary12,
+                                    )
+                                  ],
                                 ),
-                                CustomSizedBox.space8W,
-                                const Text(
-                                  'SORT',
-                                  style: AppTheme.textStyleBoldPrimary12,
-                                )
-                              ],
+                              ),
+                              onTap: () {
+                                _showBottomSheetFilter(context);
+                              },
                             ),
                           ),
-                          onTap: () {
-                            _showBottomSheetSort(context);
-                          },
-                        ),
+                          CustomSizedBox.space8W,
+                          Expanded(
+                            child: GestureDetector(
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xffEEFAFF)),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset(
+                                      AssetsConstant.sort,
+                                      height: 16,
+                                    ),
+                                    CustomSizedBox.space8W,
+                                    const Text(
+                                      'SORT',
+                                      style: AppTheme.textStyleBoldPrimary12,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              onTap: () {
+                                _showBottomSheetSort(context);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

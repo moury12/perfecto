@@ -31,6 +31,19 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
   Rx<TextEditingController> reviewTitleController = TextEditingController().obs;
   Rx<TextEditingController> reviewCommentController = TextEditingController().obs;
 
+  Rx<GlobalKey> ratingKey = GlobalKey().obs;
+
+  Future<void> scrollToInstructorRating() async {
+    globalLogger.d('Scrolling to Instructor Rating');
+    globalLogger.d(ratingKey.value.currentState);
+    final context = ratingKey.value.currentContext!;
+
+    await Scrollable.ensureVisible(
+      context,
+      duration: const Duration(seconds: 1),
+    );
+  }
+
   RxString captureImage = ''.obs;
 
   RxInt selectedImageForPage = 0.obs;
@@ -83,6 +96,11 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
     final data = await ProductService.productDetails(id, needLoading: needLoading);
     product.value = data[ProductDetailType.product];
     productList.value = data[ProductDetailType.customerWillView];
+    try {
+      product.value.productShades?.sort((a, b) => b.stock!.toInt().compareTo(a.stock!.toInt()));
+    } catch (e) {
+      globalLogger.e(e);
+    }
     selectedVariation.value = getSelectedVariant();
     rating.value = product.value.myReview != null ? product.value.myReview!.star!.toInt() : 0;
     reviewTitleController.value.text = product.value.myReview != null ? product.value.myReview!.title! : '';

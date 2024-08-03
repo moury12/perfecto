@@ -54,6 +54,7 @@ import 'package:perfecto/pages/profile/profile_page.dart';
 import 'package:perfecto/pages/profile/return_and_cancelation.dart';
 import 'package:perfecto/pages/search/search_bindings.dart';
 import 'package:perfecto/pages/search/search_page.dart';
+import 'package:perfecto/splash_screen.dart';
 
 import '../pages/category/bindings/category_binding.dart';
 import '../pages/offer/sale_page.dart';
@@ -63,6 +64,10 @@ class AppRoutes {
         GetPage(
           name: MainHomeScreen.routeName,
           page: () => const MainHomeScreen(),
+        ),
+        GetPage(
+          name: SplashScreen.routeName,
+          page: () => const SplashScreen(),
         ),
         GetPage(
           name: HomeScreen.routeName,

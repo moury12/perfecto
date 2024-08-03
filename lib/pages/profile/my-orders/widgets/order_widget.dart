@@ -19,6 +19,8 @@ import 'package:collection/collection.dart';
 import '../../../../controller/home_api_controller.dart';
 import 'package:collection/collection.dart';
 
+import '../../../product-details/review/write_review_page.dart';
+
 class OrderWidget extends StatelessWidget {
   final Widget? status;
   final Function()? onPressed;
@@ -199,6 +201,7 @@ class OrderWidget extends StatelessWidget {
                           tagForReturnCancel: tagForReturnCancel,
                           tagBackgroundColor: tagBackgroundColor,
                           text: tagTitle,
+                          order: order,
                         ))),
                 CustomSizedBox.space12H
               ],
@@ -234,6 +237,7 @@ class ProductDetailsWidget extends StatelessWidget {
   final bool tagForReturnCancel;
   final String? text;
   final List<OrderDetails> orderDetails;
+  final OrderModel order;
   const ProductDetailsWidget({
     super.key,
     this.index,
@@ -243,6 +247,7 @@ class ProductDetailsWidget extends StatelessWidget {
     this.text,
     this.tagBackgroundColor,
     required this.orderDetails,
+    required this.order,
   });
 
   @override
@@ -257,97 +262,168 @@ class ProductDetailsWidget extends StatelessWidget {
           Get.toNamed(ComboDetailsScreen.routeName);
         }
       },
-      child: Column(
+      child: Stack(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+          Column(
             children: [
-              needCheckbox
-                  ? Obx(() {
-                      return GestureDetector(
-                        onTap: () async {
-                          ProfileController.to.checked[index!] = !ProfileController.to.checked[index!];
-                        },
-                        child: Container(
-                          height: 18,
-                          width: 18,
-                          margin: const EdgeInsets.only(right: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2),
-                              color: ProfileController.to.checked[index!] ? AppColors.kPrimaryColor : Colors.white,
-                              border: Border.all(width: 0.5, color: ProfileController.to.checked[index!] ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
-                          alignment: Alignment.center,
-                          child: ProfileController.to.checked[index!]
-                              ? const Icon(
-                                  Icons.check_rounded,
-                                  color: Colors.white,
-                                  size: 15,
-                                )
-                              : const SizedBox.shrink(),
-                        ),
-                      );
-                    })
-                  : const SizedBox.shrink(),
-              Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: AppColors.kborderColor, width: .5)),
-                  child: CustomNetworkImage(
-                    networkImagePath: orderDetails.first.productImage ?? '',
-                    errorImagePath: AssetsConstant.megaDeals2,
-                    height: 100,
-                    width: 90,
-                    borderRadius: 4,
-                    fit: BoxFit.contain,
-                  )),
-              CustomSizedBox.space12W,
-              Flexible(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            orderDetails.first.comboId!.isNotEmpty ? orderDetails.first.combo!.name ?? '' : orderDetails.first.productName ?? '',
-                            style: AppTheme.textStyleMediumBlack14,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        if (orderDetails.first.buyGetId!.isNotEmpty || orderDetails.first.comboId!.isNotEmpty)
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: orderDetails.first.buyGetId!.isNotEmpty ? const Color(0xfff25c9b).withOpacity(.1) : AppColors.kDarkPrimaryColor.withOpacity(.1),
-                              borderRadius: BorderRadius.circular(4),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  needCheckbox
+                      ? Obx(() {
+                          return GestureDetector(
+                            onTap: () async {
+                              ProfileController.to.checked[index!] = !ProfileController.to.checked[index!];
+                            },
+                            child: Container(
+                              height: 18,
+                              width: 18,
+                              margin: const EdgeInsets.only(right: 12),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: ProfileController.to.checked[index!] ? AppColors.kPrimaryColor : Colors.white,
+                                  border: Border.all(width: 0.5, color: ProfileController.to.checked[index!] ? AppColors.kDarkPrimaryColor : Colors.black.withOpacity(.25))),
+                              alignment: Alignment.center,
+                              child: ProfileController.to.checked[index!]
+                                  ? const Icon(
+                                      Icons.check_rounded,
+                                      color: Colors.white,
+                                      size: 15,
+                                    )
+                                  : const SizedBox.shrink(),
                             ),
-                            child: Text(
-                              orderDetails.first.buyGetId!.isNotEmpty ? '(Buy Get)' : '(Combo)',
-                              style: TextStyle(
-                                color: orderDetails.first.buyGetId!.isNotEmpty ? const Color(0xfff25c9b) : AppColors.kDarkPrimaryColor,
-                                fontSize: 12,
+                          );
+                        })
+                      : const SizedBox.shrink(),
+                  Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: AppColors.kborderColor, width: .5)),
+                      child: CustomNetworkImage(
+                        networkImagePath: orderDetails.first.productImage ?? '',
+                        errorImagePath: AssetsConstant.megaDeals2,
+                        height: 100,
+                        width: 90,
+                        borderRadius: 4,
+                        fit: BoxFit.contain,
+                      )),
+                  CustomSizedBox.space12W,
+                  Flexible(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                orderDetails.first.comboId!.isNotEmpty ? orderDetails.first.combo!.name ?? '' : orderDetails.first.productName ?? '',
+                                style: AppTheme.textStyleMediumBlack14,
+                                textAlign: TextAlign.left,
                               ),
                             ),
-                          )
-                      ],
-                    ),
-                    CustomSizedBox.space4H,
-                    if (orderDetails.first.comboId!.isNotEmpty)
-                      ...orderDetails
-                          .map(
-                            (e) => Column(
+                            if (orderDetails.first.buyGetId!.isNotEmpty || orderDetails.first.comboId!.isNotEmpty)
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: orderDetails.first.buyGetId!.isNotEmpty ? const Color(0xfff25c9b).withOpacity(.1) : AppColors.kDarkPrimaryColor.withOpacity(.1),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  orderDetails.first.buyGetId!.isNotEmpty ? '(Buy Get)' : '(Combo)',
+                                  style: TextStyle(
+                                    color: orderDetails.first.buyGetId!.isNotEmpty ? const Color(0xfff25c9b) : AppColors.kDarkPrimaryColor,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
+                        CustomSizedBox.space4H,
+                        if (orderDetails.first.comboId!.isNotEmpty)
+                          ...orderDetails
+                              .map(
+                                (e) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      e.productName ?? '',
+                                      style: AppTheme.textStyleMediumBlack14,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    CustomSizedBox.space4H,
+                                    RichText(
+                                      text: TextSpan(text: e.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                        TextSpan(
+                                          text: e.size!.isNotEmpty ? e.size ?? '' : e.shade ?? '',
+                                          style: AppTheme.textStyleBoldBlack14,
+                                        )
+                                      ]),
+                                    ),
+                                    CustomSizedBox.space4H,
+                                  ],
+                                ),
+                              )
+                              .toList(),
+                        if (orderDetails.first.comboId!.isEmpty) ...[
+                          Row(
+                            children: [
+                              /// check:// Brand data is not available in the response
+
+                              // RichText(
+                              //   text: const TextSpan(text: 'Brand: ', style: AppTheme.textStyleNormalBlack14, children: [
+                              //     TextSpan(
+                              //       text: 'Lakme',
+                              //       style: AppTheme.textStyleBoldBlack14,
+                              //     )
+                              //   ]),
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              //   child: Container(
+                              //     color: Colors.black.withOpacity(.2),
+                              //     height: 15,
+                              //     width: 1,
+                              //   ),
+                              // ),
+                              RichText(
+                                text: TextSpan(text: orderDetails.first.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                  TextSpan(
+                                    text: orderDetails.first.size!.isNotEmpty ? orderDetails.first.size ?? '' : orderDetails.first.shade ?? '',
+                                    style: AppTheme.textStyleBoldBlack14,
+                                  )
+                                ]),
+                              ),
+                            ],
+                          ),
+                          CustomSizedBox.space8H,
+                        ],
+                        if (orderDetails.first.buyGetId!.isNotEmpty)
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              // color: AppColors.kOfferButtonColor.withOpacity(.1),
+                              border: Border.all(color: AppColors.kOfferButtonColor, width: .1),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  e.productName ?? '',
-                                  style: AppTheme.textStyleMediumBlack14,
-                                  textAlign: TextAlign.left,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        orderDetails.last.productName ?? '',
+                                        style: AppTheme.textStyleMediumBlack14,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 CustomSizedBox.space4H,
                                 RichText(
-                                  text: TextSpan(text: e.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
+                                  text: TextSpan(text: orderDetails.last.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
                                     TextSpan(
-                                      text: e.size!.isNotEmpty ? e.size ?? '' : e.shade ?? '',
+                                      text: orderDetails.last.size!.isNotEmpty ? orderDetails.last.size ?? '' : orderDetails.last.shade ?? '',
                                       style: AppTheme.textStyleBoldBlack14,
                                     )
                                   ]),
@@ -355,135 +431,89 @@ class ProductDetailsWidget extends StatelessWidget {
                                 CustomSizedBox.space4H,
                               ],
                             ),
-                          )
-                          .toList(),
-                    if (orderDetails.first.comboId!.isEmpty) ...[
-                      Row(
-                        children: [
-                          /// check:// Brand data is not available in the response
-
-                          // RichText(
-                          //   text: const TextSpan(text: 'Brand: ', style: AppTheme.textStyleNormalBlack14, children: [
-                          //     TextSpan(
-                          //       text: 'Lakme',
-                          //       style: AppTheme.textStyleBoldBlack14,
-                          //     )
-                          //   ]),
-                          // ),
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          //   child: Container(
-                          //     color: Colors.black.withOpacity(.2),
-                          //     height: 15,
-                          //     width: 1,
-                          //   ),
-                          // ),
-                          RichText(
-                            text: TextSpan(text: orderDetails.first.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
-                              TextSpan(
-                                text: orderDetails.first.size!.isNotEmpty ? orderDetails.first.size ?? '' : orderDetails.first.shade ?? '',
-                                style: AppTheme.textStyleBoldBlack14,
-                              )
-                            ]),
                           ),
-                        ],
-                      ),
-                      CustomSizedBox.space8H,
-                    ],
-                    if (orderDetails.first.buyGetId!.isNotEmpty)
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          // color: AppColors.kOfferButtonColor.withOpacity(.1),
-                          border: Border.all(color: AppColors.kOfferButtonColor, width: .1),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        CustomSizedBox.space4H,
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    orderDetails.last.productName ?? '',
-                                    style: AppTheme.textStyleMediumBlack14,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            CustomSizedBox.space4H,
                             RichText(
-                              text: TextSpan(text: orderDetails.last.size!.isNotEmpty ? 'Size: ' : 'Shade: ', style: AppTheme.textStyleNormalBlack14, children: [
+                              text: TextSpan(text: 'Qty: ', style: AppTheme.textStyleNormalBlack14, children: [
                                 TextSpan(
-                                  text: orderDetails.last.size!.isNotEmpty ? orderDetails.last.size ?? '' : orderDetails.last.shade ?? '',
+                                  text: orderDetails.first.quantity ?? '1',
                                   style: AppTheme.textStyleBoldBlack14,
                                 )
                               ]),
                             ),
-                            CustomSizedBox.space4H,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Container(
+                                color: Colors.black.withOpacity(.2),
+                                height: 15,
+                                width: 1,
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: 'Amount: ',
+                                style: AppTheme.textStyleNormalBlack14,
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        '৳${orderDetails.first.comboId!.isNotEmpty ? orderDetails.map((e) => e.discountedPrice!.toDouble()).toList().sum.toStringAsFixed(2) : orderDetails.first.discountedPrice!.toDouble().toStringAsFixed(2)}',
+                                    style: AppTheme.textStyleBoldBlack14,
+                                  )
+                                ],
+                              ),
+                            ),
+                            const Spacer(),
+                            tagForReturnCancel
+                                ? Container(
+                                    decoration: BoxDecoration(color: tagBackgroundColor, borderRadius: BorderRadius.circular(4)),
+                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                    child: Text(
+                                      text ?? 'Returned',
+                                      style: AppTheme.textStyleMediumBlack10,
+                                    ),
+                                  )
+                                : const SizedBox.shrink()
                           ],
                         ),
-                      ),
-                    CustomSizedBox.space4H,
-                    Row(
-                      children: [
-                        RichText(
-                          text: TextSpan(text: 'Qty: ', style: AppTheme.textStyleNormalBlack14, children: [
-                            TextSpan(
-                              text: orderDetails.first.quantity ?? '1',
-                              style: AppTheme.textStyleBoldBlack14,
-                            )
-                          ]),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Container(
-                            color: Colors.black.withOpacity(.2),
-                            height: 15,
-                            width: 1,
-                          ),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            text: 'Amount: ',
-                            style: AppTheme.textStyleNormalBlack14,
-                            children: [
-                              TextSpan(
-                                text:
-                                    '৳${orderDetails.first.comboId!.isNotEmpty ? orderDetails.map((e) => e.discountedPrice!.toDouble()).toList().sum.toStringAsFixed(2) : orderDetails.first.discountedPrice!.toDouble().toStringAsFixed(2)}',
-                                style: AppTheme.textStyleBoldBlack14,
-                              )
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        tagForReturnCancel
-                            ? Container(
-                                decoration: BoxDecoration(color: tagBackgroundColor, borderRadius: BorderRadius.circular(4)),
-                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                child: Text(
-                                  text ?? 'Returned',
-                                  style: AppTheme.textStyleMediumBlack10,
-                                ),
-                              )
-                            : const SizedBox.shrink()
+                        CustomSizedBox.space12H,
                       ],
                     ),
-                    CustomSizedBox.space12H,
-                  ],
-                ),
+                  ),
+                ],
               ),
+              !isDivider ? const SizedBox.shrink() : CustomSizedBox.space12H,
+              !isDivider
+                  ? const SizedBox.shrink()
+                  : const Divider(
+                      height: 1,
+                      thickness: 1,
+                      color: AppColors.kborderColor,
+                    ),
             ],
           ),
-          !isDivider ? const SizedBox.shrink() : CustomSizedBox.space12H,
-          !isDivider
-              ? const SizedBox.shrink()
-              : const Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: AppColors.kborderColor,
+          if (order.status == '4' && orderDetails.first.combo == null)
+            Positioned(
+                child: GestureDetector(
+                  onTap: () async {
+                    await ProductDetailsController.to.getProductDetails(orderDetails.first.productId!);
+                    Get.toNamed(WriteReviewScreen.routeName);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: AppColors.kPrimaryColor,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      'Give Review',
+                      style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
+                left: 0,
+                top: 0)
         ],
       ),
     );

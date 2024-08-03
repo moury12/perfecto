@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
@@ -9,9 +11,11 @@ import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/auth/login_page.dart';
+import 'package:perfecto/pages/category/single_category_page.dart';
 import 'package:perfecto/pages/child_nav_page.dart';
 import 'package:perfecto/pages/home/controller/home_controller.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
@@ -138,7 +142,21 @@ class ProductDetailsScreen extends StatelessWidget {
                           text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
                         TextSpan(
                           text: ProductDetailsController.to.product.value.brand?.name ?? '-',
-                          style: AppTheme.textStyleMediumBlack14,
+                          style: AppTheme.textStyleMediumBlack14.copyWith(color: const Color(0xff02792A)),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              if (ProductDetailsController.to.product.value.brand != null) {
+                                await HomeApiController.to.productListWithCategoryCall({
+                                  'brand': [ProductDetailsController.to.product.value.brand?.id!].toString(),
+                                });
+                                NavigationController.to.resetFilters();
+                                HomeApiController.to.brandList.firstWhere((element) => element.id == ProductDetailsController.to.product.value.brand?.id).isChecked = true;
+                                NavigationController.to.addAttribute = {
+                                  'brand': [ProductDetailsController.to.product.value.brand?.id!].toString(),
+                                };
+                                Get.toNamed(SingleCategoryWiseScreen.routeName);
+                              }
+                            },
                         ),
                         if (ProductDetailsController.to.product.value.variationType != 'shade') ...[
                           const TextSpan(
@@ -178,15 +196,20 @@ class ProductDetailsScreen extends StatelessWidget {
                         //           );
                         //   },
                         // ),
-                        RatingWidget(
-                            rating: double.tryParse(ProductDetailsController.to.product.value.reviewsAvgStar!) ?? 0,
-                            showRatingValue: false,
-                            fontSize: 12,
-                            ratingTextPosition: RatingTextPosition.right,
-                            textColor: Colors.black.withOpacity(.8),
-                            ratingIconSize: 14,
-                            ratingColor: AppColors.kOfferButtonColor,
-                            outOf: 5),
+                        GestureDetector(
+                          onTap: () async {
+                            await ProductDetailsController.to.scrollToInstructorRating();
+                          },
+                          child: RatingWidget(
+                              rating: double.tryParse(ProductDetailsController.to.product.value.reviewsAvgStar!) ?? 0,
+                              showRatingValue: false,
+                              fontSize: 12,
+                              ratingTextPosition: RatingTextPosition.right,
+                              textColor: Colors.black.withOpacity(.8),
+                              ratingIconSize: 14,
+                              ratingColor: AppColors.kOfferButtonColor,
+                              outOf: 5),
+                        ),
                         // Text('4.3/5', style: AppTheme.textStyleSemiBoldBlack14),
                         RichText(
                             text: TextSpan(children: [
@@ -367,11 +390,13 @@ class ProductDetailsScreen extends StatelessWidget {
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (context, index) {
                                     final shade = ProductDetailsController.to.product.value.productShades![index];
+                                    globalLogger.d(shade.toJson());
                                     return Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Obx(() {
                                         return GestureDetector(
                                           onTap: () {
+                                            globalLogger.d(shade.toJson());
                                             ProductDetailsController.to.selectedVariation.value = shade.shadeId!;
                                           },
                                           child: Stack(
@@ -385,7 +410,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                   borderRadius: BorderRadius.circular(5),
                                                   boxShadow: shade.shadeId == ProductDetailsController.to.selectedVariation.value
                                                       ? [
-                                                          BoxShadow(
+                                                          const BoxShadow(
                                                             color: Colors.black38,
                                                             blurRadius: 5,
                                                           )
@@ -672,9 +697,10 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const Divider(thickness: 8, color: Color(0xffECECEC)),
-                  const TitleTextWidget(tileText: 'Ratings & Reviews'),
+                  TitleTextWidget(key: ProductDetailsController.to.ratingKey.value, tileText: 'Ratings & Reviews'),
                   const Divider(thickness: 1.5, color: Color(0xffECECEC)),
                   Container(
+                    // key: ProductDetailsController.to.ratingKey.value,
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     alignment: Alignment.center,

@@ -52,6 +52,7 @@ class HomeApiController extends GetxController {
   Rx<LoadingStatus> brandListStatus = LoadingStatus.initial.obs;
   RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
   Rx<LoadingStatus> categoryListStatus = LoadingStatus.initial.obs;
+  RxString totalProduct = '0'.obs;
 
   Rx<SingleBlogModel> singleBlog = SingleBlogModel().obs;
   Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;

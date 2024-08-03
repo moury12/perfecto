@@ -37,6 +37,10 @@ class ProductService {
         } else {
           HomeApiController.to.paginationUrl.value = '';
         }
+        globalLogger.d(response['data']['products']['total'], error: "Total Product");
+        if (response['data']['products']['total'] != null) {
+          HomeApiController.to.totalProduct.value = response['data']['products']['total'].toString();
+        }
         try {
           NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
               ? (response['data']['starCounts'] as Map)
@@ -81,6 +85,10 @@ class ProductService {
           }
         });
 
+        globalLogger.d(response['data']['products']['total'], error: "Total Product");
+        if (response['data']['products']['total'] != null) {
+          HomeApiController.to.totalProduct.value = response['data']['products']['total'].toString();
+        }
         if (response['data']['products']['next_page_url'] != null) {
           HomeApiController.to.paginationUrl.value = response['data']['products']['next_page_url'];
         } else {
@@ -179,11 +187,16 @@ class ProductService {
           }
         });
 
+        globalLogger.d(response['data']['products']['total'], error: "Total Product");
+        if (response['data']['products']['total'] != null) {
+          HomeApiController.to.totalProduct.value = response['data']['products']['total'].toString();
+        }
         if (response['data']['products']['next_page_url'] != null) {
           HomeApiController.to.paginationUrl.value = response['data']['products']['next_page_url'];
         } else {
           HomeApiController.to.paginationUrl.value = '';
         }
+
         try {
           NavigationController.to.attributeList.firstWhere((element) => element.keyName == 'average_rating').attributes = response['data']['starCounts'] != null
               ? (response['data']['starCounts'] as Map)

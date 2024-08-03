@@ -247,6 +247,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: ProductDetailsWidget(
                                       orderDetails: UserController.to.orderDetails.value.orderDetails![index],
+                                      order: UserController.to.orderDetails.value,
                                     ))),
                             CustomSizedBox.space12H
                           ],
