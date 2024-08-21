@@ -352,7 +352,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              '৳ 1450.00',
+                              'Shipped',
                               style: AppTheme.textStyleSemiBoldBlack14,
                             )
                           ],
@@ -391,24 +391,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                      ),    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 6),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Reward Points Discount',
-                              style: AppTheme.textStyleSemiBoldFadeBlack14,
-                            ),
-                            const Spacer(),
-                            Text(
-                              '-৳ 50',
-                              style: AppTheme.textStyleSemiBoldBlack14,
-                            )
-                          ],
-                        ),
                       ),
-                      CustomSizedBox.space8H,
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: CustomDividerWidget(),
@@ -433,8 +416,7 @@ class MyOrderDetailsScreen extends StatelessWidget {
                     ],
                   );
                 }),
-              ),
-              CustomSizedBox.space12H,
+              )
             ],
           ))
         ],

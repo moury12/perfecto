@@ -12,33 +12,24 @@ class HomeController extends GetxController {
   RxList brands = [
     {
       'id': 'A',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
+      'product': ['Anastasia Beverly Hills','Aaranyaa','Abena','Abelino','Aaranyaa']
+    },{
       'id': 'B',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
+      'product': ['Anastasia Beverly Hills','Aaranyaa','Abena','Abelino','Aaranyaa']
+    },{
       'id': 'D',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
+      'product': ['Anastasia Beverly Hills','Aaranyaa','Abena','Abelino','Aaranyaa']
+    },{
       'id': 'C',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
+      'product': ['Anastasia Beverly Hills','Aaranyaa','Abena','Abelino','Aaranyaa']
+    },{
       'id': 'E',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
-    },
-    {
+      'product': ['Anastasia Beverly Hills','Aaranyaa','Abena','Abelino','Aaranyaa']
+    },{
       'id': 'F',
-      'product': ['Anastasia Beverly Hills', 'Aaranyaa', 'Abena', 'Abelino', 'Aaranyaa']
+      'product': ['Anastasia Beverly Hills','Aaranyaa','Abena','Abelino','Aaranyaa']
     },
   ].obs;
-  List<String> generateAlphabets() {
-    return List<String>.generate(26, (index) => String.fromCharCode('A'.codeUnitAt(0) + index));
-  }
-
   List<Map<String, dynamic>> megadealsITem = [
     {
       'name': 'Maybelline New York Superstay Vi sdfsrgffg',
@@ -102,18 +93,54 @@ class HomeController extends GetxController {
     },
   ];
   List<Map<String, dynamic>> categoryItem = [
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory1, 'route': SingleCatergoryWiseScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory2, 'route': SingleCatergoryWiseScreen.routeName},
-    {'name': 'Skin', 'img': AssetsConstant.firstCategory3, 'route': SingleCatergoryWiseScreen.routeName},
-    // {'name': 'Skin', 'img': AssetsConstant.firstCategory4, 'route': OutletScreen.routeName},
-    // {'name': 'Skin', 'img': AssetsConstant.firstCategory5, 'route': SingleCatergoryWiseScreen.routeName},
-    // {'name': 'Skin', 'img': AssetsConstant.firstCategory6, 'route': SingleCatergoryWiseScreen.routeName},
-    // {'name': 'Skin', 'img': AssetsConstant.firstCategory7, 'route': SingleCatergoryWiseScreen.routeName},
-    // {'name': 'Offers', 'img': AssetsConstant.firstCategory8, 'route': SingleCatergoryWiseScreen.routeName},
+    {
+      'name': 'Skin',
+      'img': AssetsConstant.firstCategory1,
+      'route': SingleCatergoryWiseScreen.routeName
+    },
+    {
+      'name': 'Skin',
+      'img': AssetsConstant.firstCategory2,
+      'route': SingleCatergoryWiseScreen.routeName
+    },
+    {
+      'name': 'Skin',
+      'img': AssetsConstant.firstCategory3,
+      'route': SingleCatergoryWiseScreen.routeName
+    },
+    {
+      'name': 'Skin',
+      'img': AssetsConstant.firstCategory4,
+      'route': OutletScreen.routeName
+    },
+    {
+      'name': 'Skin',
+      'img': AssetsConstant.firstCategory5,
+      'route': SingleCatergoryWiseScreen.routeName
+    },
+    {
+      'name': 'Skin',
+      'img': AssetsConstant.firstCategory6,
+      'route': SingleCatergoryWiseScreen.routeName
+    },
+    {
+      'name': 'Skin',
+      'img': AssetsConstant.firstCategory7,
+      'route': SingleCatergoryWiseScreen.routeName
+    },
+    {
+      'name': 'Offers',
+      'img': AssetsConstant.firstCategory8,
+      'route': SingleCatergoryWiseScreen.routeName
+    },
   ];
   Rx<PageController> pageController = PageController().obs;
   Rx<int> currentPage = 0.obs;
-  List<String> bannerContent = [AssetsConstant.slider1, AssetsConstant.slider2, AssetsConstant.verticalBannner];
+  List<String> bannerContent = [
+    AssetsConstant.slider1,
+    AssetsConstant.slider2,
+    AssetsConstant.verticalBannner
+  ];
 
   @override
   void onClose() {
@@ -124,11 +151,13 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    Timer.periodic(Duration(milliseconds: 5000), (timer) {
+    Timer.periodic(Duration(milliseconds: 2000), (timer) {
       if (currentPage < (bannerContent.length - 1)) {
-        pageController.value.nextPage(duration: Duration(milliseconds: 2000), curve: Curves.ease);
+        pageController.value.nextPage(
+            duration: Duration(milliseconds: 2000), curve: Curves.ease);
       } else {
-        pageController.value.animateToPage(0, duration: Duration(milliseconds: 2000), curve: Curves.ease);
+        pageController.value.animateToPage(0,
+            duration: Duration(milliseconds: 2000), curve: Curves.ease);
       }
     });
     // TODO: implement onInit

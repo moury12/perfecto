@@ -18,7 +18,7 @@ class ProductDescriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: CustomDrawer(),backgroundColor: AppColors.kBackgroundColor,
+    return Scaffold(drawer: CustomDrawer(),
       body: Column(
         children: [
           const HomeTopWidget(),
@@ -34,7 +34,7 @@ class ProductDescriptionScreen extends StatelessWidget {
                 labelStyle: AppTheme.textStyleBoldBlack14,
                 unselectedLabelStyle: AppTheme.textStyleBoldFadeBlack14,
                 indicatorColor: AppColors.kPrimaryColor,
-                dividerColor: AppColors.kborderColor,
+                dividerColor: AppColors.kPrimaryColor,
                 labelPadding:
                 EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                 controller: ProductDetailsController.to.tabController2,

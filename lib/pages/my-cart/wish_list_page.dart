@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/widgets/button/custom_button.dart';
 import 'package:perfecto/constants/assets_constants.dart';
-import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/my-cart/apply_cuppon_reward.dart';
 import 'package:perfecto/pages/my-cart/widgets/cart_widget.dart';
 import 'package:perfecto/theme/theme_data.dart';
@@ -17,8 +16,7 @@ class WishListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: AppColors.kBackgroundColor,
-      body: Column(children: [
+    return Scaffold(body: Column(children: [
       HomeTopWidget(
         title: Row(
           children: [
@@ -33,7 +31,7 @@ class WishListScreen extends StatelessWidget {
             ),
             CustomSizedBox.space8W,
             Text(
-              'Wishlist',
+              'My Bag',
               style: AppTheme.textStyleSemiBoldBlack16,
             ),
             CustomSizedBox.space4W,
@@ -45,7 +43,6 @@ class WishListScreen extends StatelessWidget {
         ),
         isSearchInclude: false,
       ),
-      CustomSizedBox.space8H,
       !CartController.to.iswishListEmpty.value
           ? Expanded(
         child: ListView(

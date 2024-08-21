@@ -47,8 +47,8 @@ dependencies:
   url_launcher: ^6.2.4
   azlistview: ^2.0.0
 #    path: ../azlistview-2.0.0
-  mh_videoplayer:
-    path: ../mh_videoplayer
+#  mh_videoplayer:
+#    path: ../mh_videoplayer
   mh_core:
 #    path: ../mh_core
     git:

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
-import 'package:perfecto/controller/auth_controller.dart';
-import 'package:perfecto/controller/user_controller.dart';
+import 'package:perfecto/pages/auth/login_page.dart';
 import 'package:perfecto/pages/home/widgets/home_top_widget.dart';
 import 'package:perfecto/pages/points/my_points_page.dart';
 import 'package:perfecto/pages/profile/my-orders/my_order_page.dart';
@@ -26,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const HomeTopWidget(
+        HomeTopWidget(
           isSearchInclude: false,
         ),
         Expanded(
@@ -35,48 +33,40 @@ class ProfileScreen extends StatelessWidget {
             children: [
               Container(
                 clipBehavior: Clip.none,
-                decoration: const BoxDecoration(
-                    image: const DecorationImage(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
                         image: AssetImage(
                           AssetsConstant.profileBackground,
                         ),
-                        fit: BoxFit.fitWidth,
                         alignment: Alignment.topCenter)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomSizedBox.space24H,
-                    Obx(() {
-                      return CustomNetworkImage(
-                        networkImagePath: UserController.to.userInfo.value.avatar??'',
-                        errorImagePath: 'assets/dummy_profile.png',
-                      );
-                    }),
-                  // CustomNetworkImage(
-                  //       networkImagePath: '',
-                  //       errorImagePath: 'assets/dummy_profile.png',
-                  //     ),
+                    CustomNetworkImage(
+                      networkImagePath: '',
+                      errorImagePath: 'assets/dummy_profile.png',
+                  
+                    ),
                     CustomSizedBox.space8H,
-                    Obx(() {
-                      return Text(
-                        UserController.to.userInfo.value.name ?? 'Anonymous User',
-                        style: AppTheme.textStyleBoldWhite14,
-                      );
-                    }),
+                    Text(
+                      'User 1234',
+                      style: AppTheme.textStyleBoldWhite14,
+                    ),
                     CustomSizedBox.space4H,
-                    Obx(() {
-                      return Text(
-                        UserController.to.userInfo.value.phone ?? '-',
-                        style: AppTheme.textStyleSemiBoldWhite12,
-                      );
-                    }),
+                    Text(
+                      '0187565656565',
+                      style: AppTheme.textStyleSemiBoldWhite12,
+                    ),
                     CustomSizedBox.space4H,
                     Container(
                       padding: const EdgeInsets.all(4),
                       width: 100,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(color: const Color(0xffD4F3FF), borderRadius: BorderRadius.circular(4)),
+                      decoration: BoxDecoration(
+                          color: Color(0xffD4F3FF),
+                          borderRadius: BorderRadius.circular(4)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -86,18 +76,29 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           CustomSizedBox.space4W,
                           RichText(
-                              text: const TextSpan(
-                                  text: '',
-                                  children: [TextSpan(text: '0', style: AppTheme.textStyleBoldBlack12), TextSpan(text: ' Points', style: AppTheme.textStyleNormalBlack12)])),
+                              text: const TextSpan(text: '', children: [
+                            TextSpan(
+                                text: '0',
+                                style: AppTheme.textStyleBoldBlack12),
+                            TextSpan(
+                                text: ' Points',
+                                style: AppTheme.textStyleNormalBlack12)
+                          ])),
                         ],
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [const BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)], borderRadius: BorderRadius.circular(8)),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(color: Color(0xffE4EDF0), blurRadius: 12)
+                          ],
+                          borderRadius: BorderRadius.circular(8)),
                       child: Column(
                         children: [
                           ProfileItemWidget(
@@ -107,7 +108,7 @@ class ProfileScreen extends StatelessWidget {
                             image: 'assets/user_icon.png',
                             title: 'My Profile',
                           ),
-                          const Divider(
+                          Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -117,9 +118,9 @@ class ProfileScreen extends StatelessWidget {
                               Get.toNamed(MyPointsScreen.routeName);
                             },
                             image: AssetsConstant.wallet,
-                            title: 'My Point',
+                            title: 'My Wallet',
                           ),
-                          const Divider(
+                          Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -131,19 +132,17 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.ordersIcon,
                             title: 'My Orders',
                           ),
-                          const Divider(
+                          Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
                           ),
                           ProfileItemWidget(
-                            function: () {
-                              Get.toNamed(ReturnAndCancelScreen.routeName);
-                            },
+                            function: () {Get.toNamed(ReturnAndCancelScreen.routeName);},
                             image: AssetsConstant.returnCancel,
                             title: 'Returns & Cancel',
                           ),
-                          const Divider(
+                          Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -155,7 +154,7 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.ratingReview,
                             title: 'My Ratings & Reviews',
                           ),
-                          const Divider(
+                          Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -167,7 +166,7 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.notification,
                             title: 'Notifications',
                           ),
-                          const Divider(
+                          Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
@@ -179,15 +178,14 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.myAddress,
                             title: 'My Addresses',
                           ),
-                          const Divider(
+                          Divider(
                             thickness: 1,
                             color: AppColors.kborderColor,
                             height: 1,
                           ),
                           ProfileItemWidget(
                             function: () {
-                              // Get.toNamed(LoginScreen.routeName);
-                              AuthController.to.logout();
+                              Get.toNamed(LoginScreen.routeName);
                             },
                             image: AssetsConstant.logout,
                             title: 'Logout',
@@ -198,6 +196,7 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
             ],
           ),
         )

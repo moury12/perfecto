@@ -15,7 +15,6 @@ import 'package:perfecto/pages/product-details/product_image_preview.dart';
 import 'package:perfecto/pages/product-details/product_shade_page.dart';
 import 'package:perfecto/pages/product-details/review/review_page.dart';
 import 'package:perfecto/pages/product-details/review/widget/comment_widget.dart';
-import 'package:perfecto/pages/product-details/review/write_review_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
 
@@ -515,20 +514,15 @@ Get.toNamed(ProductImagePreview.routeName);
                         ],
                       ),
                       const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(WriteReviewScreen.routeName);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 1),
-                              borderRadius: BorderRadius.circular(4)),
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          child: const Text(
-                            'Write Review',
-                            style: AppTheme.textStyleBoldBlack14,
-                          ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 1),
+                            borderRadius: BorderRadius.circular(4)),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        child: const Text(
+                          'Write Review',
+                          style: AppTheme.textStyleBoldBlack14,
                         ),
                       ),
                     ],
@@ -561,7 +555,7 @@ Get.toNamed(ProductImagePreview.routeName);
                   ),
                 ),
                 const TitleTextWidget(tileText: 'Most Useful Review'),
-               CommentWidget(index: 1,isHelpful: false,readMore: false),
+               CommentWidget(index: 1,isHelpful: false,),
                 CustomSizedBox.space12H,
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -664,33 +658,31 @@ Get.toNamed(ProductImagePreview.routeName);
       case 0:
         return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child:
-                Stack(alignment: Alignment.bottomCenter,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              image: AssetImage(AssetsConstant.banner2),
-                              fit: BoxFit.fitWidth)),
-
-                    ), Container(width: double.infinity,height: 9,decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.white,blurRadius: 60,spreadRadius: 50)]),),
-                  ],
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: const DecorationImage(
+                          image: AssetImage(AssetsConstant.banner2),
+                          fit: BoxFit.fitWidth)),
                 ),
-                /*Positioned(
+                Positioned(
                     bottom: MediaQuery.of(context).size.width > 600 ? 28 : 16,
                     left: 0,
                     right: 0,
                     child: ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                             bottom: Radius.circular(
-                                *//*MediaQuery.of(context).size.width>600?20:*//* 10)),
+                                /*MediaQuery.of(context).size.width>600?20:*/ 10)),
                         child: Image.asset(
                           AssetsConstant.shade,
                           color: const Color(0xffBABABA).withOpacity(.8),
-                        ))),*/
-             );
+                        ))),
+              ],
+            ));
       case 1:
         return Padding(
           padding: const EdgeInsets.all(16.0),

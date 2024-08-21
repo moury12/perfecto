@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/category/controller/category_controller.dart';
 import 'package:perfecto/pages/category/widgets/single_category_product_widget.dart';
-import 'package:perfecto/pages/offer/sale_page.dart';
 import 'package:perfecto/pages/product-details/product_details_page.dart';
 import 'package:perfecto/shared/custom_sized_box.dart';
 import 'package:perfecto/theme/theme_data.dart';
@@ -100,20 +99,17 @@ class MegaDealsWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: RichText(
-                      text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
-                    TextSpan(
-                      text: '$price  ',
-                      style: AppTheme.textStyleBoldBlack14,
-                    ),
-                    TextSpan(
-                      text: previousPrice,
-                      style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
-                    )
-                  ])),
-                )
+                RichText(
+                    text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
+                  TextSpan(
+                    text: '$price  ',
+                    style: AppTheme.textStyleBoldBlack14,
+                  ),
+                  TextSpan(
+                    text: previousPrice,
+                    style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
+                  )
+                ]))
               ],
             ),
           ),
@@ -187,57 +183,52 @@ class GridItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Get.toNamed(SaleScreen.routeName);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(img),
-            fit: BoxFit.fitWidth,
-            alignment: Alignment.topCenter,
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(img),
+          fit: BoxFit.fitWidth,
+          alignment: Alignment.topCenter,
+        ),
+      ),
+      child: Column(
+        children: [
+          CustomSizedBox.space8H,
+          SizedBox(
+            height: MediaQuery.of(context).size.width > 800 ? size.height / 1.5 : size.height / 7.5,
           ),
-        ),
-        child: Column(
-          children: [
-            CustomSizedBox.space8H,
-            SizedBox(
-              height: MediaQuery.of(context).size.width > 800 ? size.height / 1.5 : size.height / 7.5,
+          GridView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            shrinkWrap: true,
+            primary: false,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: maxCrossAxisExtent ?? 150,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              mainAxisExtent: 250,
             ),
-            GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              shrinkWrap: true,
-              primary: false,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: maxCrossAxisExtent ?? 150,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                mainAxisExtent: 250,
-              ),
-              itemBuilder: (context, index) {
-                Map<String, dynamic> dataItem = data[index];
-                return widget ??
-                    Padding(
-                      padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.width > 800 ? 8 : 0.0,
-                      ),
-                      child: MegaDealsWidget(
-                        name: dataItem['name'],
-                        isBestSeller: dataItem['isBestSeller'],
-                        isBuy1Get1: dataItem['isbuy1Get1'],
-                        isStacked: dataItem['isStacked'],
-                        rate: dataItem['rating'],
-                        price: dataItem['price'],
-                        previousPrice: dataItem['previousPrice'],
-                        img: dataItem['img'],
-                      ),
-                    );
-              },
-              itemCount: gridItem ?? data.length,
-            ),
-          ],
-        ),
+            itemBuilder: (context, index) {
+              Map<String, dynamic> dataItem = data[index];
+              return widget ??
+                  Padding(
+                    padding: EdgeInsets.all(
+                      MediaQuery.of(context).size.width > 800 ? 8 : 0.0,
+                    ),
+                    child: MegaDealsWidget(
+                      name: dataItem['name'],
+                      isBestSeller: dataItem['isBestSeller'],
+                      isBuy1Get1: dataItem['isbuy1Get1'],
+                      isStacked: dataItem['isStacked'],
+                      rate: dataItem['rating'],
+                      price: dataItem['price'],
+                      previousPrice: dataItem['previousPrice'],
+                      img: dataItem['img'],
+                    ),
+                  );
+            },
+            itemCount: gridItem ?? data.length,
+          ),
+        ],
       ),
     );
   }

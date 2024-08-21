@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class CartController extends GetxController {
   static CartController get to => Get.find();
   RxBool isbagEmpty = false.obs;
-  RxBool iswishListEmpty = false.obs;
+  RxBool iswishListEmpty = true.obs;
   TextEditingController couponController = TextEditingController();
   @override
   void onClose() {

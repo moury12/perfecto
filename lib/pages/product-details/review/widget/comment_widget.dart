@@ -1,6 +1,4 @@
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +6,6 @@ import 'package:mh_core/widgets/network_image/network_image.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/pages/product-details/product_details_controller.dart';
-import 'package:perfecto/pages/product-details/review/review_page.dart';
 import 'package:perfecto/pages/product-details/review/verified_user_page.dart';
 
 import 'package:perfecto/shared/custom_sized_box.dart';
@@ -17,11 +14,8 @@ import 'package:perfecto/theme/theme_data.dart';
 class CommentWidget extends StatelessWidget {
   final int index;
   final bool isHelpful;
-  final bool readMore;
-  final Function()? function;
-  final bool fromProductDetails;
   const CommentWidget({
-    super.key, required this.index,  this.isHelpful=true,  this.fromProductDetails=false,  this.readMore=false, this.function,
+    super.key, required this.index,  this.isHelpful=true,
   });
 
   @override
@@ -149,21 +143,10 @@ class CommentWidget extends StatelessWidget {
                       'It feels light and weightless and has a matte finish This one with Avocado oil and hyalu',
                       style: AppTheme.textStyleNormalFadeBlack14,
                     ),
-                     readMore?  TextSpan(
-                         text:
-                         'It feels light and weightless and has a matte finish This one with Avocado oil and hyalu',
-                         style: AppTheme.textStyleNormalFadeBlack14,children: [TextSpan(
-                       text: ' Read Less',
-                       style: AppTheme.textStyleSemiBoldBlack14,
-                       recognizer: TapGestureRecognizer()..onTap =function,
-                     )]
-                     ):     TextSpan(
+                    TextSpan(
                       text: '...Read More',
                       style: AppTheme.textStyleSemiBoldBlack14,
-                    recognizer: TapGestureRecognizer()
-                      ..onTap =function?? () {
-                          Get.toNamed(ReviewScreen.routeName);
-                      },
+                      onEnter: (event) {},
                     )
                   ])),
               Wrap(
@@ -177,13 +160,11 @@ class CommentWidget extends StatelessWidget {
                           .copyWith(right: 4),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(2),
-                          /*image: DecorationImage(
+                          image: DecorationImage(
                               image: AssetImage(
                                 AssetsConstant.megaDeals3,
                               ),
-                              fit: BoxFit.cover)*/),
-                          child: CustomNetworkImage(networkImagePath: '', height: 48,
-                            width: 48,errorImagePath:  AssetsConstant.megaDeals3,fit: BoxFit.cover,borderRadius:4,isPreviewPageNeed: true),
+                              fit: BoxFit.cover)),
                     ),
                   ),
                 ],
