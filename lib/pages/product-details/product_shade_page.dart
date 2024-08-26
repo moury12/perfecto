@@ -49,23 +49,31 @@ class ProductShadeScreen extends StatelessWidget {
                         },
                         itemCount: ProductDetailsController.to.product.value.variationType == 'shade'
                             ? ProductDetailsController.to.product.value.productShades!
-                                .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                .productShadeImages!
+                                .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                ?.productShadeImages!
                                 .length
                             : ProductDetailsController.to.product.value.productSizes!
-                                .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                .productSizeImages!
+                                .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                ?.productSizeImages!
                                 .length,
                         itemBuilder: (context, index) {
                           String data = ProductDetailsController.to.product.value.variationType == 'shade'
                               ? ProductDetailsController.to.product.value.productShades!
-                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                  .productShadeImages![index]
-                                  .productShadeImage!
+                                          .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value) ==
+                                      null
+                                  ? 'https://via.placeholder.com/1080'
+                                  : ProductDetailsController.to.product.value.productShades!
+                                      .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                      .productShadeImages![index]
+                                      .productShadeImage!
                               : ProductDetailsController.to.product.value.productSizes!
-                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                  .productSizeImages![index]
-                                  .productSizeImage!;
+                                          .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value) ==
+                                      null
+                                  ? 'https://via.placeholder.com/1080'
+                                  : ProductDetailsController.to.product.value.productSizes!
+                                      .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                      .productSizeImages![index]
+                                      .productSizeImage!;
                           return GestureDetector(
                             onTap: () {
                               // Get.toNamed(ProductImagePreview.routeName);
@@ -89,13 +97,15 @@ class ProductShadeScreen extends StatelessWidget {
                       children: List.generate(
                           ProductDetailsController.to.product.value.variationType == 'shade'
                               ? ProductDetailsController.to.product.value.productShades!
-                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                  .productShadeImages!
-                                  .length
+                                      .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                      ?.productShadeImages
+                                      ?.length ??
+                                  0
                               : ProductDetailsController.to.product.value.productSizes!
-                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                  .productSizeImages!
-                                  .length, (index) {
+                                      .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                      ?.productSizeImages
+                                      ?.length ??
+                                  0, (index) {
                         return Container(
                           margin: const EdgeInsets.all(4),
                           width: 7,
@@ -480,7 +490,7 @@ class ProductShadeScreen extends StatelessWidget {
                         shade.shadeId == ProductDetailsController.to.selectedVariation.value && shade.stock!.toInt() != 0
                             ? const Icon(
                                 Icons.check,
-                                color: Colors.white,
+                                color: Colors.black,
                               )
                             : const SizedBox.shrink(),
                         shade.stock!.toInt() == 0
@@ -489,7 +499,7 @@ class ProductShadeScreen extends StatelessWidget {
                                 children: [
                                   const Icon(
                                     Icons.close,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                   Text(
                                     'Out of Stock',
@@ -572,7 +582,7 @@ class ProductShadeScreen extends StatelessWidget {
                         shade.shadeId == ProductDetailsController.to.selectedVariation.value && shade.stock!.toInt() != 0
                             ? const Icon(
                                 Icons.check,
-                                color: Colors.white,
+                                color: Colors.black,
                               )
                             : const SizedBox.shrink(),
                         shade.stock!.toInt() == 0
@@ -581,7 +591,7 @@ class ProductShadeScreen extends StatelessWidget {
                                 children: [
                                   const Icon(
                                     Icons.close,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                   Text(
                                     'Out of Stock',
@@ -654,13 +664,15 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                   Text(
                     isSelectSize
                         ? ProductDetailsController.to.product.value.productSizes!
-                            .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                            .size!
-                            .name!
+                                .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                ?.size
+                                ?.name ??
+                            '-'
                         : ProductDetailsController.to.product.value.productShades!
-                            .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                            .shade!
-                            .name!,
+                                .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                ?.shade
+                                ?.name ??
+                            '-',
                     style: AppTheme.textStyleBoldFadeBlack14,
                   ),
                   const Spacer(),
@@ -734,12 +746,12 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                       ? CustomButton(
                           label: (ProductDetailsController.to.product.value.variationType == 'size'
                                   ? ProductDetailsController.to.product.value.productSizes!
-                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
+                                          .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                          ?.stock ==
                                       '0'
                                   : ProductDetailsController.to.product.value.productShades!
-                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
+                                          .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                          ?.stock ==
                                       '0')
                               ? 'Request for Stock'
                               : 'Add To Bag',
@@ -750,12 +762,12 @@ class BottomCalculationTotalWidget extends StatelessWidget {
                           isBorder: false,
                           prefixImage: (ProductDetailsController.to.product.value.variationType == 'size'
                                   ? ProductDetailsController.to.product.value.productSizes!
-                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
+                                          .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                          ?.stock ==
                                       '0'
                                   : ProductDetailsController.to.product.value.productShades!
-                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
+                                          .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                          ?.stock ==
                                       '0')
                               ? AssetsConstant.stockIcon
                               : AssetsConstant.cartIcon,

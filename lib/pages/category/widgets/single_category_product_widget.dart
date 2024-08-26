@@ -224,10 +224,11 @@ class SingleCategoryProductWidget extends StatelessWidget {
                       CustomSizedBox.space4H,
                       product!.offers!.offerDetails!.where((element) => element.productDetails!.offer!.offerTypeId == '3').isNotEmpty
                           ? Wrap(
+                              alignment: WrapAlignment.center,
                               children: product!.offers!.offerDetails!
                                   .where((element) => element.productDetails!.offer!.offerTypeId == '3')
                                   .toList()
-                                  .take(2)
+                                  .take(product!.isFreeDelivery == '1' ? 1 : 2)
                                   .map((e) => Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                                         child: Container(
@@ -273,10 +274,10 @@ class SingleCategoryProductWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Text(
-                        '(-${double.parse(product?.variationType == 'shade' ? (product?.productShades?.firstOrNull?.discountPercent ?? '0') : (product?.productSizes?.firstOrNull?.discountPercent ?? '0'))}% Off)',
-                        style: const TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.w700),
-                      )
+                      // Text(
+                      //   '(-${double.parse(product?.variationType == 'shade' ? (product?.productShades?.firstOrNull?.discountPercent ?? '0') : (product?.productSizes?.firstOrNull?.discountPercent ?? '0'))}% Off)',
+                      //   style: const TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.w700),
+                      // )
                     ],
                   ),
                 ),

@@ -40,6 +40,7 @@ void main() async {
     globalLogger.e(e);
   }
   show500Error = false;
+  show429Error = false;
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
   Service.domain("https://app.perfectoblog.com/");

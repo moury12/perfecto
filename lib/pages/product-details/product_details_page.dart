@@ -64,23 +64,31 @@ class ProductDetailsScreen extends StatelessWidget {
                         },
                         itemCount: ProductDetailsController.to.product.value.variationType == 'shade'
                             ? ProductDetailsController.to.product.value.productShades!
-                                .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                .productShadeImages!
+                                .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                ?.productShadeImages!
                                 .length
                             : ProductDetailsController.to.product.value.productSizes!
-                                .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                .productSizeImages!
+                                .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                ?.productSizeImages!
                                 .length,
                         itemBuilder: (context, index) {
                           String data = ProductDetailsController.to.product.value.variationType == 'shade'
                               ? ProductDetailsController.to.product.value.productShades!
-                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                  .productShadeImages![index]
-                                  .productShadeImage!
+                                          .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value) ==
+                                      null
+                                  ? 'https://via.placeholder.com/1080'
+                                  : ProductDetailsController.to.product.value.productShades!
+                                      .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                      .productShadeImages![index]
+                                      .productShadeImage!
                               : ProductDetailsController.to.product.value.productSizes!
-                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                  .productSizeImages![index]
-                                  .productSizeImage!;
+                                          .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value) ==
+                                      null
+                                  ? 'https://via.placeholder.com/1080'
+                                  : ProductDetailsController.to.product.value.productSizes!
+                                      .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                      .productSizeImages![index]
+                                      .productSizeImage!;
                           return GestureDetector(
                             onTap: () {
                               ProductDetailsController.to.selectedImageForPage.value = index;
@@ -107,13 +115,15 @@ class ProductDetailsScreen extends StatelessWidget {
                       children: List.generate(
                           ProductDetailsController.to.product.value.variationType == 'shade'
                               ? ProductDetailsController.to.product.value.productShades!
-                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                  .productShadeImages!
-                                  .length
+                                      .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                      ?.productShadeImages
+                                      ?.length ??
+                                  0
                               : ProductDetailsController.to.product.value.productSizes!
-                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                  .productSizeImages!
-                                  .length, (index) {
+                                      .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                      ?.productSizeImages
+                                      ?.length ??
+                                  0, (index) {
                         return Container(
                           margin: const EdgeInsets.all(4),
                           width: 7,
@@ -257,7 +267,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             onTap: () {
                               // ProductDetailsController.to.isAvaiableShade.value = !ProductDetailsController.to.isAvaiableShade.value;
                               Share.share(
-                                  'Check out this product on Perfecto\nName - ${ProductDetailsController.to.product.value.name}${ProductDetailsController.to.product.value.brand != null ? '\n Brand - ${ProductDetailsController.to.product.value.brand?.name ?? ' - '}' : ''}\n${ProductDetailsController.to.product.value.variationType == 'shade' ? 'Shade - ' + (ProductDetailsController.to.product.value.productShades!.firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value).shade!.name!) : 'Size - ' + (ProductDetailsController.to.product.value.productSizes!.firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value).size!.name!)}\n৳ ${ProductDetailsController.to.getPrice()}\nhttps://ecom-perfecto.vercel.app/product-details/${ProductDetailsController.to.product.value.id}');
+                                  'Check out this product on Perfecto\nName - ${ProductDetailsController.to.product.value.name}${ProductDetailsController.to.product.value.brand != null ? '\n Brand - ${ProductDetailsController.to.product.value.brand?.name ?? ' - '}' : ''}\n${ProductDetailsController.to.product.value.variationType == 'shade' ? 'Shade - ${ProductDetailsController.to.product.value.productShades!.firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value).shade!.name!}' : 'Size - ${ProductDetailsController.to.product.value.productSizes!.firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value).size!.name!}'}\n৳ ${ProductDetailsController.to.getPrice()}\nhttps://ecom-perfecto.vercel.app/product-details/${ProductDetailsController.to.product.value.id}');
                             },
                             child: Icon(
                               Icons.share,
@@ -280,63 +290,71 @@ class ProductDetailsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (ProductDetailsController.to.product.value.variationType == 'shade')
-                            Wrap(
-                              children: ProductDetailsController.to.product.value.productShades!
-                                  .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                  .offers!
-                                  .map(
-                                    (e) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 4,
-                                      ).copyWith(right: 8),
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          await HomeApiController.to.offerDetailsCall(e.productDetails!.offer!.id!);
-                                          Get.toNamed(OfferDetailsScreen.routeName);
-                                        },
-                                        child: Text(
-                                          e.productDetails!.offer?.title1 ?? '-',
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.blue,
-                                              decoration: TextDecoration.underline,
-                                              decorationColor: Colors.blue,
-                                              height: 1.3,
-                                              decorationThickness: 1,
-                                              decorationStyle: TextDecorationStyle.solid),
-                                        ),
-                                      ),
-                                    ),
+                            ProductDetailsController.to.product.value.productShades!
+                                        .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value) ==
+                                    null
+                                ? SizedBox.shrink()
+                                : Wrap(
+                                    children: ProductDetailsController.to.product.value.productShades!
+                                        .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                        .offers!
+                                        .map(
+                                          (e) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 4,
+                                            ).copyWith(right: 8),
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                await HomeApiController.to.offerDetailsCall(e.productDetails!.offer!.id!);
+                                                Get.toNamed(OfferDetailsScreen.routeName);
+                                              },
+                                              child: Text(
+                                                e.productDetails!.offer?.title1 ?? '-',
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.blue,
+                                                    decoration: TextDecoration.underline,
+                                                    decorationColor: Colors.blue,
+                                                    height: 1.3,
+                                                    decorationThickness: 1,
+                                                    decorationStyle: TextDecorationStyle.solid),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
                                   )
-                                  .toList(),
-                            )
                           else
-                            Wrap(
-                              children: ProductDetailsController.to.product.value.productSizes!
-                                  .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                  .offers!
-                                  .map(
-                                    (e) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 4,
-                                      ).copyWith(right: 8),
-                                      child: Text(
-                                        e.productDetails!.offer!.offerTypeId == '3' ? e.productDetails!.offer!.name! : e.productDetails!.offer!.title1!,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.blue,
-                                            decoration: TextDecoration.underline,
-                                            decorationColor: Colors.blue,
-                                            height: 1.3,
-                                            decorationThickness: 1,
-                                            decorationStyle: TextDecorationStyle.solid),
-                                      ),
-                                    ),
+                            ProductDetailsController.to.product.value.productSizes!
+                                        .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value) ==
+                                    null
+                                ? SizedBox.shrink()
+                                : Wrap(
+                                    children: ProductDetailsController.to.product.value.productSizes!
+                                        .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                        .offers!
+                                        .map(
+                                          (e) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 4,
+                                            ).copyWith(right: 8),
+                                            child: Text(
+                                              e.productDetails!.offer!.offerTypeId == '3' ? e.productDetails!.offer!.name! : e.productDetails!.offer!.title1!,
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.blue,
+                                                  decoration: TextDecoration.underline,
+                                                  decorationColor: Colors.blue,
+                                                  height: 1.3,
+                                                  decorationThickness: 1,
+                                                  decorationStyle: TextDecorationStyle.solid),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
                                   )
-                                  .toList(),
-                            )
                         ],
                       ),
                     );
@@ -357,9 +375,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       ProductDetailsController.to.product.value.productShades!
-                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                          .shade!
-                                          .name!,
+                                              .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                              ?.shade
+                                              ?.name ??
+                                          '-',
                                       style: AppTheme.textStyleBoldFadeBlack14,
                                     ),
                                     const Spacer(),
@@ -428,7 +447,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                               shade.shadeId == ProductDetailsController.to.selectedVariation.value && shade.stock!.toInt() != 0
                                                   ? const Icon(
                                                       Icons.check,
-                                                      color: Colors.white,
+                                                      color: Colors.black,
                                                     )
                                                   : const SizedBox.shrink(),
                                               shade.stock!.toInt() == 0
@@ -437,7 +456,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                       children: [
                                                         const Icon(
                                                           Icons.close,
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                         ),
                                                         Text(
                                                           'Out of Stock',
@@ -484,9 +503,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                     ),
                                     Text(
                                       ProductDetailsController.to.product.value.productSizes!
-                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                          .size!
-                                          .name!,
+                                              .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                              ?.size
+                                              ?.name ??
+                                          '-',
                                       style: AppTheme.textStyleBoldBlack14,
                                     ),
                                   ],
@@ -942,12 +962,12 @@ class ProductDetailsScreen extends StatelessWidget {
                       ? CustomButton(
                           label: (ProductDetailsController.to.product.value.variationType == 'size'
                                   ? ProductDetailsController.to.product.value.productSizes!
-                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
+                                          .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                          ?.stock ==
                                       '0'
                                   : ProductDetailsController.to.product.value.productShades!
-                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
+                                          .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                          ?.stock ==
                                       '0')
                               ? 'Request for Stock'
                               : 'Add To Bag',
@@ -958,12 +978,12 @@ class ProductDetailsScreen extends StatelessWidget {
                           isBorder: false,
                           prefixImage: (ProductDetailsController.to.product.value.variationType == 'size'
                                   ? ProductDetailsController.to.product.value.productSizes!
-                                          .firstWhere((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
+                                          .firstWhereOrNull((element) => element.sizeId == ProductDetailsController.to.selectedVariation.value)
+                                          ?.stock ==
                                       '0'
                                   : ProductDetailsController.to.product.value.productShades!
-                                          .firstWhere((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
-                                          .stock ==
+                                          .firstWhereOrNull((element) => element.shadeId == ProductDetailsController.to.selectedVariation.value)
+                                          ?.stock ==
                                       '0')
                               ? AssetsConstant.stockIcon
                               : AssetsConstant.cartIcon,
