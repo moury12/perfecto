@@ -129,19 +129,24 @@ class CategoryCard extends StatelessWidget {
         // };
         Get.toNamed(SingleCategoryWiseScreen.routeName);
       },
-      child: Stack(
-        children: [
-          CustomNetworkImage(
-            networkImagePath: category.image!,
-            errorImagePath: AssetsConstant.categoryBG,
-            borderRadius: 16,
-            fit: BoxFit.fill,
-            width: double.infinity,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.kDarkPrimaryColor,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomNetworkImage(
+              networkImagePath: category.image!,
+              errorImagePath: AssetsConstant.categoryBG,
+              borderRadius: 16,
+              fit: BoxFit.fill,
+              width: Get.width / 5,
+              height: Get.width / 5,
+            ),
+            Align(
+              alignment: Alignment.center,
               child: Text(
                 category.name!,
                 style: const TextStyle(color: AppColors.kWhiteColor, fontSize: 16, fontWeight: FontWeight.w700, overflow: TextOverflow.ellipsis),
@@ -149,8 +154,8 @@ class CategoryCard extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
 
