@@ -164,7 +164,11 @@ class MyOrderDetailsScreen extends StatelessWidget {
                       ),
                       StepProcessWidget(
                           currentStep: UserController.to.orderDetails.value.status!,
-                          processList: UserController.to.orderDetails.value.status == '5' ? ProfileController.to.cancelProcesses : ProfileController.to.processes),
+                          processList: UserController.to.orderDetails.value.status == '6'
+                              ? ProfileController.to.holdProcesses
+                              : UserController.to.orderDetails.value.status == '5'
+                                  ? ProfileController.to.cancelProcesses
+                                  : ProfileController.to.processes),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: CustomDividerWidget(),

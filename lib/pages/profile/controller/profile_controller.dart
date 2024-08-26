@@ -21,6 +21,11 @@ class ProfileController extends GetxController {
     Process(name: '1', isComplete: true, topic: 'Ordered'),
     Process(name: '5', isComplete: false, topic: 'Cancelled Order'),
   ].obs;
+
+  RxList<Process> holdProcesses = [
+    Process(name: '1', isComplete: true, topic: 'Ordered'),
+    Process(name: '6', isComplete: false, topic: 'On Hold Order'),
+  ].obs;
   RxList<Process> Returnprocesses = [
     Process(name: '1', isComplete: true, topic: 'Return Started'),
     Process(name: '2', isComplete: false, topic: 'Drop off the item(s)'),

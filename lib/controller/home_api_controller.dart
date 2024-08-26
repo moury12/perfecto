@@ -498,7 +498,7 @@ class HomeApiController extends GetxController {
     await brandListCall();
     await colorListCall();
     await outletListCall();
-    await shadeListCall();
+    // await shadeListCall();
     await sizeListCall();
   }
 

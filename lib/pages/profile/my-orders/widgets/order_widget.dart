@@ -133,9 +133,11 @@ class OrderWidget extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          order.orderDetails!.map((e) => e.map((e) => e.isHold == '1' ? 1 : 0).toList().sum).toList().sum > 0
-                              ? "Hold"
-                              : UserController.to.processesMap[order.status] ?? 'Pending',
+                          order.status == '6'
+                              ? 'On Hold'
+                              : order.orderDetails!.map((e) => e.map((e) => e.isHold == '1' ? 1 : 0).toList().sum).toList().sum > 0
+                                  ? "Hold"
+                                  : UserController.to.processesMap[order.status] ?? 'Pending',
                           style: AppTheme.textStyleSemiBoldBlack14,
                         )
                       ],
