@@ -55,14 +55,14 @@ class TopBrandsOfferListWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(12.0).copyWith(bottom: 4),
             child: Text(
-              sectionData.offers?.title1 ?? '-',
+              sectionData.name ?? '-',
               style: const TextStyle(color: AppColors.kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(12.0).copyWith(top: 0),
             child: Text(
-              sectionData.offers?.title2 ?? '-',
+              sectionData.description ?? '-',
               style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 11),
             ),
           ),
@@ -310,34 +310,29 @@ class BestSellerListWidget extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text:
-                                    '৳ ${product?.variationType == 'shade' ? (product?.productShades?[0].discountedPrice ?? '550') : (product?.productSizes?[0].discountedPrice ?? '550')}  ',
+                                    '৳ ${product?.variationType == 'shade' ? (product?.productShades?.firstOrNull?.discountedPrice ?? '550') : (product?.productSizes?.firstOrNull?.discountedPrice ?? '550')}  ',
                                 style: AppTheme.textStyleBoldBlack14,
                                 children: (double.parse(product?.variationType == 'shade'
-                                            ? (product?.productShades?[0].discountPercent ?? '0')
-                                            : (product?.productSizes?[0].discountPercent ?? '0')) >
+                                            ? (product?.productShades?.firstOrNull?.discountPercent ?? '0')
+                                            : (product?.productSizes?.firstOrNull?.discountPercent ?? '0')) >
                                         0)
                                     ? [
                                         TextSpan(
                                           text:
-                                              '৳${product?.variationType == 'shade' ? (product?.productShades?[0].shadePrice ?? '550') : (product?.productSizes?[0].sizePrice ?? '55'
+                                              '৳${product?.variationType == 'shade' ? (product?.productShades?.firstOrNull?.shadePrice ?? '550') : (product?.productSizes?.firstOrNull?.sizePrice ?? '55'
                                                   '0')}',
                                           style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
                                         ),
-                                        const TextSpan(
-                                          text: ' | ',
-                                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200, color: Colors.black45),
-                                        ),
-                                        TextSpan(
-                                          text:
-                                              '(-${double.parse(product?.variationType == 'shade' ? (product?.productShades?[0].discountPercent ?? '0') : (product?.productSizes?[0].discountPercent ?? '0'))}% Off)',
-                                          style: const TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.w700),
-                                        )
                                       ]
                                     : [],
                               ),
                             ],
                           ),
                         ),
+                        Text(
+                          '(-${double.parse(product?.variationType == 'shade' ? (product?.productShades?.firstOrNull?.discountPercent ?? '0') : (product?.productSizes?.firstOrNull?.discountPercent ?? '0'))}% Off)',
+                          style: const TextStyle(color: Color(0xff02792A), fontSize: 10, fontWeight: FontWeight.w700),
+                        )
                       ],
                     ),
                   ),

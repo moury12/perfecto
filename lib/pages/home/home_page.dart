@@ -87,7 +87,6 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
             child: Obx(() {
               final catList = HomeApiController.to.categoryList.where((p0) => p0.showOnHeader == '1').toList()..sort((a, b) => a.position!.compareTo(b.position!));
-              globalLogger.d(catList.map((e) => e.name).toList());
               return Wrap(
                 children: catList
                         .map((cat) => GestureDetector(
@@ -258,8 +257,18 @@ class HomeScreen extends StatelessWidget {
                     model.sectionData!.length,
                     (index) => GestureDetector(
                       onTap: () async {
-                        await HomeApiController.to.offerDetailsCall(model.sectionData![index].offerId!);
-                        Get.toNamed(OfferDetailsScreen.routeName);
+                        globalLogger.d(model.sectionData![index].brandId);
+                        await HomeApiController.to.productListWithCategoryCall({
+                          'brand': [model.sectionData![index].brandId!.isNotEmpty ? model.sectionData![index].brandId : 'null'].toString(),
+                        });
+                        NavigationController.to.resetFilters();
+                        HomeApiController.to.brandList.firstWhere((element) => element.id == model.sectionData![index].brandId).isChecked = true;
+                        NavigationController.to.addAttribute = {
+                          'brand': [model.sectionData![index].brandId].toString(),
+                        };
+                        Get.toNamed(SingleCategoryWiseScreen.routeName);
+                        // await HomeApiController.to.offerDetailsCall(model.sectionData![index].offerId!);
+                        // Get.toNamed(OfferDetailsScreen.routeName);
                       },
                       child: TopBrandsOfferListWidget(
                         sectionData: model.sectionData![index],

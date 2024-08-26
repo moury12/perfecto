@@ -82,6 +82,7 @@ class SectionData {
   String? image;
   String? link;
   String? offerId;
+  String? brandId;
   String? status;
   String? description;
   String? createdAt;
@@ -97,6 +98,7 @@ class SectionData {
     this.image,
     this.link,
     this.offerId,
+    this.brandId,
     this.status,
     this.description,
     this.createdAt,
@@ -113,6 +115,7 @@ class SectionData {
     image = json['image'].toString() == 'null' ? '' : json['image'].toString();
     link = json['link'].toString() == 'null' ? '' : json['link'].toString();
     offerId = json['offer_id'].toString() == 'null' ? '' : json['offer_id'].toString();
+    brandId = json['brand_id'].toString() == 'null' ? '' : json['brand_id'].toString();
     status = json['status'].toString() == 'null' ? '' : json['status'].toString();
     description = json['description'].toString() == 'null' ? '' : json['description'].toString();
     createdAt = json['created_at'].toString() == 'null' ? '' : json['created_at'].toString();
@@ -130,6 +133,7 @@ class SectionData {
     data['image'] = image;
     data['link'] = link;
     data['offer_id'] = offerId;
+    data['brand_id'] = brandId;
     data['status'] = status;
     data['description'] = description;
     data['created_at'] = createdAt;

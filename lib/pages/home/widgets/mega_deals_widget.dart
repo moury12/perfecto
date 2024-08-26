@@ -162,13 +162,14 @@ class MegaDealsWidget extends StatelessWidget {
                       text: TextSpan(text: '', style: AppTheme.textStyleBoldBlack14, children: [
                     TextSpan(
                       text:
-                          '৳ ${product!.variationType!.isNotEmpty ? product?.variationType == 'shade' ? (product?.productShades?[0].discountedPrice ?? '550') : (product?.productSizes?[0].discountedPrice ?? '550') : product!.comboPrice ?? '0'}  ',
+                          '৳ ${product!.variationType!.isNotEmpty ? product?.variationType == 'shade' ? (product?.productShades?.firstOrNull?.discountedPrice ?? '550') : (product?.productSizes?.firstOrNull?.discountedPrice ?? '550') : product!.comboPrice ?? '0'}  ',
                       style: AppTheme.textStyleBoldBlack14,
                     ),
                     if (product!.variationType!.isNotEmpty)
                       TextSpan(
-                        text: '৳${product?.variationType == 'shade' ? (product?.productShades?[0].shadePrice ?? '550') : (product?.productSizes?[0].sizePrice ?? '55'
-                            '0')}',
+                        text:
+                            '৳${product?.variationType == 'shade' ? (product?.productShades?.firstOrNull?.shadePrice ?? '550') : (product?.productSizes?.firstOrNull?.sizePrice ?? '55'
+                                '0')}',
                         style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.black54, fontSize: 10, fontWeight: FontWeight.normal),
                       )
                   ])),
