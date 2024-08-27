@@ -674,4 +674,21 @@ class HomeService {
       return TermsConditionModel();
     }
   }
+
+  static Future<TermsConditionModel> deletionPolicyCall() async {
+    try {
+      TermsConditionModel shippingModel = TermsConditionModel();
+      final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}delationpolicy', httpMethod: HttpMethod.get, debugEnable: true);
+      globalLogger.d(response, error: "deletion policy route");
+      if (response['status'] != null && response['status']) {
+        shippingModel = TermsConditionModel.fromJson(response['data']);
+      } else if (response['status'] != null && !response['status']) {
+        ServiceAPI.showAlert(response['message']);
+      }
+      return shippingModel;
+    } catch (e) {
+      globalLogger.e(e);
+      return TermsConditionModel();
+    }
+  }
 }

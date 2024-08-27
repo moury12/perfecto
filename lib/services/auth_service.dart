@@ -107,4 +107,20 @@ class AuthService {
     }
     return false;
   }
+
+  static Future<bool> deleteAccountCall() async {
+    final response = await ServiceAPI.genericCall(
+      url: '${Service.apiUrl}delete-account',
+      httpMethod: HttpMethod.del,
+      isLoadingEnable: false,
+    );
+    globalLogger.d(response, error: "delete account Route");
+
+    if (response['status'] != null && response['status']) {
+      return true;
+    } else if (response['status'] != null && !(response['status'] == 'ok')) {
+      ServiceAPI.showAlert(response['message']);
+    }
+    return false;
+  }
 }

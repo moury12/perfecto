@@ -369,4 +369,12 @@ class AuthController extends GetxController {
       logoutFunc();
     }
   }
+
+  Future<void> deleteAccount() async {
+    showSnackBar(msg: 'Deleting account..', actionLabel: '', actionLabelColor: Colors.transparent);
+    final deletingAccount = await AuthService.deleteAccountCall();
+    if (deletingAccount) {
+      logoutFunc();
+    }
+  }
 }

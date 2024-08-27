@@ -256,6 +256,19 @@ class CustomDrawer extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
+                      const CustomDividerWidget(),
+                      CustomSizedBox.space8H,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Get.toNamed(DocScreen.routeName, arguments: {'title': 'Deletion Policy', 'doc': HomeApiController.to.deletionInfo.value.document});
+                          // Get.toNamed(RefundCancelationScreen.routeName);
+                        },
+                        child: const SaleTextWidget(
+                          text: 'Deletion Policy',
+                          color: Colors.black,
+                        ),
+                      ),
                     ],
                   ),
                 ),

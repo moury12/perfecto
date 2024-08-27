@@ -195,6 +195,61 @@ class ProfileScreen extends StatelessWidget {
                             image: AssetsConstant.logout,
                             title: 'Logout',
                           ),
+                          const Divider(
+                            thickness: 1,
+                            color: AppColors.kborderColor,
+                            height: 1,
+                          ),
+                          ProfileItemWidget(
+                            onPressed: () {
+                              Get.defaultDialog(
+                                title: 'Delete Account',
+                                content: Column(
+                                  children: [
+                                    Text(
+                                      'Are you sure you want to delete this account?',
+                                      style: AppTheme.textStyleMediumBlack16,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    CustomSizedBox.space16H,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            marginHorizontal: 8,
+                                            marginVertical: 0,
+                                            primary: Colors.white,
+                                            labelColor: Colors.black,
+                                            label: 'Cancel',
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: CustomButton(
+                                            onPressed: () {
+                                              Get.back();
+                                              AuthController.to.deleteAccount();
+                                            },
+                                            marginHorizontal: 8,
+                                            marginVertical: 0,
+                                            label: 'Delete',
+                                            primary: Colors.red,
+                                            labelColor: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                            image: AssetsConstant.deleteIcon,
+                            imageColor: Colors.red,
+                            titleColor: Colors.red,
+                            title: 'Delete This Account',
+                          ),
                         ],
                       ),
                     )
@@ -211,6 +266,8 @@ class ProfileScreen extends StatelessWidget {
 
 class ProfileItemWidget extends StatelessWidget {
   final String image;
+  final Color? imageColor;
+  final Color? titleColor;
   final String title;
   final Function() onPressed;
   const ProfileItemWidget({
@@ -218,6 +275,8 @@ class ProfileItemWidget extends StatelessWidget {
     required this.image,
     required this.title,
     required this.onPressed,
+    this.imageColor,
+    this.titleColor,
   });
 
   @override
@@ -234,11 +293,12 @@ class ProfileItemWidget extends StatelessWidget {
               Image.asset(
                 image,
                 height: 26,
+                color: imageColor,
               ),
               CustomSizedBox.space8W,
               Text(
                 title,
-                style: AppTheme.textStyleMediumBlack16,
+                style: AppTheme.textStyleMediumBlack16.copyWith(color: titleColor),
               )
             ],
           ),

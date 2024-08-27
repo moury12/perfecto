@@ -1023,113 +1023,104 @@ class HomeTopWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       useSafeArea: true,
       builder: (BuildContext context) {
-        return Stack(
-          alignment: Alignment.bottomCenter,
+        return Column(
           children: [
-            SingleChildScrollView(
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                child: Column(
+            Row(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'Filter Product',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Icon(
+                      CupertinoIcons.multiply,
+                      color: Colors.black54,
+                      size: 25,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const Divider(
+              color: Color(0xffECECEC),
+              thickness: 1.5,
+              height: 1.5,
+            ),
+            Expanded(
+              child: Obx(() {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            'Filter Product',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                            ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Container(
+                          color: AppColors.klightAccentColor,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ...List.generate(
+                                NavigationController.to.attributeList.length,
+                                (index) {
+                                  final filter = NavigationController.to.attributeList[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      for (var attribute in NavigationController.to.attributeList) {
+                                        attribute.isSelected = false;
+                                      }
+
+                                      filter.toggleSelected();
+
+                                      NavigationController.to.update();
+                                      NavigationController.to.attributeList.refresh();
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                          color: filter.isSelected ? AppColors.kAccentColor : Colors.transparent,
+                                          border: Border(right: BorderSide(color: filter.isSelected ? AppColors.kPrimaryColor : Colors.transparent, width: 2))),
+                                      padding: const EdgeInsets.all(16).copyWith(right: 8),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              filter.name ?? '',
+                                              style: AppTheme.textStyleMediumCustomBlack12,
+                                            ),
+                                          ),
+                                          const Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            color: AppColors.kPrimaryColor,
+                                            size: 12,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            ],
                           ),
                         ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Icon(
-                              CupertinoIcons.multiply,
-                              color: Colors.black54,
-                              size: 25,
-                            ),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
-                    const Divider(
-                      color: Color(0xffECECEC),
-                      thickness: 1.5,
-                      height: 1.5,
-                    ),
-                    Obx(() {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              color: AppColors.klightAccentColor,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ...List.generate(
-                                    NavigationController.to.attributeList.length,
-                                    (index) {
-                                      final filter = NavigationController.to.attributeList[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          for (var attribute in NavigationController.to.attributeList) {
-                                            attribute.isSelected = false;
-                                          }
-
-                                          filter.toggleSelected();
-
-                                          NavigationController.to.update();
-                                          NavigationController.to.attributeList.refresh();
-                                        },
-                                        child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              color: filter.isSelected ? AppColors.kAccentColor : Colors.transparent,
-                                              border: Border(right: BorderSide(color: filter.isSelected ? AppColors.kPrimaryColor : Colors.transparent, width: 2))),
-                                          padding: const EdgeInsets.all(16).copyWith(right: 8),
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  filter.name ?? '',
-                                                  style: AppTheme.textStyleMediumCustomBlack12,
-                                                ),
-                                              ),
-                                              const Icon(
-                                                Icons.arrow_forward_ios_rounded,
-                                                color: AppColors.kPrimaryColor,
-                                                size: 12,
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: FilterAttributeWidget(attributes: NavigationController.to.attributeList),
-                          )
-                        ],
-                      );
-                    }),
-                    const SizedBox(
-                      height: 80,
+                    Expanded(
+                      child: SingleChildScrollView(child: FilterAttributeWidget(attributes: NavigationController.to.attributeList)),
                     )
                   ],
-                ),
-              ),
+                );
+              }),
             ),
             Container(
               decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
@@ -1293,10 +1284,6 @@ class FilterAttributeWidget extends StatelessWidget {
                                                               category.subcategory![index].name ?? '',
                                                               style: AppTheme.textStyleMediumCustomBlack12,
                                                             ),
-                                                            Text(
-                                                              ' (${category.subcategory![index].productsCount ?? ''})',
-                                                              style: AppTheme.textStyleMediumCustomBlack12,
-                                                            ),
                                                           ],
                                                         ),
                                                       ),
@@ -1321,8 +1308,8 @@ class FilterAttributeWidget extends StatelessWidget {
                                                           padding: const EdgeInsets.only(left: 16),
                                                           child: Column(
                                                             children: [
-                                                              ...List.generate(category.subcategory![index].subcategory!.length, (index) {
-                                                                final child = category.subcategory![index].subcategory![index];
+                                                              ...List.generate(category.subcategory![index].subcategory!.length, (i) {
+                                                                final child = category.subcategory![index].subcategory![i];
                                                                 return Padding(
                                                                   padding: const EdgeInsets.symmetric(vertical: 8),
                                                                   child: Row(
@@ -1348,10 +1335,6 @@ class FilterAttributeWidget extends StatelessWidget {
                                                                           children: [
                                                                             Text(
                                                                               child.name ?? '',
-                                                                              style: AppTheme.textStyleMediumCustomBlack12,
-                                                                            ),
-                                                                            Text(
-                                                                              ' (${child.productsCount ?? ''})',
                                                                               style: AppTheme.textStyleMediumCustomBlack12,
                                                                             ),
                                                                           ],

@@ -58,6 +58,7 @@ class HomeApiController extends GetxController {
   Rx<TermsConditionModel> termsConditionInfo = TermsConditionModel().obs;
   Rx<TermsConditionModel> privacyPolicyInfo = TermsConditionModel().obs;
   Rx<TermsConditionModel> returnRefundInfo = TermsConditionModel().obs;
+  Rx<TermsConditionModel> deletionInfo = TermsConditionModel().obs;
   Rx<TermsConditionModel> shippingPolicyInfo = TermsConditionModel().obs;
 
   RxList<ProductModel> productList = <ProductModel>[].obs;
@@ -158,6 +159,10 @@ class HomeApiController extends GetxController {
 
   Future<void> shippingPolicyCall() async {
     shippingPolicyInfo.value = await HomeService.shippingPolicyCall();
+  }
+
+  Future<void> deletionPolicyCall() async {
+    deletionInfo.value = await HomeService.deletionPolicyCall();
   }
 
   Future<void> termsConditionCall() async {
@@ -507,6 +512,7 @@ class HomeApiController extends GetxController {
     privacyPolicyCall();
     returnRefundCall();
     shippingPolicyCall();
+    deletionPolicyCall();
   }
 
   checkSingleProduct(ProductModel product) {
