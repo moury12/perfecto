@@ -4,6 +4,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/auth_controller.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
+import 'package:perfecto/pages/chat/chat_controller.dart';
 import 'package:perfecto/pages/page_with_navigation.dart';
 
 class ChildNavScreen extends StatelessWidget {
@@ -64,7 +65,7 @@ class ChildNavScreen extends StatelessWidget {
                       }
                     },
                     child: NavWidget(
-                      title: data['title'] /* + (index == 2 ? '(0)' : '')*/,
+                      title: data['title'] + (index == 2 && ChatController.to.msgCount.value > 0 ? '(${ChatController.to.msgCount.value})' : ''),
                       icon: data['icon'],
                       // isSelected: controller.selectedIndex.value == index,
                     ));
