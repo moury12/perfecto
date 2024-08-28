@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mh_core/mh_core.dart';
+import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/controller/user_controller.dart';
 import 'package:perfecto/models/message_model.dart';
 import 'package:perfecto/pages/chat/chat_page.dart';
+import 'package:perfecto/pages/page_with_navigation.dart';
 import 'package:perfecto/services/chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -58,10 +60,12 @@ class ChatController extends GetxController {
     getChats();
   }
 
-  IO.Socket socket = IO.io("https://eastland.wiztecbd.com/", <String, dynamic>{
+  IO.Socket socket = IO.io("https://perfectochat.perfectoblog.com/", <String, dynamic>{
     'autoConnect': false,
     'transports': ['websocket', 'polling'],
   });
+
+  RxInt msgCount = 0.obs;
 
   initSocket() {
     globalLogger.d('Init Socket Enter');
@@ -71,7 +75,14 @@ class ChatController extends GetxController {
       socket.on('chat message', (newMessage) {
         globalLogger.d(newMessage, error: 'chat message');
         if (newMessage['sender_id'].toString() == '0' && newMessage['receiver_id'].toString() == UserController.to.getUserInfo.id!) {
-          getChats();
+          // getChats();
+          if (Get.currentRoute == MainHomeScreen.routeName) {
+            if (NavigationController.to.selectedIndex.value != 2) {
+              msgCount.value++;
+            } else {
+              getChats();
+            }
+          }
         }
       });
     });

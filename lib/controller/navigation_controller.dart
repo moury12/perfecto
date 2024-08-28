@@ -33,6 +33,7 @@ class NavigationController extends GetxController {
       if (index == 2) {
         globalLogger.d("getChats");
         ChatController.to.getChats();
+        ChatController.to.msgCount.value = 0;
       }
     }
   }

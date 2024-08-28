@@ -7,6 +7,7 @@ import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/navigation_controller.dart';
 import 'package:perfecto/drawer/custom_drawer.dart';
 import 'package:perfecto/pages/category/category_page.dart';
+import 'package:perfecto/pages/chat/chat_controller.dart';
 import 'package:perfecto/pages/chat/chat_page.dart';
 import 'package:perfecto/pages/profile/profile_page.dart';
 
@@ -75,17 +76,18 @@ class MainHomeScreen extends StatelessWidget {
               ...List.generate(controller.navList.length, (index) {
                 final data = controller.navList[index];
                 return GestureDetector(
-                    onTap: () {
-                      // index=controller.selectedIndex.value;
-                      print('Tab tapped: ${index}');
+                  onTap: () {
+                    // index=controller.selectedIndex.value;
+                    print('Tab tapped: ${index}');
 
-                      controller.changeTabIndex(index);
-                    },
-                    child: NavWidget(
-                      title: data['title'] /* + (index == 2 ? '(0)' : '')*/,
-                      icon: data['icon'],
-                      isSelected: controller.selectedIndex.value == index,
-                    ));
+                    controller.changeTabIndex(index);
+                  },
+                  child: NavWidget(
+                    title: data['title'] + (index == 2 && ChatController.to.msgCount.value > 0 ? '(${ChatController.to.msgCount.value})' : ''),
+                    icon: data['icon'],
+                    isSelected: controller.selectedIndex.value == index,
+                  ),
+                );
               })
             ],
           ),
