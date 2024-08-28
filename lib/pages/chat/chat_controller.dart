@@ -82,6 +82,8 @@ class ChatController extends GetxController {
             } else {
               getChats();
             }
+          } else if (Get.currentRoute != MainHomeScreen.routeName) {
+            msgCount.value++;
           }
         }
       });
