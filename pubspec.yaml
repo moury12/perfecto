@@ -38,7 +38,7 @@ dependencies:
   get: ^4.6.6
   image_picker: ^1.0.5
   sqflite: ^2.3.0
-  intl: ^0.18.0
+  intl: ^0.17.0
   path_provider: ^2.0.2
   path: ^1.8.0
   google_sign_in: ^6.2.1
@@ -50,10 +50,10 @@ dependencies:
   shimmer: ^3.0.0
 
 #    path: ../azlistview-2.0.0
-  mh_videoplayer:
-    path: ../mh_videoplayer
+#  mh_videoplayer:
+#    path: ../mh_videoplayer
   mh_core:
-    path: ../mh_core
+    path: ../mh-core
 #    git:
 #      url: https://github.com/mh-sarkar/mh-core.git
 #      ref: alpha

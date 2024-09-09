@@ -22,7 +22,7 @@ class ProductService {
         allInfoField: body,
         // defaultErrorMsgShow: false,
       );
-      globalLogger.d(response, error: "Category Product Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         response['data']['products']['data'].forEach((dis) {
           try {
@@ -37,7 +37,7 @@ class ProductService {
         } else {
           HomeApiController.to.paginationUrl.value = '';
         }
-        globalLogger.d(response['data']['products']['total'], error: "Total Product");
+        globalLogger.d(response['data']['products']['total']);
         if (response['data']['products']['total'] != null) {
           HomeApiController.to.totalProduct.value = response['data']['products']['total'].toString();
         }
@@ -74,7 +74,7 @@ class ProductService {
         allInfoField: body,
         // defaultErrorMsgShow: false,
       );
-      globalLogger.d(response, error: "Filter Product Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         response['data']['products']['data'].forEach((dis) {
           try {
@@ -85,7 +85,7 @@ class ProductService {
           }
         });
 
-        globalLogger.d(response['data']['products']['total'], error: "Total Product");
+        globalLogger.d(response['data']['products']['total']);
         if (response['data']['products']['total'] != null) {
           HomeApiController.to.totalProduct.value = response['data']['products']['total'].toString();
         }
@@ -130,8 +130,8 @@ class ProductService {
         noNeedAuthToken: true,
         debugEnable: true,
       );
-      globalLogger.d('${Service.apiUrl}trending-search', error: "Trending Search Route");
-      globalLogger.d(response, error: "Trending Search Route");
+      globalLogger.d('${Service.apiUrl}trending-search');
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         response['data']['data'].forEach((dis) {
           try {
@@ -161,7 +161,7 @@ class ProductService {
         allInfoField: body,
         // defaultErrorMsgShow: false,
       );
-      globalLogger.d(response, error: "Filter Product Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         response['data']['products']['data'].forEach((dis) {
           try {
@@ -187,7 +187,7 @@ class ProductService {
           }
         });
 
-        globalLogger.d(response['data']['products']['total'], error: "Total Product");
+        globalLogger.d(response['data']['products']['total']);
         if (response['data']['products']['total'] != null) {
           HomeApiController.to.totalProduct.value = response['data']['products']['total'].toString();
         }
@@ -239,7 +239,7 @@ class ProductService {
         isLoadingEnable: needLoading,
         allInfoField: AuthController.to.isLoggedIn.value ? {'user_id': UserController.to.getUserInfo.id!} : {},
       );
-      globalLogger.d(response, error: "Category Product Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         productModel = ProductModel.fromJson(response['data']['product']);
         response['data']['customer_also_viewed'].forEach((product) {
@@ -267,7 +267,7 @@ class ProductService {
         httpMethod: HttpMethod.get,
         isLoadingEnable: needLoading,
       );
-      globalLogger.d(response, error: "Combo Product Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         comboModel = ComboDetailsModel.fromJson(response['data']);
       } else if (response['status'] != null && !response['status']) {
@@ -288,7 +288,7 @@ class ProductService {
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: body,
       );
-      globalLogger.d(response, error: "Review Helpful Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         return true;
       } else if (response['status'] != null && !response['status']) {
@@ -304,7 +304,7 @@ class ProductService {
 
   //post-review
   static Future<bool> postReview(dynamic body, List<Map<String, dynamic>>? images) async {
-    globalLogger.d(images, error: "Post Review Route");
+    globalLogger.d(images);
     try {
       final response = await ServiceAPI.genericCall(
         url: '${Service.apiUrl}product-review',
@@ -312,7 +312,7 @@ class ProductService {
         allInfoField: body,
         imageListWithKeyValue: images,
       );
-      globalLogger.d(response, error: "Post Review Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         return true;
       } else if (response['status'] != null && !response['status']) {
@@ -334,7 +334,7 @@ class ProductService {
         httpMethod: HttpMethod.multipartFilePost,
         allInfoField: {'product_id': id},
       );
-      globalLogger.d(response, error: "Review Images Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         response['data'].forEach((image) {
           reviewImages.add(ProductReviewImages.fromJson(image));
@@ -360,7 +360,7 @@ class ProductService {
         isLoadingEnable: needLoading,
         loadingMessage: 'Loading...',
       );
-      globalLogger.d(response, error: "reviews Route");
+      globalLogger.d(response);
       if (response['status'] != null && response['status']) {
         response['data']['data'].forEach((review) {
           allReviews.add(Reviews.fromJson(review));

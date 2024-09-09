@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mh_core/mh_core.dart';
-import 'package:mh_videoplayer/widgets/video-player-widget/video_player_widget.dart';
+// import 'package:mh_videoplayer/widgets/video-player-widget/video_player_widget.dart';
 import 'package:perfecto/constants/assets_constants.dart';
 import 'package:perfecto/constants/color_constants.dart';
 import 'package:perfecto/controller/home_api_controller.dart';
@@ -427,46 +427,47 @@ class HomeScreen extends StatelessWidget {
                                 child: Center(
                                   child: Text('Check'),*--*
                                 ))*/
-                                Stack(
-                                  children: [
-                                    SizedBox(
-                                      width: Get.width * .9,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(10),
-                                              child: VideoPlayerWidgetV2(
-                                                videoList: [data.link ?? 'https://www.youtube.com/watch?v=gJLVTKhTnog'],
-                                                width: Get.width * .8,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Get.back();
-                                        },
-                                        icon: Container(
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white10,
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: const Icon(
-                                            Icons.close,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                ///-------------------------------video player=-------------------
+                                // Stack(
+                                //   children: [
+                                //     SizedBox(
+                                //       width: Get.width * .9,
+                                //       child: Row(
+                                //         children: [
+                                //           Expanded(
+                                //             child: ClipRRect(
+                                //               borderRadius: BorderRadius.circular(10),
+                                //               child: VideoPlayerWidgetV2(
+                                //                 videoList: [data.link ?? 'https://www.youtube.com/watch?v=gJLVTKhTnog'],
+                                //                 width: Get.width * .8,
+                                //               ),
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //     Positioned(
+                                //       top: 0,
+                                //       right: 0,
+                                //       child: IconButton(
+                                //         onPressed: () {
+                                //           Get.back();
+                                //         },
+                                //         icon: Container(
+                                //           padding: const EdgeInsets.all(8),
+                                //           decoration: BoxDecoration(
+                                //             color: Colors.white10,
+                                //             borderRadius: BorderRadius.circular(10),
+                                //           ),
+                                //           child: const Icon(
+                                //             Icons.close,
+                                //             color: Colors.black,
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
                               ],
                             ),
                           );

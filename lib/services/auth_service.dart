@@ -9,7 +9,7 @@ import 'package:perfecto/utils.dart';
 class AuthService {
   static Future<bool> registerCall(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}register', httpMethod: HttpMethod.multipartFilePost, noNeedAuthToken: true, allInfoField: body);
-    globalLogger.d(response, error: 'Register');
+    globalLogger.d(response);
     if (response['status'] != null && response['status']) {
       showSnackBar(
         msg: response['message'],
@@ -28,7 +28,7 @@ class AuthService {
         allInfoField: body,
         noNeedAuthToken: true,
         loadingMessage: 'Use OTP to Change Password.');
-    globalLogger.d(response, error: 'Forget password');
+    globalLogger.d(response);
     if (response['status'] != null && response['status']) {
       return response['data'];
     } else if (response['status'] != null && !response['status']) {
@@ -45,7 +45,7 @@ class AuthService {
         // isLoadingEnable: true,
 
         allInfoField: body);
-    globalLogger.d(response, error: "Verify Email Route");
+    globalLogger.d(response);
 
     if (response['status'] != null && response['status']) {
       return response['data'];
@@ -57,7 +57,7 @@ class AuthService {
 
   static Future<bool> changePassword(dynamic body) async {
     final response = await ServiceAPI.genericCall(url: '${Service.apiUrl}change_password', httpMethod: HttpMethod.multipartFilePost, noNeedAuthToken: false, allInfoField: body);
-    globalLogger.d(response, error: "change password");
+    globalLogger.d(response);
 
     if (response['status'] != null && response['status']) {
       showSnackBar(msg: response['message']);
@@ -79,7 +79,7 @@ class AuthService {
       allInfoField: body,
       debugEnable: true,
     );
-    globalLogger.d(response, error: "Login Route");
+    globalLogger.d(response);
     if (response['status'] != null && response['status']) {
       return response['data'];
     } else if (response['status'] != null && !response['status']) {
@@ -96,7 +96,7 @@ class AuthService {
         isErrorHandleButtonExists: true,
         errorButtonLabel: 'Force Logout',
         errorButtonPressed: forceLogout);
-    globalLogger.d(response, error: "Logout Route");
+    globalLogger.d(response);
 
     is401Call = true;
 
@@ -114,7 +114,7 @@ class AuthService {
       httpMethod: HttpMethod.del,
       isLoadingEnable: false,
     );
-    globalLogger.d(response, error: "delete account Route");
+    globalLogger.d(response);
 
     if (response['status'] != null && response['status']) {
       return true;

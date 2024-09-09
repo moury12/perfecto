@@ -20,6 +20,9 @@ class NavigationBinding extends Bindings {
     Get.put<HomeController>(
       HomeController(),
       permanent: true,
+    );Get.put<ChatController>(
+      ChatController(),
+      permanent: true,
     );
 
     Get.put<HomeApiController>(

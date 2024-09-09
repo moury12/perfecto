@@ -1053,7 +1053,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                               (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) :*/ 1))
                                           .toString(),
                                     };
-                                    globalLogger.d(body, error: 'body');
+                                    globalLogger.d(body );
                                     UserController.to.updateCart(body, (cartModel).id ?? '');
                                   } else {
                                     // UserController.to.removeFromCart((cartModel as CartModel)?.id ?? '');
@@ -1100,7 +1100,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                             (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) : */ 1))
                                         .toString(),
                                   };
-                                  globalLogger.d(body, error: 'body');
+                                  globalLogger.d(body );
                                   UserController.to.updateCart(body, (cartModel).id ?? '');
                                 },
                                 child: const Padding(

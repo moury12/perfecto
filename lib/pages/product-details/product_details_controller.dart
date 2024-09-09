@@ -169,7 +169,7 @@ class ProductDetailsController extends GetxController with GetTickerProviderStat
         });
       });
     }
-    globalLogger.d(body, error: 'postReview');
+    globalLogger.d(body);
 
     final data = await ProductService.postReview(body, images);
     if (data) {

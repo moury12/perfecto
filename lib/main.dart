@@ -45,14 +45,14 @@ void main() async {
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
   Service.domain("https://app.perfectoblog.com/");
   Service.extraSlag("api/");
-  Service.setNeedLoadingMsg(false);
-  Service.setLoadingWidget(
-    Image.asset(
-      'assets/loading-c.gif',
-      height: 30,
-      width: 30,
-    ),
-  );
+  // Service.setNeedLoadingMsg(false);
+  // Service.setLoadingWidget(
+  //   Image.asset(
+  //     'assets/loading-c.gif',
+  //     height: 30,
+  //     width: 30,
+  //   ),
+  // );
   CustomColor.setPrimaryColor(AppColors.kPrimaryColor);
   runApp(const MyApp());
 }

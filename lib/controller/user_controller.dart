@@ -72,7 +72,7 @@ class UserController extends GetxController {
       if (reviewPaginateURL.value.isNotEmpty) {
         getReviewListCall(initialCall: false);
       }
-      globalLogger.d(scrollController.position.minScrollExtent, error: 'min scroll live chat screen');
+      globalLogger.d(scrollController.position.minScrollExtent);
     }
   }
 
@@ -85,7 +85,7 @@ class UserController extends GetxController {
       if (notificationPaginateURL.value.isNotEmpty) {
         getNotificationListCall(initialCall: false);
       }
-      globalLogger.d(notificationScrollController.position.maxScrollExtent, error: 'min scroll live chat screen');
+      globalLogger.d(notificationScrollController.position.maxScrollExtent);
     }
   }
 

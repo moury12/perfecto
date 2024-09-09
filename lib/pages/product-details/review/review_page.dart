@@ -157,10 +157,10 @@ class ReviewScreen extends StatelessWidget {
                                     for (var element in ProductDetailsController.to.reviewFilterList) {
                                       if (!(ProductDetailsController.to.reviewFilterList[0]['title'] == element['title'])) {
                                         if (ProductDetailsController.to.reviewFilterList[index]['title'] == element['title']) {
-                                          globalLogger.d(element['title'], error: 'Not First Element');
+                                          globalLogger.d(element['title']);
                                           element['is_selected'] = !element['is_selected'];
                                         } else {
-                                          globalLogger.d(element['title'], error: 'Not First Element');
+                                          globalLogger.d(element['title']);
                                           element['is_selected'] = false;
                                         }
                                       }
@@ -183,7 +183,7 @@ class ReviewScreen extends StatelessWidget {
 
                                   ProductDetailsController.to.getAllReviews(addition: data);
 
-                                  globalLogger.d(data, error: 'Filter Data');
+                                  globalLogger.d(data);
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -381,7 +381,7 @@ class ReviewScreen extends StatelessWidget {
                                               (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) :*/ 1))
                                           .toString(),
                                     };
-                                    globalLogger.d(body, error: 'body');
+                                    globalLogger.d(body );
                                     UserController.to.updateCart(body, (cartModel).id ?? '');
                                   } else {
                                     // UserController.to.removeFromCart((cartModel as CartModel)?.id ?? '');
@@ -428,7 +428,7 @@ class ReviewScreen extends StatelessWidget {
                                             (/*(cartModel as CartModel)?.buyGetInfo != null ? (int.parse((cartModel as CartModel)!.buyGetInfo!.buyQuantity!)) : */ 1))
                                         .toString(),
                                   };
-                                  globalLogger.d(body, error: 'body');
+                                  globalLogger.d(body );
                                   UserController.to.updateCart(body, (cartModel).id ?? '');
                                 },
                                 child: const Padding(

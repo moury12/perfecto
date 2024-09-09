@@ -70,18 +70,18 @@ class HomeApiController extends GetxController {
   ScrollController filterScrollController = ScrollController();
   Future<void> _scrollListener() async {
     // globalLogger.d('Scroll Listener');
-    globalLogger.d(scrollController.position.pixels, error: 'pixels');
+    globalLogger.d(scrollController.position.pixels);
     if (pListStatus.value != LoadingStatus.loadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       if (paginationUrl.value.isNotEmpty) {
         await productListCallWithNameCall(NavigationController.to.addAttribute, initialCall: false);
       }
-      globalLogger.d(scrollController.position.minScrollExtent, error: 'min scroll live chat screen');
+      globalLogger.d(scrollController.position.minScrollExtent);
     }
   }
 
   Future<void> _filterScrollListener() async {
     // globalLogger.d('Scroll Listener');
-    globalLogger.d(filterScrollController.position.pixels, error: 'pixels');
+    globalLogger.d(filterScrollController.position.pixels);
     if (pListStatus.value != LoadingStatus.loadingMore && filterScrollController.position.pixels == filterScrollController.position.maxScrollExtent) {
       if (paginationUrl.value.isNotEmpty) {
         if (productAPIType.value == ProductAPIType.filter) {
@@ -90,7 +90,7 @@ class HomeApiController extends GetxController {
           await productListWithCategoryCall(NavigationController.to.addAttribute, initialCall: false);
         }
       }
-      globalLogger.d(filterScrollController.position.minScrollExtent, error: 'min scroll live chat screen');
+      globalLogger.d(filterScrollController.position.minScrollExtent);
     }
   }
 
@@ -289,7 +289,7 @@ class HomeApiController extends GetxController {
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
     }
-    globalLogger.d(body, error: 'productListWithCategoryCall');
+    globalLogger.d(body);
     if (initialCall) {
       productList.clear();
       pListStatus.value = LoadingStatus.loading;
@@ -329,7 +329,7 @@ class HomeApiController extends GetxController {
         body.remove('sort_by_price');
       }
     }
-    globalLogger.d(body, error: 'productListCallWithFilterCall');
+    globalLogger.d(body);
     if (initialCall) {
       productList.clear();
       pListStatus.value = LoadingStatus.loading;
@@ -357,7 +357,7 @@ class HomeApiController extends GetxController {
     if (NavigationController.to.searchController.value.text.isEmpty) {
       body.remove('search');
     }
-    globalLogger.d(body, error: 'productListCallWithNameCall');
+    globalLogger.d(body);
     if (initialCall) {
       productList.clear();
       pListStatus.value = LoadingStatus.loading;
@@ -366,7 +366,7 @@ class HomeApiController extends GetxController {
     }
     try {
       final data = await ProductService.productListCallWithName(body, paginationUrl: initialCall ? null : paginationUrl.value);
-      globalLogger.d(data, error: 'productListCallWithNameCall 1');
+      globalLogger.d(data);
       if (initialCall) {
         productList.value = data[NameSearchResponse.product]!;
         searchList.value = data[NameSearchResponse.product]!;
@@ -389,7 +389,7 @@ class HomeApiController extends GetxController {
 
   Future<void> singleBlogListCall(String? blogId) async {
     singleBlog.value = await HomeService.singleBlogCall(blogId);
-    globalLogger.d(singleBlog.value.title, error: 'singleBlogList.value.title');
+    globalLogger.d(singleBlog.value.title);
   }
 
   Future<bool> addCouponCode(String coupon) async {

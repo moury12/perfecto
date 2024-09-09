@@ -322,7 +322,7 @@ class SingleCategoryProductWidget extends StatelessWidget {
                             : product?.variationType == 'shade'
                                 ? 'SELECT SHADE'
                                 : 'SELECT SIZE'),
-                        labelStyle: const TextStyle(color: AppColors.kWhiteColor, fontSize: 11, fontWeight: FontWeight.w700),
+                        // labelStyle: const TextStyle(color: AppColors.kWhiteColor, fontSize: 11, fontWeight: FontWeight.w700),
                         marginHorizontal: 8,
                         marginVertical: 8,
                         height: 38,

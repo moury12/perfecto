@@ -40,7 +40,7 @@ class ChatController extends GetxController {
       if (chat.value.messageDetails!.nextPageUrl!.isNotEmpty) {
         await getChats(false);
       }
-      globalLogger.d(scrollController.position.maxScrollExtent, error: 'min scroll live chat screen');
+      globalLogger.d(scrollController.position.maxScrollExtent);
     }
   }
 
@@ -73,7 +73,7 @@ class ChatController extends GetxController {
     socket.onConnect((_) {
       globalLogger.d('Socket Enter');
       socket.on('chat message', (newMessage) {
-        globalLogger.d(newMessage, error: 'chat message');
+        globalLogger.d(newMessage);
         if (newMessage['sender_id'].toString() == '0' && newMessage['receiver_id'].toString() == UserController.to.getUserInfo.id!) {
           // getChats();
           if (Get.currentRoute == MainHomeScreen.routeName) {

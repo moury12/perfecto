@@ -86,7 +86,6 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                   );
                                 },
                                 label: 'Edit',
-                                labelStyle: const TextStyle(fontSize: 10, overflow: TextOverflow.ellipsis, color: AppColors.kBlackColor),
                                 height: UserController.to.orderDetails.value.status == '1' ? 30 : null,
                                 width: MediaQuery.of(context).size.width / 6,
                                 marginHorizontal: 4,
@@ -140,9 +139,9 @@ class MyOrderDetailsScreen extends StatelessWidget {
                                             : UserController.to.orderDetails.value.status == '1'
                                                 ? 'Cancel'
                                                 : "",
-                                        labelStyle: UserController.to.orderDetails.value.status == '1'
+                                        /*: UserController.to.orderDetails.value.status == '1'
                                             ? const TextStyle(fontSize: 10, overflow: TextOverflow.ellipsis, color: AppColors.kBlackColor)
-                                            : null,
+                                            : null,*/
                                         height: UserController.to.orderDetails.value.status == '1' ? 30 : null,
                                         width: MediaQuery.of(context).size.width / (UserController.to.orderDetails.value.status == '1' ? 6 : 3.5),
                                         marginHorizontal: 4,
