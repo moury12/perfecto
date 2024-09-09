@@ -20,3 +20,4 @@ https://documenter.getpostman.com/view/32124803/2s9YsNdViB
 
 User : superadmin@gmail.com
 Pass: superadmin@gmail.com
+api link : https://app.perfectoblog.com
